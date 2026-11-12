@@ -1,0 +1,63 @@
+name: One-time PR29 Windows verification
+on:
+  push:
+    branches: [test/pr29-windows-20261112]
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.12', '3.14']
+    env:
+      ELISA_CONFIG: ${{ github.workspace }}/.ci/elisa.ini
+      MPLBACKEND: Agg
+      NUMBA_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 6dc055ba989ecb558c5df0530bee00a57a155549
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Verify exact candidate and Windows host
+        shell: python
+        run: |
+          import platform, subprocess
+          assert platform.system() == 'Windows', platform.platform()
+          sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          assert sha == '6dc055ba989ecb558c5df0530bee00a57a155549', sha
+          print(platform.platform(), platform.python_version(), sha)
+      - name: Prepare noninteractive configuration
+        shell: python
+        run: |
+          import os
+          from pathlib import Path
+          config = Path(os.environ['ELISA_CONFIG'])
+          config.parent.mkdir(parents=True, exist_ok=True)
+          home = Path(os.environ['RUNNER_TEMP']) / 'elisa data'
+          home.mkdir(parents=True, exist_ok=True)
+          config.write_text(f'[general]\nhome={home}\nsuppress_warnings=true\n')
+      - name: Install package and test dependencies
+        run: python -m pip install -e . pytest
+      - name: Focused multiprocessing and review regression tests
+        run: >-
+          python -m pytest -q -ra
+          tests/test_computational/test_mp_manager.py
+          tests/test_computational/test_spawn.py
+          tests/test_computational/test_worker_logging.py
+          tests/tests_analytics/test_mcmc_diagnostics_integration.py
+          tests/tests_analytics/test_summary.py
+          --junitxml=.ci/windows-tests.xml
+      - name: Save test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-pr29-python-${{ matrix.python }}
+          path: .ci/windows-tests.xml
