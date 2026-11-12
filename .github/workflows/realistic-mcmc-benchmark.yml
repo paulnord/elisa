@@ -1,0 +1,86 @@
+name: Physical MCMC worker transport benchmark
+on:
+  push:
+    branches: [benchmark/mcmc-transport-20261112]
+permissions:
+  contents: read
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        context: [fork, spawn]
+    env:
+      ELISA_CONFIG: ${{ github.workspace }}/.benchmark-config/elisa.ini
+      MPLBACKEND: Agg
+      NUMBA_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      VECLIB_MAXIMUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Prepare noninteractive configuration
+        shell: python
+        run: |
+          import os
+          from pathlib import Path
+          config = Path(os.environ['ELISA_CONFIG'])
+          config.parent.mkdir(parents=True, exist_ok=True)
+          root = Path(os.environ['RUNNER_TEMP']) / 'elisa-benchmark-data'
+          root.mkdir(parents=True, exist_ok=True)
+          config.write_text(
+              f'[general]\nhome={root}\nsuppress_warnings=true\n'
+              f'[support]\nld_tables={root / "ld"}\n'
+              f'castelli_kurucz_04_atm_tables={root / "ck04"}\n'
+              f'kurucz_93_atm_tables={root / "k93"}\n')
+      - name: Install full scientific package
+        run: python -m pip install -e . 'emcee==3.1.6'
+      - name: Install verified atmosphere and limb-darkening tables
+        shell: python
+        run: |
+          import hashlib, tempfile
+          from pathlib import Path
+          from elisa import settings
+          from elisa.managers.download_manager import DownloadManager
+          assets = [
+              ('limbdarkening/ld_vh19.tar.gz', '2823de541bda89f779d43519612025a8e57c1afb', settings.LD_TABLES, 'ld/'),
+              ('atmosphere/ck04.tar.gz', '19deba7d5aab418b449560330d23d2e303cea385', settings.CK04_ATM_TABLES, 'ck04/'),
+          ]
+          for resource, expected, destination, prefix in assets:
+              with tempfile.TemporaryDirectory() as temp:
+                  archive = Path(temp) / 'asset.tar.gz'
+                  DownloadManager.download_file('https://github.com/mikecokina/elisa-assets/raw/refs/heads/main/' + resource, str(archive))
+                  content = archive.read_bytes()
+                  digest = hashlib.sha1(b'blob ' + str(len(content)).encode() + b'\0' + content).hexdigest()
+                  assert digest == expected, (resource, digest, expected)
+                  DownloadManager.extract(str(archive), str(destination), prefix)
+                  print('VERIFIED_ASSET', resource, digest, len(content))
+      - name: Benchmark full physical LC and RV fits
+        run: >-
+          python scripts/benchmark/realistic_mcmc_transport.py
+          --context ${{ matrix.context }} --rounds 4 --lc-steps 12 --rv-steps 120
+          --output benchmark-results
+      - name: Record environment
+        if: always()
+        run: |
+          mkdir -p benchmark-results
+          python -m pip freeze > benchmark-results/pip-freeze.txt
+          git rev-parse HEAD > benchmark-results/benchmark-commit.txt
+      - name: Save raw timings and scientific references
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: physical-mcmc-${{ matrix.context }}
+          path: benchmark-results/
+          retention-days: 14
