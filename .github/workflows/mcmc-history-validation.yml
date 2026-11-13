@@ -1,0 +1,53 @@
+name: Validate standalone MCMC history fix
+
+on:
+  push:
+    branches: ["test/mcmc-prior-history-upstream-20261113"]
+
+permissions:
+  contents: read
+
+jobs:
+  existing-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      ELISA_CONFIG: ${{ github.workspace }}/.test-config/elisa.ini
+      MPLBACKEND: Agg
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMBA_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Configure isolated test home
+        shell: python
+        run: |
+          import os
+          from pathlib import Path
+          config = Path(os.environ["ELISA_CONFIG"])
+          config.parent.mkdir(parents=True, exist_ok=True)
+          home = Path(os.environ["RUNNER_TEMP"]) / "elisa-mcmc-tests"
+          home.mkdir(exist_ok=True)
+          config.write_text("[general]\nhome = " + home.as_posix() + "\nsuppress_warnings = true\n")
+      - name: Install dependencies
+        run: python -m pip install -e . pytest pytest-timeout emcee==3.1.6
+      - name: Run existing MCMC and fitting tests
+        run: >-
+          python -m pytest -q -rs --timeout=90 --junitxml=mcmc-existing-tests.xml
+          tests/test_computational/test_mp_manager.py
+          tests/tests_analytics/test_mcmc_posterior.py
+          tests/tests_analytics/test_mcmc_initial_ensemble.py
+          tests/tests_analytics/test_mcmc_failure_diagnostics.py
+          tests/tests_analytics/test_mcmc_diagnostics_integration.py
+          tests/tests_analytics/test_fitting_evaluation.py
+          tests/tests_analytics/test_summary.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: existing-mcmc-test-results
+          path: mcmc-existing-tests.xml
