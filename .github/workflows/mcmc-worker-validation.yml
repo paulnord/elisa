@@ -68,15 +68,27 @@ jobs:
           finally:
               source.write_bytes(candidate)
       - name: Run candidate regressions
-        run: >-
-          python -m pytest -q --timeout=90 --junitxml=mcmc-tests.xml
-          tests/tests_analytics/test_mcmc_worker_state.py
-          tests/test_computational/test_mp_manager.py
-          tests/test_computational/test_spawn.py
-          tests/tests_analytics/test_mcmc_posterior.py
-          tests/tests_analytics/test_mcmc_initial_ensemble.py
-          tests/tests_analytics/test_mcmc_failure_diagnostics.py
-          tests/tests_analytics/test_mcmc_diagnostics_integration.py
+        shell: python
+        run: |
+          import multiprocessing
+          import subprocess
+          import sys
+          files = [
+              "tests/tests_analytics/test_mcmc_worker_state.py",
+              "tests/test_computational/test_mp_manager.py",
+              "tests/test_computational/test_spawn.py",
+              "tests/tests_analytics/test_mcmc_posterior.py",
+              "tests/tests_analytics/test_mcmc_initial_ensemble.py",
+              "tests/tests_analytics/test_mcmc_diagnostics_integration.py",
+          ]
+          if "fork" in multiprocessing.get_all_start_methods():
+              files.append("tests/tests_analytics/test_mcmc_failure_diagnostics.py")
+          else:
+              print("Omitting existing fork-only diagnostic unit tests; spawn diagnostic integration remains covered.")
+          subprocess.run([
+              sys.executable, "-m", "pytest", "-q", "-rs", "--timeout=90",
+              "--junitxml=mcmc-tests.xml", *files
+          ], check=True)
       - uses: actions/upload-artifact@v4
         if: always()
         with:
