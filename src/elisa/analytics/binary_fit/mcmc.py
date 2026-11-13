@@ -790,4 +790,3 @@ class CentralRadialVelocity(MCMCFit, AbstractRVFit):
 
         self.flat_result = result_dict
         return parameters.serialize_result(result_dict)
-

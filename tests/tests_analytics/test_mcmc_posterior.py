@@ -429,4 +429,3 @@ def test_lc_initialization_does_not_evaluate_physical_models() -> None:
     assert_array_equal(supplied, states)
     assert_array_equal(automatic[0], fit.norm_init_vector)
     assert np.all((automatic >= 0.0) & (automatic <= 1.0))
-
