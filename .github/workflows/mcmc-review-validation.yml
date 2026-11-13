@@ -1,0 +1,86 @@
+name: Validate PR 30 review changes
+
+on:
+  push:
+    branches: ["test/mcmc-review-20261113"]
+
+permissions:
+  contents: read
+
+jobs:
+  mcmc-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.14"]
+    env:
+      ELISA_CONFIG: ${{ github.workspace }}/.test-config/elisa.ini
+      MPLBACKEND: Agg
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMBA_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Configure isolated test home
+        shell: python
+        run: |
+          import os
+          from pathlib import Path
+          config = Path(os.environ["ELISA_CONFIG"])
+          config.parent.mkdir(parents=True, exist_ok=True)
+          home = Path(os.environ["RUNNER_TEMP"]) / "elisa-mcmc-tests"
+          home.mkdir(exist_ok=True)
+          config.write_text("[general]\nhome = " + home.as_posix() + "\nsuppress_warnings = true\n")
+      - name: Install dependencies
+        run: python -m pip install -e . pytest pytest-timeout emcee==3.1.6 ruff
+      - name: Check changed Python modules
+        run: python -m ruff check src/elisa/analytics/binary_fit/mcmc.py tests/tests_analytics/test_mcmc_posterior.py
+      - name: Confirm repeat-fit regression detects previous sampler transfer
+        shell: python
+        run: |
+          import subprocess
+          import sys
+          from pathlib import Path
+          source = Path("src/elisa/analytics/binary_fit/mcmc.py")
+          candidate = source.read_bytes()
+          try:
+              source.write_bytes(subprocess.check_output([
+                  "git", "show", "d21633649044868cfae089bd3d4831195ca6ab3d:" + source.as_posix()
+              ]))
+              result = subprocess.run([
+                  sys.executable, "-m", "pytest", "-q", "--timeout=90",
+                  "tests/tests_analytics/test_mcmc_posterior.py",
+                  "-k", "second_parallel_rv_fit_matches_seeded_serial_results",
+              ], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=180)
+              Path("baseline-regression.txt").write_text(result.stdout)
+              print(result.stdout)
+              assert result.returncode == 1, "Expected the original implementation to fail the regression"
+              assert "Workers must not receive a previous sampler" in result.stdout
+          finally:
+              source.write_bytes(candidate)
+      - name: Run MCMC and fitting tests
+        run: >-
+          python -m pytest -q -rs --timeout=90 --junitxml=mcmc-tests.xml
+          tests/test_computational/test_mp_manager.py
+          tests/tests_analytics/test_mcmc_posterior.py
+          tests/tests_analytics/test_mcmc_initial_ensemble.py
+          tests/tests_analytics/test_mcmc_failure_diagnostics.py
+          tests/tests_analytics/test_mcmc_diagnostics_integration.py
+          tests/tests_analytics/test_fitting_evaluation.py
+          tests/tests_analytics/test_summary.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mcmc-review-python-${{ matrix.python }}
+          path: |
+            mcmc-tests.xml
+            baseline-regression.txt
