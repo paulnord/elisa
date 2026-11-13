@@ -59,58 +59,23 @@ _HALF_LOG_2PI: float = 0.5 * float(np.log(2.0 * np.pi))
 logger = getPersistentLogger(__name__)
 
 
-_worker_fit: MCMCFit | None = None
-
-
-def _initialize_mcmc_worker(
-    values: dict[str, Any], diagnostics: RunDiagnostics, fit: MCMCFit,
-) -> None:
-    """Install this run's evaluator and shared diagnostics once per worker."""
-    global _worker_fit  # noqa: PLW0603
+def _initialize_mcmc_worker(values: dict[str, Any], diagnostics: RunDiagnostics) -> None:
+    """Restore effective settings and activate the run's shared diagnostic counters."""
     initialize_worker(values)
     diagnostics.activate_worker()
-    _worker_fit = fit
-
-
-def _worker_ln_probability(xn: NDArray[Float]) -> Float:
-    """Evaluate a proposal using the fitter installed by the pool initializer."""
-    if _worker_fit is None:
-        msg = "MCMC worker has not been initialized"
-        raise RuntimeError(msg)
-    return _worker_fit.ln_probability(xn)
-
-
-class _MCMCLikelihoodPool:
-    """Route emcee tasks to worker-local state while retaining its parent callback.
-
-    The sampler keeps its original likelihood callable for parent-side evaluation
-    and serialization. Only its parallel map uses the worker-local evaluator.
-    """
-
-    def __init__(self, pool: Pool) -> None:
-        self._pool = pool
-
-    def map(self, _function: Any, coordinates: NDArray[Float]) -> list[Float]:
-        return self._pool.map(_worker_ln_probability, coordinates)
-
-    def __getattr__(self, name: str) -> Any:
-        return getattr(self._pool, name)
 
 
 @contextmanager
-def _mcmc_pool(diagnostics: RunDiagnostics, fit: MCMCFit) -> Iterator[_MCMCLikelihoodPool | None]:
+def _mcmc_pool(diagnostics: RunDiagnostics) -> Iterator[Pool | None]:
     """Keep an initialized worker pool alive for the entire sampling phase."""
     if settings.NUMBER_OF_MCMC_PROCESSES > 1:
-        # Keep previous results in the parent; never serialize their chain to workers.
-        worker_fit = copy(fit)
-        worker_fit.last_sampler = None
         with get_mp_context().Pool(
             processes=settings.NUMBER_OF_MCMC_PROCESSES,
             initializer=_initialize_mcmc_worker,
-            initargs=(settings.settings_serializer(), diagnostics, worker_fit),
+            initargs=(settings.settings_serializer(), diagnostics),
         ) as pool:
             logger.info("Starting parallel MCMC with %s workers", settings.NUMBER_OF_MCMC_PROCESSES)
-            yield _MCMCLikelihoodPool(pool)
+            yield pool
     else:
         logger.info("starting singlecore mcmc")
         yield None
@@ -407,13 +372,18 @@ class MCMCFit(AbstractFit, mixins.MCMCMixin, metaclass=ABCMeta):
             "ndim": ndim,
             "log_prob_fn": self.ln_probability,
         }
+        if settings.NUMBER_OF_MCMC_PROCESSES > 1:
+            # Keep previous chains out of the bound likelihood sent to workers.
+            worker_fit = copy(self)
+            worker_fit.last_sampler = None
+            kwargs["log_prob_fn"] = worker_fit.ln_probability
         from elisa.analytics.binary_fit.mcmc_diagnostics import RunDiagnostics  # noqa: PLC0415
 
         if save:
             fit_id = str(self.chain_path(fit_id).absolute())
         with RunDiagnostics(
             None, self._initialization_diagnostics, fit_id if save else None,
-        ) as diagnostics, _mcmc_pool(diagnostics, self) as pool:
+        ) as diagnostics, _mcmc_pool(diagnostics) as pool:
             sampler = emcee.EnsembleSampler(pool=pool, **kwargs)  # type: ignore[arg-type]
             self.worker(
                 sampler,

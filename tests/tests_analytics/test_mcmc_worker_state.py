@@ -21,19 +21,6 @@ class ParentOnlyHistory:
         raise AssertionError("previous sampler must remain in the parent")
 
 
-class LimitedPickles:
-    """Fail if a fitter is serialized repeatedly as ordinary sampling tasks."""
-
-    def __init__(self):
-        self.count = 0
-
-    def __getstate__(self):
-        self.count += 1
-        if self.count > 2:
-            raise AssertionError("fitter was serialized after worker initialization")
-        return self.__dict__.copy()
-
-
 class WorkerFailure(AnalyticFit):
     def __init__(self):
         super().__init__()
@@ -70,13 +57,6 @@ def test_previous_sampler_is_not_transferred(process_context):
     np.testing.assert_array_equal(actual.get_log_prob(), reference.get_log_prob())
     # Returned emcee samplers still have a usable likelihood in the parent.
     assert actual.log_prob_fn(np.array([0.5])) == fit.ln_probability(np.array([0.5]))
-
-
-def test_fitter_is_serialized_only_at_worker_start(process_context):
-    fit = AnalyticFit()
-    fit.payload = LimitedPickles()
-    sample(fit, 2)
-    assert fit.payload.count == (2 if process_context == "spawn" else 0)
 
 
 def test_reused_physical_rv_fit_matches_serial(process_context):

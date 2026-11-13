@@ -1,4 +1,4 @@
-name: Validate MCMC worker initialization prototype
+name: Validate minimal MCMC history exclusion
 
 on:
   push:
@@ -89,6 +89,22 @@ jobs:
               sys.executable, "-m", "pytest", "-q", "-rs", "--timeout=90",
               "--junitxml=mcmc-tests.xml", *files
           ], check=True)
+      - name: Benchmark complete physical RV fits
+        shell: python
+        run: |
+          import multiprocessing
+          from pathlib import Path
+          import subprocess
+          import sys
+          helper = Path("scripts/benchmark/realistic_mcmc_transport.py")
+          helper.parent.mkdir(parents=True, exist_ok=True)
+          helper.write_bytes(subprocess.check_output([
+              "git", "show", "495b21e47f7e422599962fb5662c36e4235c211f:" + helper.as_posix()
+          ]))
+          context = "fork" if "fork" in multiprocessing.get_all_start_methods() else "spawn"
+          subprocess.run([
+              sys.executable, "scripts/benchmark/minimal_mcmc_history.py", "--context", context
+          ], check=True, timeout=600)
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -96,3 +112,4 @@ jobs:
           path: |
             mcmc-tests.xml
             baseline-regression.txt
+            minimal-history-results/results.json
