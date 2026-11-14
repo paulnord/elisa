@@ -1,0 +1,114 @@
+name: Validate PR 30 with scientific tables
+
+on:
+  push:
+    branches: ["test/mcmc-tables-20261113"]
+
+permissions:
+  contents: read
+
+jobs:
+  mcmc-tables:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.12", "3.14"]
+    env:
+      ELISA_CONFIG: ${{ github.workspace }}/.test-config/elisa.ini
+      MPLBACKEND: Agg
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      NUMBA_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Configure isolated science data directories
+        shell: python
+        run: |
+          import configparser
+          import os
+          from pathlib import Path
+
+          home = Path(os.environ["RUNNER_TEMP"]) / "elisa-science-tests"
+          home.mkdir(exist_ok=True)
+          config = Path(os.environ["ELISA_CONFIG"])
+          config.parent.mkdir(parents=True, exist_ok=True)
+          parser = configparser.ConfigParser()
+          parser["general"] = {"home": home.as_posix(), "suppress_warnings": "true"}
+          parser["support"] = {
+              "ld_tables": (home / "ld").as_posix(),
+              "castelli_kurucz_04_atm_tables": (home / "ck04").as_posix(),
+          }
+          with config.open("w") as stream:
+              parser.write(stream)
+      - name: Install dependencies
+        run: python -m pip install -e . pytest pytest-timeout emcee==3.1.6
+      - name: Install official Van Hamme and Castelli-Kurucz tables
+        shell: python
+        run: |
+          import hashlib
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          from elisa import settings
+          from elisa.managers.download_manager import DownloadManager
+
+          revision = "5a61582fb954b1f98ceb598653fdc392f38a942a"
+          datasets = [
+              ("limbdarkening/ld_vh19.tar.gz", "2823de541bda89f779d43519612025a8e57c1afb", settings.LD_TABLES, "ld/"),
+              ("atmosphere/ck04.tar.gz", "19deba7d5aab418b449560330d23d2e303cea385", settings.CK04_ATM_TABLES, "ck04/"),
+          ]
+          manifest = []
+          for path, expected_blob, destination, prefix in datasets:
+              url = f"https://raw.githubusercontent.com/mikecokina/elisa-assets/{revision}/{path}"
+              archive = Path(os.environ["RUNNER_TEMP"]) / Path(path).name
+              with urllib.request.urlopen(url, timeout=120) as response:
+                  payload = response.read()
+              blob = hashlib.sha1(f"blob {len(payload)}\0".encode() + payload).hexdigest()
+              assert blob == expected_blob, (path, blob)
+              archive.write_bytes(payload)
+              DownloadManager.extract(str(archive), destination, truncate_tarfile_path=prefix)
+              entry = {
+                  "url": url, "bytes": len(payload), "git_blob": blob,
+                  "sha256": hashlib.sha256(payload).hexdigest(),
+                  "installed_files": sum(p.is_file() for p in Path(destination).rglob("*")),
+              }
+              manifest.append(entry)
+              print(entry)
+          Path("scientific-tables.json").write_text(json.dumps(manifest, indent=2))
+      - name: Run all previously selected MCMC and fitting tests
+        run: >-
+          python -m pytest -q -rs --timeout=180 --durations=10 --junitxml=mcmc-tables-tests.xml
+          tests/test_computational/test_mp_manager.py
+          tests/tests_analytics/test_mcmc_posterior.py
+          tests/tests_analytics/test_mcmc_initial_ensemble.py
+          tests/tests_analytics/test_mcmc_failure_diagnostics.py
+          tests/tests_analytics/test_mcmc_diagnostics_integration.py
+          tests/tests_analytics/test_fitting_evaluation.py
+          tests/tests_analytics/test_summary.py
+      - name: Confirm no tests were skipped
+        shell: python
+        run: |
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+
+          cases = ET.parse("mcmc-tables-tests.xml").getroot().findall(".//testcase")
+          skipped = [case.attrib["name"] for case in cases if case.find("skipped") is not None]
+          assert cases, "No tests were reported"
+          assert not skipped, f"Tests still skipped: {skipped}"
+          print(f"All {len(cases)} tests ran without skips.")
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mcmc-tables-python-${{ matrix.python }}
+          path: |
+            mcmc-tables-tests.xml
+            scientific-tables.json
