@@ -126,3 +126,32 @@ LD coefficients. Coverage already includes surface area and semi-major-axis
 scaling; neither it nor optical-depth normalization is applied a second time.
 The kernel is standalone and is not yet a production Observer replacement.
 See `docs/ada_gpu_handoff.md` for isolated, non-disruptive hardware validation.
+
+## Next physics milestones and gates
+
+1. Measure per-face throughput with `scripts/benchmark_gpu_surface.py`, including
+   CPU preparation and transfers as separately reported costs. Establish whether
+   any meaningful batch size amortizes launch/transfer; report negative results.
+2. Port observer-frame normal projection for the static, circular synchronous
+   mesh. Use ELISa's `rotate_item`/`move_sys_onpos` conventions and face-indexed
+   comparison, not an assumed phase rotation. Preserve CPU selected indices at
+   first to avoid near-limb mask changes; test both stars, inclination extremes,
+   phases near eclipses, wrap/shift, and cancellation-sensitive near-zero cosines.
+   Changing inclination also changes occultation: frozen coverage cannot be
+   treated as a valid inclination proposal.
+3. Port eclipse clipping/covered-area calculation, using the actual triangulated
+   Roche faces and silhouette intersections. Preserve face identity and check
+   contacts, partial/full occultation, and mesh-resolution sensitivity. GPU
+   projection with CPU coverage alone is not a GPU physical forward model.
+4. Only then introduce batched varying physical parameters, including geometry,
+   temperature/atmosphere/LD/reflection updates as required. Reject unsupported
+   dependencies. Recompute affected physics rather than silently reuse a fixed
+   template. Validate full normalized model and accumulated log-posterior error
+   against CPU before sampler integration.
+5. Device-resident sampler and performance acceptance come after model parity;
+   compare wall time and effective samples/second for identical physical models,
+   priors and data, with compilation/preparation included in end-to-end timing.
+
+The prepared surface batch API holds immutable device arrays and allows repeated
+kernel evaluation without transfers. This is a throughput primitive, not a claim
+that a physically varying MCMC proposal can reuse all those arrays unchanged.

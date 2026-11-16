@@ -62,3 +62,76 @@ log-likelihood error to the target observations before scientific production.
 GPU reduction order need not be bitwise equal. Next integrate the surface
 batch API into a bounded synthesis path without per-face host/device round
 trips, then port changing geometry and occultation with contact-focused parity.
+
+## Follow-on surface scaling test (only when production permits)
+
+The first Ada report at `f661f004` was 31 tests passed on an RTX 3080 Ti
+(JAX CUDA, FP64). Reported face/total relative errors were 2.08e-16/3.72e-16,
+and likelihood difference 2.18e-11. The cached likelihood was slower on GPU:
+0.170 ms versus 0.094 ms CPU. These are user-reported measurements, not evidence
+of full-model acceleration. Production resumed; do not interrupt it.
+
+The next benchmark uses real prepared Roche faces, repeating rows only to
+measure throughput. It compares original per-star CPU integration, padded
+NumPy, JAX transfer-inclusive integration and device-resident lower-bound
+integration separately. Full-path timing includes original face indexing,
+padding, host/device transfer, kernel and row-total download. CPU physical
+synthesis/capture and cold JIT are reported separately. No MCMC/ESS speedup is
+inferred: the existing l3/ln_f pilot should cache its integrated curve instead
+of repeatedly integrating the same unchanged surfaces.
+
+Only within an authorized idle allocation, run these shell-independent commands
+in the private environment, first with the small default workload:
+
+```
+env JAX_PLATFORMS=cpu JAX_ENABLE_X64=True XLA_PYTHON_CLIENT_PREALLOCATE=false python scripts/benchmark_gpu_surface.py --device cpu --rows 8 32 128 512 --repeats 10
+env JAX_ENABLE_X64=True XLA_PYTHON_CLIENT_PREALLOCATE=false python scripts/benchmark_gpu_surface.py --device gpu --rows 8 32 128 512 --repeats 10
+```
+
+Then, if within that allocation's resource/time budget, repeat with
+`--discretization 5` and each `--law logarithmic` / `--law square_root`.
+Preallocation must be disabled **before Python starts**. The 256 MiB input cap
+is NOT a total GPU memory bound: outputs, runtime allocator and compiler use
+additional memory. Follow scheduler limits; stop rather than contend with
+production. Record all JSON, environment and allocation details. Do not tune
+down scientific precision to obtain a speedup.
+
+## Updated authorization: temporary fifth42 pause for this test
+
+Paul explicitly authorizes Ada Codex to temporarily pause the current `fifth42`
+production run, run this ELISa test, and restore production afterward. This
+supersedes the earlier instruction to wait for idle time only for that named run
+and this bounded test. No other job may be stopped, no GPU reset, driver change,
+or reboot is authorized. The coordinating assistant does not act on Ada directly.
+
+Before changing anything:
+1. Identify the exact fifth42 job/process, owner, scheduler state, command,
+   working directory, log/checkpoint path, GPU assignment, and current progress.
+   Record these privately as the restoration checklist; do not expose credentials.
+2. Establish its supported pause/checkpoint/resume mechanism. Prefer the existing
+   production runner/scheduler's documented method. A generic SIGSTOP often
+   retains CUDA allocations and is not proof that GPU memory was freed. Do not
+   kill an uncheckpointed process or invent a restart command. If reliable
+   restoration is not available, stop and report that specific blocker.
+3. Pause only that confirmed job and verify its state. Check memory/device access
+   and other running jobs. If pause retains too much memory, do not reset the GPU
+   or terminate other work; use a proven checkpoint/restart path only if it
+   preserves progress, otherwise report the blocker and restore production.
+
+Run an initial bounded test in the isolated environment: the experimental tests,
+then surface benchmark CPU/GPU `--rows 8 32 128 512 --repeats 10` at the default
+10-degree mesh, linear law. Keep FP64 enabled, GPU preallocation disabled, and
+CPU comparisons forced to `JAX_PLATFORMS=cpu`. Allow at most five minutes for
+this initial suite/benchmark batch after environment setup. Cancel **only the
+ELISa test process** if the budget is exceeded. Additional meshes/laws can wait
+for results; do not leave production paused for open-ended investigation.
+
+In a guaranteed cleanup/finally path, even if install, compilation, tests or
+benchmark fail: stop any remaining ELISa test processes, restore fifth42 using
+the verified original mechanism, and verify actual forward progress beyond the
+recorded baseline (new log/checkpoint/step, not just a surviving PID). If pause
+failed before taking effect, verify it remained running rather than launching a
+second copy. Report the original and restored job identity, pause/resume times,
+progress evidence, tested commit, hardware/versions and results. Do not report
+success until fifth42 is confirmed making progress again. If restoration fails,
+alert Paul immediately with the exact state and safe next action.

@@ -7,6 +7,7 @@ reduction, not a replacement spherical or analytic eclipse model.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Any
 
 import numpy as np
@@ -14,6 +15,41 @@ import numpy as np
 from elisa.experimental.gpu_likelihood import _jax_device
 
 _FACE_ARRAY_NDIM = 2
+
+
+@dataclass(frozen=True)
+class PreparedSurfaceBatch:
+    """Validated device-resident inputs; evaluate repeatedly without host copies.
+
+    Created by SurfaceFluxIntegrator.prepare. Treat all fields as internal;
+    returned JAX arrays are immutable. Evaluation still requires FP64 enabled.
+    """
+
+    _owner: Any
+    _arrays: tuple[Any, ...]
+
+    def evaluate(self) -> Any:
+        """Return asynchronous device face fluxes and totals for this snapshot."""
+        if not self._owner._jax.config.x64_enabled:  # noqa: SLF001 - paired implementation
+            msg = "JAX FP64 must remain enabled"
+            raise RuntimeError(msg)
+        return self._owner._integrate(*self._arrays)  # noqa: SLF001 - paired implementation
+
+    def block_until_ready(self) -> PreparedSurfaceBatch:
+        """Synchronize input transfers without compiling or evaluating the kernel."""
+        for array in self._arrays:
+            array.block_until_ready()
+        return self
+
+    @property
+    def shape(self) -> tuple[int, int]:
+        """Return (rows, padded faces)."""
+        return self._arrays[0].shape
+
+    @property
+    def nbytes(self) -> int:
+        """Input storage only, excluding outputs/compiler/allocator workspace."""
+        return sum(x.nbytes for x in self._arrays)
 
 
 class SurfaceFluxIntegrator:
@@ -54,7 +90,11 @@ class SurfaceFluxIntegrator:
         self._integrate = self._jax.jit(integrate)
 
     def __call__(self, radiance: Any, cosine: Any, coverage: Any, coefficients: Any) -> Any:
-        """Validate host inputs and transfer a batch; synchronize only when read.
+        """Validate, transfer and evaluate a batch (not device-resident timing)."""
+        return self.prepare(radiance, cosine, coverage, coefficients).evaluate()
+
+    def prepare(self, radiance: Any, cosine: Any, coverage: Any, coefficients: Any) -> PreparedSurfaceBatch:
+        """Validate host inputs and transfer a reusable device snapshot.
 
         Shapes are (rows, faces) and (rows, faces, coefficients). LD coefficients
         are unrestricted only when prepared radiance/coverage are nonnegative.
@@ -65,7 +105,7 @@ class SurfaceFluxIntegrator:
         if not self._jax.config.x64_enabled:
             msg = "JAX FP64 must remain enabled"
             raise RuntimeError(msg)
-        arrays = [np.asarray(x, dtype=np.float64) for x in (radiance, cosine, coverage, coefficients)]
+        arrays = [np.array(x, dtype=np.float64, copy=True) for x in (radiance, cosine, coverage, coefficients)]
         r, mu, cov, coeff = arrays
         if r.ndim != _FACE_ARRAY_NDIM or r.shape[0] == 0 or mu.shape != r.shape or cov.shape != r.shape:
             msg = "Surface inputs must have matching (rows, faces) shapes"
@@ -79,7 +119,7 @@ class SurfaceFluxIntegrator:
         if np.any(r < 0) or np.any(cov < 0) or np.any(np.abs(mu) > 1 + 1e-12):
             msg = "Radiance/coverage must be nonnegative and cosines in [-1,1]"
             raise ValueError(msg)
-        return self._integrate(*(self._jax.device_put(x, self.device) for x in arrays))
+        return PreparedSurfaceBatch(self, tuple(self._jax.device_put(x, self.device, may_alias=False) for x in arrays))
 
     def from_containers(self, band: str, stars: Any) -> Any:
         """Snapshot selected faces of prepared containers, pad, and integrate.

@@ -1,6 +1,9 @@
 """Actual Roche-container and facewise CPU parity for the surface kernel."""
 
 import copy
+import subprocess
+import sys
+from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
@@ -124,3 +127,35 @@ def test_linear_limb_cancellation(law: str, device: str) -> None:
     ))
     faces, _ = SurfaceFluxIntegrator(law, device=device)(radiance, mu, coverage, coefficients)
     assert_allclose(faces[0], expected, rtol=3e-14, atol=0)
+
+
+@pytest.mark.parametrize("device", ["cpu", "gpu"])
+def test_prepared_device_snapshot(device: str) -> None:
+    try:
+        jax.devices(device)
+    except RuntimeError:
+        pytest.skip("Requested hardware unavailable")
+    kernel = SurfaceFluxIntegrator("linear", device=device)
+    radiance = np.array([[2.]])
+    batch = kernel.prepare(radiance, [[.5]], [[.3]], [[[.5]]])
+    radiance[0, 0] = 9
+    assert batch.shape == (1, 1)
+    assert batch.nbytes == 32
+    for _ in range(2):
+        faces, totals = batch.evaluate()
+        assert_allclose(faces, [[.225]], rtol=1e-14)
+        assert_allclose(totals, [.225], rtol=1e-14)
+    with jax.enable_x64(False), pytest.raises(RuntimeError, match="remain"):
+        batch.evaluate()
+
+
+@pytest.mark.parametrize("option", ["--max-input-mib", "--discretization"])
+@pytest.mark.parametrize("value", ["nan", "inf"])
+def test_benchmark_rejects_nonfinite_limits(option: str, value: str) -> None:
+    script = Path(__file__).resolve().parents[2] / "scripts" / "benchmark_gpu_surface.py"
+    result = subprocess.run(  # noqa: S603 - fixed repository script and parametrized literals
+        [sys.executable, str(script), "--device", "cpu", option, value],
+        capture_output=True, text=True, check=False,
+    )
+    assert result.returncode == 2
+    assert "must be finite" in result.stderr
