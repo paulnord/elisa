@@ -1,0 +1,1490 @@
+{
+  "scope": "Changing q/spin/potential fixed-direction Roche geometry/gravity; optional intrinsic temperature. No observed light, coverage or MCMC.",
+  "device": "cuda:0",
+  "device_kind": "NVIDIA GeForce RTX 3080 Ti",
+  "dtype": "float64",
+  "jax": "0.12.0.1",
+  "python": "3.12.4",
+  "directions": 256,
+  "repeats": 10,
+  "thermal": false,
+  "thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "result_contract": "radii, face areas/normals/LOS cosines, face SI gravity, proposal validity; plus temperatures/emitted surface flux/energy closure when thermal=true",
+  "caveat": "Resident timing is a lower bound. Full paths include identical output downloads; compilation is separate. CPU helpers use original Newton and NumPy physics; device retains additional unsupported-state guards. No candidate-dependent topology/mesh correction, irradiation/atmosphere update, eclipse or whole-model speedup claim.",
+  "results": [
+    {
+      "component": "primary",
+      "rows": 1,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 56,
+      "output_bytes": 26433,
+      "staged_vertex_bridge_bytes_lower_bound": 18432,
+      "estimated_payload_bytes": 122112,
+      "topology_setup_upload_seconds": 0.3753896669950336,
+      "initial_parameter_validation_upload_seconds": 0.0007212960626929998,
+      "fused_compile_first_seconds": 0.38646502303890884,
+      "staged_compile_first_including_download_seconds": 0.37869376700837165,
+      "original_cpu_first_seconds": 0.0009567079832777381,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0006463294848799706,
+        "min": 0.0006375489756464958,
+        "max": 0.0006615129532292485,
+        "samples": [
+          0.0006567939417436719,
+          0.0006615129532292485,
+          0.0006566339870914817,
+          0.0006413450464606285,
+          0.0006469549844041467,
+          0.0006457039853557944,
+          0.0006375489756464958,
+          0.000650343019515276,
+          0.0006436399416998029,
+          0.0006381099810823798
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0005532200448215008,
+        "min": 0.0005354870809242129,
+        "max": 0.0006097359582781792,
+        "samples": [
+          0.0006097359582781792,
+          0.0005539919948205352,
+          0.0005456849467009306,
+          0.0005524480948224664,
+          0.0005712040001526475,
+          0.0005492330528795719,
+          0.0005354870809242129,
+          0.00055741798132658,
+          0.0005576889961957932,
+          0.0005475799553096294
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0016279650153592229,
+        "min": 0.001596309943124652,
+        "max": 0.0016503919614478946,
+        "samples": [
+          0.0016483580693602562,
+          0.0016012690030038357,
+          0.0016503919614478946,
+          0.0016191640170291066,
+          0.0016331500373780727,
+          0.001622779993340373,
+          0.001596309943124652,
+          0.0016495699528604746,
+          0.001649038982577622,
+          0.001611417974345386
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.0026396665489301085,
+        "min": 0.0026215569814667106,
+        "max": 0.0026742859045043588,
+        "samples": [
+          0.0026373170549049973,
+          0.002632607938721776,
+          0.0026215569814667106,
+          0.0026479780208319426,
+          0.0026420160429552197,
+          0.002632317948155105,
+          0.002658868092112243,
+          0.0026366650126874447,
+          0.0026742859045043588,
+          0.002655019983649254
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.0005038519739173353,
+        "min": 0.0004951698938384652,
+        "max": 0.0005294759757816792,
+        "samples": [
+          0.0005294759757816792,
+          0.0005001000827178359,
+          0.000510629964992404,
+          0.0004995190538465977,
+          0.0005060420371592045,
+          0.0005022839177399874,
+          0.0005054200300946832,
+          0.0004951698938384652,
+          0.0005092869978398085,
+          0.0004983770195394754
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 5.551115123125783e-17,
+          "max_relative_error_nonzero": 5.408839611568096e-16
+        },
+        "areas": {
+          "max_abs_error": 5.421010862427522e-19,
+          "max_relative_error_nonzero": 2.0770985335635447e-15
+        },
+        "normals": {
+          "max_abs_error": 3.400058012914542e-15,
+          "max_relative_error_nonzero": 1.6804553182892992e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 2.831068712794149e-15,
+          "max_relative_error_nonzero": 3.142478740826713e-13
+        },
+        "face_gravity": {
+          "max_abs_error": 4.547473508864641e-13,
+          "max_relative_error_nonzero": 9.696792635035006e-16
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 8,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 448,
+      "output_bytes": 211464,
+      "staged_vertex_bridge_bytes_lower_bound": 147456,
+      "estimated_payload_bytes": 976896,
+      "topology_setup_upload_seconds": 0.3753896669950336,
+      "initial_parameter_validation_upload_seconds": 0.0005629779770970345,
+      "fused_compile_first_seconds": 0.2935152529971674,
+      "staged_compile_first_including_download_seconds": 0.3844286559615284,
+      "original_cpu_first_seconds": 0.004516097949817777,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0006840609712526202,
+        "min": 0.000669368077069521,
+        "max": 0.0007909960113465786,
+        "samples": [
+          0.0007788240909576416,
+          0.0007909960113465786,
+          0.0006840060232207179,
+          0.0006713619222864509,
+          0.0006798380054533482,
+          0.0006868209457024932,
+          0.000669368077069521,
+          0.0006841159192845225,
+          0.0006913399556651711,
+          0.0006765119032934308
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.00060492247575894,
+        "min": 0.0005666050128638744,
+        "max": 0.0006427880143746734,
+        "samples": [
+          0.0006385799497365952,
+          0.0005952580831944942,
+          0.0005679070018231869,
+          0.0005772149888798594,
+          0.0005666050128638744,
+          0.0006292220205068588,
+          0.0006142649799585342,
+          0.0006427880143746734,
+          0.0006032040109857917,
+          0.0006066409405320883
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0018136539729312062,
+        "min": 0.0017585959285497665,
+        "max": 0.0018445169553160667,
+        "samples": [
+          0.0018012559739872813,
+          0.0018292180029675364,
+          0.0018445169553160667,
+          0.0018251899164170027,
+          0.0017585959285497665,
+          0.0018110539531335235,
+          0.001816253992728889,
+          0.0018211229471489787,
+          0.0017647669883444905,
+          0.0017719309544190764
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.002906728012021631,
+        "min": 0.0026779130566865206,
+        "max": 0.003428844967857003,
+        "samples": [
+          0.003157986095175147,
+          0.003428844967857003,
+          0.0032386869424954057,
+          0.002924556960351765,
+          0.002707138075493276,
+          0.002825640025548637,
+          0.0031638669315725565,
+          0.002888899063691497,
+          0.0026887230342254043,
+          0.0026779130566865206
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.003934315056540072,
+        "min": 0.003888167906552553,
+        "max": 0.0043334439396858215,
+        "samples": [
+          0.003960504080168903,
+          0.003937541041523218,
+          0.003979429020546377,
+          0.0043334439396858215,
+          0.004270687000826001,
+          0.003931089071556926,
+          0.003888167906552553,
+          0.0038907629204913974,
+          0.003915769979357719,
+          0.0039038769900798798
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 6.246800174690628e-16
+        },
+        "areas": {
+          "max_abs_error": 7.589415207398531e-19,
+          "max_relative_error_nonzero": 2.216006921695626e-15
+        },
+        "normals": {
+          "max_abs_error": 4.135580766728708e-15,
+          "max_relative_error_nonzero": 1.3454960096651816e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 3.2890357104520263e-15,
+          "max_relative_error_nonzero": 2.8841453923181576e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 5.684341886080801e-13,
+          "max_relative_error_nonzero": 1.1566216014430958e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 32,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 1792,
+      "output_bytes": 845856,
+      "staged_vertex_bridge_bytes_lower_bound": 589824,
+      "estimated_payload_bytes": 3907584,
+      "topology_setup_upload_seconds": 0.3753896669950336,
+      "initial_parameter_validation_upload_seconds": 0.000565512920729816,
+      "fused_compile_first_seconds": 0.446000169031322,
+      "staged_compile_first_including_download_seconds": 0.40752191992942244,
+      "original_cpu_first_seconds": 0.01598761894274503,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0007434470462612808,
+        "min": 0.0007322559831663966,
+        "max": 0.000762031995691359,
+        "samples": [
+          0.0007458020700141788,
+          0.000762031995691359,
+          0.0007465630769729614,
+          0.0007368549704551697,
+          0.0007348620565608144,
+          0.0007427760865539312,
+          0.0007452600402757525,
+          0.0007360130548477173,
+          0.0007322559831663966,
+          0.0007441180059686303
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0006910490337759256,
+        "min": 0.0006534280255436897,
+        "max": 0.0007939120987430215,
+        "samples": [
+          0.0007939120987430215,
+          0.0007795949932187796,
+          0.0006860889261588454,
+          0.000681731035001576,
+          0.0006534280255436897,
+          0.0007026409730315208,
+          0.0006723039550706744,
+          0.0006944650085642934,
+          0.0006876330589875579,
+          0.0007032919675111771
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0018532079993747175,
+        "min": 0.001791117014363408,
+        "max": 0.0018965140916407108,
+        "samples": [
+          0.001862641074694693,
+          0.0018297790084034204,
+          0.0018638030160218477,
+          0.0018531830282881856,
+          0.0018572299741208553,
+          0.0018368820892646909,
+          0.001791117014363408,
+          0.0018532329704612494,
+          0.0018415410304442048,
+          0.0018965140916407108
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.0030558635480701923,
+        "min": 0.0030250559793785214,
+        "max": 0.003242825041525066,
+        "samples": [
+          0.0030736670596525073,
+          0.0030783260008320212,
+          0.003139070002362132,
+          0.003242825041525066,
+          0.0030250559793785214,
+          0.0030519560677930713,
+          0.003050163039006293,
+          0.0030312470626085997,
+          0.0030401640105992556,
+          0.0030597710283473134
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.015289286500774324,
+        "min": 0.015211350051686168,
+        "max": 0.015981787932105362,
+        "samples": [
+          0.015288003953173757,
+          0.015981787932105362,
+          0.015283345011994243,
+          0.015211350051686168,
+          0.015250433003529906,
+          0.015290859970264137,
+          0.015317259007133543,
+          0.015313572017475963,
+          0.015290569048374891,
+          0.015283685992471874
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 9.71445146547012e-17,
+          "max_relative_error_nonzero": 8.127665987887912e-16
+        },
+        "areas": {
+          "max_abs_error": 8.131516293641283e-19,
+          "max_relative_error_nonzero": 2.3188812571204756e-15
+        },
+        "normals": {
+          "max_abs_error": 4.773959005888173e-15,
+          "max_relative_error_nonzero": 3.46469837455505e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 4.551914400963142e-15,
+          "max_relative_error_nonzero": 4.261026755561031e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 5.684341886080801e-13,
+          "max_relative_error_nonzero": 1.2137800125474573e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 128,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 7168,
+      "output_bytes": 3383424,
+      "staged_vertex_bridge_bytes_lower_bound": 2359296,
+      "estimated_payload_bytes": 15630336,
+      "topology_setup_upload_seconds": 0.3753896669950336,
+      "initial_parameter_validation_upload_seconds": 0.0006532080005854368,
+      "fused_compile_first_seconds": 0.4019636131124571,
+      "staged_compile_first_including_download_seconds": 0.3880438100313768,
+      "original_cpu_first_seconds": 0.061604034970514476,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0010205385624431074,
+        "min": 0.0010166909778490663,
+        "max": 0.0010401749750599265,
+        "samples": [
+          0.0010401749750599265,
+          0.001030827988870442,
+          0.001021009054966271,
+          0.0010207190643996,
+          0.0010203580604866147,
+          0.0010191949550062418,
+          0.0010192360496148467,
+          0.001016821013763547,
+          0.0010235729860141873,
+          0.0010166909778490663
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.001020763476844877,
+        "min": 0.0009939779993146658,
+        "max": 0.0021445309976115823,
+        "samples": [
+          0.0014298770111054182,
+          0.0021445309976115823,
+          0.0010526090627536178,
+          0.0010360470041632652,
+          0.0010216799564659595,
+          0.0010198469972237945,
+          0.0009939779993146658,
+          0.0010100679937750101,
+          0.000997695024125278,
+          0.0009992780396714807
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0024678430054336786,
+        "min": 0.0024344950215891004,
+        "max": 0.002639851998537779,
+        "samples": [
+          0.002639851998537779,
+          0.0024344950215891004,
+          0.0024651329731568694,
+          0.0024513269308954477,
+          0.002494629006832838,
+          0.002470553037710488,
+          0.0024410979822278023,
+          0.00248917902354151,
+          0.0024607250234112144,
+          0.0024932660162448883
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.0038517649518325925,
+        "min": 0.0037878589937463403,
+        "max": 0.003889430081471801,
+        "samples": [
+          0.0038616779493167996,
+          0.0038669679779559374,
+          0.0037974780425429344,
+          0.0038508079014718533,
+          0.003857931005768478,
+          0.003844706923700869,
+          0.0037878589937463403,
+          0.0038397469324991107,
+          0.0038527220021933317,
+          0.003889430081471801
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.06134793400997296,
+        "min": 0.06075629196129739,
+        "max": 0.06202146003488451,
+        "samples": [
+          0.060774266021326184,
+          0.06075629196129739,
+          0.062018794007599354,
+          0.06185609893873334,
+          0.061496293055824935,
+          0.061881095985881984,
+          0.06202146003488451,
+          0.060996183077804744,
+          0.06103672902099788,
+          0.061199574964120984
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 9.71445146547012e-17,
+          "max_relative_error_nonzero": 8.208898708644743e-16
+        },
+        "areas": {
+          "max_abs_error": 9.215718466126788e-19,
+          "max_relative_error_nonzero": 2.63922814679937e-15
+        },
+        "normals": {
+          "max_abs_error": 5.6625711064572926e-15,
+          "max_relative_error_nonzero": 3.5904489259226805e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 4.6074255521944e-15,
+          "max_relative_error_nonzero": 3.2751138259788215e-11
+        },
+        "face_gravity": {
+          "max_abs_error": 5.684341886080801e-13,
+          "max_relative_error_nonzero": 1.2331831471419892e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 512,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 28672,
+      "output_bytes": 13533696,
+      "staged_vertex_bridge_bytes_lower_bound": 9437184,
+      "estimated_payload_bytes": 62521344,
+      "topology_setup_upload_seconds": 0.3753896669950336,
+      "initial_parameter_validation_upload_seconds": 0.0010100379586219788,
+      "fused_compile_first_seconds": 0.39720193296670914,
+      "staged_compile_first_including_download_seconds": 0.4804674609331414,
+      "original_cpu_first_seconds": 0.24938123393803835,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.002468975493684411,
+        "min": 0.002460594056174159,
+        "max": 0.00247759697958827,
+        "samples": [
+          0.002460594056174159,
+          0.002466336009092629,
+          0.002462167991325259,
+          0.0024689099518582225,
+          0.0024734899634495378,
+          0.0024702729424461722,
+          0.0024767149006947875,
+          0.0024690410355105996,
+          0.0024606139631941915,
+          0.00247759697958827
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.006238846050109714,
+        "min": 0.0029304380295798182,
+        "max": 0.008533507934771478,
+        "samples": [
+          0.004819358000531793,
+          0.008533507934771478,
+          0.003065500990487635,
+          0.00793690700083971,
+          0.0030791370663791895,
+          0.008374931057915092,
+          0.0029304380295798182,
+          0.007952546933665872,
+          0.0029609750490635633,
+          0.007658334099687636
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.005689754500053823,
+        "min": 0.0055932929972186685,
+        "max": 0.00589180295355618,
+        "samples": [
+          0.00589180295355618,
+          0.005679985973984003,
+          0.005699523026123643,
+          0.005726343020796776,
+          0.005806492990814149,
+          0.0055932929972186685,
+          0.005626535043120384,
+          0.005705513991415501,
+          0.0056180700194090605,
+          0.005619501927867532
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.007646627549547702,
+        "min": 0.007339002913795412,
+        "max": 0.007872916990891099,
+        "samples": [
+          0.007872916990891099,
+          0.007619180018082261,
+          0.0078012419398874044,
+          0.007730599958449602,
+          0.007612466928549111,
+          0.007664386066608131,
+          0.007735999068245292,
+          0.007628869032487273,
+          0.007417221087962389,
+          0.007339002913795412
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.24297624547034502,
+        "min": 0.242693813983351,
+        "max": 0.24462478305213153,
+        "samples": [
+          0.242693813983351,
+          0.2427021600306034,
+          0.24324411910492927,
+          0.2429642629576847,
+          0.2428135989466682,
+          0.2430851300014183,
+          0.24298822798300534,
+          0.24462478305213153,
+          0.24276521895080805,
+          0.24449828604701906
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 1.1102230246251565e-16,
+          "max_relative_error_nonzero": 8.850919432293735e-16
+        },
+        "areas": {
+          "max_abs_error": 9.75781955236954e-19,
+          "max_relative_error_nonzero": 2.783086636674693e-15
+        },
+        "normals": {
+          "max_abs_error": 6.184289191857317e-15,
+          "max_relative_error_nonzero": 4.768103005154975e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 4.9404924595819466e-15,
+          "max_relative_error_nonzero": 1.2554060154245783e-10
+        },
+        "face_gravity": {
+          "max_abs_error": 6.252776074688882e-13,
+          "max_relative_error_nonzero": 1.478896731016327e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 1,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 56,
+      "output_bytes": 26433,
+      "staged_vertex_bridge_bytes_lower_bound": 18432,
+      "estimated_payload_bytes": 122112,
+      "topology_setup_upload_seconds": 0.0020917109213769436,
+      "initial_parameter_validation_upload_seconds": 0.0005732469726353884,
+      "fused_compile_first_seconds": 0.2935632939916104,
+      "staged_compile_first_including_download_seconds": 0.3624305200064555,
+      "original_cpu_first_seconds": 0.0007966670673340559,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0006144244689494371,
+        "min": 0.000605387962423265,
+        "max": 0.0006257760105654597,
+        "samples": [
+          0.0006257760105654597,
+          0.0006153959548100829,
+          0.0006246339762583375,
+          0.0006134529830887914,
+          0.0006197550101205707,
+          0.000605387962423265,
+          0.0006078220903873444,
+          0.0006179709453135729,
+          0.0006097459699958563,
+          0.0006122109480202198
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0005210590315982699,
+        "min": 0.0005146070616319776,
+        "max": 0.0005771949654445052,
+        "samples": [
+          0.0005771949654445052,
+          0.0005245159845799208,
+          0.0005328820552676916,
+          0.0005171119701117277,
+          0.0005146070616319776,
+          0.0005158890271559358,
+          0.0005158690037205815,
+          0.0005229020025581121,
+          0.000528713921085,
+          0.0005192160606384277
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0015248709823936224,
+        "min": 0.0015023440355435014,
+        "max": 0.0015403659781441092,
+        "samples": [
+          0.0015383620047941804,
+          0.0015403659781441092,
+          0.0015285329427570105,
+          0.0015029850183054805,
+          0.0015312680043280125,
+          0.0015209380071610212,
+          0.0015364279970526695,
+          0.0015023440355435014,
+          0.001520097954198718,
+          0.0015212090220302343
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.002463885524775833,
+        "min": 0.002436569076962769,
+        "max": 0.0024804220302030444,
+        "samples": [
+          0.0024530909722670913,
+          0.002473319065757096,
+          0.0024804220302030444,
+          0.002436569076962769,
+          0.0024757630890235305,
+          0.0024588709929957986,
+          0.002452137996442616,
+          0.002468900056555867,
+          0.0024753219913691282,
+          0.0024525290355086327
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.0005277415621094406,
+        "min": 0.0005168720381334424,
+        "max": 0.00053689896594733,
+        "samples": [
+          0.00053689896594733,
+          0.0005364679964259267,
+          0.0005168720381334424,
+          0.0005324810044839978,
+          0.0005347860278561711,
+          0.0005183340981602669,
+          0.0005306870443746448,
+          0.0005194769473746419,
+          0.0005247960798442364,
+          0.0005185339832678437
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 5.551115123125783e-17,
+          "max_relative_error_nonzero": 4.497034915526736e-16
+        },
+        "areas": {
+          "max_abs_error": 3.198396408832238e-18,
+          "max_relative_error_nonzero": 8.228598881685284e-15
+        },
+        "normals": {
+          "max_abs_error": 7.382983113757291e-15,
+          "max_relative_error_nonzero": 9.811430932894744e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 7.382983113757291e-15,
+          "max_relative_error_nonzero": 9.811430932894559e-13
+        },
+        "face_gravity": {
+          "max_abs_error": 4.547473508864641e-13,
+          "max_relative_error_nonzero": 1.1330421453962399e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 8,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 448,
+      "output_bytes": 211464,
+      "staged_vertex_bridge_bytes_lower_bound": 147456,
+      "estimated_payload_bytes": 976896,
+      "topology_setup_upload_seconds": 0.0020917109213769436,
+      "initial_parameter_validation_upload_seconds": 0.0005319600459188223,
+      "fused_compile_first_seconds": 0.2451007979689166,
+      "staged_compile_first_including_download_seconds": 0.34953428199514747,
+      "original_cpu_first_seconds": 0.0043346870224922895,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0006718070362694561,
+        "min": 0.0006293130572885275,
+        "max": 0.0007964869728311896,
+        "samples": [
+          0.0006553910207003355,
+          0.0006404538871720433,
+          0.0006293130572885275,
+          0.0007434979779645801,
+          0.0007964869728311896,
+          0.0007314949762076139,
+          0.0006703190738335252,
+          0.000682211946696043,
+          0.0006732949987053871,
+          0.0006687369896098971
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0005563009763136506,
+        "min": 0.0005170819349586964,
+        "max": 0.0006174700101837516,
+        "samples": [
+          0.0006174700101837516,
+          0.0005597219569608569,
+          0.0005319500342011452,
+          0.0005170819349586964,
+          0.00053257099352777,
+          0.0005473389755934477,
+          0.0005798200145363808,
+          0.0005593319656327367,
+          0.0005737179890275002,
+          0.0005532699869945645
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0015778709785081446,
+        "min": 0.001553950016386807,
+        "max": 0.0017584749730303884,
+        "samples": [
+          0.0017584749730303884,
+          0.0016672429628670216,
+          0.0015685079852119088,
+          0.0015544519992545247,
+          0.0015812920173630118,
+          0.0015936860581859946,
+          0.0015635490417480469,
+          0.001553950016386807,
+          0.0015765329590067267,
+          0.0015792089980095625
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.0026465789997018874,
+        "min": 0.0026260860031470656,
+        "max": 0.002670027897693217,
+        "samples": [
+          0.002670027897693217,
+          0.0026260860031470656,
+          0.002651403076015413,
+          0.00263597397133708,
+          0.0026665619807317853,
+          0.0026635960675776005,
+          0.002630353905260563,
+          0.0026582960272207856,
+          0.002641754923388362,
+          0.0026310450630262494
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.004084682499524206,
+        "min": 0.004065521061420441,
+        "max": 0.004094887059181929,
+        "samples": [
+          0.004094174015335739,
+          0.004065521061420441,
+          0.0040863099275156856,
+          0.004087161971256137,
+          0.004094887059181929,
+          0.004071632982231677,
+          0.004067766014486551,
+          0.004090789007022977,
+          0.004083055071532726,
+          0.004071802948601544
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 1.1102230246251565e-16,
+          "max_relative_error_nonzero": 8.158477405675233e-16
+        },
+        "areas": {
+          "max_abs_error": 5.5294310796760726e-18,
+          "max_relative_error_nonzero": 1.4822890332388285e-14
+        },
+        "normals": {
+          "max_abs_error": 1.6583956430338276e-14,
+          "max_relative_error_nonzero": 4.052902529878656e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 1.2878587085651816e-14,
+          "max_relative_error_nonzero": 6.573824501823598e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 1.4779288903810084e-12,
+          "max_relative_error_nonzero": 2.3540381607965995e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 32,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 1792,
+      "output_bytes": 845856,
+      "staged_vertex_bridge_bytes_lower_bound": 589824,
+      "estimated_payload_bytes": 3907584,
+      "topology_setup_upload_seconds": 0.0020917109213769436,
+      "initial_parameter_validation_upload_seconds": 0.0005749900592491031,
+      "fused_compile_first_seconds": 0.3000520890345797,
+      "staged_compile_first_including_download_seconds": 0.36131479300092906,
+      "original_cpu_first_seconds": 0.016635777079500258,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0007541669765487313,
+        "min": 0.0007394499843940139,
+        "max": 0.0007692560320720077,
+        "samples": [
+          0.0007692560320720077,
+          0.000755028915591538,
+          0.000743878073990345,
+          0.0007539769867435098,
+          0.0007590469904243946,
+          0.0007418149616569281,
+          0.000745401019230485,
+          0.0007543569663539529,
+          0.0007554900366812944,
+          0.0007394499843940139
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0006682210369035602,
+        "min": 0.0006449220236390829,
+        "max": 0.0007658699760213494,
+        "samples": [
+          0.0007658699760213494,
+          0.0007418349850922823,
+          0.0006491199601441622,
+          0.0006926320493221283,
+          0.0006449220236390829,
+          0.0006694890325888991,
+          0.0006616539321839809,
+          0.0006548110395669937,
+          0.0006745479768142104,
+          0.0006669530412182212
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0018101519672200084,
+        "min": 0.0017671919194981456,
+        "max": 0.0019320109859108925,
+        "samples": [
+          0.0017816579202190042,
+          0.0019320109859108925,
+          0.001824989914894104,
+          0.0017671919194981456,
+          0.00180403096601367,
+          0.0017885209526866674,
+          0.0018393169157207012,
+          0.0018418020335957408,
+          0.0018162729684263468,
+          0.001803219085559249
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.003142441506497562,
+        "min": 0.0028184170369058847,
+        "max": 0.0033398469677194953,
+        "samples": [
+          0.0031407340429723263,
+          0.003175078076310456,
+          0.003182342043146491,
+          0.00312832894269377,
+          0.0028590329457074404,
+          0.0028211530297994614,
+          0.0028184170369058847,
+          0.0033398469677194953,
+          0.0033037291141226888,
+          0.0031441489700227976
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.01579444046365097,
+        "min": 0.015701941098086536,
+        "max": 0.01625609293114394,
+        "samples": [
+          0.01590082491748035,
+          0.015759148984216154,
+          0.01604521705303341,
+          0.01576590200420469,
+          0.01625609293114394,
+          0.01576147403102368,
+          0.01624520297627896,
+          0.015701941098086536,
+          0.01570308394730091,
+          0.015822978923097253
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 7.496854782432546e-16
+        },
+        "areas": {
+          "max_abs_error": 5.204170427930421e-18,
+          "max_relative_error_nonzero": 1.4265626637160278e-14
+        },
+        "normals": {
+          "max_abs_error": 1.6583956430338276e-14,
+          "max_relative_error_nonzero": 3.7607839565446986e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 1.3322676295501878e-14,
+          "max_relative_error_nonzero": 1.6669092721131678e-11
+        },
+        "face_gravity": {
+          "max_abs_error": 2.1600499167107046e-12,
+          "max_relative_error_nonzero": 3.4068219888977156e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 128,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 7168,
+      "output_bytes": 3383424,
+      "staged_vertex_bridge_bytes_lower_bound": 2359296,
+      "estimated_payload_bytes": 15630336,
+      "topology_setup_upload_seconds": 0.0020917109213769436,
+      "initial_parameter_validation_upload_seconds": 0.000566864968277514,
+      "fused_compile_first_seconds": 0.30236146005336195,
+      "staged_compile_first_including_download_seconds": 0.35577532206662,
+      "original_cpu_first_seconds": 0.06318325304891914,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0010966059635393322,
+        "min": 0.0010896080639213324,
+        "max": 0.0011031839530915022,
+        "samples": [
+          0.0010988450376316905,
+          0.0010965709807351232,
+          0.0010966409463435411,
+          0.001091731945052743,
+          0.0011031839530915022,
+          0.0011030730092898011,
+          0.0010981239611282945,
+          0.0010956900659948587,
+          0.0010936959879472852,
+          0.0010896080639213324
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0010287084733135998,
+        "min": 0.0009978560265153646,
+        "max": 0.001431240001693368,
+        "samples": [
+          0.001431240001693368,
+          0.001303749973885715,
+          0.001066184020601213,
+          0.0010214799549430609,
+          0.0009978560265153646,
+          0.0010314079700037837,
+          0.001026008976623416,
+          0.001019256073050201,
+          0.001057357992976904,
+          0.0010006099473685026
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0025527284597046673,
+        "min": 0.002540654968470335,
+        "max": 0.0026052959728986025,
+        "samples": [
+          0.0026052959728986025,
+          0.002552006975747645,
+          0.002548860968090594,
+          0.0025534499436616898,
+          0.002562636975198984,
+          0.002558136940933764,
+          0.0025815520202741027,
+          0.0025503430515527725,
+          0.0025516250170767307,
+          0.002540654968470335
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.00405475654406473,
+        "min": 0.003964901901781559,
+        "max": 0.004552948055788875,
+        "samples": [
+          0.0040221200324594975,
+          0.004042749060317874,
+          0.004028953029774129,
+          0.004003925947472453,
+          0.003964901901781559,
+          0.00420100602786988,
+          0.004191857995465398,
+          0.004253404098562896,
+          0.004066764027811587,
+          0.004552948055788875
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.06242912099696696,
+        "min": 0.062255710014142096,
+        "max": 0.06371133599895984,
+        "samples": [
+          0.062365736928768456,
+          0.06248496100306511,
+          0.062255710014142096,
+          0.06242011894937605,
+          0.06225641106721014,
+          0.06243812304455787,
+          0.06235271203331649,
+          0.06371133599895984,
+          0.0632272659568116,
+          0.06332717300392687
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 1.1102230246251565e-16,
+          "max_relative_error_nonzero": 8.835878882380469e-16
+        },
+        "areas": {
+          "max_abs_error": 5.692061405548898e-18,
+          "max_relative_error_nonzero": 1.7129310861080878e-14
+        },
+        "normals": {
+          "max_abs_error": 2.4397150966137815e-14,
+          "max_relative_error_nonzero": 5.929522297534244e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 1.9872992140790302e-14,
+          "max_relative_error_nonzero": 1.8950378285552775e-10
+        },
+        "face_gravity": {
+          "max_abs_error": 2.6147972675971687e-12,
+          "max_relative_error_nonzero": 3.943621006632748e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 512,
+      "thermal": false,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 28672,
+      "output_bytes": 13533696,
+      "staged_vertex_bridge_bytes_lower_bound": 9437184,
+      "estimated_payload_bytes": 62521344,
+      "topology_setup_upload_seconds": 0.0020917109213769436,
+      "initial_parameter_validation_upload_seconds": 0.000655542011372745,
+      "fused_compile_first_seconds": 0.31622570799663663,
+      "staged_compile_first_including_download_seconds": 0.46665904810652137,
+      "original_cpu_first_seconds": 0.2561405480373651,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0026997944805771112,
+        "min": 0.002689695102162659,
+        "max": 0.0027272760635241866,
+        "samples": [
+          0.0027081199223175645,
+          0.002699173055589199,
+          0.002689695102162659,
+          0.002699302975088358,
+          0.002691909088753164,
+          0.0027071780059486628,
+          0.0027030500350520015,
+          0.0027272760635241866,
+          0.0027002859860658646,
+          0.002694975002668798
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.006189242529217154,
+        "min": 0.0029278029687702656,
+        "max": 0.008057523984462023,
+        "samples": [
+          0.004383138031698763,
+          0.007995347026735544,
+          0.0029938470106571913,
+          0.008036543964408338,
+          0.0029278029687702656,
+          0.008035563048906624,
+          0.0030013819923624396,
+          0.008005146053619683,
+          0.0032301810570061207,
+          0.008057523984462023
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0057741574710235,
+        "min": 0.0056444089859724045,
+        "max": 0.0060920900432392955,
+        "samples": [
+          0.0060920900432392955,
+          0.005858720978721976,
+          0.005788959912024438,
+          0.005771627998910844,
+          0.00582433701492846,
+          0.005673872889019549,
+          0.005718047032132745,
+          0.005776686943136156,
+          0.0056444089859724045,
+          0.005701386020518839
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.008402067061979324,
+        "min": 0.00819467194378376,
+        "max": 0.008663643035106361,
+        "samples": [
+          0.008663643035106361,
+          0.008570938953198493,
+          0.008440584060736,
+          0.008477573050186038,
+          0.008322823094204068,
+          0.008250946993939579,
+          0.008363550063222647,
+          0.008350094081833959,
+          0.00819467194378376,
+          0.008568605058826506
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.256697759963572,
+        "min": 0.25470849592238665,
+        "max": 0.2611898980103433,
+        "samples": [
+          0.26010452792979777,
+          0.2611898980103433,
+          0.25672350300010294,
+          0.25544625299517065,
+          0.25499760010279715,
+          0.2566833379678428,
+          0.25470849592238665,
+          0.25522373407147825,
+          0.2579135700361803,
+          0.25671218195930123
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 1.1102230246251565e-16,
+          "max_relative_error_nonzero": 9.901105773333608e-16
+        },
+        "areas": {
+          "max_abs_error": 6.288372600415926e-18,
+          "max_relative_error_nonzero": 1.9758926896653444e-14
+        },
+        "normals": {
+          "max_abs_error": 2.2370993946196904e-14,
+          "max_relative_error_nonzero": 6.994896248041241e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 1.5758228055773316e-14,
+          "max_relative_error_nonzero": 3.4168329252325834e-10
+        },
+        "face_gravity": {
+          "max_abs_error": 2.8421709430404007e-12,
+          "max_relative_error_nonzero": 5.018984954436775e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    }
+  ]
+}

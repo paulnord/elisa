@@ -1,0 +1,14 @@
+........................................................................ [ 64%]
+........................................                                 [100%]
+============================= slowest 10 durations =============================
+0.99s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---max-input-mib]
+0.99s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---discretization]
+0.99s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---discretization]
+0.98s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---max-input-mib]
+0.71s call     tests/tests_experimental/test_gpu_gravity.py::test_changing_roche_gravity[primary-cpu]
+0.64s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[secondary-gpu]
+0.63s call     tests/tests_experimental/test_gpu_thermal.py::test_thermal_unsupported_state_propagation[gpu]
+0.61s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[primary-gpu]
+0.61s call     tests/tests_experimental/test_gpu_pipeline.py::test_large_batch_projection_preserves_stage_rounding[primary-gpu]
+0.60s call     tests/tests_experimental/test_gpu_pipeline.py::test_large_batch_projection_preserves_stage_rounding[secondary-gpu]
+112 passed in 23.47s
