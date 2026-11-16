@@ -1,0 +1,14 @@
+........................................................................ [ 55%]
+..........................................................               [100%]
+============================= slowest 10 durations =============================
+0.98s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---discretization]
+0.98s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---discretization]
+0.97s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---max-input-mib]
+0.97s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---max-input-mib]
+0.67s call     tests/tests_experimental/test_gpu_blackbody.py::test_resident_roche_to_fresh_passband_flux[primary-gpu]
+0.62s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[secondary-gpu]
+0.61s call     tests/tests_experimental/test_gpu_pipeline.py::test_large_batch_projection_preserves_stage_rounding[primary-gpu]
+0.61s call     tests/tests_experimental/test_gpu_blackbody.py::test_real_cpu_blackbody_passbands[1-cpu]
+0.59s call     tests/tests_experimental/test_gpu_pipeline.py::test_large_batch_projection_preserves_stage_rounding[secondary-gpu]
+0.58s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[primary-gpu]
+130 passed in 27.41s

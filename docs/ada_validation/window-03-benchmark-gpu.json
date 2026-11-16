@@ -1,0 +1,1730 @@
+{
+  "scope": "Changing q/spin/potential fixed-direction Roche geometry/gravity; optional intrinsic temperature. No observed light, coverage or MCMC.",
+  "device": "cuda:0",
+  "device_kind": "NVIDIA GeForce RTX 3080 Ti",
+  "dtype": "float64",
+  "jax": "0.12.0.1",
+  "python": "3.12.4",
+  "directions": 256,
+  "repeats": 10,
+  "thermal": true,
+  "thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "result_contract": "radii, face areas/normals/LOS cosines, face SI gravity, proposal validity; plus temperatures/emitted surface flux/energy closure when thermal=true",
+  "caveat": "Resident timing is a lower bound. Full paths include identical output downloads; compilation is separate. CPU helpers use original Newton and NumPy physics; device retains additional unsupported-state guards. No candidate-dependent topology/mesh correction, irradiation/atmosphere update, eclipse or whole-model speedup claim.",
+  "results": [
+    {
+      "component": "primary",
+      "rows": 1,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 72,
+      "output_bytes": 34569,
+      "staged_vertex_bridge_bytes_lower_bound": 18432,
+      "estimated_payload_bytes": 154624,
+      "topology_setup_upload_seconds": 0.37699694000184536,
+      "initial_parameter_validation_upload_seconds": 0.0008488129824399948,
+      "fused_compile_first_seconds": 0.491083957022056,
+      "staged_compile_first_including_download_seconds": 0.4843434819485992,
+      "original_cpu_first_seconds": 0.0011195519473403692,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0007301305304281414,
+        "min": 0.0007216150406748056,
+        "max": 0.0007466119714081287,
+        "samples": [
+          0.0007466119714081287,
+          0.0007422339404001832,
+          0.0007293900707736611,
+          0.0007296400144696236,
+          0.0007420629262924194,
+          0.000731694046407938,
+          0.000728889019228518,
+          0.0007216150406748056,
+          0.0007304709870368242,
+          0.0007297900738194585
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0008135175448842347,
+        "min": 0.0007843920029699802,
+        "max": 0.0008721479680389166,
+        "samples": [
+          0.0008721479680389166,
+          0.0008268830133602023,
+          0.0008216430433094501,
+          0.0007843920029699802,
+          0.0008053920464590192,
+          0.000785524956882,
+          0.0008432930335402489,
+          0.0008361400105059147,
+          0.0007956940680742264,
+          0.000786998076364398
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0020796749740839005,
+        "min": 0.0020672620739787817,
+        "max": 0.002114491071552038,
+        "samples": [
+          0.0021128470543771982,
+          0.0020865180995315313,
+          0.0020672620739787817,
+          0.0020787030225619674,
+          0.002075167023576796,
+          0.002114491071552038,
+          0.0020730330143123865,
+          0.0020806469256058335,
+          0.0020815390162169933,
+          0.0020766890374943614
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.003344975470099598,
+        "min": 0.0032894860487431288,
+        "max": 0.003505151020362973,
+        "samples": [
+          0.0034190199803560972,
+          0.003505151020362973,
+          0.003372511942870915,
+          0.003351473016664386,
+          0.0033600489841774106,
+          0.0033384779235348105,
+          0.0033276579342782497,
+          0.003317618975415826,
+          0.0033123689936473966,
+          0.0032894860487431288
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.0005872175097465515,
+        "min": 0.0005715430015698075,
+        "max": 0.0006230900762602687,
+        "samples": [
+          0.000605356995947659,
+          0.0005828450666740537,
+          0.0006230900762602687,
+          0.0005987549666315317,
+          0.0005895569920539856,
+          0.0005907800514250994,
+          0.0005715430015698075,
+          0.0005848780274391174,
+          0.0005772339645773172,
+          0.0005725249648094177
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 5.551115123125783e-17,
+          "max_relative_error_nonzero": 5.408839611568096e-16
+        },
+        "areas": {
+          "max_abs_error": 5.421010862427522e-19,
+          "max_relative_error_nonzero": 2.0770985335635447e-15
+        },
+        "normals": {
+          "max_abs_error": 3.400058012914542e-15,
+          "max_relative_error_nonzero": 1.6804553182892992e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 2.831068712794149e-15,
+          "max_relative_error_nonzero": 3.142478740826713e-13
+        },
+        "face_gravity": {
+          "max_abs_error": 4.547473508864641e-13,
+          "max_relative_error_nonzero": 9.696792635035006e-16
+        },
+        "temperatures": {
+          "max_abs_error": 3.637978807091713e-12,
+          "max_relative_error_nonzero": 5.387456628730979e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 2.8312206268310547e-07,
+          "max_relative_error_nonzero": 2.4013561415297073e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 2.220446049250313e-16,
+          "max_relative_error_nonzero": 2.220446049250313e-16
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 8,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 576,
+      "output_bytes": 276552,
+      "staged_vertex_bridge_bytes_lower_bound": 147456,
+      "estimated_payload_bytes": 1236992,
+      "topology_setup_upload_seconds": 0.37699694000184536,
+      "initial_parameter_validation_upload_seconds": 0.000710024032741785,
+      "fused_compile_first_seconds": 0.37847174191847444,
+      "staged_compile_first_including_download_seconds": 0.5074290900956839,
+      "original_cpu_first_seconds": 0.004875745042227209,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0007507745176553726,
+        "min": 0.0007446280214935541,
+        "max": 0.0007773990510031581,
+        "samples": [
+          0.00075764290522784,
+          0.0007546880515292287,
+          0.0007589650340378284,
+          0.0007773990510031581,
+          0.0007446280214935541,
+          0.0007501080399379134,
+          0.000747071928344667,
+          0.000748725957237184,
+          0.0007463321089744568,
+          0.0007514409953728318
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0008494905196130276,
+        "min": 0.0008161119185388088,
+        "max": 0.0008994890376925468,
+        "samples": [
+          0.0008923650020733476,
+          0.0008161119185388088,
+          0.0008192479144781828,
+          0.0008949210168793797,
+          0.0008424021070823073,
+          0.0008565789321437478,
+          0.0008994890376925468,
+          0.0008583619492128491,
+          0.0008336859755218029,
+          0.0008338260231539607
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0021096559939906,
+        "min": 0.0020672919927164912,
+        "max": 0.002259331988170743,
+        "samples": [
+          0.002259331988170743,
+          0.002108338987454772,
+          0.0020672919927164912,
+          0.0021241179201751947,
+          0.002110432949848473,
+          0.0020789329428225756,
+          0.00211999099701643,
+          0.0021038309205323458,
+          0.002158984076231718,
+          0.002108879038132727
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.003270551038440317,
+        "min": 0.003153000958263874,
+        "max": 0.0033422750420868397,
+        "samples": [
+          0.0032887549605220556,
+          0.0032649310305714607,
+          0.003274529008194804,
+          0.0032711320091038942,
+          0.003268136060796678,
+          0.0032699700677767396,
+          0.0033422750420868397,
+          0.0032762009650468826,
+          0.003163981018587947,
+          0.003153000958263874
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.004566263523884118,
+        "min": 0.004485412035137415,
+        "max": 0.004629872972145677,
+        "samples": [
+          0.0045468369498848915,
+          0.0046120090410113335,
+          0.004584247013553977,
+          0.004612791002728045,
+          0.004629872972145677,
+          0.004522170987911522,
+          0.0045864819549024105,
+          0.004485973040573299,
+          0.004548280034214258,
+          0.004485412035137415
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 6.246800174690628e-16
+        },
+        "areas": {
+          "max_abs_error": 7.589415207398531e-19,
+          "max_relative_error_nonzero": 2.216006921695626e-15
+        },
+        "normals": {
+          "max_abs_error": 4.135580766728708e-15,
+          "max_relative_error_nonzero": 1.3454960096651816e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 3.2890357104520263e-15,
+          "max_relative_error_nonzero": 2.8841453923181576e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 5.684341886080801e-13,
+          "max_relative_error_nonzero": 1.1566216014430958e-15
+        },
+        "temperatures": {
+          "max_abs_error": 3.637978807091713e-12,
+          "max_relative_error_nonzero": 4.715761458663263e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 6.556510925292969e-07,
+          "max_relative_error_nonzero": 2.1466669679598814e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 7.771561172376096e-16,
+          "max_relative_error_nonzero": 7.771561172376094e-16
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 32,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 2304,
+      "output_bytes": 1106208,
+      "staged_vertex_bridge_bytes_lower_bound": 589824,
+      "estimated_payload_bytes": 4947968,
+      "topology_setup_upload_seconds": 0.37699694000184536,
+      "initial_parameter_validation_upload_seconds": 0.0006752279587090015,
+      "fused_compile_first_seconds": 0.4873152539366856,
+      "staged_compile_first_including_download_seconds": 0.494413833017461,
+      "original_cpu_first_seconds": 0.018195906071923673,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0007460610358975828,
+        "min": 0.0007366330828517675,
+        "max": 0.0007630520267412066,
+        "samples": [
+          0.0007481049979105592,
+          0.0007434859871864319,
+          0.0007630520267412066,
+          0.0007519919890910387,
+          0.0007439369801431894,
+          0.0007396279834210873,
+          0.0007493770681321621,
+          0.0007614600472152233,
+          0.0007440170738846064,
+          0.0007366330828517675
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0008726735250093043,
+        "min": 0.0008556370157748461,
+        "max": 0.001035655033774674,
+        "samples": [
+          0.0009554739808663726,
+          0.001035655033774674,
+          0.0008945800364017487,
+          0.0008711059344932437,
+          0.0008815049659460783,
+          0.000858240993693471,
+          0.0008661359315738082,
+          0.0008727980311959982,
+          0.0008556370157748461,
+          0.0008725490188226104
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0021394669893197715,
+        "min": 0.002091436996124685,
+        "max": 0.00220462994184345,
+        "samples": [
+          0.00220462994184345,
+          0.002136931987479329,
+          0.0021916049299761653,
+          0.002119380049407482,
+          0.0021303800167515874,
+          0.002091436996124685,
+          0.002142001991160214,
+          0.0021293580066412687,
+          0.0021574010606855154,
+          0.002147612045519054
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.0032983634737320244,
+        "min": 0.0032695890404284,
+        "max": 0.0033437079982832074,
+        "samples": [
+          0.0032975119538605213,
+          0.003343357006087899,
+          0.0033437079982832074,
+          0.003282021963968873,
+          0.0033156650606542826,
+          0.0032992149936035275,
+          0.0032695890404284,
+          0.0032722949981689453,
+          0.003315506037324667,
+          0.003275551018305123
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.017671882000286132,
+        "min": 0.017591390991583467,
+        "max": 0.018423322937451303,
+        "samples": [
+          0.01787009392865002,
+          0.018423322937451303,
+          0.017959842924028635,
+          0.017694855923764408,
+          0.017674576956778765,
+          0.017655761912465096,
+          0.0176691870437935,
+          0.017621085979044437,
+          0.01765998895280063,
+          0.017591390991583467
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 9.71445146547012e-17,
+          "max_relative_error_nonzero": 8.127665987887912e-16
+        },
+        "areas": {
+          "max_abs_error": 8.131516293641283e-19,
+          "max_relative_error_nonzero": 2.3188812571204756e-15
+        },
+        "normals": {
+          "max_abs_error": 4.773959005888173e-15,
+          "max_relative_error_nonzero": 3.46469837455505e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 4.551914400963142e-15,
+          "max_relative_error_nonzero": 4.261026755561031e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 5.684341886080801e-13,
+          "max_relative_error_nonzero": 1.2137800125474573e-15
+        },
+        "temperatures": {
+          "max_abs_error": 3.637978807091713e-12,
+          "max_relative_error_nonzero": 5.220418876137454e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 6.556510925292969e-07,
+          "max_relative_error_nonzero": 2.1435187834144574e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 8.881784197001252e-16,
+          "max_relative_error_nonzero": 8.881784197001244e-16
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 128,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 9216,
+      "output_bytes": 4424832,
+      "staged_vertex_bridge_bytes_lower_bound": 2359296,
+      "estimated_payload_bytes": 19791872,
+      "topology_setup_upload_seconds": 0.37699694000184536,
+      "initial_parameter_validation_upload_seconds": 0.0006772310007363558,
+      "fused_compile_first_seconds": 0.42929278896190226,
+      "staged_compile_first_including_download_seconds": 0.49175130599178374,
+      "original_cpu_first_seconds": 0.072470084996894,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0010739564895629883,
+        "min": 0.0010711210779845715,
+        "max": 0.0010803089244291186,
+        "samples": [
+          0.0010794269619509578,
+          0.0010760700097307563,
+          0.0010742979357019067,
+          0.0010737059637904167,
+          0.0010742070153355598,
+          0.0010803089244291186,
+          0.0010733549715951085,
+          0.0010716320248320699,
+          0.0010736960684880614,
+          0.0010711210779845715
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0019593085162341595,
+        "min": 0.0013481819769367576,
+        "max": 0.003364737960509956,
+        "samples": [
+          0.001513191033154726,
+          0.002405425999313593,
+          0.0013866740046069026,
+          0.0033134520053863525,
+          0.0014539600815623999,
+          0.003364737960509956,
+          0.0013907609973102808,
+          0.003352325060404837,
+          0.0013481819769367576,
+          0.0032850380521267653
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0031820295262150466,
+        "min": 0.003075975924730301,
+        "max": 0.003332537948153913,
+        "samples": [
+          0.0031167620327323675,
+          0.0031881759641692042,
+          0.0031062030466273427,
+          0.003075975924730301,
+          0.003163440036587417,
+          0.003332537948153913,
+          0.003254330949857831,
+          0.0032763719791546464,
+          0.0033006779849529266,
+          0.003175883088260889
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.00415754655841738,
+        "min": 0.004064631997607648,
+        "max": 0.004625514964573085,
+        "samples": [
+          0.004468871047720313,
+          0.004534244071692228,
+          0.004625514964573085,
+          0.004451988963410258,
+          0.004172925022430718,
+          0.004064631997607648,
+          0.004103855928406119,
+          0.004073107964359224,
+          0.004120627068914473,
+          0.004142168094404042
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.07278721552575007,
+        "min": 0.07182490301784128,
+        "max": 0.07673674705438316,
+        "samples": [
+          0.07325878599658608,
+          0.0736106870463118,
+          0.07673674705438316,
+          0.07401153002865613,
+          0.07231564505491406,
+          0.07496778503991663,
+          0.07182490301784128,
+          0.07188101892825216,
+          0.07190298999194056,
+          0.0718360539758578
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 9.71445146547012e-17,
+          "max_relative_error_nonzero": 8.208898708644743e-16
+        },
+        "areas": {
+          "max_abs_error": 9.215718466126788e-19,
+          "max_relative_error_nonzero": 2.63922814679937e-15
+        },
+        "normals": {
+          "max_abs_error": 5.6625711064572926e-15,
+          "max_relative_error_nonzero": 3.5904489259226805e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 4.6074255521944e-15,
+          "max_relative_error_nonzero": 3.2751138259788215e-11
+        },
+        "face_gravity": {
+          "max_abs_error": 5.684341886080801e-13,
+          "max_relative_error_nonzero": 1.2331831471419892e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.337281975790581e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 8.344650268554688e-07,
+          "max_relative_error_nonzero": 2.5016890333460975e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 1.1102230246251565e-15,
+          "max_relative_error_nonzero": 1.1102230246251558e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 512,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 36864,
+      "output_bytes": 17699328,
+      "staged_vertex_bridge_bytes_lower_bound": 9437184,
+      "estimated_payload_bytes": 79167488,
+      "topology_setup_upload_seconds": 0.37699694000184536,
+      "initial_parameter_validation_upload_seconds": 0.0010397119913250208,
+      "fused_compile_first_seconds": 0.4526517620543018,
+      "staged_compile_first_including_download_seconds": 0.6069394750520587,
+      "original_cpu_first_seconds": 0.2914494880242273,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0027365280548110604,
+        "min": 0.0027304369723424315,
+        "max": 0.0027469469932839274,
+        "samples": [
+          0.0027385620633140206,
+          0.0027350960299372673,
+          0.002738251001574099,
+          0.0027378100203350186,
+          0.0027304369723424315,
+          0.002737550064921379,
+          0.0027350360760465264,
+          0.0027469469932839274,
+          0.0027355060447007418,
+          0.002734825015068054
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.008407276473008096,
+        "min": 0.0038606690941378474,
+        "max": 0.010072843986563385,
+        "samples": [
+          0.007506394991651177,
+          0.010072843986563385,
+          0.004062257939949632,
+          0.00933338503818959,
+          0.003978952066972852,
+          0.009308157954365015,
+          0.0038606690941378474,
+          0.009492764016613364,
+          0.003900403040461242,
+          0.009347280953079462
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.007031517976429313,
+        "min": 0.00691938295494765,
+        "max": 0.007352816057391465,
+        "samples": [
+          0.007352816057391465,
+          0.007024860940873623,
+          0.006972442031838,
+          0.007038175011985004,
+          0.007024129037745297,
+          0.007119368063285947,
+          0.00691938295494765,
+          0.006963114952668548,
+          0.007041743025183678,
+          0.007051349966786802
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.008800008508842438,
+        "min": 0.008647448034025729,
+        "max": 0.009207868948578835,
+        "samples": [
+          0.009207868948578835,
+          0.009045123937539756,
+          0.008985071093775332,
+          0.00879625603556633,
+          0.008826863951981068,
+          0.008782170014455914,
+          0.008647448034025729,
+          0.008803760982118547,
+          0.008770839078351855,
+          0.008672654977999628
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.28475011500995606,
+        "min": 0.2827922960277647,
+        "max": 0.2864519360009581,
+        "samples": [
+          0.28603031404782087,
+          0.28396374301519245,
+          0.2848998410627246,
+          0.28460038895718753,
+          0.2864519360009581,
+          0.28430910303723067,
+          0.2839542260626331,
+          0.2827922960277647,
+          0.28506435093004256,
+          0.2858915739925578
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 1.1102230246251565e-16,
+          "max_relative_error_nonzero": 8.850919432293735e-16
+        },
+        "areas": {
+          "max_abs_error": 9.75781955236954e-19,
+          "max_relative_error_nonzero": 2.783086636674693e-15
+        },
+        "normals": {
+          "max_abs_error": 6.184289191857317e-15,
+          "max_relative_error_nonzero": 4.768103005154975e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 4.9404924595819466e-15,
+          "max_relative_error_nonzero": 1.2554060154245783e-10
+        },
+        "face_gravity": {
+          "max_abs_error": 6.252776074688882e-13,
+          "max_relative_error_nonzero": 1.478896731016327e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.635968625859519e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 9.5367431640625e-07,
+          "max_relative_error_nonzero": 3.024928463869557e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 1.4432899320127035e-15,
+          "max_relative_error_nonzero": 1.4432899320127047e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 1,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 72,
+      "output_bytes": 34569,
+      "staged_vertex_bridge_bytes_lower_bound": 18432,
+      "estimated_payload_bytes": 154624,
+      "topology_setup_upload_seconds": 0.00100994692184031,
+      "initial_parameter_validation_upload_seconds": 0.0007390580140054226,
+      "fused_compile_first_seconds": 0.3226691921008751,
+      "staged_compile_first_including_download_seconds": 0.4850332820788026,
+      "original_cpu_first_seconds": 0.000864753033965826,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0006709399749524891,
+        "min": 0.0006627340335398912,
+        "max": 0.0006801170529797673,
+        "samples": [
+          0.0006801170529797673,
+          0.0006779930554330349,
+          0.0006631449796259403,
+          0.0006694269832223654,
+          0.0006736250361427665,
+          0.0006724529666826129,
+          0.0006634560413658619,
+          0.0006727030267938972,
+          0.0006651789881289005,
+          0.0006627340335398912
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0008126615430228412,
+        "min": 0.0007282480364665389,
+        "max": 0.0008685010252520442,
+        "samples": [
+          0.0007559990044683218,
+          0.0008685010252520442,
+          0.0008580809226259589,
+          0.0008531920611858368,
+          0.0008253200212493539,
+          0.0008442159742116928,
+          0.0008000030647963285,
+          0.0007832410046830773,
+          0.0007694349624216557,
+          0.0007282480364665389
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.001939441543072462,
+        "min": 0.0018704620888456702,
+        "max": 0.002228954923339188,
+        "samples": [
+          0.002228954923339188,
+          0.0020922491094097495,
+          0.0020898040384054184,
+          0.0020088120363652706,
+          0.0019395920680835843,
+          0.0018704620888456702,
+          0.0019369070651009679,
+          0.0019253150094300508,
+          0.0019392910180613399,
+          0.001889979001134634
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.003730189462658018,
+        "min": 0.003121861955150962,
+        "max": 0.004195036948658526,
+        "samples": [
+          0.003121861955150962,
+          0.004195036948658526,
+          0.0037906180368736386,
+          0.0037331099156290293,
+          0.003687734017148614,
+          0.0037993439473211765,
+          0.0037538789911195636,
+          0.003723221947439015,
+          0.0037272690096870065,
+          0.0036924839951097965
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.0006141224876046181,
+        "min": 0.0006051759701222181,
+        "max": 0.0006308439187705517,
+        "samples": [
+          0.0006308439187705517,
+          0.0006051759701222181,
+          0.0006275690393522382,
+          0.0006095049902796745,
+          0.0006231999723240733,
+          0.0006198029732331634,
+          0.0006093939300626516,
+          0.0006166870007291436,
+          0.0006101659964770079,
+          0.0006115579744800925
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 5.551115123125783e-17,
+          "max_relative_error_nonzero": 4.497034915526736e-16
+        },
+        "areas": {
+          "max_abs_error": 3.198396408832238e-18,
+          "max_relative_error_nonzero": 8.228598881685284e-15
+        },
+        "normals": {
+          "max_abs_error": 7.382983113757291e-15,
+          "max_relative_error_nonzero": 9.811430932894744e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 7.382983113757291e-15,
+          "max_relative_error_nonzero": 9.811430932894559e-13
+        },
+        "face_gravity": {
+          "max_abs_error": 4.547473508864641e-13,
+          "max_relative_error_nonzero": 1.1330421453962399e-15
+        },
+        "temperatures": {
+          "max_abs_error": 2.7284841053187847e-12,
+          "max_relative_error_nonzero": 4.041915786289615e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 2.2351741790771484e-07,
+          "max_relative_error_nonzero": 1.8957383610112256e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 3.3306690738754696e-16,
+          "max_relative_error_nonzero": 3.330669073875469e-16
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 8,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 576,
+      "output_bytes": 276552,
+      "staged_vertex_bridge_bytes_lower_bound": 147456,
+      "estimated_payload_bytes": 1236992,
+      "topology_setup_upload_seconds": 0.00100994692184031,
+      "initial_parameter_validation_upload_seconds": 0.0009181239875033498,
+      "fused_compile_first_seconds": 0.3259290140122175,
+      "staged_compile_first_including_download_seconds": 0.4715439750580117,
+      "original_cpu_first_seconds": 0.004860204993747175,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0006836035172455013,
+        "min": 0.0006737549556419253,
+        "max": 0.0007112360326573253,
+        "samples": [
+          0.0006831730715930462,
+          0.0006800770061090589,
+          0.0006877820705994964,
+          0.0006785140139982104,
+          0.0006737549556419253,
+          0.0007112360326573253,
+          0.000694955000653863,
+          0.0006813990185037255,
+          0.0006840339628979564,
+          0.000684986007399857
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0007439270266331732,
+        "min": 0.0007332070963457227,
+        "max": 0.0007853549905121326,
+        "samples": [
+          0.0007853549905121326,
+          0.0007790729869157076,
+          0.0007407509256154299,
+          0.000759085058234632,
+          0.0007361120078712702,
+          0.0007431160192936659,
+          0.0007614900823682547,
+          0.0007447380339726806,
+          0.0007372039835900068,
+          0.0007332070963457227
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0021831890335306525,
+        "min": 0.0021238980116322637,
+        "max": 0.0022538219345733523,
+        "samples": [
+          0.0022224329877644777,
+          0.002177909016609192,
+          0.0021734610199928284,
+          0.0022110119462013245,
+          0.0021589540410786867,
+          0.0021238980116322637,
+          0.002188469050452113,
+          0.002172288950532675,
+          0.002221331000328064,
+          0.0022538219345733523
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.0037605465040542185,
+        "min": 0.0037380289286375046,
+        "max": 0.0038222770672291517,
+        "samples": [
+          0.0037999249761924148,
+          0.0037807689514011145,
+          0.0038174480432644486,
+          0.0037380289286375046,
+          0.0037592879962176085,
+          0.0037549709668383002,
+          0.0037486490327864885,
+          0.003760431078262627,
+          0.00376066192984581,
+          0.0038222770672291517
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.00463680102257058,
+        "min": 0.004615505924448371,
+        "max": 0.004697490017861128,
+        "samples": [
+          0.004643850028514862,
+          0.004654258955270052,
+          0.004631856922060251,
+          0.004670969909057021,
+          0.004640122060663998,
+          0.004615505924448371,
+          0.004633479984477162,
+          0.004617159022018313,
+          0.004697490017861128,
+          0.004630865063518286
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 1.1102230246251565e-16,
+          "max_relative_error_nonzero": 8.158477405675233e-16
+        },
+        "areas": {
+          "max_abs_error": 5.5294310796760726e-18,
+          "max_relative_error_nonzero": 1.4822890332388285e-14
+        },
+        "normals": {
+          "max_abs_error": 1.6583956430338276e-14,
+          "max_relative_error_nonzero": 4.052902529878656e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 1.2878587085651816e-14,
+          "max_relative_error_nonzero": 6.573824501823598e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 1.4779288903810084e-12,
+          "max_relative_error_nonzero": 2.3540381607965995e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.080705479304028e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 9.5367431640625e-07,
+          "max_relative_error_nonzero": 2.5318363428553858e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 1.3322676295501878e-15,
+          "max_relative_error_nonzero": 1.332267629550189e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 32,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 2304,
+      "output_bytes": 1106208,
+      "staged_vertex_bridge_bytes_lower_bound": 589824,
+      "estimated_payload_bytes": 4947968,
+      "topology_setup_upload_seconds": 0.00100994692184031,
+      "initial_parameter_validation_upload_seconds": 0.0008933580247685313,
+      "fused_compile_first_seconds": 0.3434169719694182,
+      "staged_compile_first_including_download_seconds": 0.4604050100315362,
+      "original_cpu_first_seconds": 0.019352708011865616,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.000739764014724642,
+        "min": 0.0007289579370990396,
+        "max": 0.0007470430573448539,
+        "samples": [
+          0.0007466819370165467,
+          0.0007431549020111561,
+          0.0007371139945462346,
+          0.0007333570392802358,
+          0.0007424140349030495,
+          0.0007470430573448539,
+          0.0007368539227172732,
+          0.0007289579370990396,
+          0.0007463510846719146,
+          0.0007299600401893258
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0008572795195505023,
+        "min": 0.0008421819657087326,
+        "max": 0.0009312679758295417,
+        "samples": [
+          0.0009312679758295417,
+          0.0008760150521993637,
+          0.0008702039485797286,
+          0.000851829070597887,
+          0.000849546049721539,
+          0.0008421819657087326,
+          0.0008546750759705901,
+          0.0009176830062642694,
+          0.0008530010236427188,
+          0.0008598839631304145
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0021289819851517677,
+        "min": 0.002096135984174907,
+        "max": 0.0021608269307762384,
+        "samples": [
+          0.0021544649498537183,
+          0.002137464005500078,
+          0.0021228360710665584,
+          0.0021245089592412114,
+          0.002140530035831034,
+          0.002133455011062324,
+          0.0021608269307762384,
+          0.0021231869468465447,
+          0.0021234970772638917,
+          0.002096135984174907
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.0035788199747912586,
+        "min": 0.0033034620573744178,
+        "max": 0.0042923500295728445,
+        "samples": [
+          0.003356733010150492,
+          0.0033034620573744178,
+          0.003340743016451597,
+          0.0033351730089634657,
+          0.0033922899747267365,
+          0.0042923500295728445,
+          0.004024947062134743,
+          0.0038399400655180216,
+          0.0037653499748557806,
+          0.003838357049971819
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.018056229397188872,
+        "min": 0.01800227293279022,
+        "max": 0.01818730100058019,
+        "samples": [
+          0.01818730100058019,
+          0.01800227293279022,
+          0.01805371989030391,
+          0.018009095918387175,
+          0.018014926929026842,
+          0.0180999570293352,
+          0.01806735503487289,
+          0.018082743976265192,
+          0.01804841891862452,
+          0.018058738904073834
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 7.496854782432546e-16
+        },
+        "areas": {
+          "max_abs_error": 5.204170427930421e-18,
+          "max_relative_error_nonzero": 1.4265626637160278e-14
+        },
+        "normals": {
+          "max_abs_error": 1.6583956430338276e-14,
+          "max_relative_error_nonzero": 3.7607839565446986e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 1.3322676295501878e-14,
+          "max_relative_error_nonzero": 1.6669092721131678e-11
+        },
+        "face_gravity": {
+          "max_abs_error": 2.1600499167107046e-12,
+          "max_relative_error_nonzero": 3.4068219888977156e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.585325221026453e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 9.5367431640625e-07,
+          "max_relative_error_nonzero": 2.7113722034988313e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 1.4432899320127035e-15,
+          "max_relative_error_nonzero": 1.4432899320127023e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 128,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 9216,
+      "output_bytes": 4424832,
+      "staged_vertex_bridge_bytes_lower_bound": 2359296,
+      "estimated_payload_bytes": 19791872,
+      "topology_setup_upload_seconds": 0.00100994692184031,
+      "initial_parameter_validation_upload_seconds": 0.0008892801124602556,
+      "fused_compile_first_seconds": 0.46992959501221776,
+      "staged_compile_first_including_download_seconds": 0.48079508799128234,
+      "original_cpu_first_seconds": 0.07402549800463021,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0011446994612924755,
+        "min": 0.0011387980775907636,
+        "max": 0.0011576840188354254,
+        "samples": [
+          0.001145019894465804,
+          0.0011400310322642326,
+          0.0011475650826469064,
+          0.0011413129977881908,
+          0.001146413036622107,
+          0.001145159942097962,
+          0.0011443790281191468,
+          0.0011399199720472097,
+          0.0011387980775907636,
+          0.0011576840188354254
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0013475959422066808,
+        "min": 0.0013316799886524677,
+        "max": 0.0015317460056394339,
+        "samples": [
+          0.0015317460056394339,
+          0.0014924620045349002,
+          0.0013405469944700599,
+          0.0013565969420596957,
+          0.0013444549404084682,
+          0.0013573190663009882,
+          0.0013507369440048933,
+          0.0013316799886524677,
+          0.0013418500311672688,
+          0.001331730978563428
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0031421499443240464,
+        "min": 0.0031145879765972495,
+        "max": 0.003265992971137166,
+        "samples": [
+          0.0032300249440595508,
+          0.0031969830160960555,
+          0.003119227010756731,
+          0.0031517479801550508,
+          0.003125317976810038,
+          0.003132551908493042,
+          0.0031734289368614554,
+          0.003265992971137166,
+          0.0031145879765972495,
+          0.0031160309445112944
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.004203052027150989,
+        "min": 0.004178425995633006,
+        "max": 0.004445106023922563,
+        "samples": [
+          0.004445106023922563,
+          0.004232067032717168,
+          0.004231936065480113,
+          0.004191320040263236,
+          0.004178425995633006,
+          0.004199395072646439,
+          0.0042048050090670586,
+          0.004201299045234919,
+          0.004216697998344898,
+          0.004187572980299592
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.07287554402137175,
+        "min": 0.07266620604787022,
+        "max": 0.07317531201988459,
+        "samples": [
+          0.07306333095766604,
+          0.07287129096221179,
+          0.07279611006379128,
+          0.07300862902775407,
+          0.07266620604787022,
+          0.07317531201988459,
+          0.07287979708053172,
+          0.07282609597314149,
+          0.0730743519961834,
+          0.07280276110395789
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 1.1102230246251565e-16,
+          "max_relative_error_nonzero": 8.835878882380469e-16
+        },
+        "areas": {
+          "max_abs_error": 5.692061405548898e-18,
+          "max_relative_error_nonzero": 1.7129310861080878e-14
+        },
+        "normals": {
+          "max_abs_error": 2.4397150966137815e-14,
+          "max_relative_error_nonzero": 5.929522297534244e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 1.9872992140790302e-14,
+          "max_relative_error_nonzero": 1.8950378285552775e-10
+        },
+        "face_gravity": {
+          "max_abs_error": 2.6147972675971687e-12,
+          "max_relative_error_nonzero": 3.943621006632748e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.857719356249691e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 9.5367431640625e-07,
+          "max_relative_error_nonzero": 2.883860832684831e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 1.2212453270876722e-15,
+          "max_relative_error_nonzero": 1.2212453270876714e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 512,
+      "thermal": true,
+      "vertices": 256,
+      "faces": 508,
+      "shared_topology_bytes": 10192,
+      "proposal_input_bytes": 36864,
+      "output_bytes": 17699328,
+      "staged_vertex_bridge_bytes_lower_bound": 9437184,
+      "estimated_payload_bytes": 79167488,
+      "topology_setup_upload_seconds": 0.00100994692184031,
+      "initial_parameter_validation_upload_seconds": 0.0008512890199199319,
+      "fused_compile_first_seconds": 0.35705317999236286,
+      "staged_compile_first_including_download_seconds": 0.5972333780955523,
+      "original_cpu_first_seconds": 0.2964205510215834,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0029909510631114244,
+        "min": 0.002983140992000699,
+        "max": 0.0029985809233039618,
+        "samples": [
+          0.0029985809233039618,
+          0.002984664053656161,
+          0.0029931499157100916,
+          0.002990886103361845,
+          0.002991016022861004,
+          0.002983140992000699,
+          0.00299506401643157,
+          0.0029894430190324783,
+          0.002989433007314801,
+          0.002997959963977337
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.007964128977619112,
+        "min": 0.00373784895054996,
+        "max": 0.010391813004389405,
+        "samples": [
+          0.005842710961587727,
+          0.010391813004389405,
+          0.004069201066158712,
+          0.010384609922766685,
+          0.004111890913918614,
+          0.010280414018779993,
+          0.003929357975721359,
+          0.01009560702368617,
+          0.00373784895054996,
+          0.010085546993650496
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.00697551853954792,
+        "min": 0.006779018905945122,
+        "max": 0.007498239981941879,
+        "samples": [
+          0.007498239981941879,
+          0.007002418045885861,
+          0.007173019112087786,
+          0.0069813490845263,
+          0.00692849000915885,
+          0.00696968799456954,
+          0.0069114279467612505,
+          0.006779018905945122,
+          0.007018248084932566,
+          0.006803434924222529
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.016007792961318046,
+        "min": 0.015571327996440232,
+        "max": 0.01652530999854207,
+        "samples": [
+          0.015990765998139977,
+          0.015571327996440232,
+          0.01577094302047044,
+          0.01634408999234438,
+          0.016024819924496114,
+          0.015817790990695357,
+          0.016038625966757536,
+          0.01594292593654245,
+          0.01652530999854207,
+          0.01645126100629568
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.29671411897288635,
+        "min": 0.296133583993651,
+        "max": 0.29960022401064634,
+        "samples": [
+          0.29806525993626565,
+          0.29684317496139556,
+          0.2963994420133531,
+          0.2976310550002381,
+          0.296133583993651,
+          0.29646215098910034,
+          0.29960022401064634,
+          0.2989716539159417,
+          0.2964288790244609,
+          0.29658506298437715
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 1.1102230246251565e-16,
+          "max_relative_error_nonzero": 9.901105773333608e-16
+        },
+        "areas": {
+          "max_abs_error": 6.288372600415926e-18,
+          "max_relative_error_nonzero": 1.9758926896653444e-14
+        },
+        "normals": {
+          "max_abs_error": 2.2370993946196904e-14,
+          "max_relative_error_nonzero": 6.994896248041241e-12
+        },
+        "los_cosines": {
+          "max_abs_error": 1.5758228055773316e-14,
+          "max_relative_error_nonzero": 3.4168329252325834e-10
+        },
+        "face_gravity": {
+          "max_abs_error": 2.8421709430404007e-12,
+          "max_relative_error_nonzero": 5.018984954436775e-15
+        },
+        "temperatures": {
+          "max_abs_error": 7.275957614183426e-12,
+          "max_relative_error_nonzero": 8.597373212672356e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 1.1324882507324219e-06,
+          "max_relative_error_nonzero": 3.278618889259035e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 1.3322676295501878e-15,
+          "max_relative_error_nonzero": 1.332267629550189e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    }
+  ]
+}

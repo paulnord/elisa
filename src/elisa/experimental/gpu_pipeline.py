@@ -1,8 +1,9 @@
 """Device-resident changing Roche rays, triangle geometry and effective gravity.
 
 This composes the tested physics primitives without intermediate host copies.
-It does not supply candidate-dependent topology, mesh correction, occultation,
-temperature or flux. No stale brightness/coverage template is accepted here.
+Optional intrinsic temperatures are recomputed from changing gravity/areas.
+It does not supply candidate-dependent topology, mesh correction or occultation.
+No stale brightness/coverage template is accepted here.
 """
 
 # ruff: noqa: SLF001 - package-internal composition of device kernels

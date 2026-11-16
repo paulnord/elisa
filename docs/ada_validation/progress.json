@@ -1,38 +1,98 @@
 {
-  "updated_utc": "2026-11-16T22:00:46.876148+00:00",
+  "updated_utc": "2026-11-16T22:17:16.273566+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "11452e242110bcad00bf8a742edd73d1275005486e1cce4e735a21d7fea7d914",
-  "stage": "GPU validated: resident geometry/gravity and intrinsic temperatures; thermal benchmark next",
-  "current_cpu_suite": {
-    "tests": 112,
-    "failures": 0,
-    "errors": 0,
-    "skipped": 41
-  },
-  "current_thermal_and_rounding_targeted_cpu": {
-    "tests": 28,
-    "failures": 0,
-    "errors": 0,
-    "skipped": 13
-  },
+  "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
+  "code_state_hash_method": "SHA256 of source-hashes.json parsed then compact JSON sorted by key",
+  "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
   "last_gpu_suite": {
-    "tests": 112,
+    "tests": 130,
     "failures": 0,
     "errors": 0,
     "skipped": 0
   },
-  "last_gpu_suite_is_current_source": true,
-  "last_gpu_notes": "112 passed; no skips, including actual Roche surfaces, eclipse fixtures, large-batch stage-rounding regression, intrinsic temperatures and strict GPU transfer guards.",
-  "benchmark_status": "Geometry/gravity CPU and GPU bounded benchmarks passed all rows 1,8,32,128,512 for both stars, 256 directions, 508 faces, 10 warm repeats. Thermal GPU performance not yet measured.",
+  "last_gpu_suite_is_current_physics_source": true,
+  "cpu_only_suite_before_two_added_test_pairs": {
+    "tests": 126,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 47
+  },
+  "current_targeted_blackbody_cpu": {
+    "tests": 18,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 8
+  },
+  "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
   "production": {
-    "state": "restored_and_advancing",
-    "job": "j00875",
-    "saved_cursor": 949153360,
-    "verified_cursor": 949196368,
-    "verified_utc": "2026-11-16T21:58:00.863961+00:00",
+    "window": "05",
+    "status": "restored_and_advancing",
+    "job": "j00878",
+    "saved_cursor": 961144656,
+    "verified_cursor": 961189712,
+    "durable_cells_before": 1094499895,
+    "durable_cells_after": 1094544951,
+    "verified_utc": "2026-11-16T22:16:01.559530+00:00",
     "config_and_plan_unchanged": true
   },
+  "production_windows": [
+    {
+      "window": "01",
+      "status": "restored_and_advancing",
+      "job": "j00872",
+      "saved_cursor": 935771216,
+      "verified_cursor": 935814224,
+      "durable_cells_before": 1085903671,
+      "durable_cells_after": 1085946679,
+      "verified_utc": "2026-11-16T21:37:06.623535+00:00",
+      "config_and_plan_unchanged": true
+    },
+    {
+      "window": "02",
+      "status": "restored_and_advancing",
+      "job": "j00875",
+      "saved_cursor": 949153360,
+      "verified_cursor": 949196368,
+      "durable_cells_before": 1090897207,
+      "durable_cells_after": 1090940215,
+      "verified_utc": "2026-11-16T21:58:00.863961+00:00",
+      "config_and_plan_unchanged": true
+    },
+    {
+      "window": "03",
+      "status": "restored_and_advancing",
+      "job": "j00878",
+      "saved_cursor": 958551888,
+      "verified_cursor": 958582608,
+      "durable_cells_before": 1091907127,
+      "durable_cells_after": 1091937847,
+      "verified_utc": "2026-11-16T22:02:55.623435+00:00",
+      "config_and_plan_unchanged": true
+    },
+    {
+      "window": "04",
+      "status": "restored_and_advancing",
+      "job": "j00878",
+      "saved_cursor": 960642896,
+      "verified_cursor": 960687952,
+      "durable_cells_before": 1093998135,
+      "durable_cells_after": 1094043191,
+      "verified_utc": "2026-11-16T22:13:27.374516+00:00",
+      "config_and_plan_unchanged": true
+    },
+    {
+      "window": "05",
+      "status": "restored_and_advancing",
+      "job": "j00878",
+      "saved_cursor": 961144656,
+      "verified_cursor": 961189712,
+      "durable_cells_before": 1094499895,
+      "durable_cells_after": 1094544951,
+      "verified_utc": "2026-11-16T22:16:01.559530+00:00",
+      "config_and_plan_unchanged": true
+    }
+  ],
   "hardware": {
     "gpu": "NVIDIA GeForce RTX 3080 Ti",
     "vram_mib": 12288,
@@ -41,5 +101,5 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Fixed supplied topology changing Roche geometry/gravity and intrinsic gravity-darkened temperature. No mesh correction, irradiation, atmosphere/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
+  "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
 }

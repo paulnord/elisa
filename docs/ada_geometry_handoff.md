@@ -42,7 +42,7 @@ Allow five minutes for this focused validation, not an open-ended performance
 study. Restore and verify production according to the explicitly approved
 window's plan even if a test fails. No speedup is claimed by this stage.
 
-## Not yet implemented
+## Scope of the original geometry commit
 
 Complete candidate-specific angular grid/topology and mesh corrections, changing
 eclipse coverage, gravity/temperature/reflection/atmosphere/limb-darkening state,
@@ -103,3 +103,24 @@ needed. Report both the original CPU helpers and the batched JAX CPU baseline;
 compare matching full result downloads, not just the resident GPU lower bound.
 The current session explicitly authorizes checkpointed Fifth42 pauses as needed;
 this document alone grants no production authority in another session.
+
+## Intrinsic temperature and passband follow-ons
+
+The development branch adds `gpu_thermal.py` and `gpu_blackbody.py`, including
+tests against the existing CPU temperature and Planck/passband functions.
+Include both test modules in the full experimental suite. Confirm that all GPU
+cases run and that strict device-transfer guards pass. Keep every original
+tolerance and report unsupported masks, build-stage limitations, transfer costs
+and production restoration.
+
+The intrinsic-temperature benchmark uses `--thermal`. The spectral benchmark
+uses `--blackbody --directions 64 --rows 1 8 32 128 --repeats 5` on CPU and GPU.
+The latter recomputes fresh B, V and bolometric emission from every proposal;
+it does not reuse a fixed brightness template. Keep both within a separately
+bounded five-minute window, and verify Fifth42 durable advancement afterward.
+
+These additions retain fixed supplied topology and an uncorrected ray mesh.
+Complete candidate-dependent mesh correction, irradiation/reflection,
+atmosphere-table/LD updates, changing eclipse coverage and whole light-curve
+validation remain unfinished. Surface emission is not observed light.
+See [current Ada progress and evidence](ada_progress.md).

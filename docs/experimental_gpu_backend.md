@@ -279,8 +279,9 @@ batch = pipeline.prepare(q, spin, potential, primary_mass_kg, sma_m, azimuth, in
 result = batch.evaluate()  # nested device arrays: rays, geometry, gravity, validity
 ```
 
-Topology remains supplied and fixed. No mesh correction, eclipse clipping,
-temperature/reflection, radiance or flux is produced. The pipeline intentionally
+Topology remains supplied and fixed. The base call produces geometry/gravity;
+optional fresh temperatures and passband emission are described below.
+No mesh correction, eclipse clipping or reflection is applied. The pipeline intentionally
 does not attach stale brightness or coverage to changing geometry. Areas are
 in SMA squared; gravity is in m/s squared. These ray-mesh quantities are not the
 final corrected/cached state of a CPU ELISa container. Invalid/unsupported
@@ -297,3 +298,74 @@ The strict `disallow_explicit` transfer guard checks repeated resident work.
 Performance on these fixed-direction changing proposals is not whole-model,
 MCMC or effective-sample performance. The l3/ln_f-only pilot should continue to
 cache its fixed physical curve rather than repeatedly synthesize it.
+
+## Intrinsic gravity-darkened temperatures
+
+`RocheGeometryPipeline.prepare_thermal` accepts the same seven physical arrays,
+then intrinsic `t_eff` and gravity-darkening exponent `beta` (in `[0,1]`). Its
+device result adds `thermal.temperatures` (K), `thermal.surface_flux` (emitted
+bolometric W/m²), a luminosity closure ratio and unsupported-state masks.
+`gpu_thermal.GravityDarkeningTemperature` also exposes this primitive separately.
+
+The unspotted CPU law is
+
+```
+T_face = T_eff * (sum(A)/sum(A*g**beta))**0.25 * g**(beta/4)
+```
+
+The CPU polar-reference gravity cancels algebraically. The implementation scales
+area/gravity by row maxima for numerical stability; it preserves the formula.
+All supplied faces must have finite positive gravity and area. Invalid faces
+invalidate stellar normalization explicitly. No implicit zero emission or
+physical-prior rejection is substituted. Tests cover real CPU containers with
+reflection disabled, the original CPU temperature function, scaling invariance,
+beta zero, and independent energy closure using the returned temperatures.
+
+Pipeline temperatures refer to the supplied **uncorrected ray mesh**. Production
+ELISa's corrected areas/build-stage state still require a separate mesh-correction
+implementation and validation. There is no irradiation, reflection, spot model,
+atmosphere-table interpolation or changing limb-darkening state in this law.
+Use `--thermal` on the bounded pipeline benchmark for its timings and CPU oracle.
+
+## Blackbody passband surface emission
+
+`gpu_blackbody.BlackbodyPassbandFlux` computes continuous-temperature Planck
+quadrature on ELISa's actual Bessell/bolometric (or supplied) passband grids.
+Construction snapshots each fixed response, reproduces the CPU standard/uniform
+wavelength union and Simpson endpoint convention, and uploads fixed quadrature
+weights once. Negative response boundary overshoot is clipped as in the CPU.
+There is no whole-kelvin temperature rounding or interpolation table.
+
+The device streams wavelength chunks (default 32), avoiding a full
+`proposals*faces*all_wavelengths` temporary. Bound proposal/face counts explicitly;
+this algorithm does not impose an allocator peak bound. Up to eight passbands,
+4096 samples per band and 16384 combined samples are supported. Unsupported
+configurations fail explicitly. Invalid temperatures/numeric fluxes produce NaN
+and masks, never a valid zero-brightness proposal.
+
+```python
+from elisa import Observer
+from elisa.experimental.gpu_blackbody import RocheBlackbodyPipeline
+
+bands = Observer(passband=["Generic.Bessell.B", "Generic.Bessell.V", "bolometric"]).passband
+emission = RocheBlackbodyPipeline(pipeline, bands)
+batch = emission.prepare(q, spin, potential, primary_mass_kg, sma_m,
+                         azimuth, inclination, t_eff, beta)
+result = batch.evaluate()  # all changing physics remains on the selected device
+band_flux = result["blackbody"]["surface_flux"]  # proposals, bands, faces; W/m²
+```
+
+These are hemispheric **emitted surface fluxes**, including the CPU's pi and
+Angstrom-to-meter conversion. They precede optical-depth/limb correction,
+projected-area integration, occultation and observer-distance scaling. The finite
+bolometric grid retains the existing CPU quadrature/truncation error; it is not
+replaced by sigma*T⁴. This does not support atmosphere tables or full light curves.
+Tests compare with `NaiveInterpolatedAtm.black_body_radiance`, retain tiny
+temperature changes, check the independent Planck energy integral, and use strict
+GPU transfer guards over the full resident Roche-to-emission chain.
+
+Run `scripts/benchmark_gpu_pipeline.py --device cpu --blackbody --directions 64
+--rows 1 8 32 128 --repeats 5` and the corresponding GPU command in the bounded
+authorized window. Larger spectral grids/reference batches can consume substantial
+CPU memory; defaults for the geometry benchmark need not suit spectral workloads.
+See [Ada progress](ada_progress.md) for measured results and tested fingerprints.

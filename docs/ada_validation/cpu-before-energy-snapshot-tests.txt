@@ -1,0 +1,29 @@
+.s.s.s.s.s.s...s.s.s.s.s.s.s.s.............s....s..s.s..s..s.s..s.s.s.s. [ 57%]
+s.s..s.s.s.s....ss..ss.......ssss..ss.s.....s.s.s.s.s.                   [100%]
+=============================== warnings summary ===============================
+tests/tests_experimental/test_gpu_blackbody.py::test_real_cpu_blackbody_passbands[1-cpu]
+tests/tests_experimental/test_gpu_blackbody.py::test_real_cpu_blackbody_passbands[32-cpu]
+tests/tests_experimental/test_gpu_blackbody.py::test_real_cpu_blackbody_passbands[128-cpu]
+  /home/pnord/elisa-resident-dev-20261116T212230Z/repo/src/elisa/atm/atm.py:1991: RuntimeWarning: overflow encountered in exp
+    return h / (np.exp(e) - 1.0)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [4] tests/tests_experimental/test_gpu_blackbody.py:30: Requested hardware unavailable
+SKIPPED [13] tests/tests_experimental/test_gpu_pipeline.py:21: Requested hardware unavailable
+SKIPPED [8] tests/tests_experimental/test_gpu_gravity.py:19: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_likelihood.py:175: No GPU available: real GPU execution not validated
+SKIPPED [1] tests/tests_experimental/test_gpu_mesh.py:23: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_mesh.py:96: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_mesh.py:151: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_mesh.py:174: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_mesh.py:192: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_pipeline.py:198: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_roche.py:24: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_roche.py:102: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_roche.py:129: Requested hardware unavailable
+SKIPPED [3] tests/tests_experimental/test_gpu_surface.py:45: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_surface.py:107: No GPU hardware available
+SKIPPED [2] tests/tests_experimental/test_gpu_surface.py:121: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_surface.py:137: Requested hardware unavailable
+79 passed, 47 skipped, 3 warnings in 20.32s

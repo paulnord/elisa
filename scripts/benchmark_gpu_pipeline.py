@@ -1,7 +1,7 @@
 """Bounded changing Roche geometry/gravity benchmark, including result downloads.
 
 Fixed directions/connectivity, changing physical proposal rows. This does not
-benchmark full ELISa synthesis, changing eclipses, flux, MCMC or ESS. Cold setup,
+benchmark full ELISa synthesis, changing eclipses, observed light, MCMC or ESS. Cold setup,
 compilation, warm resident work and host-inclusive calls are reported separately.
 """
 
@@ -20,12 +20,14 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 from elisa import const, utils
+from elisa.atm.atm import NaiveInterpolatedAtm
 from elisa.base.surface.faces import calculate_normals, calculate_surface_centres
 from elisa.base.surface.temperature import calculate_effective_temperatures
 from elisa.binary_system import model
 from elisa.binary_system.surface.gravity import calculate_potential_gradient
 from elisa.binary_system.surface.mesh import get_surface_points
 from elisa.const import Position
+from elisa.experimental.gpu_blackbody import BlackbodyPassbandFlux, RocheBlackbodyPipeline
 from elisa.experimental.gpu_gravity import RocheSurfaceGravity
 from elisa.experimental.gpu_mesh import TriangleGeometry
 from elisa.experimental.gpu_pipeline import RocheGeometryPipeline
@@ -73,6 +75,8 @@ def outputs(result: dict[str, Any]) -> dict[str, np.ndarray]:
     }
     if "thermal" in result:
         values.update({key: result["thermal"][key] for key in ["temperatures", "surface_flux", "luminosity_ratio"]})
+    if "blackbody" in result:
+        values["blackbody_flux"] = result["blackbody"]["surface_flux"]
     return {key: np.asarray(value) for key, value in values.items()}
 
 
@@ -82,6 +86,7 @@ def cpu_reference(
     theta: np.ndarray,
     faces: np.ndarray,
     params: tuple[np.ndarray, ...],
+    passbands: Any = None,
 ) -> dict[str, np.ndarray]:
     """Run original ELISa Newton mesh and CPU geometry/gravity helpers per row."""
     q, spin, potential, mass, axis, az, inc = params[:7]
@@ -139,6 +144,10 @@ def cpu_reference(
         np.column_stack([np.isfinite(value).reshape(len(q), -1).all(axis=1) for value in result.values()]),
         axis=1,
     )
+    if passbands is not None:
+        t = result["temperatures"]
+        flux = NaiveInterpolatedAtm.black_body_radiance(t.ravel(), passband=passbands)
+        result["blackbody_flux"] = np.stack([flux[name].reshape(t.shape) for name in passbands], axis=1)
     return result
 
 
@@ -180,6 +189,7 @@ def compare(actual: dict[str, np.ndarray], expected: dict[str, np.ndarray], *, c
         "temperatures": 0.0,
         "surface_flux": 0.0,
         "luminosity_ratio": 0.0,
+        "blackbody_flux": 0.0,
     }
     for key, reference in expected.items():
         if key == "proposal_valid":
@@ -187,7 +197,7 @@ def compare(actual: dict[str, np.ndarray], expected: dict[str, np.ndarray], *, c
                 msg = "Unsupported or inconsistent proposal in benchmark"
                 raise ValueError(msg)
             continue
-        thermal = key in ["temperatures", "surface_flux", "luminosity_ratio"]
+        thermal = key in ["temperatures", "surface_flux", "luminosity_ratio", "blackbody_flux"]
         np.testing.assert_allclose(
             actual[key],
             reference,
@@ -215,7 +225,11 @@ def main() -> None:  # noqa: C901, PLR0915 - explicit sequential measurements
     parser.add_argument("--repeats", type=int, default=10)
     parser.add_argument("--max-payload-mib", type=float, default=256)
     parser.add_argument("--thermal", action="store_true", help="Include fresh intrinsic gravity-darkened temperatures")
+    parser.add_argument("--blackbody", action="store_true", help="Include fresh ELISa blackbody passband surface flux")
+    parser.add_argument("--spectral-chunk", type=int, default=32)
+    parser.add_argument("--passbands", nargs="+", default=["Generic.Bessell.B", "Generic.Bessell.V", "bolometric"])
     args = parser.parse_args()
+    args.thermal = args.thermal or args.blackbody
     if not np.isfinite(args.max_payload_mib) or args.max_payload_mib <= 0:
         parser.error("Payload budget must be positive and finite")
     if not _MIN_DIRECTIONS <= args.directions <= _MAX_DIRECTIONS:
@@ -224,20 +238,35 @@ def main() -> None:  # noqa: C901, PLR0915 - explicit sequential measurements
         parser.error("Rows must be in [1,4096], repeats in [1,100]")
     import jax  # noqa: PLC0415 - optional dependency
 
+    passbands = None
+    if args.blackbody:
+        from elisa import Observer  # noqa: PLC0415 - optional physics stage
+
+        passbands = Observer(passband=args.passbands).passband
     phi, theta, faces = directions(args.directions)
     records = []
     for component in args.components:
         started = time.perf_counter()
-        pipeline = RocheGeometryPipeline(component, phi, theta, faces, device=args.device).block_until_ready()
+        pipeline = RocheGeometryPipeline(component, phi, theta, faces, device=args.device)
+        if args.blackbody:
+            pipeline = RocheBlackbodyPipeline(pipeline, passbands, chunk_size=args.spectral_chunk)
+        pipeline.block_until_ready()
         topology_seconds = time.perf_counter() - started
         ray = RocheRaySolver(component, device=args.device)
         geometry, gravity = TriangleGeometry(device=args.device), RocheSurfaceGravity(component, device=args.device)
         temperature_kernel = GravityDarkeningTemperature(device=args.device)
-        prepare = pipeline.prepare_thermal if args.thermal else pipeline.prepare
+        blackbody_kernel = (
+            BlackbodyPassbandFlux(passbands, device=args.device, chunk_size=args.spectral_chunk)
+            if args.blackbody
+            else None
+        )
+        prepare = pipeline.prepare if args.blackbody or not args.thermal else pipeline.prepare_thermal
         com = 0.0 if component == "primary" else 1.0
         for rows in args.rows:
             # This is a payload estimate, NOT an allocator/compiler peak bound.
             estimate = rows * (args.directions * 12 + len(faces) * (32 if args.thermal else 24)) * 8
+            if args.blackbody:
+                estimate += rows * len(faces) * (3 * args.spectral_chunk + 3 * len(passbands)) * 8
             if estimate > args.max_payload_mib * 1024**2:
                 records.append(
                     {"component": component, "rows": rows, "skipped": "payload budget", "estimated_bytes": estimate},
@@ -265,6 +294,7 @@ def main() -> None:  # noqa: C901, PLR0915 - explicit sequential measurements
                 rows: int = rows,
                 com: float = com,
                 temperature_kernel: Any = temperature_kernel,
+                blackbody_kernel: Any = blackbody_kernel,
             ) -> dict[str, np.ndarray]:
                 q, spin, potential, mass, axis, az, inc = params[:7]
                 rays = ray(q, spin, potential, phi, theta)
@@ -278,6 +308,11 @@ def main() -> None:  # noqa: C901, PLR0915 - explicit sequential measurements
                 if len(params) == _THERMAL_PARAMETER_COUNT:
                     temperature = temperature_kernel(field["face_gravity"], mesh["areas"], *params[7:])
                     result.update(thermal=temperature, proposal_valid=valid & temperature["proposal_valid"])
+                    if blackbody_kernel is not None:
+                        emitted = blackbody_kernel(temperature["temperatures"])
+                        result.update(
+                            blackbody=emitted, proposal_valid=result["proposal_valid"] & emitted["proposal_valid"],
+                        )
                 return outputs(result)
 
             started = time.perf_counter()
@@ -285,7 +320,7 @@ def main() -> None:  # noqa: C901, PLR0915 - explicit sequential measurements
             cold_staged = time.perf_counter() - started
             staged_error = compare(fused_output, staged_output, cpu=False)
             started = time.perf_counter()
-            reference = cpu_reference(component, phi, theta, faces, params)
+            reference = cpu_reference(component, phi, theta, faces, params, passbands)
             cold_cpu = time.perf_counter() - started
             cpu_error = compare(fused_output, reference, cpu=True)
 
@@ -295,17 +330,23 @@ def main() -> None:  # noqa: C901, PLR0915 - explicit sequential measurements
             resident = time_call(lambda prepared=prepared: jax.block_until_ready(prepared.evaluate()), args.repeats)
             download = time_download(prepared, args.repeats, jax)
             inclusive = time_call(
-                lambda params=params, prepare=prepare: outputs(prepare(*params).evaluate()), args.repeats,
+                lambda params=params, prepare=prepare: outputs(prepare(*params).evaluate()),
+                args.repeats,
             )
             bridge = time_call(staged, args.repeats)
             original = time_call(
-                lambda params=params, component=component: cpu_reference(component, phi, theta, faces, params),
+                lambda params=params, component=component: cpu_reference(
+                    component, phi, theta, faces, params, passbands,
+                ),
                 args.repeats,
             )
             record = {
                 "component": component,
                 "rows": rows,
                 "thermal": args.thermal,
+                "blackbody": args.blackbody,
+                "passbands": list(passbands) if passbands else [],
+                "shared_quadrature_bytes": pipeline.quadrature_nbytes if args.blackbody else 0,
                 "vertices": args.directions,
                 "faces": len(faces),
                 "shared_topology_bytes": pipeline.topology_nbytes,
@@ -343,12 +384,15 @@ def main() -> None:  # noqa: C901, PLR0915 - explicit sequential measurements
                 "directions": args.directions,
                 "repeats": args.repeats,
                 "thermal": args.thermal,
+                "blackbody": args.blackbody,
+                "spectral_chunk": args.spectral_chunk if args.blackbody else None,
                 "thread_environment": {
                     k: os.environ.get(k) for k in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS")
                 },
                 "result_contract": (
                     "radii, face areas/normals/LOS cosines, face SI gravity, proposal validity; "
-                    "plus temperatures/emitted surface flux/energy closure when thermal=true"
+                    "plus temperatures/emitted surface flux/energy closure when thermal=true; "
+                    "plus emitted passband surface flux when blackbody=true"
                 ),
                 "caveat": (
                     "Resident timing is a lower bound. Full paths include identical output downloads; "

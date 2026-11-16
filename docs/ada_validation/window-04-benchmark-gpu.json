@@ -1,0 +1,1310 @@
+{
+  "scope": "Changing q/spin/potential fixed-direction Roche geometry/gravity; optional intrinsic temperature. No observed light, coverage or MCMC.",
+  "device": "cuda:0",
+  "device_kind": "NVIDIA GeForce RTX 3080 Ti",
+  "dtype": "float64",
+  "jax": "0.12.0.1",
+  "python": "3.12.4",
+  "directions": 64,
+  "repeats": 5,
+  "thermal": true,
+  "blackbody": true,
+  "spectral_chunk": 32,
+  "thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "result_contract": "radii, face areas/normals/LOS cosines, face SI gravity, proposal validity; plus temperatures/emitted surface flux/energy closure when thermal=true; plus emitted passband surface flux when blackbody=true",
+  "caveat": "Resident timing is a lower bound. Full paths include identical output downloads; compilation is separate. CPU helpers use original Newton and NumPy physics; device retains additional unsupported-state guards. No candidate-dependent topology/mesh correction, irradiation/atmosphere update, eclipse or whole-model speedup claim.",
+  "results": [
+    {
+      "component": "primary",
+      "rows": 1,
+      "thermal": true,
+      "blackbody": true,
+      "passbands": [
+        "Generic.Bessell.B",
+        "Generic.Bessell.V",
+        "bolometric"
+      ],
+      "shared_quadrature_bytes": 110080,
+      "vertices": 64,
+      "faces": 124,
+      "shared_topology_bytes": 2512,
+      "proposal_input_bytes": 72,
+      "output_bytes": 11433,
+      "staged_vertex_bridge_bytes_lower_bound": 4608,
+      "estimated_payload_bytes": 142048,
+      "topology_setup_upload_seconds": 0.39161162404343486,
+      "initial_parameter_validation_upload_seconds": 0.003873327048495412,
+      "fused_compile_first_seconds": 0.6905143629992381,
+      "staged_compile_first_including_download_seconds": 0.5737503439886495,
+      "original_cpu_first_seconds": 0.01681345805991441,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.001546354964375496,
+        "min": 0.0015352540649473667,
+        "max": 0.0015712919412180781,
+        "samples": [
+          0.001546354964375496,
+          0.0015712919412180781,
+          0.0015411949716508389,
+          0.0015481180744245648,
+          0.0015352540649473667
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0008874780032783747,
+        "min": 0.0008813260355964303,
+        "max": 0.000945757026784122,
+        "samples": [
+          0.000945757026784122,
+          0.0009201989741995931,
+          0.0008813260355964303,
+          0.0008814460597932339,
+          0.0008874780032783747
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.003072272054851055,
+        "min": 0.0030305340187624097,
+        "max": 0.003193920012563467,
+        "samples": [
+          0.003052565036341548,
+          0.0031732319621369243,
+          0.0030305340187624097,
+          0.003193920012563467,
+          0.003072272054851055
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.004474116023629904,
+        "min": 0.004418271011672914,
+        "max": 0.004558954969979823,
+        "samples": [
+          0.004452504916116595,
+          0.0044824909418821335,
+          0.004418271011672914,
+          0.004474116023629904,
+          0.004558954969979823
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.014203033992089331,
+        "min": 0.014199597062543035,
+        "max": 0.014223161968402565,
+        "samples": [
+          0.014202213031239808,
+          0.014203033992089331,
+          0.014223161968402565,
+          0.01420647103805095,
+          0.014199597062543035
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "blackbody_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 5.551115123125783e-17,
+          "max_relative_error_nonzero": 5.406851599404296e-16
+        },
+        "areas": {
+          "max_abs_error": 8.673617379884035e-19,
+          "max_relative_error_nonzero": 8.593208035612109e-16
+        },
+        "normals": {
+          "max_abs_error": 1.5005358067199381e-15,
+          "max_relative_error_nonzero": 1.4519538679297867e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 1.2212453270876722e-15,
+          "max_relative_error_nonzero": 8.149070874282226e-14
+        },
+        "face_gravity": {
+          "max_abs_error": 2.8421709430404007e-13,
+          "max_relative_error_nonzero": 6.106595203278691e-16
+        },
+        "temperatures": {
+          "max_abs_error": 1.8189894035458565e-12,
+          "max_relative_error_nonzero": 2.696111350167769e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 1.341104507446289e-07,
+          "max_relative_error_nonzero": 1.1395849822113151e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 2.220446049250313e-16,
+          "max_relative_error_nonzero": 2.2204460492503126e-16
+        },
+        "blackbody_flux": {
+          "max_abs_error": 1.9371509552001953e-07,
+          "max_relative_error_nonzero": 1.6428039079332946e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 8,
+      "thermal": true,
+      "blackbody": true,
+      "passbands": [
+        "Generic.Bessell.B",
+        "Generic.Bessell.V",
+        "bolometric"
+      ],
+      "shared_quadrature_bytes": 110080,
+      "vertices": 64,
+      "faces": 124,
+      "shared_topology_bytes": 2512,
+      "proposal_input_bytes": 576,
+      "output_bytes": 91464,
+      "staged_vertex_bridge_bytes_lower_bound": 36864,
+      "estimated_payload_bytes": 1136384,
+      "topology_setup_upload_seconds": 0.39161162404343486,
+      "initial_parameter_validation_upload_seconds": 0.0008261220064014196,
+      "fused_compile_first_seconds": 0.6157478470122442,
+      "staged_compile_first_including_download_seconds": 0.6706053499365225,
+      "original_cpu_first_seconds": 0.12111316993832588,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.002216593944467604,
+        "min": 0.0022077980684116483,
+        "max": 0.0022770179202780128,
+        "samples": [
+          0.0022380950395017862,
+          0.002216593944467604,
+          0.0022077980684116483,
+          0.0022770179202780128,
+          0.0022148709977045655
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0009744309354573488,
+        "min": 0.0009014740353450179,
+        "max": 0.0010487899417057633,
+        "samples": [
+          0.0010487899417057633,
+          0.0010316480183973908,
+          0.0009014740353450179,
+          0.000901815015822649,
+          0.0009744309354573488
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.003973825019784272,
+        "min": 0.003820698009803891,
+        "max": 0.004021354950964451,
+        "samples": [
+          0.004021354950964451,
+          0.003928620018996298,
+          0.003985387971624732,
+          0.003973825019784272,
+          0.003820698009803891
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.005206722067669034,
+        "min": 0.0051176350098103285,
+        "max": 0.005229303962551057,
+        "samples": [
+          0.0052073129918426275,
+          0.005156898056156933,
+          0.005229303962551057,
+          0.005206722067669034,
+          0.0051176350098103285
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.12199969496577978,
+        "min": 0.12168143794406205,
+        "max": 0.1243257150053978,
+        "samples": [
+          0.12199597898870707,
+          0.12168143794406205,
+          0.1243257150053978,
+          0.12199969496577978,
+          0.12241976393852383
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "blackbody_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 6.772534771926977e-16
+        },
+        "areas": {
+          "max_abs_error": 1.734723475976807e-18,
+          "max_relative_error_nonzero": 1.169610020341189e-15
+        },
+        "normals": {
+          "max_abs_error": 1.7486012637846216e-15,
+          "max_relative_error_nonzero": 1.6336298048885215e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 1.915134717478395e-15,
+          "max_relative_error_nonzero": 1.1262577977953912e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 5.115907697472721e-13,
+          "max_relative_error_nonzero": 1.1580310077868324e-15
+        },
+        "temperatures": {
+          "max_abs_error": 3.637978807091713e-12,
+          "max_relative_error_nonzero": 4.351561065199278e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 5.960464477539062e-07,
+          "max_relative_error_nonzero": 1.9366478400273037e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 8.881784197001252e-16,
+          "max_relative_error_nonzero": 8.881784197001258e-16
+        },
+        "blackbody_flux": {
+          "max_abs_error": 7.152557373046875e-07,
+          "max_relative_error_nonzero": 3.07668854676791e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 32,
+      "thermal": true,
+      "blackbody": true,
+      "passbands": [
+        "Generic.Bessell.B",
+        "Generic.Bessell.V",
+        "bolometric"
+      ],
+      "shared_quadrature_bytes": 110080,
+      "vertices": 64,
+      "faces": 124,
+      "shared_topology_bytes": 2512,
+      "proposal_input_bytes": 2304,
+      "output_bytes": 365856,
+      "staged_vertex_bridge_bytes_lower_bound": 147456,
+      "estimated_payload_bytes": 4545536,
+      "topology_setup_upload_seconds": 0.39161162404343486,
+      "initial_parameter_validation_upload_seconds": 0.0011072700144723058,
+      "fused_compile_first_seconds": 0.6252731729764491,
+      "staged_compile_first_including_download_seconds": 0.6109976550797,
+      "original_cpu_first_seconds": 0.48199995094910264,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.004795268992893398,
+        "min": 0.00478066096547991,
+        "max": 0.004809867008589208,
+        "samples": [
+          0.004807341028936207,
+          0.004809867008589208,
+          0.004795268992893398,
+          0.00478066096547991,
+          0.0047922630328685045
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.001255247974768281,
+        "min": 0.0012380869593471289,
+        "max": 0.0014433719916269183,
+        "samples": [
+          0.0014433719916269183,
+          0.0012640139320865273,
+          0.0012432659277692437,
+          0.0012380869593471289,
+          0.001255247974768281
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0065668069291859865,
+        "min": 0.006554294028319418,
+        "max": 0.006631348980590701,
+        "samples": [
+          0.0065668069291859865,
+          0.006554294028319418,
+          0.006561929010786116,
+          0.006568179931491613,
+          0.006631348980590701
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.007815473014488816,
+        "min": 0.007773273973725736,
+        "max": 0.007925559068098664,
+        "samples": [
+          0.007913707988336682,
+          0.007925559068098664,
+          0.007807889021933079,
+          0.007815473014488816,
+          0.007773273973725736
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.4729244710179046,
+        "min": 0.47243884997442365,
+        "max": 0.47558230499271303,
+        "samples": [
+          0.4729244710179046,
+          0.47335121396463364,
+          0.47558230499271303,
+          0.47270483896136284,
+          0.47243884997442365
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "blackbody_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 6.713325837525267e-16
+        },
+        "areas": {
+          "max_abs_error": 2.168404344971009e-18,
+          "max_relative_error_nonzero": 1.5021315343124075e-15
+        },
+        "normals": {
+          "max_abs_error": 2.0539125955565396e-15,
+          "max_relative_error_nonzero": 2.2845075193253143e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 1.7763568394002505e-15,
+          "max_relative_error_nonzero": 8.424548921704097e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 5.115907697472721e-13,
+          "max_relative_error_nonzero": 1.1009864245581273e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.595161596463323e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 8.940696716308594e-07,
+          "max_relative_error_nonzero": 2.696455117611513e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 9.992007221626409e-16,
+          "max_relative_error_nonzero": 9.992007221626417e-16
+        },
+        "blackbody_flux": {
+          "max_abs_error": 8.344650268554688e-07,
+          "max_relative_error_nonzero": 4.423653116106733e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "primary",
+      "rows": 128,
+      "thermal": true,
+      "blackbody": true,
+      "passbands": [
+        "Generic.Bessell.B",
+        "Generic.Bessell.V",
+        "bolometric"
+      ],
+      "shared_quadrature_bytes": 110080,
+      "vertices": 64,
+      "faces": 124,
+      "shared_topology_bytes": 2512,
+      "proposal_input_bytes": 9216,
+      "output_bytes": 1463424,
+      "staged_vertex_bridge_bytes_lower_bound": 589824,
+      "estimated_payload_bytes": 18182144,
+      "topology_setup_upload_seconds": 0.39161162404343486,
+      "initial_parameter_validation_upload_seconds": 0.001064069103449583,
+      "fused_compile_first_seconds": 0.6455964179476723,
+      "staged_compile_first_including_download_seconds": 0.6392036579782143,
+      "original_cpu_first_seconds": 1.901690167025663,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.012052454054355621,
+        "min": 0.012045249924995005,
+        "max": 0.012060659006237984,
+        "samples": [
+          0.012060659006237984,
+          0.012052454054355621,
+          0.01204964704811573,
+          0.012060527922585607,
+          0.012045249924995005
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.001354765030555427,
+        "min": 0.0013019659090787172,
+        "max": 0.0013766069896519184,
+        "samples": [
+          0.0013766069896519184,
+          0.0013378739822655916,
+          0.0013760050060227513,
+          0.0013019659090787172,
+          0.001354765030555427
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.014204326085746288,
+        "min": 0.014171483926475048,
+        "max": 0.014227048959583044,
+        "samples": [
+          0.014171483926475048,
+          0.014210257912054658,
+          0.014227048959583044,
+          0.014204326085746288,
+          0.014175012009218335
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.014605189906433225,
+        "min": 0.014032984036020935,
+        "max": 0.015788401011377573,
+        "samples": [
+          0.015788401011377573,
+          0.015671242959797382,
+          0.014528896077536047,
+          0.014605189906433225,
+          0.014032984036020935
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 1.8635719070443884,
+        "min": 1.8570495860185474,
+        "max": 1.9027952610049397,
+        "samples": [
+          1.8570495860185474,
+          1.8984287809580564,
+          1.8635719070443884,
+          1.9027952610049397,
+          1.8631397420540452
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "blackbody_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 9.71445146547012e-17,
+          "max_relative_error_nonzero": 8.131065403721921e-16
+        },
+        "areas": {
+          "max_abs_error": 2.3852447794681098e-18,
+          "max_relative_error_nonzero": 1.5312709106181849e-15
+        },
+        "normals": {
+          "max_abs_error": 2.4494295480792516e-15,
+          "max_relative_error_nonzero": 2.5857015681539523e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 2.3592239273284576e-15,
+          "max_relative_error_nonzero": 2.646431623120699e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 5.684341886080801e-13,
+          "max_relative_error_nonzero": 1.2061787803189807e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.145502118659625e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 8.940696716308594e-07,
+          "max_relative_error_nonzero": 2.5362001903418462e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 1.3322676295501878e-15,
+          "max_relative_error_nonzero": 1.332267629550189e-15
+        },
+        "blackbody_flux": {
+          "max_abs_error": 1.1324882507324219e-06,
+          "max_relative_error_nonzero": 4.157391214164841e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 1,
+      "thermal": true,
+      "blackbody": true,
+      "passbands": [
+        "Generic.Bessell.B",
+        "Generic.Bessell.V",
+        "bolometric"
+      ],
+      "shared_quadrature_bytes": 110080,
+      "vertices": 64,
+      "faces": 124,
+      "shared_topology_bytes": 2512,
+      "proposal_input_bytes": 72,
+      "output_bytes": 11433,
+      "staged_vertex_bridge_bytes_lower_bound": 4608,
+      "estimated_payload_bytes": 142048,
+      "topology_setup_upload_seconds": 0.030043194070458412,
+      "initial_parameter_validation_upload_seconds": 0.0007484660018235445,
+      "fused_compile_first_seconds": 0.3611936140805483,
+      "staged_compile_first_including_download_seconds": 0.557677811011672,
+      "original_cpu_first_seconds": 0.013587116962298751,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0014798409538343549,
+        "min": 0.0014680679887533188,
+        "max": 0.0014885569689795375,
+        "samples": [
+          0.0014877759385854006,
+          0.0014885569689795375,
+          0.0014784180093556643,
+          0.0014798409538343549,
+          0.0014680679887533188
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0009363690624013543,
+        "min": 0.0009263099636882544,
+        "max": 0.0009839179692789912,
+        "samples": [
+          0.0009839179692789912,
+          0.000962047022767365,
+          0.0009363690624013543,
+          0.0009273320902138948,
+          0.0009263099636882544
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.0032715470297262073,
+        "min": 0.003221972961910069,
+        "max": 0.0033242559293285012,
+        "samples": [
+          0.0032859339844435453,
+          0.0032501560635864735,
+          0.0033242559293285012,
+          0.003221972961910069,
+          0.0032715470297262073
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.004546120995655656,
+        "min": 0.004125891020521522,
+        "max": 0.004929160000756383,
+        "samples": [
+          0.004125891020521522,
+          0.004546120995655656,
+          0.004929160000756383,
+          0.004738793009892106,
+          0.004515202948823571
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.012563263066112995,
+        "min": 0.012519511044956744,
+        "max": 0.01327352796215564,
+        "samples": [
+          0.012572560925036669,
+          0.012563062948174775,
+          0.012563263066112995,
+          0.012519511044956744,
+          0.01327352796215564
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "blackbody_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 5.551115123125783e-17,
+          "max_relative_error_nonzero": 4.498745117923665e-16
+        },
+        "areas": {
+          "max_abs_error": 4.7704895589362195e-18,
+          "max_relative_error_nonzero": 3.3700559009396388e-15
+        },
+        "normals": {
+          "max_abs_error": 4.6074255521944e-15,
+          "max_relative_error_nonzero": 2.672869837359168e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 3.767819389821625e-15,
+          "max_relative_error_nonzero": 2.672869837359149e-13
+        },
+        "face_gravity": {
+          "max_abs_error": 4.547473508864641e-13,
+          "max_relative_error_nonzero": 1.13364444461004e-15
+        },
+        "temperatures": {
+          "max_abs_error": 3.637978807091713e-12,
+          "max_relative_error_nonzero": 5.387441811718642e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 2.384185791015625e-07,
+          "max_relative_error_nonzero": 2.02217239918734e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 7.771561172376096e-16,
+          "max_relative_error_nonzero": 7.771561172376094e-16
+        },
+        "blackbody_flux": {
+          "max_abs_error": 2.980232238769531e-07,
+          "max_relative_error_nonzero": 2.8128656229743045e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 8,
+      "thermal": true,
+      "blackbody": true,
+      "passbands": [
+        "Generic.Bessell.B",
+        "Generic.Bessell.V",
+        "bolometric"
+      ],
+      "shared_quadrature_bytes": 110080,
+      "vertices": 64,
+      "faces": 124,
+      "shared_topology_bytes": 2512,
+      "proposal_input_bytes": 576,
+      "output_bytes": 91464,
+      "staged_vertex_bridge_bytes_lower_bound": 36864,
+      "estimated_payload_bytes": 1136384,
+      "topology_setup_upload_seconds": 0.030043194070458412,
+      "initial_parameter_validation_upload_seconds": 0.0008636830607429147,
+      "fused_compile_first_seconds": 0.3991879370296374,
+      "staged_compile_first_including_download_seconds": 0.5692538899602368,
+      "original_cpu_first_seconds": 0.1049074059119448,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.0022168849827721715,
+        "min": 0.0022041010670363903,
+        "max": 0.002310561016201973,
+        "samples": [
+          0.002310561016201973,
+          0.0022160529624670744,
+          0.0022168849827721715,
+          0.0022041010670363903,
+          0.0022836499847471714
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0010269989725202322,
+        "min": 0.0008847520221024752,
+        "max": 0.0010959389619529247,
+        "samples": [
+          0.0010959389619529247,
+          0.0010269989725202322,
+          0.0010275900131091475,
+          0.0009092179825529456,
+          0.0008847520221024752
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.003997409949079156,
+        "min": 0.0038458750350400805,
+        "max": 0.004020023043267429,
+        "samples": [
+          0.004020023043267429,
+          0.00394294795114547,
+          0.003997409949079156,
+          0.004008912015706301,
+          0.0038458750350400805
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.005209618015214801,
+        "min": 0.005146199022419751,
+        "max": 0.0055259820073843,
+        "samples": [
+          0.0055259820073843,
+          0.005284128012135625,
+          0.0051998390117660165,
+          0.005146199022419751,
+          0.005209618015214801
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.10437899199314415,
+        "min": 0.1039693740895018,
+        "max": 0.10466980910860002,
+        "samples": [
+          0.10437899199314415,
+          0.1043797949096188,
+          0.10416325798723847,
+          0.1039693740895018,
+          0.10466980910860002
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "blackbody_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 6.502616183816821e-16
+        },
+        "areas": {
+          "max_abs_error": 7.37257477290143e-18,
+          "max_relative_error_nonzero": 5.584684561757751e-15
+        },
+        "normals": {
+          "max_abs_error": 6.494804694057166e-15,
+          "max_relative_error_nonzero": 3.806876451433214e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 5.773159728050814e-15,
+          "max_relative_error_nonzero": 1.9594777136062227e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 1.4779288903810084e-12,
+          "max_relative_error_nonzero": 2.191313045301209e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.060963593683067e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 8.344650268554688e-07,
+          "max_relative_error_nonzero": 2.2395332662797274e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 5.551115123125783e-16,
+          "max_relative_error_nonzero": 5.551115123125787e-16
+        },
+        "blackbody_flux": {
+          "max_abs_error": 1.0132789611816406e-06,
+          "max_relative_error_nonzero": 3.5105603308725235e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 32,
+      "thermal": true,
+      "blackbody": true,
+      "passbands": [
+        "Generic.Bessell.B",
+        "Generic.Bessell.V",
+        "bolometric"
+      ],
+      "shared_quadrature_bytes": 110080,
+      "vertices": 64,
+      "faces": 124,
+      "shared_topology_bytes": 2512,
+      "proposal_input_bytes": 2304,
+      "output_bytes": 365856,
+      "staged_vertex_bridge_bytes_lower_bound": 147456,
+      "estimated_payload_bytes": 4545536,
+      "topology_setup_upload_seconds": 0.030043194070458412,
+      "initial_parameter_validation_upload_seconds": 0.001109704957343638,
+      "fused_compile_first_seconds": 0.38679984398186207,
+      "staged_compile_first_including_download_seconds": 0.5958988199708983,
+      "original_cpu_first_seconds": 0.43940230004955083,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.00484543398488313,
+        "min": 0.00478881795424968,
+        "max": 0.004873616970144212,
+        "samples": [
+          0.0048523860750719905,
+          0.004831367055885494,
+          0.00478881795424968,
+          0.004873616970144212,
+          0.00484543398488313
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0010959289502352476,
+        "min": 0.0010696799727156758,
+        "max": 0.0011955469381064177,
+        "samples": [
+          0.0011955469381064177,
+          0.0011056780349463224,
+          0.0010855599539354444,
+          0.0010696799727156758,
+          0.0010959289502352476
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.006506484001874924,
+        "min": 0.006470476044341922,
+        "max": 0.006546919932588935,
+        "samples": [
+          0.006546919932588935,
+          0.006510561914183199,
+          0.006500493036583066,
+          0.006470476044341922,
+          0.006506484001874924
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.007694825995713472,
+        "min": 0.007527872920036316,
+        "max": 0.008202731027267873,
+        "samples": [
+          0.008202731027267873,
+          0.007694825995713472,
+          0.007573298993520439,
+          0.007715746061876416,
+          0.007527872920036316
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 0.43714630301110446,
+        "min": 0.43670813005883247,
+        "max": 0.4376117179635912,
+        "samples": [
+          0.43717916402965784,
+          0.4376117179635912,
+          0.43714630301110446,
+          0.43670813005883247,
+          0.4367889519780874
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "blackbody_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 6.679821983900726e-16
+        },
+        "areas": {
+          "max_abs_error": 8.673617379884035e-18,
+          "max_relative_error_nonzero": 5.6214211169502025e-15
+        },
+        "normals": {
+          "max_abs_error": 7.549516567451064e-15,
+          "max_relative_error_nonzero": 5.17393817925054e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 6.369904603786836e-15,
+          "max_relative_error_nonzero": 1.2790236403716575e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 1.4779288903810084e-12,
+          "max_relative_error_nonzero": 2.191313045301209e-15
+        },
+        "temperatures": {
+          "max_abs_error": 4.547473508864641e-12,
+          "max_relative_error_nonzero": 5.582991602367644e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 7.152557373046875e-07,
+          "max_relative_error_nonzero": 2.1493056131019602e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 8.881784197001252e-16,
+          "max_relative_error_nonzero": 8.881784197001248e-16
+        },
+        "blackbody_flux": {
+          "max_abs_error": 1.0132789611816406e-06,
+          "max_relative_error_nonzero": 3.910656660664692e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    },
+    {
+      "component": "secondary",
+      "rows": 128,
+      "thermal": true,
+      "blackbody": true,
+      "passbands": [
+        "Generic.Bessell.B",
+        "Generic.Bessell.V",
+        "bolometric"
+      ],
+      "shared_quadrature_bytes": 110080,
+      "vertices": 64,
+      "faces": 124,
+      "shared_topology_bytes": 2512,
+      "proposal_input_bytes": 9216,
+      "output_bytes": 1463424,
+      "staged_vertex_bridge_bytes_lower_bound": 589824,
+      "estimated_payload_bytes": 18182144,
+      "topology_setup_upload_seconds": 0.030043194070458412,
+      "initial_parameter_validation_upload_seconds": 0.0011659100418910384,
+      "fused_compile_first_seconds": 0.5542586200172082,
+      "staged_compile_first_including_download_seconds": 0.6417980249971151,
+      "original_cpu_first_seconds": 1.8981278029968962,
+      "resident_physics_seconds_lower_bound": {
+        "median": 0.012036883970722556,
+        "min": 0.012032305006869137,
+        "max": 0.012048996984958649,
+        "samples": [
+          0.012036373023875058,
+          0.012037275009788573,
+          0.012036883970722556,
+          0.012048996984958649,
+          0.012032305006869137
+        ]
+      },
+      "repeated_download_seconds": {
+        "median": 0.0014348860131576657,
+        "min": 0.0013630710309371352,
+        "max": 0.0015079230070114136,
+        "samples": [
+          0.0015079230070114136,
+          0.0014348860131576657,
+          0.0014424810651689768,
+          0.0013997899368405342,
+          0.0013630710309371352
+        ]
+      },
+      "fused_parameters_to_download_seconds": {
+        "median": 0.013953784946352243,
+        "min": 0.013948905980214477,
+        "max": 0.014038645080290735,
+        "samples": [
+          0.01395275502000004,
+          0.013953784946352243,
+          0.013948905980214477,
+          0.014038645080290735,
+          0.01397855207324028
+        ]
+      },
+      "staged_host_bridge_to_download_seconds": {
+        "median": 0.014334602048620582,
+        "min": 0.014264781028032303,
+        "max": 0.014478181023150682,
+        "samples": [
+          0.014264781028032303,
+          0.014478181023150682,
+          0.014334602048620582,
+          0.01427449902985245,
+          0.014338267967104912
+        ]
+      },
+      "original_elisa_cpu_seconds": {
+        "median": 1.89598733803723,
+        "min": 1.8937725110445172,
+        "max": 1.8964723729295656,
+        "samples": [
+          1.8962118700146675,
+          1.8937725110445172,
+          1.8938988010631874,
+          1.89598733803723,
+          1.8964723729295656
+        ]
+      },
+      "fused_vs_staged_errors": {
+        "radii": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "areas": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "normals": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "los_cosines": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "face_gravity": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "temperatures": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "surface_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        },
+        "blackbody_flux": {
+          "max_abs_error": 0.0,
+          "max_relative_error_nonzero": 0.0
+        }
+      },
+      "fused_vs_original_cpu_errors": {
+        "radii": {
+          "max_abs_error": 8.326672684688674e-17,
+          "max_relative_error_nonzero": 7.958666805080745e-16
+        },
+        "areas": {
+          "max_abs_error": 1.6479873021779667e-17,
+          "max_relative_error_nonzero": 6.523000692441574e-15
+        },
+        "normals": {
+          "max_abs_error": 1.0408340855860843e-14,
+          "max_relative_error_nonzero": 6.092907403150783e-13
+        },
+        "los_cosines": {
+          "max_abs_error": 8.43769498715119e-15,
+          "max_relative_error_nonzero": 6.270827906951217e-12
+        },
+        "face_gravity": {
+          "max_abs_error": 1.8189894035458565e-12,
+          "max_relative_error_nonzero": 3.3732799144756866e-15
+        },
+        "temperatures": {
+          "max_abs_error": 5.4569682106375694e-12,
+          "max_relative_error_nonzero": 6.524959663769088e-16
+        },
+        "surface_flux": {
+          "max_abs_error": 9.5367431640625e-07,
+          "max_relative_error_nonzero": 2.7488056804137806e-15
+        },
+        "luminosity_ratio": {
+          "max_abs_error": 1.1102230246251565e-15,
+          "max_relative_error_nonzero": 1.1102230246251575e-15
+        },
+        "blackbody_flux": {
+          "max_abs_error": 1.0728836059570312e-06,
+          "max_relative_error_nonzero": 3.74303071668737e-15
+        }
+      },
+      "strict_transfer_guard_passed": true
+    }
+  ]
+}
