@@ -1,0 +1,19 @@
+{
+  "scripts/benchmark_gpu_pipeline.py": "3ece05c6639018ab6ba9baf3ca78c4e19a7b5229a4c61d1d541241271ca81fcb",
+  "src/elisa/experimental/__init__.py": "303e1ed4f012a5c2999aa6f72b86687b8116bfc4f3be94de76529f6845b4f162",
+  "src/elisa/experimental/gpu_gravity.py": "7cb02a46cd1fb5e44169ec9e583fb26523a9be703a46e3d217c6ca6dd4e48144",
+  "src/elisa/experimental/gpu_likelihood.py": "2862dc1b22f7a361d5061b339336d97094247e53f44437929e588564c1afcc36",
+  "src/elisa/experimental/gpu_mesh.py": "d5d9e3b56302dd60135557ec553354771414bb682320cab4f6dec6510d2ddfb3",
+  "src/elisa/experimental/gpu_pipeline.py": "d935083a45b6674c6492dbe588198420655c65a5251acb359456bf666a990b6c",
+  "src/elisa/experimental/gpu_roche.py": "10c75f938d28cf268dd151c6fe3a00e5d0dfe96af0a35d7fd776a1824da3b641",
+  "src/elisa/experimental/gpu_surface.py": "7b35933ab96b941c145d02acf79076d4e284ea7ab8d2b1bced2c9bc0e4830a00",
+  "src/elisa/experimental/gpu_thermal.py": "196623d3942dbe4ef436230ab21938d748d676ace2b85207d2751e285701aafd",
+  "tests/tests_experimental/__init__.py": "01a8f04ccc88f76b2a79c4bad56f6302e407762902c9983244f66f7faa7b1605",
+  "tests/tests_experimental/test_gpu_gravity.py": "062aa1f054cf1918a08d4b9ffde502f1813e7d884caa7e47de08b33e6303f031",
+  "tests/tests_experimental/test_gpu_likelihood.py": "5d3d8794c671d4b36dd791073582a5cace7601d7f6686e132a9e90a1442d282d",
+  "tests/tests_experimental/test_gpu_mesh.py": "7f1acd7d3b373aeee96ca92aafb28d1f0aea6e858214cb8f019ff6942bf04d6a",
+  "tests/tests_experimental/test_gpu_pipeline.py": "657e93640aca902c2995f697786e143d4888ee36a3e4846787633665d3ed3a00",
+  "tests/tests_experimental/test_gpu_roche.py": "f0ce2da8c158b95170f742079d5e0b895b241aa7acc4fb7e0c137cf8391b53a1",
+  "tests/tests_experimental/test_gpu_surface.py": "68c1f105efa01d9b90dd2cacd0cc49b5f815688f2753be280cc8fdf0cc71942e",
+  "tests/tests_experimental/test_gpu_thermal.py": "33aed85efc1703aa53b1bbc4a1ee443e6b0849db5cab37d6e3b2d27809c04a0b"
+}

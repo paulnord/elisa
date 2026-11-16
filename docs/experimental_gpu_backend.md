@@ -229,3 +229,71 @@ sin(edge angle)<=0.05, and coordinates exceeding 1e4 times the shortest defining
 edge. These conservative conditioning gates preserve the tested Roche meshes
 but are not a universal error certificate. All flagged geometry requires CPU
 fallback or explicit failure, not an automatic physical-prior rejection.
+
+## Effective gravity on changing Roche vertices
+
+`elisa.experimental.gpu_gravity.RocheSurfaceGravity` adds the next thermal-model
+dependency: ELISa's outward potential gradients and effective acceleration in
+SI, evaluated on supplied changing binary-frame vertices for either component.
+It uses the same circular q/spin domain and inner-radius interval as the ray
+primitive. It does not certify that supplied points form an equipotential or
+closed mesh. Unsupported/nonfinite vertices and numerical scaling failures
+have explicit status and validity arrays; invalid outputs are NaN, not zero
+flux or an implicit physical-prior rejection.
+
+Inputs are primary mass in kg and semi-major axis in m. Both stars use
+`G * primary_mass / semi_major_axis**2` as the potential-gradient scale.
+The secondary's mass ratio is already present in its dimensionless gradient;
+adding another q factor would be incorrect. Face gravity averages the three
+corner acceleration magnitudes, and internal `log_g` is log10 of SI gravity.
+
+Build order matters: CPU ELISa evaluates gravity before `correct_mesh`, so
+matching cached `star.potential_gradient_magnitudes` requires those same
+pre-correction vertices. The container test builds and checks that exact stage.
+Other controls compare both stars across changing Roche q/spin/potential,
+different masses/length scales, an independent complex-step derivative of the
+scalar potential, polar forces in physical units, and unsupported cases.
+
+This primitive does not update temperatures, reflection, atmosphere/LD,
+topology or changing eclipse coverage. Do not combine its changed gravity with
+old thermal or coverage state and label the result a physical light curve.
+Host snapshots and device transfers are explicit; no fused resident pipeline,
+sampler integration, autodiff guarantee or performance gain is claimed.
+
+## Device-resident Roche geometry/gravity pipeline
+
+`elisa.experimental.gpu_pipeline.RocheGeometryPipeline` now composes the
+existing ray, triangle/projection and gravity device kernels under one outer
+JAX compilation. Directions/connectivity are copied once; a prepared batch
+holds immutable q/spin/potential, primary-mass/SMA and orientation arrays on
+the selected device. `PreparedRocheBatch.evaluate()` performs no intermediate
+NumPy conversion or host round trip. Both stars use the existing binary-frame
+placement and SI gravity conventions, with the same unsupported-state masks.
+The combined `proposal_valid` is the conjunction of all three physics stages.
+
+```python
+from elisa.experimental.gpu_pipeline import RocheGeometryPipeline
+
+pipeline = RocheGeometryPipeline("primary", phi, theta, faces, device="gpu")
+batch = pipeline.prepare(q, spin, potential, primary_mass_kg, sma_m, azimuth, inclination)
+result = batch.evaluate()  # nested device arrays: rays, geometry, gravity, validity
+```
+
+Topology remains supplied and fixed. No mesh correction, eclipse clipping,
+temperature/reflection, radiance or flux is produced. The pipeline intentionally
+does not attach stale brightness or coverage to changing geometry. Areas are
+in SMA squared; gravity is in m/s squared. These ray-mesh quantities are not the
+final corrected/cached state of a CPU ELISa container. Invalid/unsupported
+flags require explicit failure or CPU fallback, not a silent physical prior.
+
+`scripts/benchmark_gpu_pipeline.py` compares original ELISa Newton/NumPy helpers,
+the separate JAX stages with a vertex host bridge, and the resident composition.
+Run on JAX CPU as well as GPU to distinguish batching from GPU acceleration.
+All full paths return the same radii, areas, normals, line-of-sight cosines,
+face gravity and validity arrays. Cold setup/compilation, initial parameter
+upload, resident evaluation and fresh-result downloads are reported separately.
+Download-only samples use fresh results to avoid timing cached host arrays.
+The strict `disallow_explicit` transfer guard checks repeated resident work.
+Performance on these fixed-direction changing proposals is not whole-model,
+MCMC or effective-sample performance. The l3/ln_f-only pilot should continue to
+cache its fixed physical curve rather than repeatedly synthesize it.

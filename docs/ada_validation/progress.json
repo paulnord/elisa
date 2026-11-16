@@ -1,0 +1,44 @@
+{
+  "updated_utc": "2026-11-16T21:53:39.725211+00:00",
+  "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
+  "branch": "codex/gpu-resident-roche-pipeline",
+  "code_state_sha256": "11452e242110bcad00bf8a742edd73d1275005486e1cce4e735a21d7fea7d914",
+  "stage": "CPU verified; revised resident pipeline and thermal GPU retest pending",
+  "current_cpu_suite": {
+    "tests": 112,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 41
+  },
+  "current_thermal_and_rounding_targeted_cpu": {
+    "tests": 28,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 13
+  },
+  "last_gpu_suite": {
+    "tests": 97,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "last_gpu_suite_is_current_source": false,
+  "last_gpu_notes": "97 passed before stage-boundary rounding fix and intrinsic-temperature addition. Current GPU retest pending.",
+  "benchmark_status": "Larger CPU benchmark stopped at unchanged tolerance; stage barrier fix passed CPU batches 128 and 512 for both stars. Thermal CPU benchmark passed batches 1,8,32,128,512. No new GPU performance result claimed.",
+  "production": {
+    "state": "restored_and_advancing",
+    "job": "j00872",
+    "saved_cursor": 935771216,
+    "verified_cursor": 935822416,
+    "verified_utc": "2026-11-16T21:37:06.623535+00:00"
+  },
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 3080 Ti",
+    "vram_mib": 12288,
+    "driver": "595.99.02",
+    "jax": "0.12.0.1",
+    "precision": "float64",
+    "preallocation": false
+  },
+  "scope": "Fixed supplied topology changing Roche geometry/gravity and intrinsic gravity-darkened temperature. No mesh correction, irradiation, atmosphere/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
+}

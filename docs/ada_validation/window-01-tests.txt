@@ -1,0 +1,14 @@
+........................................................................ [ 74%]
+.........................                                                [100%]
+============================= slowest 10 durations =============================
+0.98s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---max-input-mib]
+0.98s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---max-input-mib]
+0.98s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---discretization]
+0.98s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---discretization]
+0.72s call     tests/tests_experimental/test_gpu_gravity.py::test_changing_roche_gravity[primary-cpu]
+0.62s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[secondary-gpu]
+0.62s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[primary-gpu]
+0.55s call     tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]
+0.49s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[secondary-cpu]
+0.48s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[primary-cpu]
+97 passed in 17.98s

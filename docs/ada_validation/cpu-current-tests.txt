@@ -1,0 +1,31 @@
+.s.s.s.s.s.s.s.s.............s....s..s.s..s..s.s..s.s.s.s.s.s..s.s.s.s.. [ 64%]
+..ss..ss.......ssss..ss.s.....s.s.s.s.s.                                 [100%]
+============================= slowest 10 durations =============================
+1.31s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---discretization]
+1.27s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---max-input-mib]
+1.26s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---max-input-mib]
+1.20s call     tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---discretization]
+0.89s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[secondary-cpu]
+0.84s call     tests/tests_experimental/test_gpu_pipeline.py::test_large_batch_projection_preserves_stage_rounding[primary-cpu]
+0.82s call     tests/tests_experimental/test_gpu_pipeline.py::test_pipeline_matches_stages_and_original_cpu[primary-cpu]
+0.79s call     tests/tests_experimental/test_gpu_pipeline.py::test_large_batch_projection_preserves_stage_rounding[secondary-cpu]
+0.71s call     tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]
+0.67s call     tests/tests_experimental/test_gpu_gravity.py::test_changing_roche_gravity[primary-cpu]
+=========================== short test summary info ============================
+SKIPPED [8] tests/tests_experimental/test_gpu_gravity.py:19: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_likelihood.py:175: No GPU available: real GPU execution not validated
+SKIPPED [1] tests/tests_experimental/test_gpu_mesh.py:23: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_mesh.py:96: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_mesh.py:151: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_mesh.py:174: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_mesh.py:192: Requested hardware unavailable
+SKIPPED [11] tests/tests_experimental/test_gpu_pipeline.py:21: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_pipeline.py:198: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_roche.py:24: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_roche.py:102: Requested hardware unavailable
+SKIPPED [2] tests/tests_experimental/test_gpu_roche.py:129: Requested hardware unavailable
+SKIPPED [3] tests/tests_experimental/test_gpu_surface.py:45: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_surface.py:107: No GPU hardware available
+SKIPPED [2] tests/tests_experimental/test_gpu_surface.py:121: Requested hardware unavailable
+SKIPPED [1] tests/tests_experimental/test_gpu_surface.py:137: Requested hardware unavailable
+71 passed, 41 skipped in 19.47s
