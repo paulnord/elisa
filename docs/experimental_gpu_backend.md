@@ -155,3 +155,77 @@ See `docs/ada_gpu_handoff.md` for isolated, non-disruptive hardware validation.
 The prepared surface batch API holds immutable device arrays and allows repeated
 kernel evaluation without transfers. This is a throughput primitive, not a claim
 that a physically varying MCMC proposal can reuse all those arrays unchanged.
+
+## Changing-geometry milestone: bounded Roche ray solver
+
+`elisa.experimental.gpu_roche.RocheRaySolver` now solves ELISa's actual radial
+modified Kopal potential on device for batches of changing **mass ratio,
+synchronicity and surface potential**, for either component. This is no longer
+just arithmetic on a frozen flux template. It remains a primitive, not a full
+GPU forward model or MCMC backend.
+
+- Circular separation is fixed at 1 SMA; q=M2/M1 in [0.5,2], spin in [0.5,1.5].
+- Supplied phi is companion-facing longitude, theta is north-pole colatitude.
+  Each proposal uses the same supplied directions; these are NOT ELISa's full
+  candidate-dependent angular grid/topology/mesh-correction algorithm.
+- Each inner ray is bracketed in [1e-6,0.25] SMA. A conservative bound on the
+  radial derivative is strictly negative throughout this domain (worst case
+  secondary derivative upper bound is below -4.37), certifying uniqueness only
+  for accepted supplied rays. This does not certify morphology/closed mesh.
+- Eighty device bisections produce radii, local Cartesian points, potential
+  residuals, final interval widths, per-ray status and proposal_valid. Finite
+  precision, not the nominal bisection count, limits attained accuracy.
+- Status 1 means root outside this primitive's domain; 2 means endpoint bracket
+  ambiguity within 32*machine-epsilon*max(1,target); 3 means residual failure.
+  These are unsupported evaluations, not physically forbidden binaries. A
+  future sampler must fall back to CPU or fail explicitly rather than silently
+  truncate its posterior. No HMC/autodiff gradients are claimed.
+- Both stars' pointwise potential/radii are compared with ELISa's CPU equations,
+  `radius.calculate_radius` first-inner-root solver and actual
+  `surface.mesh.get_surface_points` Newton solver/Cartesian mapping. CPU Brent
+  is an additional independent root method. Tests cover q/spin extremes,
+  poles/axes and endpoint ambiguity, and are parameterized for real GPU runs.
+
+Remaining before physical fitting: candidate-dependent angular placement and
+triangulation/mesh correction, full surface normals/gravity/temperature/LD,
+observer projection and changing eclipse coverage, then full model/likelihood
+parity. Do not pair changed radii with a frozen brightness or coverage template.
+
+## Triangle geometry and observer projection
+
+`elisa.experimental.gpu_mesh.TriangleGeometry` computes face centres, triangular
+areas, outward normals and observer-frame normals/cosines for batched changing
+vertices with supplied triangle connectivity. It follows ELISa's co-rotating
+binary-frame conventions and `rotate_item` z then inverse-y rotation, with LOS
+(-1,0,0). Both components are checked against an actual built ELISa container and
+`move_sys_onpos`, across eclipse phases, quadratures and repeated phases.
+A chained test feeds changing Roche-ray vertices through fixed connectivity and
+compares against ELISa's CPU mesh helper plus face/rotation routines.
+
+Connectivity is provided, not re-triangulated. This controlled fixed-direction
+experiment does not replace candidate-dependent mesh generation/correction.
+Degenerate or nonfinite face geometry is explicitly unsupported. Facing uses
+strict cosine>0; a 64-epsilon near-limb ambiguity flag identifies cases where
+floating-point ordering can change selection. Do not apply old CPU eclipse
+coverage to newly moved normals/vertices. In particular, varying inclination
+changes occultation as well as projection. No occulted areas, brightness,
+light curves, likelihoods or sampler results are produced by this layer.
+
+Inputs are host-validated snapshots and transferred to the selected device;
+the current ray-to-triangle test includes a host bridge. A fused resident
+geometry/coverage/thermal path remains future work. Geometric parity does not
+establish mesh-resolution convergence or physical-model accuracy.
+
+Important CPU build-order distinction: ELISa can cache `star.face_centres`
+before mesh correction, then scale its points while retaining those centres.
+This primitive's centres describe the supplied vertices, so they are not
+necessarily identical to that cached field. Actual-container parity tests cover
+normals/areas/projection and explicitly expose this centroid distinction. Before
+downstream integration, preserve CPU's pre-correction centres/normals, corrected
+points/areas and build order; do not silently substitute recomputed centres.
+
+Triangle geometry also rejects uncertain outward orientation, triangles with
+sin(edge angle)<=0.05, and coordinates exceeding 1e4 times the shortest defining
+edge. These conservative conditioning gates preserve the tested Roche meshes
+but are not a universal error certificate. All flagged geometry requires CPU
+fallback or explicit failure, not an automatic physical-prior rejection.
