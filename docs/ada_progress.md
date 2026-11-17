@@ -1,9 +1,208 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T11:15:29.929254+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T11:53:03.116809+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: nested surfaces and a finite contact/likelihood error estimator
+## Latest milestone: selective complete curves and correction/normalization assessment
+
+A fixed selective surface protocol now runs complete reflected curves and
+original physical-observation likelihoods with fresh CPU/device state. Independent
+angular Roche area/volume integration separates geometric surface error from
+CPU/GPU parity and flux normalization. **All 399 hardware tests passed, zero
+failures/errors/skips**, across independent 89/75/235-test windows. The final CPU
+suite passed **247 with 152 explicit GPU skips**; there are 29 new tests.
+
+The scientific result is a negative control: **selective root indicators plus
+the current global correction do not qualify 1e-4 accuracy and can worsen curve
+differences despite adding triangles**. Correction ablations, random controls,
+raw-flux changes and all failed numerical budgets are retained. No selective
+fit, continuum posterior or MCMC throughput claim follows from passing parity.
+
+### Fixed selective geometry and fresh full physics
+
+`SelectiveMesh` refines chosen seed-quarter patches from a uniform base level.
+Only marked edge midpoints are projected onto the original Roche equipotential.
+Selected triangles split into four; neighboring triangles receive conforming
+2/3/4-child patterns. Symmetry seams remain closed. Tests check edge incidences,
+Euler characteristic 2, positive areas, ancestry and all three refinement levels;
+empty/full plans exactly reproduce the corresponding uniform meshes.
+
+The pilot folds nominal-noise-weighted root-group flux changes over the four
+quarters, using all supplied bands/phases and original maximum normalization.
+Freeze the plan before later evaluations. It is a finite coupled-model indicator,
+not a local truncation-error estimate. Seed topology hashes prevent index
+reassignment; physical vertex movement is allowed only with compatible topology.
+Every changed candidate rebuilds gravity/thermal state, full-donor irradiation,
+LD/radiance, observer projection, eclipse coverage and integration. No physical
+prediction is cached and no proposal triggers automatic replanning.
+
+CPU seed construction, selective roots/triangulation, orientation/hulls/coverage
+and host grouping remain bridges. Device corrected state, tiled reflection,
+fresh blackbody emission and integration are connected; CK04 uses explicit
+original CPU radiance/LD. These are **hybrid** curves. Original CPU/default
+correction, public fitting classes and broader full-CPU fallback remain unchanged.
+The new standalone numerical protocol raises on unsupported topology/numerics;
+it never silently substitutes a coarser prediction or rejects a physical prior.
+
+New tests compare per-face points, centres, normals, areas, gravity/log(g) and
+reflected temperatures with independent original CPU primitives at the unchanged
+3e-13 relative / 64eps absolute gates. Complete raw observed flux uses 3e-13
+relative with zero absolute tolerance; normalized curves retain 3e-13/2e-12.
+Maximum raw/normalized errors in the new profile are
+**1.65e-24 W/m² / 5.55e-16**.
+Original raw-to-direct-normalization controls agree within
+**2.22e-16**.
+
+### Selective refinement is not an accuracy repair
+
+Both eclipses, contact-focused phases, repeats/order, phase shift and third light
+are retained in reflected V/bolometric fixtures. Uniform levels 2/3 have
+8640/34560 faces per component. Validation uses process-only MIN=3°/MAX=12°;
+library defaults are unchanged. The table uses sigma=1e-4 and original ln_f=-2
+for actual D=||delta/sigma_eff||. The component enclosure uses **nominal sigma**,
+independently of nuisance noise, and the numerical budget remains D<=0.1.
+
+| Case | 50% root plan faces [primary,secondary] | Uniform2→3 actual D | Selective50→uniform3 actual D | Nominal component enclosure D |
+|---|---:|---:|---:|---:|
+| partial_bb | [22656, 22656] | 2.55969 | 6.19561 | 6.4486 |
+| total_bb | [22784, 22720] | 1.85497 | 5.19884 | 5.45303 |
+| partial_ck04 | [22672, 22736] | 2.76963 | 6.18688 | 6.39701 |
+
+A 50% root plan includes green neighbors, so its face fraction exceeds 50%.
+The added triangles do not make its finite changes smaller. The partial fixture
+also retains 25/75% selections, a seeded random plan with the same selected-root
+count (different final face counts), and identical-raw-topology correction
+ablations. No result was selected to make a failed budget pass.
+
+| Partial fixture model | Faces [primary,secondary] | Primary corrected area relative error | Raw V mean change vs uniform3 | Actual D to uniform3 |
+|---|---:|---:|---:|---:|
+| selective50 | [22656, 22656] | -0.000240352 | -0.000196811 | 6.19561 |
+| selective25 | [16016, 16016] | -0.000299191 | -0.000200034 | 15.0688 |
+| selective75 | [29104, 29152] | -0.000151269 | -9.42873e-05 | 5.14372 |
+| random50_root_count_control | [23264, 23296] | -0.000231868 | -0.000170474 | 7.27245 |
+| selective50_coarse_correction | [22656, 22656] | 0.000179183 | 0.000217087 | 5.63332 |
+| selective50_fine_correction | [22656, 22656] | -0.00030036 | -0.000256012 | 6.29289 |
+
+`correction="density"` applies the original scalar formula at
+base_angle*sqrt(base_faces/new_faces); it is an explicit unvalidated mixed-grid
+convention. `"coarse"`/`"fine"` hold that angle at the base/fully refined values.
+All coupled physics is rebuilt for each ablation. Changing this global scalar
+alone does not establish a repair. Finite group scores and the original scalar
+calibration do not automatically transfer to a nonuniform grid. Different native
+1.5° triangulations remain separate finite controls, not exact truth or
+implementation oracles; their per-band comparisons are in the report.
+
+### Independent geometric audit and normalization controls
+
+The CPU audit integrates the implicit Roche surface over dOmega=dmu dphi with
+Gauss-Legendre mu, periodic phi, original analytic gradients and independent
+Brent radial roots. The radial Jacobian is r²|gradPhi|/(gradPhi dot radial); volume
+uses r³/3. Sphere controls recover exact area/volume; separate angular orders
+16/32 change tested area/volume by at most **2.22e-16 relative**.
+These geometric integrals do not certify eclipse curves or thermal/spectral
+physics. Raw and corrected triangulated geometry are reported separately,
+using SMA²/SMA³ units and dimensionless relative errors.
+
+| Case | Mesh | Primary corrected area relative error | Primary corrected volume relative error |
+|---|---|---:|---:|
+| partial_bb | uniform2 | -0.000134109 | -0.000462336 |
+| partial_bb | uniform3 | -6.77787e-05 | -0.000166968 |
+| partial_bb | selective50 | -0.000240352 | -0.000512802 |
+| total_bb | uniform2 | -0.000134109 | -0.000462336 |
+| total_bb | uniform3 | -6.77787e-05 | -0.000166968 |
+| total_bb | selective50 | -0.000234296 | -0.000503083 |
+| partial_ck04 | uniform2 | -0.000133808 | -0.000461715 |
+| partial_ck04 | uniform3 | -6.77035e-05 | -0.000166813 |
+| partial_ck04 | selective50 | -0.00024195 | -0.000515335 |
+
+Scaling vertices by one factor changes area and volume as factor²/factor³.
+Agreement of one integral cannot establish shape or eclipse accuracy. Raw observed
+flux and original maximum normalization are both retained: removing a common
+scale through normalization does not remove numerical shape or likelihood error.
+Mesh correction, mixed quadrature and eclipse boundaries need independent work;
+same-grid CPU/GPU fallback cannot cure their shared error.
+
+### Fixed-plan original observation likelihoods
+
+The same plan is retained across changed temperature/inclination/third-light/noise
+proposals. Original constraints, physical serialization, phase/JD mapping,
+per-band reducers/order/repeats, final mean, priors and noise law are preserved.
+Original CPU synthesis and density callbacks independently control both the
+selective and uniform numerical models. Maximum prediction/posterior differences
+are **4.44e-16 / 4.31e-09**;
+the unchanged density gate is 1e-6. Likelihood changes agree to
+**2.18e-09**.
+
+| Proposal | Actual D (sigma_eff) | Nominal component enclosure D | Actual delta logL | Absolute logL enclosure |
+|---|---:|---:|---:|---:|
+| phase base | 2.48669 | 2.58198 | 1102.44 | 1436.15 |
+| phase changed | 1.61113 | 1.75311 | 929.055 | 1264.22 |
+| JD base | 2.48669 | 2.58198 | 1102.44 | 1436.15 |
+
+The enclosure retains the residual cross term, sum(|r|E+E²/2), for the measured
+finite pair. `allow_same_level=True` explicitly compares alternative topologies
+sharing a physical/seed/source snapshot. It never bounds an uncomputed grid or
+the continuum. Numerical preflight failures abort outside candidate penalties,
+including nuisance-noise inflation; out-of-prior proposals retain original -inf
+rejection without numerical work. No selective public fitting/sampler backend
+is registered. Existing public fit/sampler parity was revalidated by the full
+suite; no mixing, convergence, bias recovery or ESS/sec result is claimed.
+
+### Matched complete costs
+
+Within each profile, JAX CPU/GPU return identical host snapshot plus raw-curve
+outputs under the same affinity 0–15, Nice 10, threads 1 and FP64. Seconds include
+fresh CPU roots/triangulation/state/coverage, reflection/radiance/integration,
+all per-call transfers and parent grouping. Constructors, including any device
+initialization, are outside model timers and inside driver main wall. Compilation
+incurred is included; later shapes/source tables may reuse process caches. These
+are single observations, not throughput distributions.
+
+| Case | Mesh | Complete JAX CPU snapshot+raw s | Complete GPU snapshot+raw s |
+|---|---|---:|---:|
+| partial_bb | uniform3 | 6.62064 | 2.68262 |
+| partial_bb | selective50 | 3.73421 | 2.27899 |
+| total_bb | uniform3 | 6.63783 | 2.73839 |
+| total_bb | selective50 | 3.96558 | 2.54338 |
+| partial_ck04 | uniform3 | 6.18911 | 2.11148 |
+| partial_ck04 | selective50 | 3.30487 | 1.95305 |
+
+Pilot uniform evaluations and plan freezing, independent references/angular
+controls, geometry/correction/error comparisons, constructors and report
+conversions remain part of full main walls:
+**90.99, 75.18, 88.30 s**
+(partial curves, other curves, observations). Full command walls including
+Python/import startup are **92.76, 76.94, 90.01 s**.
+Mapped prediction/density model timings are in the JSON. Independent original CPU
+curves have a smaller output contract than snapshots. Accuracy failures prevent
+interpreting these ratios as qualified physical-fitting throughput or ESS gains.
+
+### Evidence, restoration and continuation
+
+Six independently registered systemd GPU allocations used RuntimeMaxSec=300,
+internal 270 s deadlines, verified graceful checkpoint pause and unconditional
+original-service restoration hooks. All owned units ended inactive/success.
+Matching resume records, exact service/command, pinned source/config/plan and
+latest checkpoint receipt/witness/endpoints were verified. Durable advancement
+after each restoration was **32,768, 22,528, 14,336, 4,096, 47,104, 47,104 cells**. This validates the latest evidence,
+not the entire historical production journal. Raw operational records stay private.
+
+Exact repository source/data fingerprint: **606 files**, aggregate SHA256
+`0c536362d5fa1480cccb066b9cd716257a404252c8ab72be135b8359721ab0a3`.
+See [curated results](ada_validation/background-m012.json),
+[source manifest](ada_validation/background-m012-source-hashes.json), and
+[API/reproduction and limits](experimental_gpu_backend.md#fixed-selective-surface-refinement-and-correction-audit).
+Reproduce with the full experimental suite and
+`scripts/validate_gpu_selective.py --device cpu --part curves --case partial_bb --output partial.json`,
+`--case others`, and `--part observations`; GPU variants need independent bounded
+restoration. No tolerance, numerical budget or physical prior was relaxed.
+
+Next replace the global mixed-grid correction/indicator prescription with
+independently validated curved-surface quadrature and consistent eclipse boundary
+integration, then qualify a fixed 1e-4 numerical protocol before physical fits
+or chains. The assignment remains incomplete; all accuracy stops remain active.
+
+## Previous milestone: nested surfaces and a finite contact/likelihood error estimator
 
 The new standalone `NestedBinaryLightCurve` builds complete reflected curves on
 conforming, nested Roche meshes and returns immutable root-face flux groups.

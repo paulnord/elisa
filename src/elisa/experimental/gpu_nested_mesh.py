@@ -114,7 +114,18 @@ class NestedMesh:
     def _subdivide(points: np.ndarray, faces: np.ndarray, star: Any, component: str, q: float) -> tuple:
         edges = np.sort(faces[:, [[0, 1], [1, 2], [2, 0]]].reshape((-1, 2)), axis=1)
         unique, inverse = np.unique(edges, axis=0, return_inverse=True)
-        midpoint = points[unique].mean(axis=1)
+        new_points = NestedMesh._project_edges(points, unique, star, component, q)
+        m = inverse.reshape((-1, 3))+len(points)
+        a, b, c = faces.T
+        ab, bc, ca = m.T
+        children = np.stack([np.stack(v, axis=1) for v in [(a, ab, ca), (ab, b, bc),
+                                                          (ca, bc, c), (ab, bc, ca)]], axis=1)
+        return np.concatenate([points, new_points]), children.reshape((-1, 3))
+
+    @staticmethod
+    def _project_edges(points: np.ndarray, edges: np.ndarray, star: Any, component: str, q: float) -> np.ndarray:
+        """Project only requested edge midpoints, using the original CPU potential."""
+        midpoint = points[edges].mean(axis=1)
         local = midpoint.copy()
         if component == "secondary":
             local[:, 0] = 1-local[:, 0]
@@ -128,16 +139,11 @@ class NestedMesh:
         try:
             radii = np.array([brentq(lambda r, j=j: potential(r, q, *(c[j] for c in coefficients))
                                     -star.surface_potential, 1e-6, .25, xtol=5e-16)
-                              for j in range(len(unique))])
+                              for j in range(len(edges))])
         except ValueError as exc:
             msg = "New Roche rays are outside the validated inner[1e-6,.25] branch"
             raise UnsupportedNestedMeshError(msg) from exc
         new_points = direction*radii[:, None]
         if component == "secondary":
             new_points[:, 0] = 1-new_points[:, 0]
-        m = inverse.reshape((-1, 3))+len(points)
-        a, b, c = faces.T
-        ab, bc, ca = m.T
-        children = np.stack([np.stack(v, axis=1) for v in [(a, ab, ca), (ab, b, bc),
-                                                          (ca, bc, c), (ab, bc, ca)]], axis=1)
-        return np.concatenate([points, new_points]), children.reshape((-1, 3))
+        return new_points

@@ -81,7 +81,7 @@ class NestedBinaryLightCurve(HybridBinaryLightCurve):
             seed.update(np.asarray(star.points, dtype=np.float64).tobytes())
             seed.update(np.asarray(star.faces, dtype=np.int64).tobytes())
         self._seed_signature = seed.hexdigest()  # diagnostic identity only; no reusable physical arrays
-        self.mesh.apply(system)
+        self._mesh_info = self.mesh.apply(system)
 
     def _unsupported_curve(self, *_args: Any, reason: str, **_kwargs: Any) -> Any:
         raise UnsupportedNestedMeshError(reason)
@@ -114,7 +114,7 @@ class NestedBinaryLightCurve(HybridBinaryLightCurve):
         detail = result.diagnostics
         positions, mapping = detail["positions"], detail["support_to_original"]
         counts = [len(getattr(positions[0], n).faces) for n in _NAMES]
-        roots = [n//4**self.mesh.levels for n in counts]
+        roots = [self._mesh_info[n]["root_faces"] for n in _NAMES]
         groups = {b: [np.zeros((len(positions), n)) for n in roots] for b in self.passbands}
         boundary = [np.zeros((len(positions), n), dtype=bool) for n in roots]
         mu_min = [np.full((len(positions), n), np.inf) for n in roots]
@@ -122,8 +122,7 @@ class NestedBinaryLightCurve(HybridBinaryLightCurve):
         for t, on_pos in enumerate(positions):
             for component, name in enumerate(_NAMES):
                 star = getattr(on_pos, name)
-                base = len(star.faces)//4//4**self.mesh.levels
-                parents = np.concatenate([np.repeat(np.arange(base), 4**self.mesh.levels)+q*base for q in range(4)])
+                parents = self._mesh_info[name]["parents"]
                 for band in self.passbands:
                     values = calculate_surface_element_fluxes(band, star)
                     groups[band][component][t] = np.bincount(parents[star.indices], values, minlength=roots[component])
@@ -146,7 +145,7 @@ class NestedBinaryLightCurve(HybridBinaryLightCurve):
 def compare_surfaces(  # noqa: PLR0915 - explicit finite decomposition and observation mapping
     coarse: SurfaceSnapshot, fine: SurfaceSnapshot, sigma: Any, *, reducers: Any = None,
     mean_normalize: bool = False, ln_f: float = -np.inf, max_distance_sigma: float = .1,
-    require_budget: bool = False, observed: Any = None,
+    require_budget: bool = False, observed: Any = None, allow_same_level: bool = False,
 ) -> dict[str, Any]:
     """Finite root-face change, cancellation envelope and contact/limb attribution.
 
@@ -154,10 +153,13 @@ def compare_surfaces(  # noqa: PLR0915 - explicit finite decomposition and obser
     mean_normalize applies the original fitter's final observation mean. The
     finite budget uses nominal sigma independently of nuisance noise inflation;
     likelihood diagnostics retain the original ln_f law. Source,
-    physical candidate and phase snapshots must match. No continuum extrapolation
+    physical candidate and phase snapshots must match. allow_same_level admits
+    explicit alternate topologies sharing the same seed ancestry; its result is
+    still only a finite difference. No continuum extrapolation
     or change of likelihood/noise/prior semantics is performed.
     """
-    if (coarse.signature != fine.signature or fine.levels <= coarse.levels
+    if (coarse.signature != fine.signature or fine.levels < coarse.levels
+            or (fine.levels == coarse.levels and not allow_same_level)
             or not np.array_equal(coarse.phases, fine.phases) or coarse.fluxes.keys() != fine.fluxes.keys()):
         msg = "Compare ordered nested levels of the same candidate/phases/source snapshot"
         raise ValueError(msg)

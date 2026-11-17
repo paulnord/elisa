@@ -1,33 +1,40 @@
 {
-  "updated_utc": "2026-11-17T11:15:29.929254+00:00",
+  "updated_utc": "2026-11-17T11:53:03.116809+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "49bb6af553e3cf60e567f24dd71b32fb88b9034ce3d418435c9f96627dbb8cde",
-  "code_state_hash_method": "SHA256 of background-m011-source-hashes.json parsed as compact sorted-key JSON",
-  "stage": "Nested Roche surfaces and finite surface/contact/likelihood error estimator",
+  "code_state_sha256": "0c536362d5fa1480cccb066b9cd716257a404252c8ab72be135b8359721ab0a3",
+  "code_state_hash_method": "SHA256 of background-m012-source-hashes.json parsed as compact sorted-key JSON",
+  "stage": "Fixed selective complete Roche curves and independent correction/normalization assessment",
   "last_gpu_suite": {
-    "tests": 370,
+    "tests": 399,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "pytest_seconds": 415.998,
+    "pytest_seconds": 437.581,
     "partitions": [
       {
-        "tests": 113,
+        "tests": 89,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
-        "pytest_seconds": 176.714
+        "pytest_seconds": 171.251
       },
       {
-        "tests": 257,
+        "tests": 75,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
-        "pytest_seconds": 239.284
+        "pytest_seconds": 145.195
+      },
+      {
+        "tests": 235,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "pytest_seconds": 121.135
       }
     ],
-    "scope": "All experimental tests in two independently restored windows"
+    "scope": "All experimental tests in three independently restored windows"
   },
   "last_gpu_suite_is_current_physics_source": true,
   "cpu_only_suite_before_two_added_test_pairs": {
@@ -36,14 +43,14 @@
     "errors": 0,
     "skipped": 47
   },
-  "benchmark_status": "All370hardwaretests pass/no skips; complete nested curve and original observation likelihood parity with matched transfer-inclusive CPU/GPU snapshot costs. Finite-budget accuracy aborts retained; no continuum/convergence/ESS claim.",
+  "benchmark_status": "All399hardwaretests pass/no skips; matched complete selective curve/density costs and independent originalCPU controls. Mixed-grid correction/indicator failure documented; accuracy aborts retained, no continuum or ESS claim.",
   "production": {
-    "window": "background-m011-w026",
+    "window": "background-m012-w032",
     "status": "restored_and_advancing",
-    "verified_utc": "2026-11-17T11:15:02.998786+00:00",
-    "durable_cells_before": 1283607863,
-    "durable_cells_after": 1283652919,
-    "durable_cells_advanced": 45056,
+    "verified_utc": "2026-11-17T11:52:46.760627+00:00",
+    "durable_cells_before": 1290262071,
+    "durable_cells_after": 1290309175,
+    "durable_cells_advanced": 47104,
     "source_release_reverified": true,
     "config_and_plan_unchanged": true,
     "matching_resume_record_verified": true,
@@ -51,7 +58,7 @@
     "clean_test_unit_exit_verified": true,
     "last_receipt_witness_endpoints_verified": true,
     "full_historical_reaudit": false,
-    "test_commands_seconds": 63.42403440712951
+    "test_commands_seconds": 90.93663506628945
   },
   "production_windows": [
     {
@@ -557,6 +564,102 @@
       "last_receipt_witness_endpoints_verified": true,
       "full_historical_reaudit": false,
       "test_commands_seconds": 63.42403440712951
+    },
+    {
+      "window": "background-m012-w027",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:38:20.832169+00:00",
+      "durable_cells_before": 1289016631,
+      "durable_cells_after": 1289049399,
+      "durable_cells_advanced": 32768,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 174.84815045807045
+    },
+    {
+      "window": "background-m012-w028",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:42:25.904974+00:00",
+      "durable_cells_before": 1289436215,
+      "durable_cells_after": 1289458743,
+      "durable_cells_advanced": 22528,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 147.97111011610832
+    },
+    {
+      "window": "background-m012-w029",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:45:27.404025+00:00",
+      "durable_cells_before": 1289662007,
+      "durable_cells_after": 1289676343,
+      "durable_cells_advanced": 14336,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 124.09775675402489
+    },
+    {
+      "window": "background-m012-w030",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:48:18.524381+00:00",
+      "durable_cells_before": 1289973303,
+      "durable_cells_after": 1289977399,
+      "durable_cells_advanced": 4096,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 93.68564169784077
+    },
+    {
+      "window": "background-m012-w031",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:50:27.512324+00:00",
+      "durable_cells_before": 1290106423,
+      "durable_cells_after": 1290153527,
+      "durable_cells_advanced": 47104,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 77.868415402947
+    },
+    {
+      "window": "background-m012-w032",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:52:46.760627+00:00",
+      "durable_cells_before": 1290262071,
+      "durable_cells_after": 1290309175,
+      "durable_cells_advanced": 47104,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 90.93663506628945
     }
   ],
   "hardware": {
@@ -567,7 +670,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Nested complete reflected surfaces, immutable parent-group snapshots and finite nominal-sigma/contact/likelihood-change estimator; unchanged CPU defaults; shared1e-4 surface accuracy still unqualified.",
+  "scope": "Fixed selective complete reflected curves with independent angular area/volume/correction/normalization and fixed-plan original likelihood assessment; CPU parity passes,1e-4 accuracy unqualified.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -580,7 +683,7 @@
     "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
-  "current_milestone_report": "background-m011.json",
+  "current_milestone_report": "background-m012.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
@@ -761,12 +864,12 @@
     "skipped": 8
   },
   "current_full_cpu_suite": {
-    "tests": 370,
+    "tests": 399,
     "failures": 0,
     "errors": 0,
-    "skipped": 149,
-    "pytest_seconds": 268.333,
-    "passed": 221,
+    "skipped": 152,
+    "pytest_seconds": 335.475,
+    "passed": 247,
     "scope": "Final frozen source; all experimental tests, explicit GPU skips in forced-CPU private environment"
   },
   "previous_observation_protocol": {
@@ -826,5 +929,34 @@
       "scope": "All experimental tests in two independently restored windows"
     },
     "current_milestone_report": "background-m010.json"
+  },
+  "previous_nested_surface_milestone": {
+    "stage": "Nested Roche surfaces and finite surface/contact/likelihood error estimator",
+    "code_state_sha256": "49bb6af553e3cf60e567f24dd71b32fb88b9034ce3d418435c9f96627dbb8cde",
+    "last_gpu_suite": {
+      "tests": 370,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_seconds": 415.998,
+      "partitions": [
+        {
+          "tests": 113,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "pytest_seconds": 176.714
+        },
+        {
+          "tests": 257,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "pytest_seconds": 239.284
+        }
+      ],
+      "scope": "All experimental tests in two independently restored windows"
+    },
+    "current_milestone_report": "background-m011.json"
   }
 }

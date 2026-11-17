@@ -1011,3 +1011,75 @@ allocations and explicitly compare matched JAX CPU/GPU snapshot contracts.
 The observation study uses the original serializer, phase/JD mapping, prior,
 third light, final mean and likelihood. It is not an optimized physical fit or a
 sampler-convergence study. See [current results](ada_progress.md).
+
+## Fixed selective surface refinement and correction audit
+
+`SelectiveMesh` is an opt-in `NestedMesh` protocol for a fixed set of seed-quarter
+patches. It starts at `levels-1`, projects only marked edge midpoints onto the
+original Roche equipotential, splits selected triangles into four, and fills
+neighboring triangles with conforming two/three/four-child patterns. Quarter
+symmetry and root ancestry are preserved. Empty/full selections reproduce the
+corresponding original uniform levels exactly. Supported maximum levels are
+1–3, with the existing 40000-face bound and circular detached q/spin/radius domain.
+CPU roots, orientation/hulls/coverage and host grouping remain explicit bridges.
+All gravity/thermal, irradiation, LD/radiance and integration fields are rebuilt.
+
+```python
+from elisa.experimental.gpu_selective_mesh import choose_plan
+
+# coarse/fine are a consecutive uniform pilot pair for this seed, using the
+# preceding snapshot API. Pilot construction is part of numerical setup cost.
+fixed = choose_plan(binary, coarse, fine, nominal_sigma, fraction=0.5)
+engine = NestedBinaryLightCurve(bands, fixed, device="gpu")
+result = engine.snapshot(binary, observation_phases, source_revision=assets_sha256)
+```
+
+The pilot ranks nominal-noise-weighted root-group flux changes across all supplied
+bands/phases, then folds the four symmetry quarters. It uses original maximum
+normalization, with no ln_f dilution. These are coupled finite-model indicators,
+not independent local truncation errors. The phase grid and weights used to
+choose the plan are explicit numerical design choices. Freeze the immutable plan
+before subsequent evaluations; do not change it per proposal or after an accuracy
+failure. A seed topology hash prevents index reassignment. Physical movement of
+vertices is allowed when topology matches; incompatible topology aborts the
+numerical protocol outside candidate penalties. No physical prediction is cached.
+
+The default `correction="density"` evaluates the **original scalar mesh
+correction** at base_angle*sqrt(base_faces/new_faces). This is an explicit
+finite convention for a nonuniform grid, not a validated new correction law.
+`"coarse"` and `"fine"` hold the scalar's angle at the base or fully refined
+level for diagnostic ablations with identical raw topology. They are not fitted
+corrections or physical priors. Existing CPU/default correction is unchanged.
+
+`gpu_mesh_audit` independently integrates a star-shaped Roche surface with
+Gauss-Legendre mu and periodic phi quadrature, CPU Brent roots and original
+analytic potential gradients. Its area Jacobian is r²|grad Phi|/(grad Phi dot
+radial_direction); volume uses r³/3. Exact-sphere controls and separate angular
+orders check this geometry calculation. `mesh_measures` compares raw and scalar-
+corrected faceted area/volume without changing cached state. These diagnostics
+apply before mesh correction/thermal construction. Converged geometric integrals
+are not complete-curve, eclipse or continuum likelihood certificates.
+
+`compare_surfaces(..., allow_same_level=True)` explicitly admits alternate
+maximum-level topologies sharing the same seed ancestry. Its enclosure remains
+only the computed finite change, with nominal-sigma accuracy stops. Default
+ordered-level behavior is unchanged. Original priors, unsupported-case CPU
+routing and public fitting classes retain their preceding behavior. The new
+selective experiment raises explicitly rather than silently coarsening the
+requested numerical model; it is not a registered fitting/sampler backend.
+
+Run `test_gpu_selective_mesh.py` and the full experimental suite. Reproduce with
+`scripts/validate_gpu_selective.py --device cpu --part curves --case partial_bb --output partial.json`,
+`--case others`, and `--part observations`. Use the private CPU wrapper while
+production runs. GPU variants require independent bounded restoration. The driver
+compares original CPU raw curves and original maximum normalization, full fresh
+JAX CPU/GPU snapshots with matched outputs, correction and randomized-root-count
+controls, independent area/volume quadrature, separate finite triangulations,
+and original phase/JD likelihoods under a fixed plan. It includes pilot/setup,
+constructor, per-call transfers and grouping in documented complete costs.
+
+The current evidence **does not qualify selective refinement at 1e-4**. More
+triangles or CPU/GPU parity alone cannot establish improvement when the scalar
+correction and local indicators do not transfer to the mixed grid. See
+[current numerical results](ada_progress.md) before using this experiment for
+inference. Accuracy failures abort; no fit, chain mixing or ESS gain is claimed.
