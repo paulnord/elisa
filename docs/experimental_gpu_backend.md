@@ -369,3 +369,63 @@ Run `scripts/benchmark_gpu_pipeline.py --device cpu --blackbody --directions 64
 authorized window. Larger spectral grids/reference batches can consume substantial
 CPU memory; defaults for the geometry benchmark need not suit spectral workloads.
 See [Ada progress](ada_progress.md) for measured results and tested fingerprints.
+
+## Corrected state and functional hybrid observed curves
+
+`gpu_state.CorrectedSurfaceState` now reconstructs ELISa's actual cached build
+state from each candidate's CPU-generated, uncorrected mesh and topology. It
+retains pre-correction centres/normals/gravity, corrects only points and areas,
+and calculates fresh intrinsic temperatures with quarter-face symmetry and
+energy normalization. The correction factor comes from the current CPU detached
+resource, with the same interpolation and endpoint convention. Prepared state is
+immutable and evaluated under strict device transfer guards. It is a separate
+adapter; `RocheGeometryPipeline` retains its original uncorrected contract.
+
+`gpu_binary.HybridBinaryLightCurve` connects that state to complete observed
+curves with fresh CPU reflection/radiance/LD and changing CPU eclipse clipping,
+then device integration. It recomputes candidate angular placement, radial roots
+and connectivity on CPU; it does not freeze the ray experiment's directions.
+Each call rebuilds all dependent physical state. This is a functional **hybrid**
+path, not an all-GPU or resident forward model and not a registered fitting backend.
+
+```python
+from elisa.experimental.gpu_binary import HybridBinaryLightCurve
+
+engine = HybridBinaryLightCurve(
+    ["Generic.Bessell.B", "Generic.Bessell.V", "bolometric"],
+    device="gpu", fallback="cpu",
+)
+result = engine(binary, phases, normalize=True)
+print(result.backend, result.fallback_reason, result.timings)
+curves = result.fluxes
+```
+
+Output reproduces Observer's maximum normalization, phase shift, periodic
+reduction/symmetry, original ordering/repeats and third-light mean. With
+`normalize=False`, flux is W/m² using the original distance helper. Component
+fluxes precede third light and distance/normalization. This explicit-phase API
+does not expose times, magnitudes, interpolation or fitter mean normalization.
+`diagnostics=True` retains intermediate containers in memory for validation;
+it should be off for timing/inference. Fixed integration padding keeps the
+compiled shape stable as visible-face counts change.
+
+Hybrid support is circular detached, q in [0.5,2], spin in [0.5,1.5], raw radii
+[1e-6,.25] SMA, beta in [0,1], unspotted/nonpulsating, blackbody and supplied
+per-band/bolometric LD. CPU reflection follows current settings. Existing geometry
+conditioning masks remain active. Outside this domain, default fallback runs
+the **entire unmodified CPU Observer** and reports the reason; `fallback="raise"`
+instead raises `UnsupportedHybridModelError`. Device unavailability/disabled FP64
+never silently selects CPU. Unsupported states are not physical-prior penalties.
+Atmosphere tables/tabulated LD, spots and eccentric/contact GPU states remain
+unvalidated; CPU fallback preserves upstream data errors and exceptions.
+
+Run `tests/tests_experimental/test_gpu_binary.py` and
+`scripts/validate_gpu_binary.py --device cpu --repeats 3 --output validation.json`,
+then the hardware variant in an authorized bounded restored window. Validation
+compares fully built CPU containers, per-face/component/total flux, both eclipses,
+contacts, three LD laws, reflection, changing parameters/topology and original
+phase mapping. The first Ada milestone passed 163 tests with no skips plus seven
+full-curve comparisons. Full hybrid GPU calls were slower than CPU Observer at
+the tested 832/1280-face workloads. See [Ada progress](ada_progress.md) for actual
+errors, transfer-inclusive samples, safety evidence and remaining work. No MCMC,
+ESS/sec, resolution convergence or whole-model acceleration claim follows.

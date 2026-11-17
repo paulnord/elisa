@@ -121,7 +121,7 @@ class SurfaceFluxIntegrator:
             raise ValueError(msg)
         return PreparedSurfaceBatch(self, tuple(self._jax.device_put(x, self.device, may_alias=False) for x in arrays))
 
-    def from_containers(self, band: str, stars: Any) -> Any:
+    def from_containers(self, band: str, stars: Any, *, pad_to: int | None = None) -> Any:
         """Snapshot selected faces of prepared containers, pad, and integrate.
 
         Input order is preserved, including empty selections and zero-coverage occulted faces.
@@ -129,6 +129,8 @@ class SurfaceFluxIntegrator:
         normal radiance already includes that law's optical-depth correction.
         The containers carry no authoritative LD-law provenance tag.
         Containers must not be mutated concurrently while they are copied.
+        pad_to optionally retains a fixed row width across changing phase
+        selections, avoiding recompilation. It must accommodate every selection.
         """
         rows = []
         for star in stars:
@@ -148,6 +150,11 @@ class SurfaceFluxIntegrator:
             msg = "At least one star snapshot is required"
             raise ValueError(msg)
         width = max(len(row[0]) for row in rows)
+        if pad_to is not None:
+            if not isinstance(pad_to, int) or isinstance(pad_to, bool) or pad_to < width:
+                msg = "pad_to must be an integer accommodating every selected face"
+                raise ValueError(msg)
+            width = pad_to
         shape = (len(rows), width)
         r, mu, cov = (np.zeros(shape) for _ in range(3))
         coeff = np.zeros((*shape, self._ncoeff))

@@ -149,6 +149,26 @@ def test_prepared_device_snapshot(device: str) -> None:
         batch.evaluate()
 
 
+@pytest.mark.parametrize("device", ["cpu", "gpu"])
+def test_fixed_phase_padding_preserves_selected_face_flux(device: str) -> None:
+    try:
+        jax.devices(device)
+    except RuntimeError:
+        pytest.skip("Requested hardware unavailable")
+    star = SimpleNamespace(indices=np.array([0]), normal_radiance={"b": np.array([2.0])},
+                           los_cosines=np.array([0.5]), coverage=np.array([0.3]),
+                           ld_cfs={"b": np.array([[0.5]])})
+    kernel = SurfaceFluxIntegrator("linear", device=device)
+    selected, total = kernel.from_containers("b", [star])
+    padded, padded_total = kernel.from_containers("b", [star], pad_to=4)
+    assert padded.shape == (1, 4)
+    assert_allclose(padded[:, :1], selected, rtol=0, atol=0)
+    assert_allclose(padded[:, 1:], 0, rtol=0, atol=0)
+    assert_allclose(padded_total, total, rtol=3e-13, atol=0)
+    with pytest.raises(ValueError, match="pad_to"):
+        kernel.from_containers("b", [star], pad_to=0)
+
+
 @pytest.mark.parametrize("option", ["--max-input-mib", "--discretization"])
 @pytest.mark.parametrize("value", ["nan", "inf"])
 def test_benchmark_rejects_nonfinite_limits(option: str, value: str) -> None:

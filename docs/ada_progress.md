@@ -1,6 +1,167 @@
 # Ada GPU development progress
 
-Updated **2026-11-16T22:17:16.273566+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T04:04:33Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
+**Nothing merged. The assignment continues.**
+
+## Latest milestone: corrected state and functional hybrid observed curves
+
+`CorrectedSurfaceState` and `HybridBinaryLightCurve` now produce complete fresh
+**B, V and bolometric observed light curves**, including changing mutual eclipses,
+Observer maximum normalization, third light, distance and original phase ordering.
+The implementation is explicitly **hybrid**, with measured CPU stages and transfers.
+Existing CPU Observer and fitting defaults are unchanged.
+
+The inspected CPU call graph determines the sequence:
+
+1. CPU `build_mesh`, `build_faces`, `build_velocities` recompute each candidate's
+   angular placement, radial roots, topology and kinematics.
+2. Device geometry/gravity use **uncorrected** vertices. Quarter-face symmetry
+   and secondary units follow ELISa. Centres, normals and gravity remain cached
+   from this stage.
+3. Device point correction uses the actual CPU detached correction resource,
+   scaling about the correct component centre. Corrected areas, cached gravity
+   and fresh intrinsic temperatures then undergo the CPU-compatible energy
+   normalization. Corrected points do not replace cached centres/normals/gravity.
+4. The complete state returns to CPU for the original reflection, fresh
+   blackbody radiance, optical-depth/LD correction, observer rotation and
+   phase-specific silhouette/partial-face eclipse clipping.
+5. Device integration returns both component totals. CPU remaps phases/repeats,
+   adds third light using that mapped mean, and applies distance or normalization.
+   Fixed padding avoids recompiling integration for each different face selection.
+
+The original fixed-direction resident Roche-to-emission experiment below remains
+separate and uncorrected. This functional bridge does not yet compose its ray or
+blackbody kernels into a resident observed-light-curve model.
+
+### Scientific evidence
+
+**163 passed in 47.99 s on Ada; zero failures/errors/skips.** All original tests
+retain their thresholds. CPU-only development passed **98**, with **65** explicit
+hardware skips. The independent seven-system validation driver also passed on
+JAX CPU and GPU, comparing unmodified ELISa Observer and fully built containers.
+
+Cases cover q=0.5/0.7/1/2; spin=0.5/1/1.5; unequal/equal temperatures and
+potentials; inclinations 60/79/85/87/88/90 degrees; no eclipse, grazing, partial
+and total eclipses; both conjunctions, ingress/egress, contact-focused samples,
+quadratures and unsorted/repeated/cross-cycle observations with nonzero phase
+shift and third light. Actual candidate meshes have 832 or 1280 faces per star.
+Linear, logarithmic and square-root LD and CPU reflection on/off are exercised.
+Contact samples use radius estimates to locate phases; the actual oracle and
+clipping use triangulated Roche silhouettes, not spherical occultation.
+
+- GPU maximum normalized-curve absolute difference: **4.44e-16**;
+  raw observed-flux relative difference: **1.09e-15**.
+- GPU maximum SI face-gravity relative difference: **4.75e-16**;
+  temperature relative difference: **4.20e-16**.
+- Corrected points/areas and cached normals were identical in the measured GPU
+  cases. Cached centres differed by at most **2.23e-16 SMA**.
+- All selected-face indices matched. Coverage, per-band radiance/LD, per-face
+  contributions, component totals and total curves passed. Zero-covered faces
+  and a fully occulted secondary are explicitly exercised.
+- Independent intrinsic `sum(A*T**4)/(sum(A)*T_eff**4)` closure passed.
+  Reflection cases compare the original CPU prescription separately.
+- Accumulated three-band log-likelihood difference was at most **2.94e-11** for
+  normalized errors `1e-4`, `ln_f=-2` and 45–69 observations per band. This is a
+  forward-model diagnostic, not a physical fit or sampler equivalence result.
+
+State/surface parity retains relative `3e-13`, geometry absolute `64*eps`, and
+the existing fitter's absolute normalized-flux gate `2e-12`. The independent
+likelihood gate is `1e-6`, negligible relative to order-unity likelihood ratios.
+Near-zero face terms use absolute normalized contributions; relative errors in
+near-zero normal components are not interpreted as physical error. No prior
+tolerance was relaxed. Implementation parity does not establish mesh, time or
+spectral discretization convergence or accuracy of the CPU reflection model.
+
+### Full-call timing: no hybrid speedup at these workloads
+
+Median **milliseconds per fresh three-band curve**, three repeats. Both columns
+below were measured in the same restored-production GPU window: CPU affinity
+0–15, thread counts 1, no competing GPU work. Inputs are preconstructed
+`BinarySystem` candidates for both paths. Each call rebuilds all dependent state.
+The hybrid timer includes copying, CPU mesh/topology/reflection/radiance/coverage,
+device uploads/evaluation/downloads, phase mapping and normalization. It also
+includes extra component/timing metadata. Cold constructor/first-call compilation
+and individual full-call samples are reported separately in JSON.
+
+| Case | Observations/band | Original CPU Observer | Hybrid GPU |
+|---|---:|---:|---:|
+| Non-eclipsing | 45 | 66.98 | 106.65 |
+| Grazing | 57 | 73.93 | 120.93 |
+| Partial, reflection | 57 | 72.39 | 126.47 |
+| Total, reflection | 69 | 85.52 | 141.16 |
+| q=0.5, logarithmic LD | 69 | 82.02 | 142.69 |
+| q=2, square-root LD, finer mesh | 57 | 104.27 | 146.54 |
+| Equal components | 57 | 68.17 | 111.94 |
+
+CPU-stage overhead and per-phase transfers/launches dominate this implementation.
+The additional JAX CPU validation/timing run used cores 16–19/nice19 while
+production ran; its measurements are disclosed separately and are not an
+identical-profile CPU/GPU timing comparison. Prior resident primitive speedups
+below do not imply whole-curve or fitting speedups.
+
+### Supported domain, fallbacks and next milestones
+
+The hybrid domain is circular detached, unspotted/nonpulsating, q in [0.5,2],
+spin in [0.5,1.5], raw own-centre radii in [1e-6,0.25] SMA, beta in [0,1],
+blackbody and explicit per-band/bolometric LD. Geometry conditioning gates remain
+unchanged. Every candidate and phase gets fresh dependent state; no previous
+candidate's mesh, coverage, brightness or temperature is reused.
+
+Unsupported models use **full, unmodified CPU Observer**, with
+`backend="cpu_fallback"` and a reason, or raise `UnsupportedHybridModelError`
+when `fallback="raise"`. Unsupported states are not physical-prior rejections.
+Dispatch tests cover eccentricity/separation, large-radius/near-contact meshes,
+spots, atmosphere tables and tabulated LD; an actual e=0.1, 27-phase CPU fallback
+matches exactly. Atmosphere/LD table directories here contain no scientific
+tables, so dispatch tests are not table-physics validation. No spotted GPU model
+or near-contact/eccentric GPU equivalence is claimed. The sparse-phase eccentric
+CPU approximation router can itself raise a zero-size reduction error; fallback
+preserves that CPU exception. It was not changed to obtain parity.
+
+Next: reduce the measured CPU/transfer costs by connecting corrected state to
+resident candidate geometry, observer projection and changing eclipse coverage;
+validate contact masks before claiming a resident forward model. Reflection and
+real atmosphere/LD tables need their own device validation, as do spots and
+broader separation/contact domains. Then assess the original mean-normalized
+fitter mapping/noise/third-light contract and representative physical fitting/MCMC.
+The l3/ln_f-only pilot continues to cache its fixed physical curve. There is no
+physical-posterior, MCMC convergence, ESS/sec or complete-assignment claim yet.
+
+### Reproduction, fingerprints and restoration
+
+Use the private environment, FP64 and process-only thread limits described in
+the handoff. Force `JAX_PLATFORMS=cpu` during development. GPU commands require
+the authorized independently restored systemd window; these commands alone do
+not establish the allocation or restore production:
+
+```text
+python -m pytest tests/tests_experimental -q -rs
+python scripts/validate_gpu_binary.py --device cpu --repeats 3 --output validation-cpu.json
+python scripts/validate_gpu_binary.py --device gpu --repeats 3 --output validation-gpu.json
+```
+
+Qualification was read-only: clean published checkout, private FP64 CPU probe,
+authenticated connected GitHub write capabilities, pinned production release,
+last durable receipt/witness and actual advancement verified before any pause.
+The registered background window ran about **64.88 s** of GPU probe/tests/driver
+commands, within the five-minute systemd/internal limits. Guaranteed cleanup
+restarted the exact service, matched its resume record, reverified source/config/
+plan and the latest checkpoint evidence, and observed **24,576 durable cells**
+of advancement. Test unit cleanup completed successfully. This validates the
+latest receipt/witness/endpoints, not a full historical production re-audit.
+
+Curated evidence: [full milestone measurements](ada_validation/background-m001.json),
+[tested runtime source fingerprints](ada_validation/background-m001-source-hashes.json),
+and [machine-readable status](ada_validation/progress.json). The new manifest
+covers 546 Python/project files, including the unchanged CPU oracle, and hashes
+to `daaa6fa16ee1e7ec817a28b627cd2186e9c4005a6e13522f9f26bb9f8325e04f`
+using compact sorted-key JSON. Runtime files were checked unchanged after the
+hardware window. Only documentation/evidence were added afterward. Operational
+logs and process/environment/checkpoint snapshots remain private.
+
+## Prior resident-primitive baseline
+
+The following results were last updated **2026-11-16T22:17:16.273566+00:00**.
 Based on `experimental/gpu-roche-rays` commit
 `7d719ca09545d4c62a2e7e30f5e858e6c0d82eec`. **Nothing merged.**
 
@@ -174,7 +335,7 @@ Window 01's benchmark gate failed at the original rounding tolerance; its
 passed their requested checks. No GPU reset, driver/global-setting changes or
 merge. The other machines were not paused by this work.
 
-## Review priorities and next physics work
+## Review priorities for the resident primitive baseline
 
 DOT can review state/build order, secondary gravity units, unsupported masks,
 reference-gravity cancellation, energy conservation, FP64 barriers, passband
@@ -183,10 +344,11 @@ pi/wavelength units, Simpson weights, streaming memory and transfer accounting.
 The supplied directions/connectivity remain fixed and the ray mesh remains
 **uncorrected**. Pipeline temperatures use those supplied ray-mesh areas; they
 are not yet the final corrected areas/state of a fully built CPU ELISa container.
-Candidate-specific angular placement/topology and CPU-compatible mesh correction
-come next, then irradiation/reflection, atmosphere-table/LD updates, changing
-mutual eclipse coverage and complete normalized light-curve/posterior validation.
-Changed physical parameters must never reuse stale coverage or brightness.
+The latest hybrid adapter above uses fresh CPU angular placement/topology and
+reconstructs corrected cached state. These remain CPU/host bridges rather than
+resident extensions of this older ray pipeline. Resident reflection, atmosphere/
+LD updates, changing eclipse coverage and complete fitter/posterior validation
+remain. Changed physical parameters must never reuse stale coverage or brightness.
 
 ## Evidence
 
@@ -202,4 +364,4 @@ Raw machine-local supervision/checkpoint evidence is preserved in the isolated A
 
 ## Continuing background assignment
 
-Background handoff prepared **2026-11-17T03:41:23.890646+00:00**. Paul has assigned completion and scientific validation of the light-curve pipeline, followed by a fitting/MCMC assessment. See the [authorized assignment, milestones and safety rules](ada_background_handoff.md). A detached Codex supervisor is being launched; runtime qualification will be recorded here after verification. The physics results above remain the last validated baseline. DOT can follow this report and the same development branch for each tested, pushed milestone.
+Background handoff prepared **2026-11-17T03:41:23.890646+00:00**. Paul has assigned completion and scientific validation of the light-curve pipeline, followed by a fitting/MCMC assessment. See the [authorized assignment, milestones and safety rules](ada_background_handoff.md). The detached worker qualified successfully and completed its first tested milestone above. DOT can follow this report and the same development branch for each tested, pushed milestone. No merge is authorized.

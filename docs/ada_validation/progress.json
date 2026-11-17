@@ -1,12 +1,12 @@
 {
-  "updated_utc": "2026-11-16T22:17:16.273566+00:00",
+  "updated_utc": "2026-11-17T04:02:06.901712+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
-  "code_state_hash_method": "SHA256 of source-hashes.json parsed then compact JSON sorted by key",
-  "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
+  "code_state_sha256": "daaa6fa16ee1e7ec817a28b627cd2186e9c4005a6e13522f9f26bb9f8325e04f",
+  "code_state_hash_method": "SHA256 of background-m001-source-hashes.json parsed then compact JSON sorted by key",
+  "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
   "last_gpu_suite": {
-    "tests": 130,
+    "tests": 163,
     "failures": 0,
     "errors": 0,
     "skipped": 0
@@ -24,17 +24,24 @@
     "errors": 0,
     "skipped": 8
   },
-  "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
+  "benchmark_status": "Seven full hybrid observed-curve CPU/GPU validation/timing cases passed. Hybrid is slower than original CPU at these workloads; previous resident lower bounds are separate experiments.",
   "production": {
-    "window": "05",
+    "window": "background-m001-w001",
     "status": "restored_and_advancing",
-    "job": "j00878",
-    "saved_cursor": 961144656,
-    "verified_cursor": 961189712,
-    "durable_cells_before": 1094499895,
-    "durable_cells_after": 1094544951,
-    "verified_utc": "2026-11-16T22:16:01.559530+00:00",
-    "config_and_plan_unchanged": true
+    "job": "j00951",
+    "saved_cursor": 1264997968,
+    "verified_cursor": 1265024592,
+    "durable_cells_before": 1184443703,
+    "durable_cells_after": 1184468279,
+    "durable_cells_advanced": 24576,
+    "verified_utc": "2026-11-17T03:59:39.853857+00:00",
+    "config_and_plan_unchanged": true,
+    "source_release_reverified": true,
+    "matching_resume_record_verified": true,
+    "clean_test_unit_exit_verified": true,
+    "last_receipt_witness_endpoints_verified": true,
+    "full_historical_reaudit": false,
+    "gpu_batch_seconds": 64.87584083504044
   },
   "production_windows": [
     {
@@ -91,6 +98,24 @@
       "durable_cells_after": 1094544951,
       "verified_utc": "2026-11-16T22:16:01.559530+00:00",
       "config_and_plan_unchanged": true
+    },
+    {
+      "window": "background-m001-w001",
+      "status": "restored_and_advancing",
+      "job": "j00951",
+      "saved_cursor": 1264997968,
+      "verified_cursor": 1265024592,
+      "durable_cells_before": 1184443703,
+      "durable_cells_after": 1184468279,
+      "durable_cells_advanced": 24576,
+      "verified_utc": "2026-11-17T03:59:39.853857+00:00",
+      "config_and_plan_unchanged": true,
+      "source_release_reverified": true,
+      "matching_resume_record_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "gpu_batch_seconds": 64.87584083504044
     }
   ],
   "hardware": {
@@ -101,5 +126,25 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
+  "scope": "Functional HYBRID fresh circular detached blackbody/custom-LD observed curves: CPU candidate mesh/roots/topology/kinematics, reflection, radiance/LD, rotation and eclipse clipping; device corrected state and flux integration; original CPU fallback for unsupported models. Original fixed-direction resident pipeline remains uncorrected. No full physical fitting/MCMC/ESS claim.",
+  "previous_resident_baseline": {
+    "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
+    "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
+    "last_gpu_suite": {
+      "tests": 130,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
+    "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
+  },
+  "current_full_cpu_suite": {
+    "passed": 98,
+    "failed": 0,
+    "errors": 0,
+    "skipped_gpu_cases": 65,
+    "seconds": 34.87
+  },
+  "current_milestone_report": "background-m001.json"
 }
