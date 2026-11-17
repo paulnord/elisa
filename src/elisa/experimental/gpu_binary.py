@@ -24,6 +24,7 @@ from elisa.binary_system.surface.coverage import compute_surface_coverage
 from elisa.binary_system.surface.gravity import calculate_polar_potential_gradient_magnitude
 from elisa.binary_system.surface.temperature import apply_reflection_effect
 from elisa.binary_system.utils import move_sys_onpos
+from elisa.experimental.gpu_atmosphere import DeviceAtmosphereRadiance, check_ld_boundaries, check_table_transitions
 from elisa.experimental.gpu_occultation import DeviceEclipseIntegrator, UnsupportedOccultationError
 from elisa.experimental.gpu_radiance import DeviceBlackbodyRadiance, UnsupportedRadianceError, passband_revision
 from elisa.experimental.gpu_state import CorrectedSurfaceState
@@ -64,10 +65,11 @@ class HybridBinaryLightCurve:
 
     Supported hybrid domain: circular detached, unspotted/nonpulsating binaries,
     q in [0.5,2], spin in [0.5,1.5], raw own-centre radii [1e-6,.25] SMA,
-    beta in [0,1], blackbody and explicit per-band AND bolometric LD. Reflection
-    uses the original CPU implementation and current settings. Real atmosphere
-    tables, tabulated LD, eccentric/contact systems and spots use unmodified
-    Observer when fallback='cpu' (default), or raise UnsupportedHybridModelError.
+    beta in [0,1], two blackbody OR two CK04 components, custom or CPU-interpolated
+    table LD. Reflection/source selection/wavelength preparation/LD interpolation
+    use original CPU implementations. Mixed/other atlases, eccentric/contact
+    systems and spots use unmodified Observer when fallback='cpu' (default), or
+    raise UnsupportedHybridModelError.
     Missing GPU/FP64 never silently changes the requested device.
 
     Only explicit phases and W/m2 or Observer maximum-normalized output are
@@ -105,6 +107,7 @@ class HybridBinaryLightCurve:
         self._integrators: dict[str, SurfaceFluxIntegrator] = {}
         self._occultations: dict[str, DeviceEclipseIntegrator] = {}
         self._radiance_engine: tuple[tuple[str, str], DeviceBlackbodyRadiance] | None = None
+        self._atmosphere_engines: dict[str, DeviceAtmosphereRadiance] = {}
 
     def _unsupported_reason(self, binary: Any) -> str | None:  # noqa: PLR0911 - explicit fallback reasons
         if self.coverage == "device" and settings.INTERSECTION_BACKEND not in ("sutherland_hodgman", "reference"):
@@ -114,18 +117,19 @@ class HybridBinaryLightCurve:
             return "Hybrid state requires a circular detached binary; eccentric/contact physics uses CPU"
         if not _Q_MIN <= binary.mass_ratio <= _Q_MAX:
             return "Mass ratio outside the validated device domain [0.5,2]"
+        atlases = {getattr(binary, name).atmosphere for name in _COMPONENTS}
+        if atlases not in ({"bb"}, {"ck04"}):
+            return "Hybrid emission supports two blackbody or two CK04 stars; mixed/other atlases use CPU"
         for name in _COMPONENTS:
             star = getattr(binary, name)
             if star.has_spots() or star.has_pulsations():
                 return "Spots/pulsations require the full CPU model"
             if not _SPIN_MIN <= star.synchronicity <= _SPIN_MAX or not 0 <= star.gravity_darkening <= 1:
                 return "Spin/beta outside the validated device domain"
-            if star.atmosphere != "bb":
-                return "Atmosphere-table state is not validated in the hybrid path; use CPU"
-            if star.limb_darkening_coefficients is None or any(
+            if star.limb_darkening_coefficients is not None and any(
                 band not in star.limb_darkening_coefficients for band in (*self.passbands, "bolometric")
             ):
-                return "Tabulated/missing limb darkening requires the full CPU model"
+                return "Missing custom limb darkening requires the full CPU model"
         return None
 
     def build_intrinsic_system(self, binary: Any) -> tuple[Any, dict[str, float]]:
@@ -166,8 +170,12 @@ class HybridBinaryLightCurve:
                 1.0, binary.mass_ratio, star.polar_radius, name, star.synchronicity,
             )
         state_done = perf_counter()
+        if settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0:
+            check_ld_boundaries(system, ("bolometric",))
         apply_reflection_effect(system, 1.0, settings.REFLECTION_EFFECT_ITERATIONS)
         system.flat_it()
+        if system.primary.atmosphere == "ck04":
+            check_table_transitions(system)
         if settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0:
             # CPU reflection changed the intrinsic arrays. Re-upload its final
             # temperatures; retaining old device temperatures would be stale.
@@ -182,13 +190,26 @@ class HybridBinaryLightCurve:
         self, system: Any, observer: Any, device_temperatures: Any, *, diagnostics: bool,
     ) -> tuple[Any, Any]:
         """Fresh LD/temperature snapshot, revision-checked fixed quadrature reuse."""
+        table = system.primary.atmosphere == "ck04"
+        check_ld_boundaries(system, observer.passband)
         ld_cfs = get_limbdarkening_cfs(system, passband=observer.passband)
-        key = (settings.LIMB_DARKENING_LAW, passband_revision(observer.passband))
-        if self._radiance_engine is None or self._radiance_engine[0] != key:
-            engine = DeviceBlackbodyRadiance(observer.passband, key[0], device=self.device.platform)
-            self._radiance_engine = key, engine  # one fixed response revision; no physical cache
-        engine = self._radiance_engine[1]
-        packet = engine.prepare(system, ld_cfs, device_temperatures=device_temperatures)
+        revision = None
+        if table:
+            law = settings.LIMB_DARKENING_LAW
+            if law not in self._atmosphere_engines:
+                self._atmosphere_engines[law] = DeviceAtmosphereRadiance(self.passbands, law,
+                                                                       device=self.device.platform)
+            packet = self._atmosphere_engines[law].prepare(
+                system, ld_cfs, passband=observer.passband, left_bandwidth=observer.left_bandwidth,
+                right_bandwidth=observer.right_bandwidth, device_temperatures=device_temperatures,
+            )
+        else:
+            key = (settings.LIMB_DARKENING_LAW, passband_revision(observer.passband))
+            revision = key[1]
+            if self._radiance_engine is None or self._radiance_engine[0] != key:
+                engine = DeviceBlackbodyRadiance(observer.passband, key[0], device=self.device.platform)
+                self._radiance_engine = key, engine  # one fixed response revision; no physical cache
+            packet = self._radiance_engine[1].prepare(system, ld_cfs, device_temperatures=device_temperatures)
         radiance = packet.evaluate()
         if not np.asarray(radiance["proposal_valid"]).all():
             msg = "Unsupported fresh device spectral/optical-depth state; use full CPU"
@@ -201,7 +222,9 @@ class HybridBinaryLightCurve:
                 star = getattr(system, name)
                 star.normal_radiance = {band: values[comp, b, :len(star.faces)].copy()
                                         for b, band in enumerate(self.passbands)}
-        detail = {"prepared_batch": packet, "result": radiance, "response_revision": key[1],
+        detail = {"prepared_batch": packet, "result": radiance, "response_revision": revision,
+                  "emission": "CPU-prepared CK04/device quadrature and T4 interpolation" if table else "device Planck",
+                  "source_preparation": packet.metadata if table else None,
                   "temperature_source": "CPU post-reflection upload" if device_temperatures is None
                   else "fresh corrected device temperatures"} if diagnostics else None
         return radiance, detail

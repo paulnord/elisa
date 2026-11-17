@@ -413,14 +413,15 @@ it should be off for timing/inference. Fixed integration padding keeps the
 compiled shape stable as visible-face counts change.
 
 Hybrid support is circular detached, q in [0.5,2], spin in [0.5,1.5], raw radii
-[1e-6,.25] SMA, beta in [0,1], unspotted/nonpulsating, blackbody and supplied
-per-band/bolometric LD. CPU reflection follows current settings. Existing geometry
+[1e-6,.25] SMA, beta in [0,1], unspotted/nonpulsating, two blackbody or two CK04
+components and custom or original CPU-interpolated table LD. CPU reflection follows current settings. Existing geometry
 conditioning masks remain active. Outside this domain, default fallback runs
 the **entire unmodified CPU Observer** and reports the reason; `fallback="raise"`
 instead raises `UnsupportedHybridModelError`. Device unavailability/disabled FP64
 never silently selects CPU. Unsupported states are not physical-prior penalties.
-Atmosphere tables/tabulated LD, spots and eccentric/contact GPU states remain
-unvalidated; CPU fallback preserves upstream data errors and exceptions.
+Mixed/other atmospheres, spots and eccentric/contact GPU states use CPU fallback,
+preserving upstream data errors and exceptions. See the table-emission section
+below for the actual tested CK04/LD source coverage and conditioning guards.
 
 Run `tests/tests_experimental/test_gpu_binary.py` and
 `scripts/validate_gpu_binary.py --device cpu --repeats 3 --output validation.json`,
@@ -546,8 +547,10 @@ Device spectral bounds are 1–8 bands, 3–4096 samples per band, at most 16384
 combined samples and 8192 faces per star. Outside the validated model or resource
 domain, and for unsupported numeric output, the whole original CPU curve runs;
 these are not prior exclusions. Missing device/FP64 remains a runtime error.
-Real atmosphere/LD tables, spots and eccentric/contact GPU states remain outside
-this declared domain.
+This section records the fourth milestone's blackbody domain. CK04 and
+CPU-interpolated table LD are extended below; spots/eccentric/contact GPU states
+remain unsupported.
+
 
 The fourth background milestone passed 215 tests with zero hardware skips,
 eight detailed full-curve cases on matched JAX CPU/GPU profiles, and the original
@@ -565,3 +568,42 @@ three-step sampler runs remain slower than original CPU after compilation. These
 small workloads and short runs do not establish general throughput, convergence
 or ESS/sec. See [Ada progress](ada_progress.md) and its curated evidence for cold
 costs, actual samples, domain, independent restoration and remaining work.
+
+## Actual CK04 spectra and interpolated table LD
+
+`gpu_atmosphere.DeviceAtmosphereRadiance` extends the complete hybrid to two
+CK04 components, with custom or original CPU-interpolated LD. Two blackbody stars
+can also use actual interpolated LD. Source selection/read/revision checks,
+wavelength alignment/stripping, passband response and LD interpolation remain
+original CPU operations. Device work integrates each unique prepared spectrum,
+gathers face brackets, interpolates in T⁴, mirrors faces, divides by the same-band
+LD integral and feeds fresh radiance directly into device eclipse packets.
+
+This preserves the original **nearest** gravity/metallicity selection and
+T⁴ atmosphere interpolation. LD remains piecewise linear in T/log(g), with
+metallicity selecting the original ordered source tables. It does not add a
+continuous gravity/metallicity atmosphere interpolation or change CPU physics.
+Only fixed quadrature and source-dependent LD hulls are reused; actual spectra,
+physical interpolation weights, LD and brightness are fresh per proposal.
+
+Near atlas selection boundaries or an LD source's convex-hull boundary, small
+state roundoff can change file/domain decisions. These cases run the whole
+original CPU curve. The dispatch margin is four times the existing 3e-13 state
+relative gate, not an increased acceptance tolerance or a prior exclusion.
+Resource failures also use complete CPU fallback. Original missing/malformed
+source errors keep their classes and fitter handling; missing device/FP64 raises.
+
+The atlas path supports at most 8 bands, 8192 faces per star, 128 unique spectra
+per band/component, 2–4096 wavelengths and 8388608 prepared spectral samples.
+The sample cap excludes runtime/compiler workspace. Mixed/other atlases, spots
+and eccentric/contact GPU states retain whole CPU fallback. The current
+scientific fixtures use existing unmodified repository CK04/Van Hamme data,
+V/bolometric bands, solar metallicity and three T/g regions; this is not general
+table/model accuracy or resolution-convergence evidence.
+
+Run `scripts/validate_gpu_atmosphere.py --device cpu --output tables-cpu.json`
+with the private CPU wrapper. The GPU variant requires an independently restored
+bounded allocation. It includes complete curves with both eclipses/contacts,
+fresh table/response revisions and LD, physical fitting/likelihood, public fits,
+short sampler replay and matching host-output transfer-inclusive costs. Read
+[Ada progress](ada_progress.md) for current measurements and remaining work.

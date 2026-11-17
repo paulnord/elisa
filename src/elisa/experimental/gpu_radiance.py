@@ -25,6 +25,33 @@ _COMPONENTS = ("primary", "secondary")
 _MAX_FACES, _MAX_BANDS = 8192, 8
 
 
+def _normal_intensity(
+    jax: Any, jnp: Any, law: str, flux: Any, coefficients: Any, active: Any,
+    emission_valid: Any, emission_status: Any,
+) -> dict[str, Any]:
+    """Same-band optical-depth division shared by fresh BB and atlas emission."""
+    barrier = jax.lax.optimization_barrier
+    integral = barrier(1 - barrier(coefficients[..., 0] / 3))
+    if law == "logarithmic":
+        integral = barrier(integral + barrier(barrier(2 * coefficients[..., 1]) / 9))
+    elif law == "square_root":
+        integral = barrier(integral - barrier(coefficients[..., 1] / 5))
+    integral = barrier(const.PI * integral)
+    intensity = flux / integral
+    numerical = jnp.all(~active[:, None, :] | (
+        jnp.isfinite(integral) & (integral > 0) & jnp.isfinite(intensity) & (intensity > 0)
+    ), axis=(1, 2))
+    valid = emission_valid & numerical
+    return {
+        "normal_radiance": jnp.where(active[:, None, :],
+                                     jnp.where(valid[:, None, None], intensity, jnp.nan), 0),
+        "surface_flux": jnp.where(active[:, None, :], flux, 0),
+        "ld_integral": integral, "coefficients": coefficients,
+        "proposal_valid": valid,
+        "status": jnp.where(~emission_valid, emission_status, jnp.where(numerical, 0, 3)),
+    }
+
+
 class UnsupportedRadianceError(ValueError):
     """A bounded spectral evaluation needs full CPU fallback, never a prior cut."""
 
@@ -102,26 +129,8 @@ class DeviceBlackbodyRadiance:
         def evaluate(temperatures: Any, coefficients: Any, mirror: Any, active: Any, *quadrature: Any) -> dict:
             emitted = barrier(self._spectrum._integrate(temperatures, *quadrature))
             flux = jnp.take_along_axis(emitted["surface_flux"], mirror[:, None, :], axis=2)
-            # Keep CPU operation order/rounding at each division/addition.
-            integral = barrier(1 - barrier(coefficients[..., 0] / 3))
-            if law == "logarithmic":
-                integral = barrier(integral + barrier(barrier(2 * coefficients[..., 1]) / 9))
-            elif law == "square_root":
-                integral = barrier(integral - barrier(coefficients[..., 1] / 5))
-            integral = barrier(const.PI * integral)
-            intensity = flux / integral
-            numerical = jnp.all(~active[:, None, :] | (
-                jnp.isfinite(integral) & (integral > 0) & jnp.isfinite(intensity) & (intensity > 0)
-            ), axis=(1, 2))
-            valid = emitted["proposal_valid"] & numerical
-            return {
-                "normal_radiance": jnp.where(active[:, None, :],
-                                             jnp.where(valid[:, None, None], intensity, jnp.nan), 0),
-                "surface_flux": jnp.where(active[:, None, :], flux, 0),
-                "ld_integral": integral, "coefficients": coefficients,
-                "proposal_valid": valid,
-                "status": jnp.where(~emitted["proposal_valid"], emitted["status"], jnp.where(numerical, 0, 3)),
-            }
+            return _normal_intensity(self._jax, jnp, law, flux, coefficients, active,
+                                     emitted["proposal_valid"], emitted["status"])
 
         self._evaluate = self._jax.jit(evaluate)
 

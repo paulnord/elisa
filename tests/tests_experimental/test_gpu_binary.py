@@ -195,7 +195,7 @@ def test_fresh_parameters_and_limb_laws(device: str, law: str) -> None:
 
 
 @pytest.mark.parametrize("device", ["cpu", "gpu"])
-@pytest.mark.parametrize("unsupported", ["eccentric", "large_radius", "spots", "atmosphere", "tabulated_ld"])
+@pytest.mark.parametrize("unsupported", ["eccentric", "large_radius", "spots", "atmosphere"])
 def test_explicit_full_cpu_fallback(monkeypatch: pytest.MonkeyPatch, device: str, unsupported: str) -> None:
     from elisa import Observer
 
@@ -207,8 +207,6 @@ def test_explicit_full_cpu_fallback(monkeypatch: pytest.MonkeyPatch, device: str
         binary.primary.spots = [{"longitude": 45, "latitude": 60, "angular_radius": 10, "temperature_factor": 0.9}]
     elif unsupported == "atmosphere":
         binary.primary.atmosphere = "ck04"
-    elif unsupported == "tabulated_ld":
-        binary.primary.limb_darkening_coefficients = None
     engine = HybridBinaryLightCurve(BANDS, device=device, fallback="raise")
     with pytest.raises(UnsupportedHybridModelError):
         engine(binary, [0, 0.25])

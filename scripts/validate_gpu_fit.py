@@ -36,7 +36,7 @@ class FitProblem:
     data: dict[str, Any]
     setup: dict[str, Any]
     atmosphere: dict[str, str]
-    ld: dict[str, Any]
+    ld: dict[str, Any] | None
     truth: dict[str, Any]
 
 
@@ -121,7 +121,7 @@ def prepare_fit(
                else HybridDetachedLeastSquaresFit(device=device, radiance=radiance))
     fit.atmosphere_model, fit.limb_darkening_coefficients = deepcopy(problem.atmosphere), deepcopy(problem.ld)
     fit.set_up(parameters.BinaryInitialParameters(**deepcopy(problem.config)), deepcopy(problem.data),
-               passband=BANDS, observer_system_cls=BinarySystem, **deepcopy(problem.setup))
+               passband=list(problem.data), observer_system_cls=BinarySystem, **deepcopy(problem.setup))
     if kind == "mcmc":
         fit.norm_init_vector = normalized_vector(fit)
         fit.sigmas = fit.normalized_sigma(fit.norm_init_vector)
@@ -194,9 +194,9 @@ def prediction_cases(device: str) -> list[dict[str, Any]]:
     return rows
 
 
-def fit_assessment(device: str, *, steps: int = 3) -> dict[str, Any]:
+def fit_assessment(device: str, *, steps: int = 3, problem: FitProblem | None = None) -> dict[str, Any]:
     """Exercise actual original fit() lifecycle and serialized result contracts."""
-    problem = make_problem()
+    problem = make_problem() if problem is None else problem
     results = {}
     for label, cls, options in [("original_cpu", least_squares.DetachedLightCurveFit, {}),
                                 ("hybrid", HybridDetachedLeastSquaresFit, {"device": device})]:
