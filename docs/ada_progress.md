@@ -1,6 +1,70 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T22:54:17.779259+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-17T23:30:03.156246+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m023 — Passband intensity and limb darkening within source cells
+
+Evaluating the spectrum and limb darkening within each curved source cell reduced the combined log-likelihood error bound from **2.765 to 0.482** on the same reflected eclipse test. The limit is **0.01** at nominal flux uncertainty 10⁻⁴. The largest remaining signed change from refining the surface field comes from irradiation. The measured curves agree across CPU and GPU. This fixture still fails numerical qualification for physical fitting and MCMC.
+
+### From local gravity to observed flux
+
+The new opt-in observer samples the true Roche gravity at each of the three corners of every source cell in the base quarter of each star. It normalizes the gravity-darkening law over the star using 16 curved-area quadrature points per cell. Within each cell, it adds the resulting T⁴ slope to the post-irradiation T⁴ from m022, subtracting the slope's curved-area mean. That construction preserves each cell's existing deposited energy. Irradiation is still calculated per face. Each corner then gets a fresh passband surface flux, same-band optical-depth correction and limb-darkening coefficients at its temperature and surface gravity. On each accepted eclipse ray, the observer interpolates the moments I₀, I₀a and, for two-coefficient laws, I₀b in that ray's angular parent and evaluates the declared angular law. Adjacent faces can have different corner values because they received different heating.
+
+An independent CPU calculation sampled 64 interior points per source cell with irradiation off. It recomputed the stellar temperature normalization on this finer quadrature and evaluated gravity, spectrum and directional intensity at each point. The table covers both stars, V and bolometric flux, and direction cosines 0.2, 0.7 and 1.0. The blackbody case uses unequal spins and the CK04 case uses the repository's tabulated atmosphere and limb-darkening fixtures. Each RMS is the square root of the curved-area-weighted mean of (I / I_direct − 1)². All 48 comparisons improved. The table reports a local source test. The full eclipse and likelihood results follow separately.
+
+| Atmosphere | Field level | Reduction in area-weighted RMS intensity error | Largest remaining relative RMS |
+| --- | ---: | ---: | ---: |
+| Blackbody | 0 | 13.03–13.36× | 1.38e-05 |
+| Blackbody | 1 | 26.31–26.94× | 3.44e-06 |
+| CK04 | 0 | 13.00–13.27× | 7.30e-07 |
+| CK04 | 1 | 26.24–26.77× | 1.81e-07 |
+
+### Field refinement, eclipse depth and irradiation
+
+| Passband source | Heating | Field bound | Eclipse-depth bound | Combined bound | Combined D (σ) | Actual diagonal Δlog L |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Face constant | On | 2.67445 | 0.09042 | 2.76488 | 0.011365 | -1.64010 |
+| Face constant | Off | 2.92395 | 0.08975 | 3.01371 | 0.012290 | -1.94703 |
+| Face-local linear | On | 0.39183 | 0.09042 | 0.48226 | 0.001774 | +0.20314 |
+| Face-local linear | Off | 0.00825 | 0.08975 | 0.09800 | 0.000364 | -0.08456 |
+
+All four finite corners use the same physical proposal, synthetic observations and reducers, including repeated phases, original third light and normalization. Both temperature prescriptions use the m022 curved-area thermal mean. The comparison changes the within-cell passband representation. Within each backend and depth the adaptive records and quadrature bytes match exactly across heating and both source representations. This synthetic fitting fixture supplies fixed limb-darkening coefficients, so its within-face variation comes from spectral intensity. The CK04 comparison above separately exercises spatially varying tabulated coefficients. The field levels are 2 and 3 on common observer grid 3. Eclipse depths are 2 and 3, with Duffy order 3 and slice order 8. Both the distance limit D ≤ 0.1 and the accumulated nominal likelihood limit ≤ 0.01 apply outside the prior. The signed diagonal compares coarse/shallow to fine/deep. The bounds cover the computed curves.
+
+At depth 3, switching to locally evaluated emission changes the **signed intrinsic refinement contribution** from -1.85161 to -0.00707. The **irradiation response** changes from +0.28946 to +0.28818. On the new model the cross term is +2.65e-08, giving a total field change of +0.28111. The largest absolute mapped intrinsic perturbation is 9.20×10⁻¹⁰. The largest perturbation from the irradiation response is 5.34×10⁻⁸ in V at phase 0.267. With irradiation off, the field-only bound is 0.00825, inside the 0.01 budget for this proposal. The combined unheated bound is 0.09800 because the eclipse-depth term still exceeds the budget. The two terms use the same heated fine residual within each representation and include the effects of passband and observation normalization. The original CPU depth-4 attempt reached the existing 2,097,152-node cap during curved-edge subdivision. It returned no curve or density. Higher boundary accuracy will require bounded integration of smaller work units.
+
+### Implementation parity and elapsed cost
+
+All 18 distinct hardware tests passed, including nine new controls. They cover two independent component checks of cell energy and gravity, six full systems including device CK04 and tabulated limb darkening, and a uniform-source reference over 57 contact-focused phases. All nine new cases passed on CPU. The original constant-source CPU regression passed, and the previous conservative reconstruction reproduced two published CPU proposals bit for bit. The largest normalized curve or mapped prediction difference across matched backends was **6.66e-16**. The largest log-posterior difference was **1.49e-09**.
+
+| Proposals | Serial CPU reference (s) | JAX CPU (s) | GPU (s) | Warm CPU/GPU | Complete process CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 10.27 / 10.07–10.17 | 45.60 / 14.91–16.38 | 33.36 / 3.92–5.24 | 2.27× | 0.85× |
+| 4 | 40.71 / 40.87 | 91.03 / 60.96 | 45.89 / 16.71 | 2.45× | 1.27× |
+| 8 | 81.20 / 80.93 | Unmeasured | 64.84 / 30.67 | 2.64× | 1.66× |
+
+Cells give cold / changed warm seconds on the field-0/1, depth-1 timing protocol. Each candidate rebuilds two finite fields and complete curves, including the original observation mapping, prior, density, resolution checks, all transfers and synchronization. B1 has three changed warm calls plus an independent repeat. B4 and B8 each have one changed call in these CPU/GPU pairs. The full cold process on the field-2/3, depth-3 scientific protocol took 141.58 s on CPU and 68.57 s on GPU (2.06×, one proposal). Actual Colab throughput and posterior ESS/sec remain unmeasured. [Hardware timings and trace](hardware_characterization.md)
+
+### Reproduce
+
+Use the Python environment and fixture assets from this revision. The following Bash commands reproduce the CPU reference. Select `--backend gpu --verified-bounded-gpu-window` with the GPU platform inside a registered hold-aware unit for the GPU counterpart.
+
+```bash
+export JAX_PLATFORMS=cpu JAX_ENABLE_X64=True
+python scripts/validate_nodal_emission.py --output interior.json
+for depth in 2 3; do
+  for heat in on off; do
+    flags=()
+    if [[ $heat == off ]]; then flags+=(--without-irradiation); fi
+    python scripts/validate_gpu_reconstructed.py --backend reference --engine nodal-source \
+      --levels 2 3 --integration-level 3 --depth "$depth" --slice-order 8 \
+      --batch 1 --repeats 0 "${flags[@]}" --output "d$depth-$heat.json"
+  done
+done
+python scripts/compare_gpu_irradiation.py --heated d3-on.json --intrinsic d3-off.json --output irradiation.json
+python scripts/compare_gpu_rectangle.py --deep d3-on.json --shallow d2-on.json --output rectangle.json
+```
+
+All 23 registered units preserved the same Fifth42 checkpoint. The next physical test is to evaluate the variation of irradiating flux across a receiving face, with the same observations and accumulated likelihood checks. The V505 Per, AI Phe and NT Aps observational controls described under m022 retain their data-release, selection and model limits. [Scientific ledger](ada_validation/background-m023.json) · [Tested source fingerprints](ada_validation/background-m023-source-hashes.json)
 
 ## m022 — Intrinsic temperature and irradiation on common eclipse rays
 

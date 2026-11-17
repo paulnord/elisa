@@ -1,5 +1,11 @@
 # Experimental GPU likelihood pilot
 
+## m023 — Face-local spectral source
+
+Use `NodalSourceLightCurve` in `gpu_nodal_source` with the usual passbands, curved-edge rule, levels, common integration level and device. It selects curved-area thermal integration and evaluates passband and LD moments separately at three physical corners of each parent. Its rule records `face_local_spectral_nodes=1` and `thermal_area_order=4`. Device mode keeps gravity and blackbody/CK04 spectral computations on the selected device with explicit host LD/table preparation and requested host outputs. The original CPU reference and `radiance="cpu"` bridge use original surface spectral routines. The model checks symmetry, source area, per-cell T⁴ closure, conditioning, spectral-table boundaries and allocation limits. Existing unsupported-case and full-CPU routing semantics continue to apply.
+
+The validation driver accepts `--engine nodal-source`. The original observer and the previous constant and continuous field engines remain available. `scripts/validate_nodal_emission.py` measures unirradiated interior directional intensities independently of the whole-curve finite-resolution gate. The current reflected field/depth comparison exceeds the 0.01 nominal log-likelihood limit. [Validation, costs and reproduction commands](ada_progress.md)
+
 ## Area-integrated intrinsic temperature
 
 Pass `area_thermal=True` to `FusedObserverLightCurve` to evaluate the gravity-darkening bolometric source over 16 positive curved-area nodes per original quarter cell. The engine stores the fourth root of the cell-average intrinsic emission after stellar energy normalization, then uses the existing irradiation, passband and observer calculations. The finite curve rule records `thermal_area_order=4`. Omitting the option selects the established centre-sampled source. The reference uses original CPU gravity and polar-temperature helpers. Supported detached geometry and existing explicit errors, full-CPU routing and accuracy safeguards continue to apply.

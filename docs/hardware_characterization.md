@@ -1,5 +1,21 @@
 # Ada workload and hardware characterization
 
+## m023 — Face-local spectral fields
+
+Ada's Ryzen 9 5950X and RTX 3080 Ti ran the same changing binaries, two field levels, multi-band curves and original mapped density and accuracy checks. The reference uses original CPU physics on the curved finite geometry. JAX CPU and CUDA use the compiled local thermal and sampling kernels. The CPU LD/atlas preparation, transfers of corner spectra and host packets, synchronization, and returned full curves are inside the timings. The implementation also computes the parent face spectra while preparing the irradiated star. Source moments remain on the selected device across a candidate's phases.
+
+| Proposals | Serial CPU reference (s) | JAX CPU (s) | GPU (s) | Warm CPU/GPU | Complete process CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 10.27 / 10.07–10.17 | 45.60 / 14.91–16.38 | 33.36 / 3.92–5.24 | 2.27× | 0.85× |
+| 4 | 40.71 / 40.87 | 91.03 / 60.96 | 45.89 / 16.71 | 2.45× | 1.27× |
+| 8 | 81.20 / 80.93 | Unmeasured | 64.84 / 30.67 | 2.64× | 1.66× |
+
+Times are cold / warm seconds. The primary comparison has 3/1/1 warm samples for batches of 1/4/8 proposals. An independent B1 series measured 2.20× warm and 0.70× for the whole process. A separate Julian-date pair measured 1.91× warm. Matched jobs used affinity 0–15, nice 10 and single-thread BLAS/OMP. Lower-priority CPU checks overlapped some early hardware units on cores 16–19. FP64 used JAX 0.12.0.1 and driver 595.99.02. The larger scientific configuration's cold reference/GPU ratio was 2.06×. Sample counts limit extrapolation.
+
+On the first changed B1 call, common observer geometry, clipping and packet hashing took 8.871 s on reference CPU and 5.054 s on the hybrid GPU path. The separate warm CUDA trace spanned 5.509 s, with 33,481 kernels and 6,286 copies. Kernel intervals occupied 0.970 s, including 0.779 s in native nested roots. Copies occupied 0.051 s and moved 208.4 MB host-to-device, 392.1 MB device-to-host and 37.4 MB device-to-device. Eliminating all recorded copy duration would bound acceleration at 1.009×. The marked CPU boundary precision region occupied 1.771 s with 0.0000 s of device overlap. Conditional 2× and 4× reductions of that serialized portion give 1.192× and 1.318× overall. These intervals include profiler overhead. The throughput table uses unprofiled runs.
+
+Nonzero GPU-utilization samples in the B1 run recorded PCIe generation 4 and width 8. Sampled shared-device memory reached 598 MiB. The trace leaves CPU preparation, launch and synchronization gaps partly unassigned. DRAM traffic, achieved FP64 throughput, exact allocator peaks and per-kernel stalls remain unmeasured. [Scientific profiles, telemetry and trace](ada_validation/background-m023.json)
+
 ## m022 — Curved-area thermal integration
 
 The measured job constructs a changing binary for every proposal, produces two complete finite light curves on field grids 0/1, returns the curves and evaluates the original mapped density and accuracy checks. CPU and GPU jobs ran with affinity 0–15, nice 10 and single-thread BLAS/OMP on Ada's Ryzen 9 5950X and RTX 3080 Ti (12 GiB, FP64, JAX 0.12.0.1, NVIDIA driver 595.99.02). The CPU reference uses original physics routines on the declared curved finite model. Initial private CPU validation used cores 16–19 at nice 19 and overlapped some bounded units.

@@ -28,6 +28,7 @@ from elisa import units as astro_units
 from elisa.analytics.models import cost_fns
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule, InferenceBudget
 from elisa.experimental.gpu_fused_observer import FusedObserverLightCurve
+from elisa.experimental.gpu_nodal_source import NodalSourceLightCurve
 from elisa.experimental.gpu_observer_edges import ObserverDeviceLightCurve
 from elisa.experimental.gpu_protocol import ResolutionNotQualifiedError
 from elisa.experimental.gpu_reconstructed_observer import ReconstructedObserverLightCurve
@@ -144,7 +145,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--backend", choices=["reference", "cpu", "gpu"], required=True)
     parser.add_argument(
-        "--engine", choices=["reconstructed", "fused", "observer", "area-thermal"], default="reconstructed",
+        "--engine",
+        choices=["reconstructed", "fused", "observer", "area-thermal", "nodal-source"],
+        default="reconstructed",
     )
     parser.add_argument("--depth", type=int, default=1)
     parser.add_argument("--slice-order", type=int, default=4)
@@ -184,6 +187,7 @@ def main() -> None:
             "reconstructed": ReconstructedObserverLightCurve,
             "fused": FusedObserverLightCurve,
             "area-thermal": FusedObserverLightCurve,
+            "nodal-source": NodalSourceLightCurve,
             "observer": ObserverDeviceLightCurve,
         }[args.engine]
         instance = engine(

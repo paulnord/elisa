@@ -69,10 +69,16 @@ class ReconstructedObserverLightCurve(FusedObserverLightCurve):
     representations need independent field/depth/combined-resolution gates.
     """
 
+    field_backend = MomentFieldBackend
+    field_rule = "conservative_moment_reconstruction"
+    field_contract = (
+        "Positive conservative C0 emitted-intensity moments; finite field approximation, no continuum/fit certificate"
+    )
+
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.moment_backends = {
-            name: MomentFieldBackend(name, self.law, device=self.device) for name in ["primary", "secondary"]
+            name: self.field_backend(name, self.law, device=self.device) for name in ["primary", "secondary"]
         }
         self._packet = recorded_packet
         self._reconstruction = {}
@@ -83,11 +89,17 @@ class ReconstructedObserverLightCurve(FusedObserverLightCurve):
         self._reconstruction = {}
         common, triangles, fields, maps, controls = super()._prepare(model, observer)
         for variant in self.variants:
-            for name in ["primary", "secondary"]:
-                prepared = self.moment_backends[name].prepare(model, getattr(fields[variant.key], name), self.passbands)
-                self._reconstruction[variant.key, name] = prepared
-                controls[variant.key][name]["reconstructed_field"] = prepared.control
+            prepared = self._prepare_field(model, fields[variant.key], observer, variant)
+            for name, item in prepared.items():
+                self._reconstruction[variant.key, name] = item
+                controls[variant.key][name]["reconstructed_field"] = item.control
         return common, triangles, fields, maps, controls
+
+    def _prepare_field(self, model: Any, system: Any, observer: Any, variant: Any) -> dict:  # noqa: ARG002
+        return {
+            name: backend.prepare(model, getattr(system, name), self.passbands)
+            for name, backend in self.moment_backends.items()
+        }
 
     def _integrate_packets(self, model: Any, fields: dict, maps: dict, packets: dict, variant: Any) -> dict:  # noqa: ARG002
         values = []
@@ -120,15 +132,12 @@ class ReconstructedObserverLightCurve(FusedObserverLightCurve):
                     replace(
                         r,
                         curves={
-                            k: replace(v, rule={**v.rule, "conservative_moment_reconstruction": 1})
+                            k: replace(v, rule={**v.rule, self.field_rule: 1})
                             for k, v in r.curves.items()
                         },
                         diagnostics={
                             **r.diagnostics,
-                            "field_contract": (
-                                "Positive conservative C0 emitted-intensity moments; finite field approximation, "
-                                "no continuum/fit certificate"
-                            ),
+                            "field_contract": self.field_contract,
                         },
                     )
                     for r in result.results
