@@ -1,30 +1,30 @@
 {
-  "updated_utc": "2026-11-17T10:09:54.057295+00:00",
+  "updated_utc": "2026-11-17T11:15:29.929254+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "7e60dcdd457638146307fbf48c3eb3e9755864cb7da4a2e21f27cd48b91c4a40",
-  "code_state_hash_method": "SHA256 of background-m010-source-hashes.json parsed as compact sorted-key JSON",
-  "stage": "Memory-bounded irradiation, finer complete curves and paired physical fitting",
+  "code_state_sha256": "49bb6af553e3cf60e567f24dd71b32fb88b9034ce3d418435c9f96627dbb8cde",
+  "code_state_hash_method": "SHA256 of background-m011-source-hashes.json parsed as compact sorted-key JSON",
+  "stage": "Nested Roche surfaces and finite surface/contact/likelihood error estimator",
   "last_gpu_suite": {
-    "tests": 347,
+    "tests": 370,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "pytest_seconds": 342.437,
+    "pytest_seconds": 415.998,
     "partitions": [
       {
-        "tests": 90,
+        "tests": 113,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
-        "pytest_seconds": 125.061
+        "pytest_seconds": 176.714
       },
       {
         "tests": 257,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
-        "pytest_seconds": 217.376
+        "pytest_seconds": 239.284
       }
     ],
     "scope": "All experimental tests in two independently restored windows"
@@ -36,14 +36,14 @@
     "errors": 0,
     "skipped": 47
   },
-  "benchmark_status": "Full347hardwaretests pass/no skips; original2deg and independent1.5deg CPU parity, matched complete fine curves and3/2deg physicalfits/densities published; finite mesh changes still fail accuracy budget, no continuum/convergence/ESS claim.",
+  "benchmark_status": "All370hardwaretests pass/no skips; complete nested curve and original observation likelihood parity with matched transfer-inclusive CPU/GPU snapshot costs. Finite-budget accuracy aborts retained; no continuum/convergence/ESS claim.",
   "production": {
-    "window": "background-m010-w022",
+    "window": "background-m011-w026",
     "status": "restored_and_advancing",
-    "verified_utc": "2026-11-17T10:04:32.050007+00:00",
-    "durable_cells_before": 1267667255,
-    "durable_cells_after": 1267752247,
-    "durable_cells_advanced": 84992,
+    "verified_utc": "2026-11-17T11:15:02.998786+00:00",
+    "durable_cells_before": 1283607863,
+    "durable_cells_after": 1283652919,
+    "durable_cells_advanced": 45056,
     "source_release_reverified": true,
     "config_and_plan_unchanged": true,
     "matching_resume_record_verified": true,
@@ -51,7 +51,7 @@
     "clean_test_unit_exit_verified": true,
     "last_receipt_witness_endpoints_verified": true,
     "full_historical_reaudit": false,
-    "test_commands_seconds": 124.15770186111331
+    "test_commands_seconds": 63.42403440712951
   },
   "production_windows": [
     {
@@ -493,6 +493,70 @@
       "last_receipt_witness_endpoints_verified": true,
       "full_historical_reaudit": false,
       "test_commands_seconds": 124.15770186111331
+    },
+    {
+      "window": "background-m011-w023",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:05:36.772126+00:00",
+      "durable_cells_before": 1283261751,
+      "durable_cells_after": 1283304759,
+      "durable_cells_advanced": 43008,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 179.96154877799563
+    },
+    {
+      "window": "background-m011-w024",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:10:24.454717+00:00",
+      "durable_cells_before": 1283345719,
+      "durable_cells_after": 1283390775,
+      "durable_cells_advanced": 45056,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 242.66819636907894
+    },
+    {
+      "window": "background-m011-w025",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:13:04.011439+00:00",
+      "durable_cells_before": 1283476791,
+      "durable_cells_after": 1283521847,
+      "durable_cells_advanced": 45056,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 105.96133369405288
+    },
+    {
+      "window": "background-m011-w026",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T11:15:02.998786+00:00",
+      "durable_cells_before": 1283607863,
+      "durable_cells_after": 1283652919,
+      "durable_cells_advanced": 45056,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 63.42403440712951
     }
   ],
   "hardware": {
@@ -503,7 +567,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Opt-in tiled irradiation/fine BB emission with CPU eclipse coverage, independent CPU reference and paired grids for3/2/1.5deg complete curves and original physical fits; native CPU defaults preserved;1e-4 surface accuracy still unqualified.",
+  "scope": "Nested complete reflected surfaces, immutable parent-group snapshots and finite nominal-sigma/contact/likelihood-change estimator; unchanged CPU defaults; shared1e-4 surface accuracy still unqualified.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -516,7 +580,7 @@
     "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
-  "current_milestone_report": "background-m010.json",
+  "current_milestone_report": "background-m011.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
@@ -697,14 +761,13 @@
     "skipped": 8
   },
   "current_full_cpu_suite": {
-    "tests": 347,
+    "tests": 370,
     "failures": 0,
     "errors": 0,
-    "skipped": 146,
-    "pytest_seconds": 280.805,
-    "passed": 201,
-    "scope": "All experimental tests; explicit GPU skips in forced-CPU private environment",
-    "warnings": "One existing Planck exponential-overflow warning"
+    "skipped": 149,
+    "pytest_seconds": 268.333,
+    "passed": 221,
+    "scope": "Final frozen source; all experimental tests, explicit GPU skips in forced-CPU private environment"
   },
   "previous_observation_protocol": {
     "stage": "Opt-in observation synthesis and empirical mesh-qualified physical fitting",
@@ -734,5 +797,34 @@
       "scope": "All tests/tests_experimental in two independently restored windows"
     },
     "current_milestone_report": "background-m009.json"
+  },
+  "previous_finer_surface_milestone": {
+    "stage": "Memory-bounded irradiation, finer complete curves and paired physical fitting",
+    "code_state_sha256": "7e60dcdd457638146307fbf48c3eb3e9755864cb7da4a2e21f27cd48b91c4a40",
+    "last_gpu_suite": {
+      "tests": 347,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_seconds": 342.437,
+      "partitions": [
+        {
+          "tests": 90,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "pytest_seconds": 125.061
+        },
+        {
+          "tests": 257,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "pytest_seconds": 217.376
+        }
+      ],
+      "scope": "All experimental tests in two independently restored windows"
+    },
+    "current_milestone_report": "background-m010.json"
   }
 }

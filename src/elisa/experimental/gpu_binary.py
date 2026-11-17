@@ -186,6 +186,11 @@ class HybridBinaryLightCurve:
         system, timings, _, _ = self._build_intrinsic_system(binary)
         return system, timings
 
+    def _initial_mesh(self, system: Any) -> None:
+        """Build the original fresh raw mesh; explicit experiments may refine it."""
+        system.build_mesh(components_distance=1.0)
+        system.build_faces(components_distance=1.0)
+
     def _build_intrinsic_system(  # noqa: C901, PLR0912 - explicit fresh state and reflection dispatch
         self, binary: Any, *, diagnostics: bool = False,
     ) -> tuple[Any, dict[str, float], Any, Any]:
@@ -194,8 +199,7 @@ class HybridBinaryLightCurve:
             raise UnsupportedHybridModelError(reason)
         started = perf_counter()
         system = OrbitalPositionContainer.from_binary_system(binary, const.Position(0, 1.0, 0.0, 0.0, 0.0))
-        system.build_mesh(components_distance=1.0)
-        system.build_faces(components_distance=1.0)
+        self._initial_mesh(system)
         system.build_velocities(components_distance=1.0)
         mesh_done = perf_counter()
         device_temperatures = {}

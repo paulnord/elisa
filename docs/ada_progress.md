@@ -1,9 +1,179 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T10:09:54.057295+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T11:15:29.929254+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: bounded irradiation and finer complete curves/fitting
+## Latest milestone: nested surfaces and a finite contact/likelihood error estimator
+
+The new standalone `NestedBinaryLightCurve` builds complete reflected curves on
+conforming, nested Roche meshes and returns immutable root-face flux groups.
+A new estimator reconstructs measured changes between two computed grids,
+encloses their finite prediction/likelihood changes, and identifies limb/contact
+contributions. **All 370 experimental hardware tests passed, zero failures,
+errors or skips**, across independent 113/257-test windows. The final frozen CPU
+suite passed **221 with 149 explicit GPU skips**. There are 23 new tests.
+
+The numerical accuracy gate still fails at sigma=1e-4. These are useful finite
+error indicators, **not continuum bounds or scientifically qualified fine fits**.
+CPU/default behavior and the existing fitting protocol remain unchanged.
+
+### Fresh nested geometry and coupled physics
+
+A paired 12° seed produces **540, 2160, 8640 and 34560 faces per component**
+through levels 0–3. Each split projects new edge midpoints onto the original
+Roche equipotential using CPU Brent roots. ELISa's original seam identities keep
+the four quarters closed; tests check edge incidences, Euler characteristic 2,
+positive areas, symmetry/ancestry and roots against independent original CPU
+radius calculations, including q/spin boundaries. Level 0 preserves the original
+raw mesh exactly. The original scalar mesh correction is used at seed degree /
+2**level on the new topology; this convention does not establish a new error law.
+
+Every evaluation rebuilds corrected geometry/gravity, intrinsic temperatures,
+tiled irradiation with all donor faces, fresh radiance/LD and mutual eclipse coverage.
+CPU midpoint roots, orientation/hulls/coverage and extra parent grouping remain
+explicit bridges; device state/reflection/integration and blackbody emission are
+connected. CK04 uses explicit original CPU radiance/LD. These are **hybrid** curves.
+The independent CPU reference composes original primitives and unchanged observer
+routers; its compatibility script remains available after moving the reusable
+implementation into `elisa.experimental.gpu_reference`.
+
+Maximum normalized complete-curve implementation difference across the new
+study is **4.44e-16**. Level 0 agrees exactly with unmodified dense CPU
+in these controls.
+The existing 3e-13 relative/2e-12 absolute curve gates remain unchanged.
+Separate native 1.5° meshes are numerical cross-checks, not implementation oracles
+or exact truth. Existing dense controls through 2° and broad physics/fallback,
+public fitting and sampler-equivalence tests are included in the full suite.
+
+### What the estimator bounds
+
+Signed root-face-group changes plus third-light offset and
+summation/normalization residual changes reconstruct the actual computed curve
+difference. A host arithmetic guard is included. Summing absolute component
+changes gives a finite enclosure; the more conservative root-face L1 envelope
+and noise-weighted local scores expose cancellation and boundary contributions.
+A source/candidate/seed/passband/settings signature rejects stale comparisons.
+
+Observation reducers preserve unequal band support, order/repeats and original
+final mean normalization. The accuracy gate uses **nominal y_err, independently
+of ln_f**; a regression proves noise inflation cannot evade the stop.
+Likelihood diagnostics retain the original sigma²*(1+exp(2ln_f)) law. With data,
+**|delta logL| <= sum(|r| E + E²/2)**, where r is the coarse residual and E the
+component enclosure in effective-sigma units. This includes the residual cross
+term and bounds only the measured finite pair.
+
+`require_budget=True` raises `ResolutionNotQualifiedError`. Call this standalone
+preflight outside candidate penalties; neither accuracy errors nor unsupported
+refined numerics become physical-prior cuts or silent coarse CPU substitutes.
+The existing public resolution-qualified fitter is separate and unchanged.
+A finite pair passing cannot certify an uncomputed grid, continuum posterior,
+finite exposure or physical systematics. No convergence order, monotonicity or
+extrapolation is assumed. Local scores describe globally coupled changes;
+selective refinement must be rebuilt and independently validated.
+
+### Surface accuracy remains unqualified
+
+These reflected V/bolometric fixtures retain both eclipses, contact-focused
+phases, phase shift, third light and ordering/repeats. D is concatenated-band
+||delta/sigma_eff|| with sigma=1e-4, ln_f=-2; the numerical enclosure budget uses
+nominal sigma and requires D<=0.1. The last column compares the finest nested
+mesh to a separately triangulated native 1.5° mesh. Neither is continuum truth.
+
+| Case | D, L0→L1 | D, L1→L2 | D, L2→L3 | Nominal component enclosure, L2→L3 | Different 1.5° grid D |
+|---|---:|---:|---:|---:|---:|
+| partial_bb | 23.9128 | 10.4334 | 2.55969 | 2.65844 | 0.812315 |
+| total_bb | 48.8287 | 9.4912 | 1.85497 | 1.93113 | 2.10432 |
+| partial_ck04 | 31.9652 | 8.1244 | 2.76963 | 2.80678 | 1.04029 |
+
+All finest pairs and different-grid comparisons exceed the budget. Root-face L1
+enclosures are much larger than component enclosures because of cancellation;
+limb/partial-eclipse groups contribute roughly 8–11% of last-pair L1 in these
+cases. This diagnostic does not justify refining only eclipse contacts or bound
+uncomputed surface error. No adaptive accuracy gain is claimed.
+
+### Original physical-observation likelihood checks
+
+Two phase proposals and one JD proposal change physical shape/temperature and
+nuisance parameters, using original serialization, time mapping, prior, third
+light, mean normalization and likelihood. Independent CPU predictions/densities
+are compared at both levels 2/3. Maximum observation prediction difference is
+**4.44e-16**; maximum original posterior difference is
+**4.66e-09**, within the unchanged 1e-6 density gate.
+The measured likelihood changes agree with independent original callbacks to
+**3.18e-09**. Out-of-prior proposals retain original
+-inf rejection before nested evaluation. Every tested numerical preflight stops.
+
+| Proposal | Actual D (sigma_eff) | Nominal component enclosure D | Actual delta logL | Absolute logL enclosure |
+|---|---:|---:|---:|---:|
+| phase base | 1.02954 | 1.12007 | 261.194 | 639.097 |
+| phase changed | 0.685956 | 0.817223 | 376.345 | 987.899 |
+| JD base | 1.02954 | 1.12007 | 261.194 | 639.097 |
+
+These data come from the existing finite-grid fixture; the table measures
+resolution changes against its residuals. It is not an optimized fit or a bias
+estimate. No new physical-fit/MCMC backend, mixing, convergence or ESS/sec claim
+is made. The existing public fit/sampler parity controls were revalidated.
+
+### Matched transfer-inclusive costs
+
+Both backends ran inside the same bounded profile allocation with identical
+host snapshot outputs, affinity 0–15, Nice 10, threads 1 and FP64. Seconds include
+fresh CPU projection/roots/state/bridges, reflection/radiance/eclipse calculation,
+all transfers and extra CPU parent grouping. Constructors are outside row timers
+and inside driver main wall, including any constructor device initialization.
+Compilation incurred is included; later matching shapes may reuse process kernels. These are single observations, not throughput
+distributions. Independent original-CPU curve timings have a smaller output
+contract and are not used as snapshot speedup baselines.
+
+| Case | Finest JAX CPU snapshot s | Finest GPU snapshot s | L2+L3 JAX CPU snapshots s | L2+L3 GPU snapshots s |
+|---|---:|---:|---:|---:|
+| partial_bb | 6.50975 | 2.71428 | 8.99906 | 4.69848 |
+| total_bb | 6.39777 | 2.39009 | 8.60943 | 4.0045 |
+| partial_ck04 | 6.01605 | 2.13586 | 8.11529 | 3.54088 |
+
+A full numerical preflight also pays the comparison cost, included in full
+driver main walls: **103.22 s curves /
+60.78 s observations**, including independent
+references, auxiliary comparisons, setup and report conversions, with imports
+excluded. Full command walls including Python/import startup are
+**104.98 s /
+62.50 s**, respectively. Matched
+observation snapshot/mapping/density timings are in the JSON report. Accuracy
+failures prevent treating any of these costs as qualified fitting throughput.
+
+### Scope, evidence and continuation
+
+The standalone experiment supports levels 0–3, at most 40000 faces per component
+and 128 snapshot phases in the existing circular detached symmetric unspotted,
+nonpulsating q/spin/inner-radius/thermal domain. Unsupported refined numerics
+raise explicitly. Existing CPU/default and hybrid complete fallback semantics
+remain unchanged. This is uniform nested refinement with an error indicator,
+not selective adaptive surface/contact quadrature.
+
+Four independently restored systemd GPU allocations used the run's registered
+unit prefix, RuntimeMaxSec=300, internal 270 s deadline, checkpoint pause and
+unconditional original-service resume hooks. All owned units ended
+inactive/success. Matching resume records, pinned source/config/plan, exact
+service/command and latest receipt/witness/endpoints were verified. Durable
+advancements after restoration were **43,008, 45,056, 45,056, 45,056 cells**. This is latest evidence
+validation, not a full historical production audit. Raw operational logs stay
+private.
+
+Exact runtime/data fingerprint: **602 files**, aggregate SHA256
+`49bb6af553e3cf60e567f24dd71b32fb88b9034ce3d418435c9f96627dbb8cde`.
+See [curated machine-readable report](ada_validation/background-m011.json),
+[source manifest](ada_validation/background-m011-source-hashes.json) and
+[API, contracts and reproduction](experimental_gpu_backend.md#nested-surfacecontact-change-estimator).
+Run the full experimental suite and
+`scripts/validate_gpu_surface_error.py --device cpu --part curves --output curves.json`
+or `--part observations`; GPU variants require independent bounded restoration.
+
+Next use the validated coupled-model indicators to implement selective surface
+quadrature and check mesh-correction/normalization errors independently, then
+qualify a fixed 1e-4 numerical protocol over physical parameters before finer
+fits or chains. Accuracy stops and separate CPU/GPU gates remain required.
+
+## Previous milestone: bounded irradiation and finer complete curves/fitting
 
 The new opt-in `reflection="tiled"` processes bounded receiver-row tiles against
 **all donor faces**, enabling complete reflected curves with **36,180 faces per

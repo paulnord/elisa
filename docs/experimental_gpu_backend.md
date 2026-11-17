@@ -928,3 +928,86 @@ selects JAX CPU and GPU backends for matched complete costs. Read
 [Ada progress](ada_progress.md) for errors, memory accounting, timings, restored
 production and remaining accuracy limits; these comparisons do not certify
 continuum accuracy, finite exposure, physical model systematics or MCMC convergence.
+
+## Nested surface/contact change estimator
+
+`NestedMesh` and `NestedBinaryLightCurve` provide an opt-in, standalone numerical
+experiment. They are not registered fitting backends. Every evaluation builds
+the original candidate seed mesh, subdivides each triangle into four children
+per level, projects new edge midpoints onto the original Roche equipotential
+with CPU Brent roots, and rebuilds the complete corrected gravity/thermal,
+irradiation, LD/radiance and eclipse state. No field or prediction is interpolated
+from a different candidate. Original topological seam identities keep the four
+quarters conforming; level zero preserves the original raw mesh exactly.
+
+Levels 0–3 and at most 40000 faces per component are supported, within the
+existing circular detached, symmetric, unspotted/nonpulsating q/spin/radius
+domain. A paired 12° seed has 540/2160/8640/34560 faces per star. The original
+scalar mesh-correction calibration is evaluated at seed degree / 2**level;
+applying that calibration to this topology is a finite numerical convention,
+not a newly established truncation-error law. This is uniform nested refinement
+with local indicators, not selective adaptive refinement or extrapolation.
+
+```python
+from elisa.experimental.gpu_nested_mesh import NestedMesh
+from elisa.experimental.gpu_surface_error import NestedBinaryLightCurve, compare_surfaces
+
+# binary has explicit component seed factors; phases are the actual observations.
+coarse = NestedBinaryLightCurve(bands, NestedMesh(2), device="gpu").snapshot(
+    binary, phases, observer=observer, source_revision=fixed_scientific_assets_sha256,
+)
+fine = NestedBinaryLightCurve(bands, NestedMesh(3), device="gpu").snapshot(
+    binary, phases, observer=observer, source_revision=fixed_scientific_assets_sha256,
+)
+report = compare_surfaces(
+    coarse, fine, y_err, reducers=observation_reducers, mean_normalize=True,
+    observed=y_data, ln_f=ln_f, require_budget=True,
+)
+```
+
+Snapshots contain immutable host curves and root-face groups, with a signature
+covering the physical candidate, actual seed topology, phases, passband contents,
+relevant settings and caller-supplied scientific asset revision. Comparisons
+preserve per-band observation reducers, order/repeats, third light and the
+original final observation mean. The signed root-group changes, third-light
+offset change and summation/normalization residual reconstruct the actual finite
+prediction change. A host arithmetic guard is included. The sum of absolute
+component changes encloses that measured change; a separate, more conservative
+root-face L1 envelope and noise-weighted local scores locate cancellation and
+limb/partial-eclipse contributions. Boundary classifications are diagnostics,
+never acceptance masks. These scores describe changes in the fully coupled
+models; selectively refining a patch can change irradiation and normalization
+elsewhere, so its score is not an independent local truncation-error bound.
+
+`within_finite_budget` and `require_budget` use the **nominal observational
+errors**, independently of ln_f. Inflating nuisance noise cannot evade this
+numerical gate. Likelihood diagnostics separately retain the original
+sigma²*(1+exp(2*ln_f)) law. With data supplied, the finite absolute log-likelihood
+change is bounded by sum(|r| E + E²/2), where r is the coarse residual and E the
+component envelope in effective-sigma units. This includes the data-dependent
+cross term. A passing finite pair is **not a bound on an uncomputed grid or the
+continuum**; no order, monotonicity or Richardson extrapolation is assumed.
+
+Call this preflight outside candidate-penalty handlers. A failed finite budget
+raises `ResolutionNotQualifiedError`; unsupported refined numerics raise
+`UnsupportedNestedMeshError`. Neither becomes a prior rejection or a silently
+coarser CPU prediction. Existing CPU/default and hybrid fallback semantics are
+unchanged. The existing public resolution-qualified fitter remains separate.
+Do not adapt the numerical protocol to accept selectively failed proposals.
+
+These snapshots use CPU midpoint roots, orientation/hulls/eclipse coverage and
+host parent grouping, plus device corrected state/reflection/integration and
+fresh blackbody emission. CK04 uses explicit `radiance="cpu"`. Full diagnostic
+transfers and grouping are charged; snapshot timing has a larger output contract
+than ordinary curves. The independent original-CPU reference now resides in
+`elisa.experimental.gpu_reference`; `scripts/fine_mesh_reference.py` retains its
+compatibility exports. Neither reference patches global CPU functions/settings.
+
+Run `test_gpu_surface_error.py`, then the full experimental suite. Reproduce the
+complete-curve and original physical-observation likelihood studies with
+`scripts/validate_gpu_surface_error.py --device cpu --part curves --output curves.json`
+and `--part observations`. GPU variants require independently restored bounded
+allocations and explicitly compare matched JAX CPU/GPU snapshot contracts.
+The observation study uses the original serializer, phase/JD mapping, prior,
+third light, final mean and likelihood. It is not an optimized physical fit or a
+sampler-convergence study. See [current results](ada_progress.md).
