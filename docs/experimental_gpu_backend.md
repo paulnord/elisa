@@ -1,5 +1,13 @@
 # Experimental GPU likelihood pilot
 
+Current Ada allocation policy (2026-11-17): Fifth42 is intentionally checkpointed
+and held inactive until genuine ELISa completion. Each GPU study remains a
+registered <=300-second unit whose entry and cleanup verify the exact stopped
+checkpoint, receipt/witness endpoints and original source/config/plan/service.
+Do not resume production between windows. Historical per-window restoration
+records below describe the earlier policy. The supervisor restores the original
+service with durable advancement after genuine completion.
+
 Current complete-curve/fitting APIs and measured limits are summarized in
 [Ada progress](ada_progress.md). The sections below retain the development
 history. Current irradiation is described in
@@ -1440,3 +1448,94 @@ Count **both** study walls and both sets of callbacks; each GPU invocation needs
 its own independently restored allocation. The same-candidate mapping oracle is
 untimed as fresh synthesis. No optimized physical fit, chain convergence or
 ESS/sec claim follows from these diagnostic studies. See [current results](ada_progress.md).
+
+## Curved eclipse edges and accumulated likelihood controls
+
+`CurvedEdgeLightCurve` keeps the preceding fresh curvature-consistent fields and
+original reflection/radiance formulas, while changing the finite observer
+integration rule. `SharedFieldLightCurve` now has a protected packet hook whose
+default is exactly the preceding chord routine. Original CPU/default engines,
+physical priors and broader CPU/fallback routes remain unchanged.
+
+```python
+from elisa.experimental.gpu_curved_edges import (
+    CurvedEdgeLightCurve, CurvedEdgeRule, InferenceBudget,
+)
+
+engine = CurvedEdgeLightCurve(
+    bands, CurvedEdgeRule(order=4, depth=2, slice_order=8,
+                         junction_depth=3, singular_depth=3),
+    levels=(2, 3), integration_level=3, device="gpu",
+)
+batch = engine(binary, phases, observer=observer, source_revision=assets_sha256)
+coarse, fine = batch.curves["curvature_field2"], batch.curves["curvature_field3"]
+InferenceBudget().compare(coarse, fine, errors, observed=data,
+                          reducers=observation_reducers, mean_normalize=True)
+```
+
+That comparison is permitted to **abort**. Neither the class nor the example
+automatically registers a fitter/sampler backend or certifies a physical model.
+Every GPU invocation needs a bounded registered unit with the current allocation-policy checks.
+
+For a clipped triangle with boundary endpoints a,b and visible vertex c, let
+E(s)=(1-s)a+s b. Solve the original implicit limb/shadow for
+C(s)=E(s)+lambda(s)(c-E(s)) at each Gaussian slice. The interior mapping is
+v=(1-t)C+t c. Its solid-angle Jacobian is
+abs(det(a,b,c))*(1-t)*(1-lambda)**2/abs(v)**3: the lambda-prime term cancels.
+The rule needs no numerical contour derivative or signed strip correction.
+True Roche points, normals and surface Jacobians are evaluated at these nodes.
+Positive finite weights and source-cone membership are checked. Both the base
+contour points and interior nodes must stay in the original angular leaf.
+
+Limb/shadow junctions receive a prescribed additional subdivision before finite
+chord integration. A fan without a supported bracketed boundary graph is also
+explicitly counted: reintegrate its **whole original source leaf** with the
+prescribed finer chords, removing all earlier fragments of that source to
+prevent overlap or a lost crescent. This treatment is part of the declared
+finite rule, not a hidden physical fallback. Exact zero endpoints are preserved;
+only exact duplicate/zero-measure fragments are removed. No positive patch is
+dropped by a tolerance. Junction/singular depth controls remain independent of
+ordinary boundary depth and slice order; their residual error needs validation.
+
+`order` retains 2–4, `slice_order` is 4–12 (default8), edge bisections remain
+32–48 and curve bisections are 36–48 (default40). Junction/singular depths are
+0–4 (default3). Existing phase/band, field/common level, face, node and domain
+caps remain. Slice and singular allocations have explicit node guards; the
+2,097,152-node cap is not a bound on compiler/allocator peak memory. Original
+bounded Roche shadow conditioning, empirical topology probes and resource
+errors remain. No interval topology or uncomputed-continuum certificate is given.
+
+CPU reference and GPU execution use identical fresh packets/hashes and compare
+all raw, component and normalized curves under unchanged implementation gates.
+Independent projected sphere/circle-intersection controls test the boundary
+method separately. Single-edge accuracy does not imply irradiation/field
+convergence, reflected-energy closure or observational adequacy.
+
+`InferenceBudget` adds a separate opt-in finite-pair diagnostic. It retains
+nominal sigma and D<=.1, and also requires the data-dependent absolute Gaussian
+log-likelihood enclosure sum(abs(r)*E+E**2/2)<=.01 by default. This bounds a
+computed pair's **nominal diagonal-Gaussian** likelihood ratio by exp(±.01),
+about1%; it is a predeclared project diagnostic, not a universal standard or
+posterior-bias guarantee. Nuisance ln_f is never used to pass either gate.
+Failure raises `ResolutionNotQualifiedError` outside candidate penalties,
+including with PENALIZE_ALL_EXCEPTIONS enabled. Original fitters/defaults are
+unchanged. Correlated noise, physical model adequacy and uncomputed limits
+require separate analysis.
+
+Reproduce with `test_curved_edges.py` and
+`scripts/validate_gpu_curved_edges.py`. It retains the preceding complete curve
+cases and original physical base/changed/JD callbacks. `--slice-order`,
+`--junction-depth` and `--singular-depth` make independent controls explicit.
+`--comparison` checks common field levels; `--chord-comparison` labels a preceding
+curvature-field/chord result as a boundary-method comparison. Use separate
+`--no-boundary-preflight` and `--boundary-reference coarse.json` invocations for
+paired high-resolution likelihood studies. Count both complete callbacks and
+both study/command walls, including construction, all CPU bridges, compilation
+incurred, transfers and host outputs. They remain two-field comparison-batch
+costs, not ordinary single-model MCMC throughput.
+
+[Realistic analysis workloads](analysis_workloads.md) separately retain the
+verified current TESS products, original/JAX CPU and four-process CPU baselines,
+preliminary ellc fits and their failed finite refinement checks. Their new
+standalone CPU benchmark does not initialize CUDA. No real-data GPU, physical
+fit qualification, converged-chain or ESS/sec result is inferred from them.

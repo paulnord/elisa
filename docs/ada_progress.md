@@ -1,9 +1,231 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T16:03:54.249012+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
-**Nothing merged. The assignment continues.**
+Updated **2026-11-17T17:30:16.433093+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+**Nothing merged. The assignment continues. Fifth42 is intentionally held for ELISa.**
 
-## Latest milestone: curvature-consistent fields and reflected comparison curves
+## Latest milestone: curved eclipse edges and accumulated likelihood safeguards
+
+`CurvedEdgeLightCurve` synthesizes complete reflected curves using implicit
+curved-edge quadrature and the preceding curvature-consistent thermal,
+irradiation and radiance fields. **All 84 hardware tests passed without skips**:
+27 new cases and 57 affected legacy cases. CPU validation passed 64 with 20
+explicit GPU skips. Another 472 unaffected controls remain under byte-identical
+source/data: **556 cases of additive coverage**, not a fresh 556-case suite.
+Only a protected packet hook changed an existing experimental file; its default
+remains the preceding routine. Original CPU/default physics, kernels and fitters
+retain their behavior.
+
+Implementation parity passes, and finite edge changes are much smaller than
+the preceding chord studies. **Strict accumulated-likelihood controls still
+block 1e-4 fitting/MCMC qualification.** This milestone adds an explicit nominal
+likelihood-error stop rather than treating a distance pass as sufficient.
+No optimized curvature-field fit, converged chain or ESS/sec claim follows.
+
+### Curved boundaries with positive weights
+
+For boundary endpoints a,b and visible vertex c, E(s)=(1-s)a+s b. At each Gaussian
+slice solve the original implicit limb/shadow for C(s)=E+lambda(s)(c-E), then
+integrate v=(1-t)C+t c. The solid-angle Jacobian is
+abs(det(a,b,c))*(1-t)*(1-lambda)**2/abs(v)**3: the lambda-prime term cancels.
+No contour finite difference or signed strip correction is needed. True Roche
+normals/area Jacobians are evaluated at the nodes; positive finite weights and
+membership of contour/interior points in the original source cone are checked.
+
+Profiles use order4 interior quadrature and order8 along curved slices. Junctions
+receive a prescribed extra subdivision. A fan without a supported radial graph
+uses explicitly counted finer chords on its **whole original source leaf**;
+all earlier fragments of that source are removed to prevent overlap or a lost
+crescent. Junction and singular depths are separately controlled. Exact zero
+endpoints are preserved, and only exact duplicate/zero-measure fragments are
+removed. No positive patch is discarded by a tolerance.
+
+This remains a finite rule with empirical topology probes. Chords persist at
+junctions/singular fans, and no interval topology or uncomputed-limit certificate
+is given. CPU roots/adaptation/clipping, ancestry and original LD/table bridges
+remain. Existing device point-gravity/thermal/tiled-irradiation/fresh BB/flux
+kernels remain active; CK04 explicitly uses original CPU radiance/LD. This is
+a hybrid. Both implementations rebuild the same actual packet independently;
+packet hashes and full adaptive traces must match.
+
+The original bounded circular detached, unspotted/nonpulsating q/spin/radius
+domain and explicit resource/error semantics remain. Field/common levels0–3,
+40000 faces per component, phase/band and node caps stay active. Slice order4–12
+and junction/singular depths0–4 are declared before evaluation. Explicit slice
+and singular-allocation guards never silently coarsen or cut physical priors.
+The node cap does not bound compiler/allocator peak memory.
+
+### Independent geometry and complete-curve controls
+
+Analytic projected uniform-sphere tests use an independent circle-intersection
+formula: annular, partial, grazing, outside contact, total and tiny-occultor
+cases. The fixed target is 1e-7 of the unobscured disk, or .001 sigma at 1e-4 for
+one point. Maximum refined absolute error is **7.05369e-09**. The report retains
+all 18 order/depth controls, including **4 coarse target failures**.
+CPU development corrected skipped small-shadow brackets and exact-zero seam
+slivers; near-tangent graphs use the declared finer rule. Failure evidence stays
+private; no oracle or tolerance was loosened.
+
+Per-face original-equation controls and all raw/component/normalized host
+curves pass existing gates. Maximum complete-curve normalized/raw/component-
+relative differences are **4.44089e-16 /
+1.24077e-24 W/m² /
+1.46184e-15**. Existing gates remain 3e-13
+relative with zero absolute allowance for raw/component flux and 3e-13/2e-12 for
+normalized curves. Maximum intrinsic luminosity-ratio error is
+5.55112e-16; this is not reflected-energy closure.
+
+The partial fixture retains 57 contact-focused phases and V/bolometric bands.
+Finite field comparisons use the same packet at each field level. Actual D uses
+sigma1e-4 with original ln_f=-2; qualification uses nominal sigma independently
+of nuisance noise and the unchanged conservative component enclosure D<=.1:
+
+| Case | Field levels | Common level/depth | Actual D | Nominal component enclosure D |
+| --- | --- | --- | --- | --- |
+| partial_bb | 1→2 | 2/1 | 0.0307391 | 0.0448765 |
+| partial_bb | 1→2 | 2/2 | 0.0307391 | 0.0448765 |
+| partial_bb | 2→3 | 3/1 | 0.00809803 | 0.0113974 |
+| total_bb | 1→2 | 2/1 | 0.0351378 | 0.0483437 |
+| partial_ck04 | 1→2 | 2/1 | 0.00555747 | 0.00574603 |
+| small_occultor | 1→2 | 2/2 | 0.0653255 | 0.0664032 |
+
+Fixed-field integration controls separate ordinary depth from common partition:
+
+| Fixed field | Integration control | Actual D | Nominal enclosure D |
+| --- | --- | --- | --- |
+| curvature_field1 | depth1→2 | 0.00152391 | 0.00154714 |
+| curvature_field2 | depth1→2 | 0.00152378 | 0.00154701 |
+| curvature_field2 | common2/depth2→common3/depth1 | 6.14713e-05 | 6.24525e-05 |
+
+The curated report also compares the new and preceding chord integration at
+fixed curvature fields. That is a numerical-method control, not an unchanged
+original faceted whole-curve equivalence or an implementation-parity test.
+
+### Original observation callbacks and stricter inference controls
+
+Base/changed/JD proposals retain original physical serializers, constraints,
+priors, phase/JD mapping, reducers/repeats, third light, mean normalization and
+noise/density. Maximum mapped prediction/posterior differences are
+**4.44089e-16 /
+2.2701e-09**, inside the original 1e-6 density
+gate. Out-of-prior vectors retain original -inf before synthesis. No physical
+prediction is cached across candidates.
+
+`InferenceBudget` retains nominal D<=.1 and requires the data-dependent absolute
+Gaussian log-likelihood enclosure sum(abs(r)*E+E²/2)<=.01 by default. This
+predeclared finite-pair diagnostic limits the computed nominal likelihood ratio
+to exp(±.01), about1%; it is not a universal astronomy criterion or posterior-bias
+guarantee. Both gates ignore nuisance ln_f. Failure raises
+`ResolutionNotQualifiedError` outside candidate penalties, even with
+PENALIZE_ALL_EXCEPTIONS. Original fitters/defaults are unchanged.
+
+The following nominal controls use common level3, fields2/3 and edge depths1/2,
+with separate bounded complete coarse/fine studies. The coarse control does not
+qualify its own boundary. All costs count; the original effective-noise controls
+are also retained separately in the machine report.
+
+| Proposal | Finite control | Nominal enclosure D | Nominal delta logL | Absolute logL enclosure | Strict preflight |
+| --- | --- | --- | --- | --- | --- |
+| base | field2→3 | 0.00478513 | 1.35148 | 2.72661 | abort |
+| base | edge depth1→2 | 0.00139386 | 0.459784 | 0.544025 | abort |
+| changed | field2→3 | 0.00357479 | 0.192131 | 2.6194 | abort |
+| changed | edge depth1→2 | 0.00115091 | 0.123396 | 0.593811 | abort |
+| jd | field2→3 | 0.00478513 | 1.35148 | 2.72661 | abort |
+| jd | edge depth1→2 | 0.00139386 | 0.459784 | 0.544025 | abort |
+
+At fixed ordinary depth2/order4/slice8, a separate prescribed-chord refinement
+changes only junction and singular depths3→4:
+
+| Control at fixed common3/depth2/slice8 | Nominal enclosure D | Nominal delta logL | Absolute logL enclosure | Strict preflight |
+| --- | --- | --- | --- | --- |
+| junction/singular depth3→4 | 3.5097e-09 | -6.1757e-07 | 2.27516e-06 | pass finite pair |
+
+Passing a finite distance gate still does not ensure negligible accumulated
+likelihood error. Uncomputed finer boundaries/fields and observational/model
+adequacy remain open; no fitter/sampler backend is automatically registered.
+
+### Matched transfer-inclusive costs
+
+These are **two-field comparison batches**, including constructors, all fresh
+fields, CPU geometry/area/ancestry/clipping/hash, compilation incurred, every
+transfer and raw/normalized/component host outputs. Both paths run in the same
+unit, affinity 0–15, Nice 10, one thread, FP64. Code/response/shape caches can warm.
+Single measurements are not distributions or ordinary one-model MCMC throughput.
+Different integration/resolution contracts cannot isolate a hardware speed ratio.
+
+| Case | Field levels; common level/depth | CPU reference batch s | GPU hybrid batch s |
+| --- | --- | --- | --- |
+| partial_bb | 1,2; 2/1 | 28.3603 | 32.9063 |
+| partial_bb | 1,2; 2/2 | 46.9311 | 52.1705 |
+| partial_bb | 2,3; 3/1 | 74.2358 | 73.6229 |
+| total_bb | 1,2; 2/1 | 34.9193 | 39.7373 |
+| partial_ck04 | 1,2; 2/1 | 28.801 | 33.1247 |
+| small_occultor | 1,2; 2/2 | 52.4405 | 58.6584 |
+
+Each callback includes physical serialization/constraints/construction, prior,
+original prediction and density, and computes both fresh comparison models.
+Fine curves pass through original mapping. Same-candidate mapping-only oracles
+are outside those timers and never count as fresh synthesis. Paired totals are:
+
+| Proposal | Coarse CPU/GPU s | Fine CPU/GPU s | Summed CPU/GPU s | Summed study wall s |
+| --- | --- | --- | --- | --- |
+| base | 49.4992 / 47.4673 | 76.5364 / 75.0327 | 126.036 / 122.5 | 249.025 |
+| changed | 48.6126 / 46.56 | 75.6721 / 75.2489 | 124.285 / 121.809 | 246.585 |
+| jd | 49.6718 / 47.2285 | 76.3805 / 74.8654 | 126.052 / 122.094 | 248.637 |
+
+The extra base junction/singular study also counts: all three base studies total
+**202.367s CPU /
+197.762s GPU** callbacks
+and **400.869s** combined study
+wall. Study walls start after imports; command walls include startup and
+serialization. Allocation/probe/checkpoint operations are separate. Private CPU
+development timings are excluded from matched GPU evidence. No qualified
+full-fit/MCMC speedup is inferred.
+
+### Realistic workloads and current allocation policy
+
+[The new analysis report](analysis_workloads.md) curates the completed independent
+foreground work: three pinned current TESS products, original/JAX CPU and a
+four-process CPU baseline, six preliminary ellc fits and failed refinement
+controls. On all 3,150 V505 eclipse-window observations, retained median changed
+calls were 2.30s original serial, 3.27s JAX CPU and 1.26s original four-process.
+These are separate models/cost boundaries from the Roche quadrature experiment.
+All four ellc finite refinement pairs fail D<=.1, including the finest at
+D=.161 for sigma1e-4. No real-data GPU, final posterior or ESS/sec result is claimed.
+
+The published pinned-input CPU driver reproduces two full observation proposals:
+original arrays match retained and four-process outputs bit for bit; JAX CPU
+passes existing curve/density gates. Those smoke checks do not replace the
+retained eight-proposal timing study. Raw FITS/NPZ and operational logs remain
+private; curated scientific figures and reports are linked from the analysis page.
+
+Fifteen <=300s systemd units used 270s internal deadlines and unconditional
+boundary verification. Before the user changed allocation policy, windows076–082
+restored the exact original production service with durable advances of
+**40,960, 43,008, 42,240, 43,008, 43,008, 43,008, 43,008 cells**. Windows083–090 instead preserve the **active user-requested
+Fifth42 hold**, verifying the exact stopped checkpoint and strict latest
+receipt/witness/endpoints at every entry/cleanup. Source/config/plan/service pins
+remain unchanged. This is latest-evidence verification, not a historical re-audit.
+The controlled supervisor restart preserved completed results and science source.
+Current production state is **paused_for_elisa**. The supervisor restores the
+original service with durable advancement only after genuine ELISa completion.
+Test command sums range from 64.025 to 181.820s;
+no unit exceeded its bounded allocation.
+
+Frozen source/data: **626 files**, aggregate SHA256
+`d585fbade92fec032e354719399c8f70ee2df0857cf221de3fef37ae2e53dde7`. Four files added; one experimental packet
+dispatch changed; all other 621 baseline files remain byte-identical. See
+[curated science and boundary evidence](ada_validation/background-m017.json),
+[source manifest](ada_validation/background-m017-source-hashes.json), and
+[API/reproduction/limits](experimental_gpu_backend.md#curved-eclipse-edges-and-accumulated-likelihood-controls).
+
+Next prioritize the ready **batched Roche geometry GPU port**: review/integrate
+it, run actual GPU controls and matched original/vectorized NumPy/JAX CPU/GPU
+physical-proposal batches, then compose resident geometry into complete fresh
+fields, curves and likelihoods. Keep the remaining field/boundary likelihood
+stops active. No cached-curve nuisance-only substitute, physical-fit/MCMC
+qualification or whole-assignment completion is claimed.
+
+## Previous milestone: curvature-consistent fields and reflected comparison curves
 
 `CurvatureFieldLightCurve` now uses actual Roche cell centres, point normals and
 SI gravity, curved cell areas and area-consistent thermal normalization through

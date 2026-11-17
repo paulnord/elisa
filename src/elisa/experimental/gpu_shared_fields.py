@@ -149,6 +149,8 @@ class SharedFieldLightCurve:
     physical prediction or quadrature packet is cached across candidates.
     """
 
+    _packet = staticmethod(boundary_packet)
+
     def __init__(self, passbands: list[str], rule: BoundaryRule, variants: tuple[FieldVariant, ...], *,
                  integration_level: int = 2, device: str = "gpu", radiance: str = "device") -> None:
         if (not isinstance(variants, tuple) or not 1 <= len(variants) <= 4
@@ -227,7 +229,7 @@ class SharedFieldLightCurve:
             packets, record = {}, {"phase": float(position.phase), "components": {}}
             for name in _NAMES:
                 foreground = geometry[foreground_name] if overlap and name != foreground_name else None
-                p = boundary_packet(triangles[name], geometry[name], line, self.rule, foreground)
+                p = self._packet(triangles[name], geometry[name], line, self.rule, foreground)
                 digest.update(json.dumps({"phase": float(position.phase), "component": name,
                                           "nodes": len(p["mu"])}).encode())
                 for key in ("mu", "area", "parents"):

@@ -1,0 +1,1324 @@
+{
+  "scope": "Retained independent foreground CPU-only analysis at published990586a9; new driver reproduction on m017 source. No foreground GPU allocation or MCMC/ESS claim.",
+  "source_commit": "990586a98ff83533ab37e514af549f9c0d6955e2",
+  "prepared_utc": "2026-11-17T15:56:19.971794+00:00",
+  "foreground_manifest_sha256": "7361b35383e1edae6bcad68766f08dcff8ced214a45e5b9cb21d59876379d7f3",
+  "artifact_sha256": {
+    "run_cpu.py": "b9499ddea7270b578b669fa07ea5a06560aaacbe2e94a8473e3bd4e703df2875",
+    "probe_ellc_analysis-r1.py": "53165806347f89c0c3131e39d5a75191df42b63ffa7ce373ac941cb2152b6be8",
+    "render_results.py": "242718f09e055726ee7186eaf37cc4d586f4347831690a9c2e061caaea8c2248",
+    "check_ellc_refinement.py": "b8c962a7cb24676c9241224b459d21cd8d1feee8170199b22e3366be08ee421d",
+    "summarize_cpu_paths.py": "ba6cef9d456944f186809994861a731db2ee192f88d0f459b71fe00f1d976c05",
+    "source-990586a.tar": "5ffcf26d0f3fb56bad48bf5a65c35ca58d280f798f5b52882e3d8a5fcb07a150",
+    "probe_ellc_analysis.py": "60f77386516bca03d4793cadeb8b7f55265aa600b2c7b2921ccff1a45e180a8a",
+    "probe_cpu_paths-r1.py": "17b8fa35b0a1d5712b91fe549042e4fdd19e0de6692a2a9ae44582d860673bb9",
+    "fetch_case_data.py": "def8715b9245161eba4816799fdc6ab64d5ae36b6e54e50e0d05b729be7cfef8",
+    "probe_cpu_paths-r2.py": "8757d0a62fdc5ab11196841fb7d518a7deb62d0e04ba96de266908d18cbb3e19",
+    "RESEARCH-HANDOFF.md": "cebb59e9e6adbb2d8289bc84d84d23cd15b8e32c40cca2e885559958f916ccc2",
+    "probe_cpu_paths.py": "d90014fd77b232bc5af0d4f5439d3a60736f0a81b8f080d2f271382dc453c9fc",
+    "results/cpu-full-original-threads1.npz": "55adc16a4454acea0b10901cf39fe1492f59bef5b692672274c6327adf0d48cd",
+    "results/ellc-refinement.npz": "9b9ae8d0ef0f1f9bb2d6240f91b0c721fab21cdadea7a991fb17280beda6abf1",
+    "results/cpu-full-original-threads1.json": "7ddb6883a90107877709a9e7f29f4b1ed7ca8f353e8a4cdd1e428f9e92d61b70",
+    "results/cpu-full-original_cpu-threads4.json": "5ba51bbd6650e045375cd507e191db44a6390c145066a19c37c10bcfe53d7e3b",
+    "results/ellc-analysis-threads1.npz": "845a108e80e1864cf8d657e2ca1b01d2b1609b1019bb0687d55ea871a686acb8",
+    "results/ellc-refinement.json": "3642e725c0d6cf9db5ab6b01ff0db3a119ce9d819e4b779fc86188008ac8af08",
+    "results/cpu-full-jax_cpu_hybrid-threads4.json": "d8968f0778ddd3484f865f9096b0d77348f353619d3cca732a4ac5f6ce7c6ca8",
+    "results/cpu-full-jax-threads1.npz": "6658bece0f8f2d1864aa48927f32bc7ebb6bbc687422b1bc8ef4686a4be0f481",
+    "results/cpu-full-original-processes4-threads1.npz": "55adc16a4454acea0b10901cf39fe1492f59bef5b692672274c6327adf0d48cd",
+    "results/data-products.json": "aaec982c98bb22ca4decb5b67e96b2df14952b1a1e28af07c3a6e56573c33e16",
+    "results/cpu-full-jax_cpu_hybrid-threads4.npz": "6658bece0f8f2d1864aa48927f32bc7ebb6bbc687422b1bc8ef4686a4be0f481",
+    "results/cpu-full-original_cpu-threads4.npz": "55adc16a4454acea0b10901cf39fe1492f59bef5b692672274c6327adf0d48cd",
+    "results/ellc-analysis-threads1.json": "b83fe48807317c17293c873ac3c6833d42a2b826aead2361ef579a8680a812b6",
+    "results/cpu-full-jax-threads1.json": "ac32e454376b823e4d2df029b328345e6816330355aa8888164c198f48f5fca3",
+    "results/cpu-path-comparison.json": "b154ad8c2dd76528793d88099e4177e5d8ae1c897ee3722fe21eef53a1c5aea3",
+    "results/cpu-full-original-processes4-threads1.json": "d47b0b5078d38ecacbb4b4f0ec49fdacd77df1812710654258c7a119421d89e5",
+    "results/cpu-paths-threads1.json": "20edab29cd24c7bd9303df50d38e0ed7f8a1a9627ad7df073f68969f6c2cb644",
+    "results/v505-preliminary-analysis.pdf": "3736236d5facf4ed3929333976324fb021c3865d9d056de5723c6b8bd2e90100",
+    "results/v505-preliminary-analysis.png": "c6f7f8161b9a400440120b247bfe827d2f3efce5d4e6e3546473d5ae0ec7f5c2",
+    "data/tess2018234235059-s0002-0000000102069549-0121-s_lc.fits": "08e0f6cbc9f19ce6948d1c56fed6ae3e65ba65807e67a0d8fe6675ee3cec3045",
+    "data/ai-phe-mast-observations.json": "6fc74a48b3e5f5c8da4007284f6286cceb5c7fcbc0566b4417af7fb1583d74c7",
+    "data/nt-aps-table-page.png": "9d7512ef55c72b9160e3a07db70223c4561a839305c43e36b2d656fdee25a4f6",
+    "data/nt-aps-tic-identities.json": "203903d19fc67b09185b87b6b85a57a4f2007b6e6e6bd4abb2513bafd594f215",
+    "data/tess2019306063752-s0018-0000000348517784-0162-s_lc.fits": "4351efe790cf3a4c718c9fdb1a9cf1ecd21d078374e90e6440b437c034618f1d",
+    "data/nt-aps-paper.pdf": "4ff91c7e22f66eb107bfac6e107bd82ddcf6d49064502498523cd642e97d196e",
+    "data/v505-mast-observations.json": "4dc836200e360ad5d318debe9d44c09c3cb8f77421b9469ab29d953af3365546",
+    "data/ellc-pypi-metadata.json": "f2ce3334f349cdab9cdc4a3a62beec906cd3685907274d4368e1d0a8a0ac7905",
+    "data/nt-aps-mast-observations.json": "9508ad5a07cb05883f6a41fb7bd8cc10d2cfc2906c5a7c2ad1e04845b1a5b910",
+    "data/ai-phe-name.json": "08d8ccad38984bfc0ecd6408fd8aef8ea3a809dc4d8f5e57cb26c0aad37ceda6",
+    "data/tess2023153011303-s0066-0000000402227266-0260-a_fast-lc.fits": "996940c91645fab5f2273929adc19cbdee5c9caddc3343772a17c5ee69343019",
+    "data/nt-aps-name.json": "079c901d04c3a389d4298e35b21ac7417f080a7be76ca29674260e861e89179c",
+    "vendor/ellc-1.9.1.dist-info/METADATA": "f3f4d6fcb6e55568902673fe7fd5ab97af4d6e764e545f7b4e3b588474d54500",
+    "vendor/ellc/libellc.so": "616f4d2ec1ec96d6cc2d3bd35f2d5b38082f5983274ef65b3173d622d634a924"
+  },
+  "data_products": {
+    "retrieved_utc": "2026-11-17T15:35:26.917624+00:00",
+    "products": [
+      {
+        "uri": "mast:TESS/product/tess2019306063752-s0018-0000000348517784-0162-s_lc.fits",
+        "filename": "tess2019306063752-s0018-0000000348517784-0162-s_lc.fits",
+        "bytes": 1785600,
+        "sha256": "4351efe790cf3a4c718c9fdb1a9cf1ecd21d078374e90e6440b437c034618f1d",
+        "rows": 17554,
+        "quality_zero_rows": 14851,
+        "metadata": {
+          "TICID": 348517784,
+          "SECTOR": 18,
+          "CAMERA": 2,
+          "CCD": 4,
+          "PROCVER": "spoc-5.0.97-20230811",
+          "DATA_REL": 73,
+          "CREATOR": "75388 LightCurveExporterPipelineModule",
+          "DATE": "2023-08-15",
+          "TIMESYS": "TDB",
+          "TIMEUNIT": "d",
+          "BJDREFI": 2457000,
+          "BJDREFF": 0.0,
+          "TIMEDEL": 0.001388888888888889,
+          "CROWDSAP": 0.99659222,
+          "FLFRCSAP": 0.96459633,
+          "TIMEPIXR": 0.5,
+          "FRAMETIM": 2.0,
+          "INT_TIME": 1.98,
+          "NUM_FRM": 60,
+          "DEADC": 0.792,
+          "DEADAPP": true,
+          "LIVETIME": 19.29178565379674,
+          "TELAPSE": 24.35831521944,
+          "EXPOSURE": 19.291785653797
+        },
+        "flux_columns": {
+          "SAP_FLUX": {
+            "finite_positive_quality_zero_rows": 14666,
+            "median_formal_relative_error": 0.0001666103158428178,
+            "adjacent_difference_MAD_noise_proxy": 0.00043784205514756325,
+            "median_cadence_seconds": 120.00015051889932,
+            "time_min_btjd": 1790.6610826798876,
+            "time_max_btjd": 1814.0666356936865
+          },
+          "PDCSAP_FLUX": {
+            "finite_positive_quality_zero_rows": 14666,
+            "median_formal_relative_error": 0.00016701843924573956,
+            "adjacent_difference_MAD_noise_proxy": 0.00039868040097830075,
+            "median_cadence_seconds": 120.00015051889932,
+            "time_min_btjd": 1790.6610826798876,
+            "time_max_btjd": 1814.0666356936865
+          }
+        },
+        "finite_quality_zero_time_rows": 14666
+      },
+      {
+        "uri": "mast:TESS/product/tess2018234235059-s0002-0000000102069549-0121-s_lc.fits",
+        "filename": "tess2018234235059-s0002-0000000102069549-0121-s_lc.fits",
+        "bytes": 2004480,
+        "sha256": "08e0f6cbc9f19ce6948d1c56fed6ae3e65ba65807e67a0d8fe6675ee3cec3045",
+        "rows": 19737,
+        "quality_zero_rows": 18298,
+        "metadata": {
+          "TICID": 102069549,
+          "SECTOR": 2,
+          "CAMERA": 2,
+          "CCD": 2,
+          "PROCVER": "spoc-5.0.11-20200915",
+          "DATA_REL": 42,
+          "CREATOR": "26881 LightCurveExporterPipelineModule",
+          "DATE": "2020-09-18",
+          "TIMESYS": "TDB",
+          "TIMEUNIT": "d",
+          "BJDREFI": 2457000,
+          "BJDREFF": 0.0,
+          "TIMEDEL": 0.001388888888888889,
+          "CROWDSAP": 0.99478209,
+          "FLFRCSAP": 0.96406013,
+          "TIMEPIXR": 0.5,
+          "FRAMETIM": 2.0,
+          "INT_TIME": 1.98,
+          "NUM_FRM": 60,
+          "DEADC": 0.792,
+          "DEADAPP": true,
+          "LIVETIME": 21.70646878506558,
+          "TELAPSE": 27.407157556901,
+          "EXPOSURE": 21.706468785066
+        },
+        "flux_columns": {
+          "SAP_FLUX": {
+            "finite_positive_quality_zero_rows": 18298,
+            "median_formal_relative_error": 0.00034560909314261843,
+            "adjacent_difference_MAD_noise_proxy": 0.00037259954457285755,
+            "median_cadence_seconds": 120.0011998807895,
+            "time_min_btjd": 1354.111847206799,
+            "time_max_btjd": 1381.517615862553
+          },
+          "PDCSAP_FLUX": {
+            "finite_positive_quality_zero_rows": 18298,
+            "median_formal_relative_error": 0.00034817486605515053,
+            "adjacent_difference_MAD_noise_proxy": 0.0003785086093393901,
+            "median_cadence_seconds": 120.0011998807895,
+            "time_min_btjd": 1354.111847206799,
+            "time_max_btjd": 1381.517615862553
+          }
+        },
+        "finite_quality_zero_time_rows": 18298
+      },
+      {
+        "uri": "mast:TESS/product/tess2023153011303-s0066-0000000402227266-0260-a_fast-lc.fits",
+        "filename": "tess2023153011303-s0066-0000000402227266-0260-a_fast-lc.fits",
+        "bytes": 12456000,
+        "sha256": "996940c91645fab5f2273929adc19cbdee5c9caddc3343772a17c5ee69343019",
+        "rows": 124245,
+        "quality_zero_rows": 92752,
+        "metadata": {
+          "TICID": 402227266,
+          "SECTOR": 66,
+          "CAMERA": 2,
+          "CCD": 1,
+          "PROCVER": "spoc-5.0.96-20230729",
+          "DATA_REL": 92,
+          "CREATOR": "5307 LightCurveExporterPipelineModule",
+          "DATE": "2023-08-02",
+          "TIMESYS": "TDB",
+          "TIMEUNIT": "d",
+          "BJDREFI": 2457000,
+          "BJDREFF": 0.0,
+          "TIMEDEL": 0.0002314814814814815,
+          "CROWDSAP": 0.95020616,
+          "FLFRCSAP": 0.93457204,
+          "TIMEPIXR": 0.5,
+          "FRAMETIM": 2.0,
+          "INT_TIME": 1.98,
+          "NUM_FRM": 10,
+          "DEADC": 0.99,
+          "DEADAPP": true,
+          "LIVETIME": 28.466192426330604,
+          "TELAPSE": 28.753729723566,
+          "EXPOSURE": 28.466192426331
+        },
+        "flux_columns": {
+          "SAP_FLUX": {
+            "finite_positive_quality_zero_rows": 92752,
+            "median_formal_relative_error": 0.0006988520022115758,
+            "adjacent_difference_MAD_noise_proxy": 0.0013731252761975045,
+            "median_cadence_seconds": 19.99976940569468,
+            "time_min_btjd": 3097.6771934899866,
+            "time_max_btjd": 3122.695600181198
+          },
+          "PDCSAP_FLUX": {
+            "finite_positive_quality_zero_rows": 92752,
+            "median_formal_relative_error": 0.0007354348850304908,
+            "adjacent_difference_MAD_noise_proxy": 0.001422646807251791,
+            "median_cadence_seconds": 19.99976940569468,
+            "time_min_btjd": 3097.6771934899866,
+            "time_max_btjd": 3122.695600181198
+          }
+        },
+        "finite_quality_zero_time_rows": 92752
+      }
+    ],
+    "selection": "V505 Per Sector18 120s; AI Phe Sector2 120s; NT Aps Sector66 20s",
+    "limitations": "Current archive reductions are not presumed identical to the paper reductions. No detrending, clipping beyond declared flags, fit, or posterior result."
+  },
+  "cpu_comparison": {
+    "source_commit": "990586a98ff83533ab37e514af549f9c0d6955e2",
+    "comparisons": [
+      {
+        "blas_openmp_threads": 1,
+        "observations": 3150,
+        "varying_physical_proposals": 8,
+        "paths": [
+          {
+            "path": "original_cpu",
+            "first_forward_plus_density_seconds": 2.5046440749429166,
+            "changed_proposal_median_seconds": 2.3010978605016135,
+            "changed_proposal_min_seconds": 2.2732712540309876,
+            "changed_proposal_max_seconds": 2.336843817960471,
+            "changed_proposal_sum_seconds": 18.408763634157367,
+            "process_wall_seconds": 36.38900032697711
+          },
+          {
+            "path": "jax_cpu_hybrid",
+            "first_forward_plus_density_seconds": 4.558880554977804,
+            "changed_proposal_median_seconds": 3.273055295459926,
+            "changed_proposal_min_seconds": 3.254330695956014,
+            "changed_proposal_max_seconds": 3.5372300730086863,
+            "changed_proposal_sum_seconds": 26.47133861097973,
+            "process_wall_seconds": 54.46575789607596
+          }
+        ],
+        "jax_cpu_warm_cost_divided_by_original": 1.4223885701003767,
+        "max_log_likelihood_difference": 2.3283064365386963e-08,
+        "array_parity": [
+          {
+            "array": "original_cpu_proposal_0",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_proposal_1",
+            "max_normalized_flux_abs": 7.771561172376096e-16
+          },
+          {
+            "array": "original_cpu_proposal_2",
+            "max_normalized_flux_abs": 5.551115123125783e-16
+          },
+          {
+            "array": "original_cpu_proposal_3",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_proposal_4",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_proposal_5",
+            "max_normalized_flux_abs": 1.1102230246251565e-15
+          },
+          {
+            "array": "original_cpu_proposal_6",
+            "max_normalized_flux_abs": 8.881784197001252e-16
+          },
+          {
+            "array": "original_cpu_proposal_7",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_proposal_8",
+            "max_normalized_flux_abs": 9.992007221626409e-16
+          },
+          {
+            "array": "original_cpu_feature_mesh_4deg",
+            "max_normalized_flux_abs": 3.3306690738754696e-16
+          },
+          {
+            "array": "original_cpu_feature_exposure_3point_120s",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_feature_reflection_2iterations",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          }
+        ],
+        "feature_controls": {
+          "mesh_4deg": {
+            "original_complete_seconds": 5.0283425389789045,
+            "jax_cpu_complete_seconds": 7.207085981033742,
+            "curve_change_max_abs": 0.00023990076523339177,
+            "delta_log_likelihood_from_seed": 815.3361130666235,
+            "interpretation": "Finite seed feature change, not a fitted-parameter shift or accuracy certificate."
+          },
+          "exposure_3point_120s": {
+            "original_complete_seconds": 6.891581818927079,
+            "jax_cpu_complete_seconds": 9.748684542952105,
+            "curve_change_max_abs": 4.857757249532302e-05,
+            "delta_log_likelihood_from_seed": -26.5433435199011,
+            "interpretation": "Finite seed feature change, not a fitted-parameter shift or accuracy certificate."
+          },
+          "reflection_2iterations": {
+            "original_complete_seconds": 2.3262472390197217,
+            "jax_cpu_complete_seconds": 4.857143203029409,
+            "curve_change_max_abs": 0.0004945395485025372,
+            "delta_log_likelihood_from_seed": -5682.524425293959,
+            "interpretation": "Finite seed feature change, not a fitted-parameter shift or accuracy certificate."
+          }
+        },
+        "jax_cpu_median_stage_seconds": {
+          "cpu_mesh_topology_kinematics": 0.005233668547589332,
+          "device_state_with_transfers_compile": 0.001915223547257483,
+          "cpu_reflection": 2.2823514882475138e-05,
+          "device_radiance_ld_with_transfers": 0.0031032710103318095,
+          "cpu_orientation_coverage": 2.248653269431088,
+          "device_integration_with_transfers": 1.002496393630281,
+          "total": 3.2704229794908315
+        }
+      },
+      {
+        "blas_openmp_threads": 4,
+        "observations": 3150,
+        "varying_physical_proposals": 8,
+        "paths": [
+          {
+            "path": "original_cpu",
+            "first_forward_plus_density_seconds": 2.41667660290841,
+            "changed_proposal_median_seconds": 2.2435239069745876,
+            "changed_proposal_min_seconds": 2.2284088109154254,
+            "changed_proposal_max_seconds": 2.321547247003764,
+            "changed_proposal_sum_seconds": 18.062931227963418,
+            "process_wall_seconds": 35.49951616593171
+          },
+          {
+            "path": "jax_cpu_hybrid",
+            "first_forward_plus_density_seconds": 4.519288334995508,
+            "changed_proposal_median_seconds": 3.2314919595373794,
+            "changed_proposal_min_seconds": 3.2179788610665128,
+            "changed_proposal_max_seconds": 3.25397524505388,
+            "changed_proposal_sum_seconds": 25.87477633333765,
+            "process_wall_seconds": 53.784925812040456
+          }
+        ],
+        "jax_cpu_warm_cost_divided_by_original": 1.4403643970502975,
+        "max_log_likelihood_difference": 2.3283064365386963e-08,
+        "array_parity": [
+          {
+            "array": "original_cpu_proposal_0",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_proposal_1",
+            "max_normalized_flux_abs": 7.771561172376096e-16
+          },
+          {
+            "array": "original_cpu_proposal_2",
+            "max_normalized_flux_abs": 5.551115123125783e-16
+          },
+          {
+            "array": "original_cpu_proposal_3",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_proposal_4",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_proposal_5",
+            "max_normalized_flux_abs": 1.1102230246251565e-15
+          },
+          {
+            "array": "original_cpu_proposal_6",
+            "max_normalized_flux_abs": 8.881784197001252e-16
+          },
+          {
+            "array": "original_cpu_proposal_7",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_proposal_8",
+            "max_normalized_flux_abs": 9.992007221626409e-16
+          },
+          {
+            "array": "original_cpu_feature_mesh_4deg",
+            "max_normalized_flux_abs": 3.3306690738754696e-16
+          },
+          {
+            "array": "original_cpu_feature_exposure_3point_120s",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          },
+          {
+            "array": "original_cpu_feature_reflection_2iterations",
+            "max_normalized_flux_abs": 6.661338147750939e-16
+          }
+        ],
+        "feature_controls": {
+          "mesh_4deg": {
+            "original_complete_seconds": 4.814016534015536,
+            "jax_cpu_complete_seconds": 7.027354471967556,
+            "curve_change_max_abs": 0.00023990076523339177,
+            "delta_log_likelihood_from_seed": 815.3361130666235,
+            "interpretation": "Finite seed feature change, not a fitted-parameter shift or accuracy certificate."
+          },
+          "exposure_3point_120s": {
+            "original_complete_seconds": 6.717220102087595,
+            "jax_cpu_complete_seconds": 9.911438444978558,
+            "curve_change_max_abs": 4.857757249532302e-05,
+            "delta_log_likelihood_from_seed": -26.5433435199011,
+            "interpretation": "Finite seed feature change, not a fitted-parameter shift or accuracy certificate."
+          },
+          "reflection_2iterations": {
+            "original_complete_seconds": 2.2677020319970325,
+            "jax_cpu_complete_seconds": 4.875229246914387,
+            "curve_change_max_abs": 0.0004945395485025372,
+            "delta_log_likelihood_from_seed": -5682.524425293959,
+            "interpretation": "Finite seed feature change, not a fitted-parameter shift or accuracy certificate."
+          }
+        },
+        "jax_cpu_median_stage_seconds": {
+          "cpu_mesh_topology_kinematics": 0.005152065539732575,
+          "device_state_with_transfers_compile": 0.001708113995846361,
+          "cpu_reflection": 2.0989507902413607e-05,
+          "device_radiance_ld_with_transfers": 0.0030952960369177163,
+          "cpu_orientation_coverage": 2.2083980865427293,
+          "device_integration_with_transfers": 1.0014997670077719,
+          "total": 3.22888484102441
+        }
+      }
+    ],
+    "limitations": [
+      "Sequential physical proposal pilot, not full public fitter/MCMC or posterior.",
+      "Cold process first calls retain shared filesystem/Numba caches; backend processes are separate, not a cold-machine or uncached compiler comparison.",
+      "Shared-machine single-run measurements, active background worker; repeat under controlled load before performance conclusions.",
+      "BLAS/OpenMP thread count varied; affinity=4 cores. XLA CPU runtime may use available cores and is not controlled solely by OMP_NUM_THREADS."
+    ],
+    "input_sha256": {
+      "cpu-full-original-threads1.json": "7ddb6883a90107877709a9e7f29f4b1ed7ca8f353e8a4cdd1e428f9e92d61b70",
+      "cpu-full-original-threads1.npz": "55adc16a4454acea0b10901cf39fe1492f59bef5b692672274c6327adf0d48cd",
+      "cpu-full-jax-threads1.json": "ac32e454376b823e4d2df029b328345e6816330355aa8888164c198f48f5fca3",
+      "cpu-full-jax-threads1.npz": "6658bece0f8f2d1864aa48927f32bc7ebb6bbc687422b1bc8ef4686a4be0f481",
+      "cpu-full-original_cpu-threads4.json": "5ba51bbd6650e045375cd507e191db44a6390c145066a19c37c10bcfe53d7e3b",
+      "cpu-full-original_cpu-threads4.npz": "55adc16a4454acea0b10901cf39fe1492f59bef5b692672274c6327adf0d48cd",
+      "cpu-full-jax_cpu_hybrid-threads4.json": "d8968f0778ddd3484f865f9096b0d77348f353619d3cca732a4ac5f6ce7c6ca8",
+      "cpu-full-jax_cpu_hybrid-threads4.npz": "6658bece0f8f2d1864aa48927f32bc7ebb6bbc687422b1bc8ef4686a4be0f481",
+      "cpu-full-original-processes4-threads1.json": "d47b0b5078d38ecacbb4b4f0ec49fdacd77df1812710654258c7a119421d89e5",
+      "cpu-full-original-processes4-threads1.npz": "55adc16a4454acea0b10901cf39fe1492f59bef5b692672274c6327adf0d48cd"
+    },
+    "original_cpu_four_process_baseline": {
+      "elisa_processes": 4,
+      "blas_openmp_threads": 1,
+      "affinity_cores": 4,
+      "first_forward_plus_density_seconds": 1.152302057016641,
+      "changed_proposal_median_seconds": 1.2621875645127147,
+      "changed_proposal_min_seconds": 1.1281527180690318,
+      "changed_proposal_max_seconds": 1.3562028059968725,
+      "changed_proposal_sum_seconds": 9.931537342141382,
+      "process_wall_seconds": 19.047475981991738,
+      "max_curve_difference_from_serial": 0.0,
+      "max_density_difference_from_serial": 0.0,
+      "feature_controls": {
+        "mesh_4deg": {
+          "total_constructor_forward_mapping_density_seconds": 2.4891121480613947,
+          "binary_constructor_seconds": 0.003827792010270059,
+          "stages": {},
+          "log_likelihood": -24610.74614505201,
+          "difference_from_seed_max_abs": 0.00023990076523339177
+        },
+        "exposure_3point_120s": {
+          "total_constructor_forward_mapping_density_seconds": 3.0498566849855706,
+          "binary_constructor_seconds": 0.0035919880028814077,
+          "stages": {},
+          "log_likelihood": -25452.625601638534,
+          "difference_from_seed_max_abs": 4.857757249532302e-05
+        },
+        "reflection_2iterations": {
+          "total_constructor_forward_mapping_density_seconds": 1.2559124220861122,
+          "binary_constructor_seconds": 0.00524676707573235,
+          "stages": {},
+          "log_likelihood": -31108.606683412592,
+          "difference_from_seed_max_abs": 0.0004945395485025372
+        }
+      }
+    }
+  },
+  "ellc_analysis": {
+    "ellc_version": "1.9.1",
+    "data": {
+      "source_sha256": "4351efe790cf3a4c718c9fdb1a9cf1ecd21d078374e90e6440b437c034618f1d",
+      "points": 3150,
+      "trends": [
+        {
+          "half_orbit_event": -3,
+          "points": 314,
+          "out_of_eclipse_points": 130,
+          "baseline_coefficients": [
+            419140.3748706493,
+            -7915.153508777786
+          ]
+        },
+        {
+          "half_orbit_event": -2,
+          "points": 320,
+          "out_of_eclipse_points": 130,
+          "baseline_coefficients": [
+            417939.0803452518,
+            -1274.3612340317352
+          ]
+        },
+        {
+          "half_orbit_event": -1,
+          "points": 321,
+          "out_of_eclipse_points": 130,
+          "baseline_coefficients": [
+            417837.62291210017,
+            1495.3968342312305
+          ]
+        },
+        {
+          "half_orbit_event": 0,
+          "points": 321,
+          "out_of_eclipse_points": 130,
+          "baseline_coefficients": [
+            417828.82888495224,
+            -106.88544802952589
+          ]
+        },
+        {
+          "half_orbit_event": 1,
+          "points": 318,
+          "out_of_eclipse_points": 130,
+          "baseline_coefficients": [
+            418126.7123202584,
+            2089.3719681569514
+          ]
+        },
+        {
+          "half_orbit_event": 3,
+          "points": 309,
+          "out_of_eclipse_points": 130,
+          "baseline_coefficients": [
+            417938.2195074028,
+            -823.3956131111454
+          ]
+        },
+        {
+          "half_orbit_event": 4,
+          "points": 316,
+          "out_of_eclipse_points": 130,
+          "baseline_coefficients": [
+            417959.60665388993,
+            -849.52988240704
+          ]
+        },
+        {
+          "half_orbit_event": 5,
+          "points": 311,
+          "out_of_eclipse_points": 124,
+          "baseline_coefficients": [
+            418120.63442699885,
+            871.6770610464688
+          ]
+        },
+        {
+          "half_orbit_event": 6,
+          "points": 320,
+          "out_of_eclipse_points": 130,
+          "baseline_coefficients": [
+            418126.21961610456,
+            -231.97676971025572
+          ]
+        },
+        {
+          "half_orbit_event": 7,
+          "points": 300,
+          "out_of_eclipse_points": 127,
+          "baseline_coefficients": [
+            418073.3329103853,
+            791.9191639774025
+          ]
+        }
+      ],
+      "normalization": "Per-eclipse weighted straight line from |phase offset|>1.2 times spherical half-width, conditioning on fitted trends. Their uncertainty is not propagated."
+    },
+    "parameters": [
+      "r_sum",
+      "radius_ratio",
+      "surface_brightness_ratio",
+      "inclination_deg",
+      "ld_linear_coefficient_both",
+      "primary_epoch_phase_shift"
+    ],
+    "initial": [
+      0.170906,
+      0.9788,
+      0.97775,
+      87.9166,
+      0.261,
+      0.0
+    ],
+    "fits": {
+      "sphere_quad_default_exp3": {
+        "options": {},
+        "optimizer_success": true,
+        "message": "`xtol` termination condition is satisfied.",
+        "fitted": {
+          "r_sum": 0.17082706746183832,
+          "radius_ratio": 0.9789604785182006,
+          "surface_brightness_ratio": 0.9778190743064382,
+          "inclination_deg": 87.91121064944198,
+          "ld_linear_coefficient_both": 0.24993788176044263,
+          "primary_epoch_phase_shift": 4.469587699943974e-07
+        },
+        "fit_wall_seconds_including_all_callbacks": 7.729428609018214,
+        "actual_callbacks": 37,
+        "median_forward_residual_callback_seconds": 0.2045541030820459,
+        "sum_squared_formal_residuals": 21683.75457339951,
+        "diagnostics": {
+          "rms_relative_flux": 0.0004135962175526976,
+          "median_formal_error": 0.00016642778826084107,
+          "adjacent_correlation_within_eclipse_window": 0.11718829540918867,
+          "binned_residual_rms": {
+            "1": {
+              "bins": 3150,
+              "rms_of_bin_means": 0.0004135962175526976
+            },
+            "4": {
+              "bins": 785,
+              "rms_of_bin_means": 0.0002361551844875996
+            },
+            "16": {
+              "bins": 193,
+              "rms_of_bin_means": 0.00015954342627352435
+            },
+            "64": {
+              "bins": 44,
+              "rms_of_bin_means": 0.00011254559332027277
+            }
+          },
+          "interpretation": "Conditional fit residuals; white-noise parameter uncertainties are not justified solely by this optimizer or residual RMS."
+        }
+      },
+      "sphere_quad_fine_exp3": {
+        "options": {
+          "grid": "fine"
+        },
+        "optimizer_success": true,
+        "message": "`xtol` termination condition is satisfied.",
+        "fitted": {
+          "r_sum": 0.17081446249395288,
+          "radius_ratio": 0.9794138318776258,
+          "surface_brightness_ratio": 0.9778082691817034,
+          "inclination_deg": 87.91176924447242,
+          "ld_linear_coefficient_both": 0.2499212811108295,
+          "primary_epoch_phase_shift": 4.590225195591591e-07
+        },
+        "fit_wall_seconds_including_all_callbacks": 43.119933368987404,
+        "actual_callbacks": 102,
+        "median_forward_residual_callback_seconds": 0.4214866510592401,
+        "sum_squared_formal_residuals": 21587.93133610688,
+        "diagnostics": {
+          "rms_relative_flux": 0.00041272415549673273,
+          "median_formal_error": 0.00016642778826084107,
+          "adjacent_correlation_within_eclipse_window": 0.1135975800776666,
+          "binned_residual_rms": {
+            "1": {
+              "bins": 3150,
+              "rms_of_bin_means": 0.00041272415549673273
+            },
+            "4": {
+              "bins": 785,
+              "rms_of_bin_means": 0.00023487865489797854
+            },
+            "16": {
+              "bins": 193,
+              "rms_of_bin_means": 0.00015782739576773958
+            },
+            "64": {
+              "bins": 44,
+              "rms_of_bin_means": 0.00011247169381697662
+            }
+          },
+          "interpretation": "Conditional fit residuals; white-noise parameter uncertainties are not justified solely by this optimizer or residual RMS."
+        },
+        "parameter_change_from_baseline": {
+          "r_sum": -1.2604967885437857e-05,
+          "radius_ratio": 0.0004533533594252015,
+          "surface_brightness_ratio": -1.0805124734836191e-05,
+          "inclination_deg": 0.0005585950304407561,
+          "ld_linear_coefficient_both": -1.66006496131188e-05,
+          "primary_epoch_phase_shift": 1.2063749564761663e-08
+        },
+        "prediction_change_at_initial_parameters_max_abs": 5.7627307120333704e-05
+      },
+      "sphere_quad_fine_exp7": {
+        "options": {
+          "grid": "fine",
+          "n_int": 7
+        },
+        "optimizer_success": true,
+        "message": "`xtol` termination condition is satisfied.",
+        "fitted": {
+          "r_sum": 0.17081606491601287,
+          "radius_ratio": 0.9789231476789058,
+          "surface_brightness_ratio": 0.9778258804296027,
+          "inclination_deg": 87.91179307989594,
+          "ld_linear_coefficient_both": 0.24993707507464383,
+          "primary_epoch_phase_shift": 4.596128923402174e-07
+        },
+        "fit_wall_seconds_including_all_callbacks": 56.74303180805873,
+        "actual_callbacks": 57,
+        "median_forward_residual_callback_seconds": 0.9935173410922289,
+        "sum_squared_formal_residuals": 21579.52337372274,
+        "diagnostics": {
+          "rms_relative_flux": 0.00041265525790597435,
+          "median_formal_error": 0.00016642778826084107,
+          "adjacent_correlation_within_eclipse_window": 0.11320782955114317,
+          "binned_residual_rms": {
+            "1": {
+              "bins": 3150,
+              "rms_of_bin_means": 0.00041265525790597435
+            },
+            "4": {
+              "bins": 785,
+              "rms_of_bin_means": 0.00023473570277733732
+            },
+            "16": {
+              "bins": 193,
+              "rms_of_bin_means": 0.0001576877510523573
+            },
+            "64": {
+              "bins": 44,
+              "rms_of_bin_means": 0.00011262891088516682
+            }
+          },
+          "interpretation": "Conditional fit residuals; white-noise parameter uncertainties are not justified solely by this optimizer or residual RMS."
+        },
+        "parameter_change_from_baseline": {
+          "r_sum": -1.100254582545035e-05,
+          "radius_ratio": -3.733083929480241e-05,
+          "surface_brightness_ratio": 6.806123164504463e-06,
+          "inclination_deg": 0.0005824304539601144,
+          "ld_linear_coefficient_both": -8.06685798798723e-07,
+          "primary_epoch_phase_shift": 1.2654122345819962e-08
+        },
+        "prediction_change_at_initial_parameters_max_abs": 5.804632533534804e-05
+      },
+      "sphere_quad_default_exp1": {
+        "options": {
+          "n_int": 1
+        },
+        "optimizer_success": true,
+        "message": "`xtol` termination condition is satisfied.",
+        "fitted": {
+          "r_sum": 0.1708353999861548,
+          "radius_ratio": 0.9782045010894965,
+          "surface_brightness_ratio": 0.9778467506477452,
+          "inclination_deg": 87.91089025920444,
+          "ld_linear_coefficient_both": 0.25011399002315987,
+          "primary_epoch_phase_shift": 4.493330836866143e-07
+        },
+        "fit_wall_seconds_including_all_callbacks": 5.837368760025129,
+        "actual_callbacks": 84,
+        "median_forward_residual_callback_seconds": 0.06838043505558744,
+        "sum_squared_formal_residuals": 21660.089687635125,
+        "diagnostics": {
+          "rms_relative_flux": 0.00041337306014243826,
+          "median_formal_error": 0.00016642778826084107,
+          "adjacent_correlation_within_eclipse_window": 0.11600207109835262,
+          "binned_residual_rms": {
+            "1": {
+              "bins": 3150,
+              "rms_of_bin_means": 0.00041337306014243826
+            },
+            "4": {
+              "bins": 785,
+              "rms_of_bin_means": 0.00023571563717785242
+            },
+            "16": {
+              "bins": 193,
+              "rms_of_bin_means": 0.00015896981778734198
+            },
+            "64": {
+              "bins": 44,
+              "rms_of_bin_means": 0.00011285259668706422
+            }
+          },
+          "interpretation": "Conditional fit residuals; white-noise parameter uncertainties are not justified solely by this optimizer or residual RMS."
+        },
+        "parameter_change_from_baseline": {
+          "r_sum": 8.332524316478906e-06,
+          "radius_ratio": -0.0007559774287040355,
+          "surface_brightness_ratio": 2.7676341306959173e-05,
+          "inclination_deg": -0.0003203902375474854,
+          "ld_linear_coefficient_both": 0.000176108262717245,
+          "primary_epoch_phase_shift": 2.3743136922168866e-09
+        },
+        "prediction_change_at_initial_parameters_max_abs": 5.2701992953596566e-05
+      },
+      "sphere_linear_default_exp3": {
+        "options": {
+          "limb": "lin"
+        },
+        "optimizer_success": true,
+        "message": "`xtol` termination condition is satisfied.",
+        "fitted": {
+          "r_sum": 0.17058720180558343,
+          "radius_ratio": 0.9783482129447512,
+          "surface_brightness_ratio": 0.9778890169333745,
+          "inclination_deg": 87.93038569558838,
+          "ld_linear_coefficient_both": 0.378297615349541,
+          "primary_epoch_phase_shift": 4.556969019023104e-07
+        },
+        "fit_wall_seconds_including_all_callbacks": 11.592796926968731,
+        "actual_callbacks": 56,
+        "median_forward_residual_callback_seconds": 0.20660450699506328,
+        "sum_squared_formal_residuals": 23122.225193487706,
+        "diagnostics": {
+          "rms_relative_flux": 0.0004276010130841289,
+          "median_formal_error": 0.00016642778826084107,
+          "adjacent_correlation_within_eclipse_window": 0.17337276620608738,
+          "binned_residual_rms": {
+            "1": {
+              "bins": 3150,
+              "rms_of_bin_means": 0.0004276010130841289
+            },
+            "4": {
+              "bins": 785,
+              "rms_of_bin_means": 0.00025887956036194294
+            },
+            "16": {
+              "bins": 193,
+              "rms_of_bin_means": 0.00018326460067796224
+            },
+            "64": {
+              "bins": 44,
+              "rms_of_bin_means": 0.0001133310920216767
+            }
+          },
+          "interpretation": "Conditional fit residuals; white-noise parameter uncertainties are not justified solely by this optimizer or residual RMS."
+        },
+        "parameter_change_from_baseline": {
+          "r_sum": -0.00023986565625488954,
+          "radius_ratio": -0.0006122655734493998,
+          "surface_brightness_ratio": 6.994262693627018e-05,
+          "inclination_deg": 0.019175046146401087,
+          "ld_linear_coefficient_both": 0.12835973358909836,
+          "primary_epoch_phase_shift": 8.738131907912971e-09
+        },
+        "prediction_change_at_initial_parameters_max_abs": 0.005046187701766236
+      },
+      "roche_quad_default_exp3": {
+        "options": {
+          "shape": "roche"
+        },
+        "optimizer_success": true,
+        "message": "`xtol` termination condition is satisfied.",
+        "fitted": {
+          "r_sum": 0.17085967067723912,
+          "radius_ratio": 0.979183178547373,
+          "surface_brightness_ratio": 0.9778238032280213,
+          "inclination_deg": 87.91307913422757,
+          "ld_linear_coefficient_both": 0.2505077497290788,
+          "primary_epoch_phase_shift": 4.501128322605854e-07
+        },
+        "fit_wall_seconds_including_all_callbacks": 16.288256530999206,
+        "actual_callbacks": 59,
+        "median_forward_residual_callback_seconds": 0.27614445402286947,
+        "sum_squared_formal_residuals": 22215.040297434687,
+        "diagnostics": {
+          "rms_relative_flux": 0.00041922995422609394,
+          "median_formal_error": 0.00016642778826084107,
+          "adjacent_correlation_within_eclipse_window": 0.12845771723968005,
+          "binned_residual_rms": {
+            "1": {
+              "bins": 3150,
+              "rms_of_bin_means": 0.00041922995422609394
+            },
+            "4": {
+              "bins": 785,
+              "rms_of_bin_means": 0.00024561159247110057
+            },
+            "16": {
+              "bins": 193,
+              "rms_of_bin_means": 0.0001730076797766695
+            },
+            "64": {
+              "bins": 44,
+              "rms_of_bin_means": 0.00012779656233700192
+            }
+          },
+          "interpretation": "Conditional fit residuals; white-noise parameter uncertainties are not justified solely by this optimizer or residual RMS."
+        },
+        "parameter_change_from_baseline": {
+          "r_sum": 3.260321540080047e-05,
+          "radius_ratio": 0.00022270002917246234,
+          "surface_brightness_ratio": 4.728921583097012e-06,
+          "inclination_deg": 0.0018684847855894304,
+          "ld_linear_coefficient_both": 0.000569867968636173,
+          "primary_epoch_phase_shift": 3.1540622661879813e-09
+        },
+        "prediction_change_at_initial_parameters_max_abs": 0.00017026990598290048
+      }
+    },
+    "scope": "Circular detached V505-scale real SAP data, local eclipse windows, no spots, no third light, no irradiation, fixed period, no light travel time or Doppler boosting. Baseline uses spherical stars and quadratic LD with shared u1 free/u2=.23 fixed. It is not JKTEBOP replication or the ELISa Roche/BB/linear-LD seed.",
+    "first_forward_seconds": 0.21485075005330145,
+    "fit_centered_32_proposal_gaussian_batch": {
+      "wall_seconds_including_host_proposals_full_synthesis_and_density": 6.636173007078469,
+      "proposal_vectors": [
+        [
+          0.17086128575243836,
+          0.9771295525690372,
+          0.9782157009661503,
+          87.90962850725403,
+          0.24763801956924647,
+          1.2334703666703658e-06
+        ],
+        [
+          0.17083481436619702,
+          0.9785378422084776,
+          0.9786749571221357,
+          87.90124326175999,
+          0.2479810769530302,
+          -3.652945917128856e-08
+        ],
+        [
+          0.17087535323934208,
+          0.9779481541667022,
+          0.977993301632153,
+          87.9080731811637,
+          0.2588248373310582,
+          7.698829366121514e-07
+        ],
+        [
+          0.1707471772444867,
+          0.9793805545654051,
+          0.9770122474560634,
+          87.91761480555304,
+          0.25028996454212177,
+          -1.3012217177836297e-07
+        ],
+        [
+          0.17081411128539437,
+          0.9770160485097906,
+          0.9782989734241974,
+          87.90628570645931,
+          0.2493717817220421,
+          -1.170569416048933e-06
+        ],
+        [
+          0.17082419237345137,
+          0.9789076192698061,
+          0.9778127761377434,
+          87.91084728525877,
+          0.25655275900357755,
+          6.712538565573002e-07
+        ],
+        [
+          0.1708356995040451,
+          0.9805610533700498,
+          0.978580304213093,
+          87.90974060867669,
+          0.2463685876226159,
+          1.372733636089438e-06
+        ],
+        [
+          0.1707861417897607,
+          0.9808281372485748,
+          0.9785034300269484,
+          87.91456652528367,
+          0.2563484775516997,
+          -1.5927289428288704e-06
+        ],
+        [
+          0.17081318937319812,
+          0.977414164798234,
+          0.9782304337775709,
+          87.91019043837198,
+          0.2537505316111739,
+          5.40869093825333e-08
+        ],
+        [
+          0.17087166796636377,
+          0.976255900080043,
+          0.978511864578991,
+          87.91280372943696,
+          0.24858843539612943,
+          8.57442126339078e-07
+        ],
+        [
+          0.17083996808577004,
+          0.9798861507979252,
+          0.9782578090802503,
+          87.90950165646127,
+          0.24807671654114577,
+          2.0759087527065314e-07
+        ],
+        [
+          0.1708585347750512,
+          0.9776438069901939,
+          0.9779307336128773,
+          87.90385364945519,
+          0.24521904171315212,
+          -3.687793690720834e-07
+        ],
+        [
+          0.1708375159611653,
+          0.9800078060500128,
+          0.9770573844072655,
+          87.91516742733008,
+          0.26104005375920475,
+          -4.1015664201093944e-07
+        ],
+        [
+          0.17078137113157185,
+          0.9827772867936683,
+          0.9777570494987621,
+          87.91114521538123,
+          0.24546416094197576,
+          1.2272273882783834e-06
+        ],
+        [
+          0.17079246145061328,
+          0.9774813752585407,
+          0.9773775727791442,
+          87.9091442640951,
+          0.253091640390453,
+          9.811111170360452e-08
+        ],
+        [
+          0.17079519482887037,
+          0.9809185480699958,
+          0.9790083967347301,
+          87.91394590196312,
+          0.238907340347025,
+          -2.710331232464285e-07
+        ],
+        [
+          0.17083866958225352,
+          0.9791290970827599,
+          0.9777717563118199,
+          87.91876117799731,
+          0.2548441841945167,
+          1.2101055312894484e-06
+        ],
+        [
+          0.17076785870724476,
+          0.9800086781050269,
+          0.9771875119619372,
+          87.91640885520316,
+          0.2518352528151201,
+          -6.641792314161431e-07
+        ],
+        [
+          0.1708218371368145,
+          0.9800859217753428,
+          0.9785926642196314,
+          87.9100643005705,
+          0.24371743119537911,
+          4.356969342834351e-07
+        ],
+        [
+          0.1708187567769312,
+          0.979723676343761,
+          0.9772052806320106,
+          87.9080665917174,
+          0.24628547517174615,
+          7.905830317963664e-08
+        ],
+        [
+          0.17084260149855776,
+          0.9818652949918842,
+          0.9767511041061174,
+          87.91109787070903,
+          0.2510763701463254,
+          7.858175645738718e-07
+        ],
+        [
+          0.17077997138595324,
+          0.9785876909417912,
+          0.9776817814072815,
+          87.9122045583067,
+          0.24332090426266403,
+          -5.311446760775839e-07
+        ],
+        [
+          0.17090413010564842,
+          0.9808105622027475,
+          0.9779657940256323,
+          87.91434456641214,
+          0.24585867869108205,
+          1.0101170793827825e-06
+        ],
+        [
+          0.17085837551609093,
+          0.9798054247042411,
+          0.9783018270506498,
+          87.91222246308318,
+          0.24992097382336168,
+          8.061689119033992e-07
+        ],
+        [
+          0.17079667430729045,
+          0.9750070499711567,
+          0.9771146380681072,
+          87.90684622780722,
+          0.2518537301675304,
+          5.75754967203748e-07
+        ],
+        [
+          0.17079016218129925,
+          0.9805427107532104,
+          0.9774893590716536,
+          87.91994635200338,
+          0.24960892027825543,
+          7.532684274871883e-07
+        ],
+        [
+          0.17080712443328994,
+          0.9792830885415027,
+          0.9774872871735224,
+          87.91593783888275,
+          0.2496069878995425,
+          1.2889105973664452e-06
+        ],
+        [
+          0.1708171616543812,
+          0.9777596868664706,
+          0.9778418166647352,
+          87.9193384872385,
+          0.2435740887164202,
+          2.394280838657404e-08
+        ],
+        [
+          0.17082254138224495,
+          0.9788988901063819,
+          0.9776124390908125,
+          87.90624442539391,
+          0.2629915692796493,
+          1.7408760750836768e-07
+        ],
+        [
+          0.17079287839072552,
+          0.9800309098654548,
+          0.9774931474499243,
+          87.90858169996672,
+          0.24832520479285183,
+          5.463895543147746e-07
+        ],
+        [
+          0.17079579735351352,
+          0.9798358584822299,
+          0.9768808404719627,
+          87.91459766250306,
+          0.2475334280982984,
+          1.3330620178426956e-07
+        ],
+        [
+          0.17078535820948185,
+          0.9790495193677163,
+          0.97739529744961,
+          87.91854054694134,
+          0.2543818902835193,
+          1.4913381371198484e-06
+        ]
+      ],
+      "log_likelihoods": [
+        13462.258664273595,
+        8671.120656403233,
+        13564.47329027505,
+        12556.012896256365,
+        12134.13817768691,
+        13395.183774259076,
+        13267.435719907759,
+        11462.362142239333,
+        13686.703473225614,
+        13363.160658705776,
+        13566.098383634007,
+        9973.323793316697,
+        9427.972318723492,
+        13544.049296286508,
+        13311.591160220069,
+        12681.754677756624,
+        9118.477004296612,
+        12575.21182577828,
+        12914.323897690168,
+        12418.005521923638,
+        13285.972129570358,
+        13220.481546700803,
+        12602.910194669965,
+        13383.685677030895,
+        11646.337232297348,
+        10939.110138740785,
+        13061.757053438825,
+        12771.456523517882,
+        13241.118227888632,
+        12965.795150607246,
+        13342.87879133637,
+        10642.890438498165
+      ],
+      "scope": "Sequential physically varying, fit-centred local proposals; not posterior samples or vectorized MCMC."
+    },
+    "process_wall_seconds": 152.71677481406368,
+    "script_sha256": "53165806347f89c0c3131e39d5a75191df42b63ffa7ce373ac941cb2152b6be8",
+    "evidence_script": "probe_ellc_analysis-r1.py",
+    "curation_note": "Corrected one diagnostic key: its fixed comparison parameters are INITIAL, not fitted baseline. Numerical arrays/timings unchanged; raw JSON and exact evidence script retained."
+  },
+  "ellc_refinement": {
+    "fixed_parameters": {
+      "r_sum": 0.17081606491601287,
+      "radius_ratio": 0.9789231476789058,
+      "surface_brightness_ratio": 0.9778258804296027,
+      "inclination_deg": 87.91179307989594,
+      "ld_linear_coefficient_both": 0.24993707507464383,
+      "primary_epoch_phase_shift": 4.596128923402174e-07
+    },
+    "calls": [
+      {
+        "label": "default_exp3",
+        "forward_seconds": 0.21187785093206912
+      },
+      {
+        "label": "fine_exp3",
+        "forward_seconds": 0.4452192250173539
+      },
+      {
+        "label": "fine_exp7",
+        "forward_seconds": 1.032856606063433
+      },
+      {
+        "label": "very_fine_exp7",
+        "forward_seconds": 1.7667512730695307
+      },
+      {
+        "label": "very_fine_exp15",
+        "forward_seconds": 3.750449928105809
+      }
+    ],
+    "finite_comparisons": [
+      {
+        "first": "default_exp3",
+        "second": "fine_exp3",
+        "max_absolute_normalized_flux_difference": 5.617374268729325e-05,
+        "rms_normalized_flux_difference": 1.6187428332376674e-05,
+        "nominal_formal_error_gaussian_distance": 6.414904980388358,
+        "fixed_sigma_1e_4_gaussian_distance": 9.085171618906644,
+        "D_le_0p1_formal": false,
+        "D_le_0p1_fixed_1e_4": false,
+        "delta_log_likelihood_using_formal_errors": 55.1485724025277
+      },
+      {
+        "first": "fine_exp3",
+        "second": "fine_exp7",
+        "max_absolute_normalized_flux_difference": 1.6011150476780145e-05,
+        "rms_normalized_flux_difference": 2.7296751477992125e-06,
+        "nominal_formal_error_gaussian_distance": 1.049982527258597,
+        "fixed_sigma_1e_4_gaussian_distance": 1.5320263770384261,
+        "D_le_0p1_formal": false,
+        "D_le_0p1_fixed_1e_4": false,
+        "delta_log_likelihood_using_formal_errors": 4.252462110618792
+      },
+      {
+        "first": "fine_exp7",
+        "second": "very_fine_exp7",
+        "max_absolute_normalized_flux_difference": 2.4030321475021488e-05,
+        "rms_normalized_flux_difference": 4.610635076544357e-06,
+        "nominal_formal_error_gaussian_distance": 1.7524015725232256,
+        "fixed_sigma_1e_4_gaussian_distance": 2.587712518780685,
+        "D_le_0p1_formal": false,
+        "D_le_0p1_fixed_1e_4": false,
+        "delta_log_likelihood_using_formal_errors": 11.028006222559691
+      },
+      {
+        "first": "very_fine_exp7",
+        "second": "very_fine_exp15",
+        "max_absolute_normalized_flux_difference": 1.6050837418069008e-06,
+        "rms_normalized_flux_difference": 2.8634608353295233e-07,
+        "nominal_formal_error_gaussian_distance": 0.10969303362821772,
+        "fixed_sigma_1e_4_gaussian_distance": 0.1607113407937289,
+        "D_le_0p1_formal": false,
+        "D_le_0p1_fixed_1e_4": false,
+        "delta_log_likelihood_using_formal_errors": 0.6398593880455168
+      }
+    ],
+    "wall_seconds_excluding_imports": 7.208968902006745,
+    "interpretation": "Same fitted physical parameters at every resolution. These are finite pairwise diagnostics, not a continuum bound. D<=0.1 is the retained conservative project diagnostic, not a universal astronomy standard; formal-error diagonal weighting does not model correlated residuals. No thresholds or original ELISa guards changed."
+  },
+  "new_driver_reproduction": {
+    "observations": 3150,
+    "proposals": 2,
+    "checks": [
+      {
+        "proposal": 0,
+        "original_and_retained_array_bit_identical": true,
+        "original_serial_and_four_process_bit_identical": true,
+        "max_jax_cpu_abs": 6.661338147750939e-16,
+        "max_density_abs": 9.38598532229662e-10
+      },
+      {
+        "proposal": 1,
+        "original_and_retained_array_bit_identical": true,
+        "original_serial_and_four_process_bit_identical": true,
+        "max_jax_cpu_abs": 7.771561172376096e-16,
+        "max_density_abs": 3.077730070799589e-09
+      }
+    ],
+    "reproduction_only": true,
+    "new_driver": "scripts/benchmark_v505_cpu.py",
+    "unchanged_input_SHA256": true,
+    "not_new_full_analysis_benchmark": true
+  },
+  "reproducibility": "New standalone ELISa original/JAX CPU driver is published. Retained ellc optimizer/refinement results are accompanied by exact original script/library/data/array hashes; their separate foreground fitting drivers have not been adapted into the public fitter. Raw FITS/NPZ and operational logs are not published.",
+  "interpretation": "Implementation parity, finite numerical resolution and observational/model adequacy are separate conclusions. All ellc finite refinement pairs fail the retained D<=0.1 diagnostic. Preliminary conditional-trend fits and finite parameter shifts do not establish final errors or posterior significance."
+}
