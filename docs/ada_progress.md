@@ -1,9 +1,196 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T07:46:33Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T08:31:18Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: device mutual irradiation in complete curves and fitting
+## Latest milestone: resolution error and physical fitting at 1e-4 uncertainty
+
+The new opt-in `gpu_accuracy` diagnostics distinguish **implementation parity**
+from finite mesh, phase-support and spectral errors. All CPU synthesis/defaults
+and previous GPU runtime files remain unchanged. `resolution_error` applies the
+original `sigma²*(1+exp(2 ln_f))` noise law to already mapped/normalized predictions
+and reports maximum/RMS errors, joint distance `D=||delta/sigma_eff||`, and the
+data-dependent chi²/log-likelihood change including its residual cross term.
+It does not change a prior, fallback or parity tolerance.
+
+The illustrative diagnostic budget **D<=0.1** bounds the expected likelihood loss
+to0.005 when the finite reference generates the data. Passing it is a sampled
+comparison, **not a continuum error certificate**. The target is nominal
+normalized sigma`1e-4`, ln_f`-2`; physical-fit comparisons use the original
+normalized observations/errors. Shared CPU/GPU resolution limits are reported
+even when implementation parity passes.
+
+![Finite mesh and phase-support errors](ada_validation/background-m008-resolution.svg)
+
+### Mesh and phase choices dominate these accuracy tests
+
+Three reflected cases use V/bolometric, q0.7 and partial/total blackbody or partial
+CK04/table-LD eclipses, with45–69 requested phases including nearby contact
+estimates, ordering/repeats, cross-cycle inputs, phase shift and third light.
+Mesh levels12/8/6/4/3 degrees have **540/1280/2156/5076/8916 faces per component**.
+The3° original CPU model is a finite reference. Original reflection iteration2,
+atmosphere/LD and mesh correction conventions are retained.
+
+| Case | Maximum 12° vs3° change (sigma_eff) | Joint D,4° vs3° |
+|---|---:|---:|
+| Partial blackbody | 4.08 | 6.03 |
+| Total blackbody | 11.51 | 5.11 |
+| Partial CK04/table LD | 7.47 | 3.31 |
+
+Even the last mesh pair exceeds the joint0.1 budget. This assessment **does not
+qualify3° as accurate at1e-4**, assume monotone convergence or extrapolate a
+continuum limit. The partial case is visibly nonmonotone in the figure. Finer
+geometry, quadrature or a justified mesh error estimate still needs work.
+
+The phase audit uses the actual original physical fitter with28 B/V/bolometric
+observations, repeated/unequal per-band grids and8° surfaces. Manual cubic
+support spans[-0.1,1.1], with32/64/128/256/1024/8192 points; direct synthesis at
+the observation union is the reference. At l3=0, joint D falls from736.75 at32
+points to **0.02665 at8192**; this final sampled control meets the diagnostic
+budget. At l3=0.2, the8192-point D remains **72.12**, with maximum19.34 sigma_eff.
+
+That nonzero-l3 difference includes the **original synthesis-support mean used
+for third light**, which changes between cadence-based direct synthesis and a
+uniform support grid. It is not pure cubic interpolation error and need not
+approach zero with grid refinement. Maximum-then-observation-mean normalization
+and this original convention are preserved. A fitting protocol must specify its
+support/l3 convention; grid density alone cannot make those two models identical.
+Finite exposure integration is not included in these instantaneous fixtures.
+
+### Spectral quadrature is small here; atlas/model accuracy remains separate
+
+`BlackbodySpectralProbe` integrates the actual clipped passband response with
+Gauss-Legendre quadrature in log wavelength, split at native throughput knots,
+logarithmic panels and available Akima zero crossings. Orders8/16/32 test stability.
+An owned CPU Observer callback changes only spectral emission, retaining fresh
+CPU reflection, same-band LD division, actual eclipse coverage and normalization.
+Native-grid control reproduces original complete curves. This CPU diagnostic
+still incurs original radiance preparation and is **not GPU computation or a new
+production performance path**. Changed sampled responses invalidate its snapshot.
+
+Independent adaptive integrals validate the quadrature at3000/6500/30000 K to
+1e-10 relative. Order16-to32 surface-flux changes are **1.56e-15 V /
+2.23e-16 bolometric**. Whole reflected-curve/fitter comparison against native
+blackbody quadrature gives maximum normalized prediction change **3.77e-8**,
+joint D **0.000943**, and expected likelihood loss **4.45e-7**. That passes the
+sampled diagnostic budget comfortably for this fixture.
+
+The finite50–2,000,000 Å bolometric interval remains: its flux differs from the
+infinite Planck integral by about7.01e-7 at3000 K down to7.07e-10 at30000 K.
+The Planck-derived Stefan constant and legacy temperature-law constant remain
+distinct, as in CPU; neither was adjusted. Oversampling these blackbody/response
+functions cannot establish missing CK04 spectral information, atmosphere/LD
+model accuracy or an atlas-wide accuracy claim. Real CK04 mesh/implementation
+comparisons above retain the existing versioned scientific tables.
+
+### Fitting impact and unchanged CPU/GPU gates
+
+Both fitting engines use **the same native3° blackbody synthetic truth**, fixed seed908
+noise at1e-4, and original phase mapping, normalization, constraints, priors,
+third-light/noise semantics and serialization. Injected T_primary=6500 K and
+inclination=86.4°. Public two-parameter LSQ uses the original16-evaluation,
+two-point/diff_step1e-4 settings.
+
+| Fit mesh | Original CPU T_primary (K) | Inclination (deg) | Minimum chi² |
+|---|---:|---:|---:|
+| 12° | 6508.956470 | 86.43822725 | 96.47574 |
+| 6° | 6500.106505 | 86.40583154 | 21.84991 |
+
+Relative to the injected parameters, the temperature shift drops from **+8.9565 K
+to+0.1065 K** and inclination from+0.03823° to+0.00583°. This one realization
+combines noise and finite mesh effects; it is not an exact bias estimator or a
+continuum posterior. Improved fit quality does not certify surface convergence.
+
+CPU/GPU differences remain within unchanged gates: at most **4.45e-16** absolute
+for normalized mesh curves, **6.67e-16** for mapped phase-support predictions,
+**5.06e-7 K /6.21e-10 deg** in fitted parameters and **2.43e-11 chi²**. Public
+8-walker/3-step runs replay identical coordinates/acceptance fractions; stored
+log-density differences are at most **3.79e-9**. These short runs assess callback/
+move equivalence, **not convergence, posterior precision or ESS/sec**.
+
+**12 targeted hardware tests passed in8.59 s, zero failures/errors/skips.** CPU
+targets passed11 with1 explicit GPU skip in5.75 s. Tests independently compare
+the likelihood error algebra with original cost functions, adaptive spectral
+integrals, original-grid whole curves, response-revision/caller-state checks and
+separate mesh-resolution failure from parity. The preceding **287-test full
+hardware suite** is retained as unchanged-physics evidence: all its583 source/
+data fingerprints remain identical. It was not rerun or represented as a new
+full-suite pass. All new complete-curve and public-fitting profiles passed.
+
+### Matched transfer-inclusive costs and resource fallback
+
+Median **ms per host V/bolometric curve**. Original CPU and GPU columns below
+come from the same GPU driver; the JAX CPU profile ran sequentially in the same
+checkpointed window. Affinity0–15/Nice10, threads1, FP64. All per-call Observer,
+source/CPU bridges, dispatch, evaluation and transfers are included. Binary and
+one-time hybrid engine constructors are outside row timers and included in full
+driver wall times. First calls/compilation are separate in JSON. There are three
+warm samples at12/6° and one at8/4/3°; the4° rows are single-sample costs.
+
+| Case / mesh | Original CPU | Hybrid JAX CPU | Hybrid GPU |
+|---|---:|---:|---:|
+| Partial BB /12° | 51.10 | 61.99 | 25.83 |
+| Partial BB /6° | 149.58 | 480.11 | 44.94 |
+| Partial BB /4° | 459.32 | 510.22 | 481.29 (CPU fallback) |
+| Total BB /12° | 47.30 | 61.48 | 29.69 |
+| Total BB /6° | 162.07 | 593.47 | 52.29 |
+| Total BB /4° | 497.53 | 522.63 | 519.11 (CPU fallback) |
+| CK04 /12° | 26.04 | 84.05 | 29.82 |
+| CK04 /6° | 71.40 | 1031.59 | 57.95 |
+| CK04 /4° | 217.38 | 243.07 | 238.26 (CPU fallback) |
+
+Existing reflection pair/face and phase-count caps cause **entire original CPU
+fallback at4°/3° and the denser support grids**. Those results are not counted
+as GPU synthesis, partial curves, prior exclusions or a remedy for discretization
+error. Finite-grid timing gains do not establish performance at the target
+scientific accuracy, since surface convergence has not been established.
+
+| Public work, all costs (s) | Original CPU | Hybrid JAX CPU | Hybrid GPU |
+|---|---:|---:|---:|
+| 12° LSQ | 1.095 | 4.630 | 3.597 |
+| 6° LSQ | 2.281 | 6.708 | 3.767 |
+| 12° 8-walker/3-step run | 1.771 | 4.717 | 2.817 |
+| 6° 8-walker/3-step run | 3.811 | 10.020 | 3.106 |
+
+These totals include new fitter construction, original setup/constraints,
+compilation incurred, all callbacks and serialization; runtime caches can be
+warm. Synthetic reference generation is included in complete profile wall time,
+outside optimizer sub-timers. Single short runs support no general throughput or
+ESS claim. Development checks on cores16–19/Nice19 while production ran are
+correctness evidence and excluded from matched timings.
+
+### Reproduction, restoration and next work
+
+```text
+python -m pytest tests/tests_experimental/test_gpu_accuracy.py -q -rs
+python scripts/validate_gpu_accuracy.py --device cpu --part curves --output curves-cpu.json
+python scripts/validate_gpu_accuracy.py --device cpu --part fitting --output fitting-cpu.json
+python docs/ada_validation/plot_m008.py
+```
+
+Use the private CPU wrapper for development. GPU variants require an independent
+checkpoint/restore systemd allocation. Registered windows013/014 used
+**169.63/63.50 s** of test commands within270 s internal/300 s systemd bounds.
+Both independently restored the exact pinned service/source/config/plan,
+verified matching checkpoint resumes and latest receipt/witness/endpoints, and
+observed **47,104/45,824 durable cells** of resumed advancement. Both test units
+finished inactive/success. This is not a full historical production re-audit;
+raw operational logs/process/environment snapshots remain private.
+
+See [curated measurements](ada_validation/background-m008.json),
+[589-file runtime/data manifest](ada_validation/background-m008-source-hashes.json)
+and [current status](ada_validation/progress.json). The manifest adds the three
+diagnostic Python files and B-response/two mesh-correction resources to the
+unchanged preceding583 files. Compact sorted-key aggregate:
+`0a5d555a1ef79cb5c36261ebee0ae5b68c25a2629a344392f2124e03b46be50f`.
+
+Next implement an opt-in direct-observation synthesis and resolution-qualified
+fitting protocol, with unresolved accuracy failures outside prior penalties,
+then address finer/adaptive surface convergence. CPU defaults and scientific
+conventions remain preserved. The target-noise surface accuracy is still
+unqualified, so the assignment continues.
+
+## Previous milestone: device mutual irradiation in complete curves and fitting
 
 The circular detached hybrid now defaults to **device mutual irradiation**.
 `gpu_reflection.DeviceReflection` builds fresh pair distances/join vectors,

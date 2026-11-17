@@ -1,38 +1,17 @@
 {
-  "updated_utc": "2026-11-17T07:42:52.582923+00:00",
+  "updated_utc": "2026-11-17T08:27:00.795104+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "2a0e3b807974cc2f34521bc189d8cb722d6e3c2993a8d23bc9709a318f135c04",
-  "code_state_hash_method": "SHA256 of background-m007-source-hashes.json parsed as compact sorted-key JSON",
-  "stage": "Device mutual irradiation in complete hybrid curves and physical fitting",
+  "code_state_sha256": "0a5d555a1ef79cb5c36261ebee0ae5b68c25a2629a344392f2124e03b46be50f",
+  "code_state_hash_method": "SHA256 of background-m008-source-hashes.json parsed as compact sorted-key JSON",
+  "stage": "Noise-scaled mesh/phase/spectral resolution and physical fitting audit",
   "last_gpu_suite": {
-    "tests": 287,
+    "tests": 12,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "partitions": [
-      {
-        "tests": 85,
-        "failures": 0,
-        "errors": 0,
-        "skipped": 0,
-        "runner_seconds": 101.8385887700133,
-        "pytest_seconds": 100.87,
-        "warnings": 2
-      },
-      {
-        "tests": 202,
-        "failures": 0,
-        "errors": 0,
-        "skipped": 0,
-        "runner_seconds": 143.1388853220269,
-        "pytest_seconds": 142.11,
-        "warnings": 0
-      }
-    ],
-    "duplicates": 0,
-    "pytest_seconds_total": 242.98,
-    "warnings": "Two inherited CPU Planck UV-tail overflow warnings"
+    "scope": "test_gpu_accuracy.py",
+    "pytest_seconds": 8.59
   },
   "last_gpu_suite_is_current_physics_source": true,
   "cpu_only_suite_before_two_added_test_pairs": {
@@ -47,17 +26,17 @@
     "errors": 0,
     "skipped": 8
   },
-  "benchmark_status": "Device irradiation, six complete curves, changed physical/albedo/nuisance proposals, blackbody/table public fits and short sampler replay passed; matched complete/cold costs disclosed, no convergence/ESS or all-GPU claim.",
+  "benchmark_status": "Matched complete calls/fits and empirical accuracy audit published. Targeted12hardwaretests passed; prior287fullsuite physics/source unchanged. Resolution budget failures are scientific limitations shared by CPU/GPU, not hidden by relaxed parity or fallback.",
   "production": {
-    "window": "background-m007-w012",
+    "window": "background-m008-w014",
     "status": "restored_and_advancing",
-    "verified_utc": "2026-11-17T07:42:13.456053+00:00",
-    "job": "j00990",
-    "saved_cursor": 1429983056,
-    "verified_cursor": 1430028112,
-    "durable_cells_before": 1236182583,
-    "durable_cells_after": 1236227639,
-    "durable_cells_advanced": 45056,
+    "verified_utc": "2026-11-17T08:23:27.667499+00:00",
+    "job": "j00997",
+    "saved_cursor": 1460763728,
+    "verified_cursor": 1460811600,
+    "durable_cells_before": 1245991735,
+    "durable_cells_after": 1246037559,
+    "durable_cells_advanced": 45824,
     "source_release_reverified": true,
     "config_and_plan_unchanged": true,
     "matching_resume_record_verified": true,
@@ -65,7 +44,7 @@
     "clean_test_unit_exit_verified": true,
     "last_receipt_witness_endpoints_verified": true,
     "full_historical_reaudit": false,
-    "gpu_batch_seconds": 92.32472989102826
+    "gpu_batch_seconds": 63.50293447799049
   },
   "production_windows": [
     {
@@ -341,6 +320,44 @@
       "last_receipt_witness_endpoints_verified": true,
       "full_historical_reaudit": false,
       "gpu_batch_seconds": 92.32472989102826
+    },
+    {
+      "window": "background-m008-w013",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T08:20:40.385532+00:00",
+      "job": "j00997",
+      "saved_cursor": 1460401744,
+      "verified_cursor": 1460454992,
+      "durable_cells_before": 1245629751,
+      "durable_cells_after": 1245676855,
+      "durable_cells_advanced": 47104,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "gpu_batch_seconds": 169.63442520215176
+    },
+    {
+      "window": "background-m008-w014",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T08:23:27.667499+00:00",
+      "job": "j00997",
+      "saved_cursor": 1460763728,
+      "verified_cursor": 1460811600,
+      "durable_cells_before": 1245991735,
+      "durable_cells_after": 1246037559,
+      "durable_cells_advanced": 45824,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "gpu_batch_seconds": 63.50293447799049
     }
   ],
   "hardware": {
@@ -351,7 +368,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Fresh device irradiation in existing complete circular detached hybrid and original physical fitting; CPU mesh/LD/file/hull bridges and complete CPU fallback retained.",
+  "scope": "CPU/GPU parity separated from finite mesh/phase/spectral accuracy and physical fitting effects; no CPU runtime/default changes or continuum/convergence claim.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -364,15 +381,7 @@
     "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
-  "current_full_cpu_suite": {
-    "passed": 161,
-    "skipped_gpu_cases": 126,
-    "failed": 0,
-    "errors": 0,
-    "seconds": 171.5,
-    "warnings": "One inherited CPU Planck UV-tail overflow warning"
-  },
-  "current_milestone_report": "background-m007.json",
+  "current_milestone_report": "background-m008.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
@@ -445,5 +454,92 @@
     },
     "benchmark_status": "Broader complete curves, detached/overcontact fitting, independent ordered reductions and short sampler replay passed. Matched full CPU/native GPU costs and cold fits reported; broader path moves integration only, no all-GPU or ESS claim.",
     "report": "background-m006.json"
+  },
+  "previous_reflection_milestone": {
+    "stage": "Device mutual irradiation in complete hybrid curves and physical fitting",
+    "code_state_sha256": "2a0e3b807974cc2f34521bc189d8cb722d6e3c2993a8d23bc9709a318f135c04",
+    "last_gpu_suite": {
+      "tests": 287,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "partitions": [
+        {
+          "tests": 85,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "runner_seconds": 101.8385887700133,
+          "pytest_seconds": 100.87,
+          "warnings": 2
+        },
+        {
+          "tests": 202,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "runner_seconds": 143.1388853220269,
+          "pytest_seconds": 142.11,
+          "warnings": 0
+        }
+      ],
+      "duplicates": 0,
+      "pytest_seconds_total": 242.98,
+      "warnings": "Two inherited CPU Planck UV-tail overflow warnings"
+    },
+    "benchmark_status": "Device irradiation, six complete curves, changed physical/albedo/nuisance proposals, blackbody/table public fits and short sampler replay passed; matched complete/cold costs disclosed, no convergence/ESS or all-GPU claim.",
+    "report": "background-m007.json"
+  },
+  "current_targeted_cpu_suite": {
+    "passed": 11,
+    "skipped_gpu_cases": 1,
+    "failed": 0,
+    "seconds": 5.75
+  },
+  "unchanged_physics_full_gpu_suite": {
+    "report": "background-m007.json",
+    "suite": {
+      "tests": 287,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "partitions": [
+        {
+          "tests": 85,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "runner_seconds": 101.8385887700133,
+          "pytest_seconds": 100.87,
+          "warnings": 2
+        },
+        {
+          "tests": 202,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "runner_seconds": 143.1388853220269,
+          "pytest_seconds": 142.11,
+          "warnings": 0
+        }
+      ],
+      "duplicates": 0,
+      "pytest_seconds_total": 242.98,
+      "warnings": "Two inherited CPU Planck UV-tail overflow warnings"
+    },
+    "all_583_previous_fingerprints_unchanged": true,
+    "repeated_this_milestone": false
+  },
+  "unchanged_physics_full_cpu_suite": {
+    "report": "background-m007.json",
+    "suite": {
+      "passed": 161,
+      "skipped_gpu_cases": 126,
+      "failed": 0,
+      "errors": 0,
+      "seconds": 171.5,
+      "warnings": "One inherited CPU Planck UV-tail overflow warning"
+    },
+    "repeated_this_milestone": false
   }
 }

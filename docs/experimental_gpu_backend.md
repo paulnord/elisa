@@ -749,3 +749,39 @@ blackbody/table fits with short sampler replay. The full 287-test hardware suite
 ran in two independent restored windows with no skipped cases. Read
 [Ada progress](ada_progress.md) for matched complete costs and scientific limits;
 parity and short sampler replay do not establish mesh/spectral convergence or ESS.
+
+## Resolution diagnostics for scientific accuracy
+
+`gpu_accuracy.resolution_error(prediction, reference, sigma, observed=None,
+ln_f=-inf, max_distance_sigma=0.1)` compares finite model predictions **after
+original observation mapping and normalization**. It reports noise-scaled maximum,
+RMS and joint distance, expected log-likelihood loss, and the data-dependent
+chi²/log-likelihood difference using the original noise-inflation law. The default
+joint-distance0.1 diagnostic budget corresponds to expected loss0.005. It does
+not alter synthesis, CPU defaults, implementation gates, sampler priors or fallback.
+Finite-reference agreement is not a continuum accuracy certificate.
+
+`BlackbodySpectralProbe` is an independent **CPU diagnostic**: Gauss-Legendre
+quadrature of the actual clipped response in log wavelength feeds an owned
+Observer callback while retaining original fresh physics/coverage/normalization.
+Original native-grid control and independent adaptive integrals verify it.
+Responses are fixed snapshots; changed sampled responses require a fresh probe.
+It does not replace atmosphere data, certify missing spectral information or
+provide a new GPU performance path.
+
+Run `tests/tests_experimental/test_gpu_accuracy.py` and
+`scripts/validate_gpu_accuracy.py --device cpu --part curves --output curves-cpu.json`,
+then `--part fitting` for the physical-fit resolution assessment. GPU variants
+require independent bounded checkpoint/restore allocations. The original engines
+are unchanged: at finer meshes/dense supports, existing bounds cause whole CPU
+fallback, never a partial curve or physical-prior rejection. New targeted tests
+and matched CPU/GPU profiles pass the unchanged implementation gates.
+
+The current report finds mesh changes larger than1e-4 noise even for the last
+finite refinement, substantial fit-parameter shifts, and a nonzero-third-light
+support convention that grid density alone cannot reconcile with direct cadence
+synthesis. The zero-l3 interpolation control and tested blackbody quadrature meet
+their sampled diagnostic budgets. Read [Ada progress](ada_progress.md) and
+[curated evidence](ada_validation/background-m008.json) for actual errors,
+complete costs, source hashes, figure reproduction and unresolved accuracy scope.
+No convergence, continuum posterior or ESS/sec claim follows.
