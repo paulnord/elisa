@@ -23,7 +23,8 @@ from elisa.analytics.models import lc
 from elisa.analytics.params import parameters
 from elisa.experimental.gpu_accuracy import resolution_error
 
-_REFERENCE_COUNT, _MIN_REFERENCE_DEGREES = 2, 3.0
+_REFERENCE_COUNT, _MIN_REFERENCE_DEGREES = 2, 2.0
+_INFERRED_SECONDARY_FLOOR = 3.0
 
 
 @dataclass(frozen=True)
@@ -33,7 +34,8 @@ class MeshResolutionCheck:
     Both target-to-finest and middle-to-finest distances must meet the budget.
     This is a fresh empirical check at each candidate and actual observation
     grid, not a continuum bound or domain-wide cached certificate. Bounds cap
-    reference work to the already exercised >=3-degree CPU meshes.
+    reference work to the exercised >=2-degree original CPU meshes. Finer than
+    3 degrees requires explicit paired mesh mode to avoid the inferred-secondary floor.
     """
 
     refinement_degrees: tuple[float, float] = (8.0, 6.0)
@@ -44,7 +46,7 @@ class MeshResolutionCheck:
         if (len(values) != _REFERENCE_COUNT or not np.isfinite(values).all()
                 or not values[0] > values[1] >= _MIN_REFERENCE_DEGREES
                 or not np.isfinite(self.max_distance_sigma) or self.max_distance_sigma <= 0):
-            msg = "Supply two decreasing reference degrees >=3 and a positive finite mesh budget"
+            msg = "Supply two decreasing reference degrees >=2 and a positive finite mesh budget"
             raise ValueError(msg)
         object.__setattr__(self, "refinement_degrees", values)
 
@@ -62,6 +64,7 @@ class ProtocolPredictionMixin:
 
     def __init__(
         self, *, phase_mode: str = "native", resolution_check: MeshResolutionCheck | None = None,
+        mesh_mode: str = "native",
     ) -> None:
         if phase_mode not in ("native", "observations"):
             msg = "phase_mode must be 'native' or 'observations'"
@@ -70,7 +73,15 @@ class ProtocolPredictionMixin:
                                              or phase_mode != "observations"):
             msg = "MeshResolutionCheck requires phase_mode='observations'"
             raise ValueError(msg)
+        if mesh_mode not in ("native", "paired") or (mesh_mode == "paired" and phase_mode != "observations"):
+            msg = "mesh_mode must be 'native', or 'paired' with observation phases"
+            raise ValueError(msg)
+        if (resolution_check is not None and min(resolution_check.refinement_degrees) < _INFERRED_SECONDARY_FLOOR
+                and mesh_mode != "paired"):
+            msg = "Reference meshes below 3 degrees require explicit paired mesh mode"
+            raise ValueError(msg)
         self._phase_mode, self._resolution_check = phase_mode, resolution_check
+        self._mesh_mode = mesh_mode
         self._protocol_active, self._protocol_target_error = False, None
         self.last_resolution_check: dict[str, Any] | None = None
         super().__init__()
@@ -82,6 +93,10 @@ class ProtocolPredictionMixin:
     @property
     def resolution_check(self) -> MeshResolutionCheck | None:
         return self._resolution_check
+
+    @property
+    def mesh_mode(self) -> str:
+        return self._mesh_mode
 
     def check_protocol_runtime(self) -> None:
         if self.phase_mode == "observations" and settings.NUMBER_OF_PROCESSES != 1:
@@ -99,6 +114,8 @@ class ProtocolPredictionMixin:
     def _direct_prediction(
         self, model_parameters: dict[str, Any], discretization: float, synthesis: Any, *, observer: Any,
     ) -> dict[str, np.ndarray]:
+        if self.mesh_mode == "paired":
+            model_parameters = dict(model_parameters, **{"secondary@discretization_factor": discretization})
         return predict_light_curves(
             self.x_data_reduced, self.y_data, self.x_data_reducer, discretization, observer,
             len(self.x_data_reduced)+1, model_parameters, fit_xs=None,
@@ -114,7 +131,7 @@ class ProtocolPredictionMixin:
         self.check_protocol_runtime()
         started = perf_counter()
         report = {"status": "checking", "degrees": (self.discretization, *check.refinement_degrees),
-                  "phase_mode": self.phase_mode, "reference_backend": "original_cpu",
+                  "phase_mode": self.phase_mode, "mesh_mode": self.mesh_mode, "reference_backend": "original_cpu",
                   "noise_reference": "original normalized observational errors, independent of fitted ln_f",
                   "max_distance_sigma": check.max_distance_sigma,
                   "continuum_certified": False}

@@ -63,8 +63,8 @@ class HybridBinarySynthesis:
             msg = "general must be 'cpu' or 'device_integration'"
             raise ValueError(msg)
         self.general = general
-        if reflection not in ("cpu", "device"):
-            msg = "reflection must be 'cpu' or 'device'"
+        if reflection not in ("cpu", "device", "tiled"):
+            msg = "reflection must be 'cpu', 'device' or 'tiled'"
             raise ValueError(msg)
         self.reflection = reflection
         self._engines: dict[tuple[str, ...], HybridBinaryLightCurve] = {}
@@ -120,9 +120,9 @@ class _HybridPredictionMixin(ProtocolPredictionMixin):
     def __init__(
         self, *, device: str = "gpu", coverage: str = "device", radiance: str = "device", general: str = "cpu",
         reflection: str = "device",
-        phase_mode: str = "native", resolution_check: MeshResolutionCheck | None = None,
+        phase_mode: str = "native", resolution_check: MeshResolutionCheck | None = None, mesh_mode: str = "native",
     ) -> None:
-        super().__init__(phase_mode=phase_mode, resolution_check=resolution_check)
+        super().__init__(phase_mode=phase_mode, resolution_check=resolution_check, mesh_mode=mesh_mode)
         self.hybrid_synthesis = HybridBinarySynthesis(device=device, coverage=coverage,
                                                       radiance=radiance, general=general, reflection=reflection)
 

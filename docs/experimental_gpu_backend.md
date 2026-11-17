@@ -8,6 +8,8 @@ The broader physical-routing option is described in
 [original physical routing with device integration](#broader-original-physical-routing-with-device-integration).
 Opt-in cadence and finite-mesh qualification are described in
 [observation-phase and mesh-qualified fitting](#observation-phase-and-mesh-qualified-fitting).
+Finer reflected surfaces are described in
+[tiled irradiation and paired mesh refinement](#tiled-irradiation-and-paired-mesh-refinement).
 
 This branch starts a GPU-backend development effort; **it is not a GPU port of
 ELISa's stellar model and not a production fitting option**. Existing CPU fitting
@@ -823,7 +825,8 @@ synthesis/optimizer/sampler use; instances are single-caller objects.
 
 `resolution_check=None` disables mesh qualification. If supplied, it requires
 observation mode and exactly two strictly finer decreasing references, each at
-least 3 degrees, within the already exercised CPU grid range. At **each candidate**,
+least 2 degrees, within the exercised CPU grid range. References below 3° require
+explicit paired mesh mode as described below. At **each candidate**,
 the original CPU model runs on the target and both finer meshes, on copied
 Observers retaining passband/atmosphere/LD settings. Both target-to-finest and
 middle-to-finest concatenated-band distances must satisfy the configured budget.
@@ -860,3 +863,68 @@ tests original direct mapping and posterior parity, explicit 1e-4 mesh failure,
 a separate 5% noise positive control with public physical fits/short sampler
 replay, and complete transfer-inclusive qualification costs. See
 [Ada progress](ada_progress.md) for actual results and remaining surface accuracy.
+
+## Tiled irradiation and paired mesh refinement
+
+`reflection="tiled"` opts into `TiledDeviceReflection`: at most 32 receiver rows
+are processed against **all** visible donor faces at once. Each sequential
+cooler-first irradiation iteration recomputes the tiles. It preserves the original
+bolometric LD prefix order, fixed intrinsic LD, all donor contributions, update
+order/ties and final symmetry mirroring. No distance cutoff, fitted heating law
+or temperature cache is introduced. It trades repeated geometry work for memory;
+total arithmetic remains quadratic. Full distance/gamma/coupling diagnostics are
+omitted because retaining them would defeat the memory bound.
+
+```python
+engine = HybridBinaryLightCurve(
+    ["Generic.Bessell.V", "bolometric"], device="gpu",
+    reflection="tiled", coverage="cpu", fallback="raise",
+)
+result = engine(binary_with_explicit_finer_component_grids, phases, normalize=True)
+```
+
+The explicit mode supports up to 40000 faces per component and 268435456 prepared
+reflection pairs, with the existing 0–32 iteration bound and circular detached,
+unspotted/nonpulsating physics domain. Tile sizes 8–64 are available on the direct
+reflection API; complete curves use 32. It retains immutable device input snapshots.
+Missing FP64/device remains an infrastructure error; unsupported physics/resources
+retain whole CPU fallback or explicit raise. Dense reflection and all original
+defaults keep their preceding capacities.
+
+For this mode, blackbody emission can accept 40000 symmetric faces through the
+same bounded spectral chunks, consuming fresh reflected device temperatures.
+The direct `DeviceBlackbodyRadiance(..., fine_mesh=True)` exposes that explicit
+capacity. Original default 8192-face capacity is unchanged. Finer CK04 examples
+select `radiance="cpu"` and retain original atmosphere/LD processing. Current
+device occultation retains its preceding capacity, so finer examples explicitly
+use original CPU orientation/hulls/eclipse coverage with device face integration.
+These are **hybrid** complete curves. No new all-GPU forward model is claimed.
+
+Physical fitting additionally accepts `mesh_mode="paired"` together with
+`phase_mode="observations"`. It explicitly sets the secondary factor equal to
+the primary's requested factor on every target/reference evaluation. Default
+`mesh_mode="native"` retains the original temperature/radius-dependent secondary
+adjustment and configured clamps (3–12° in these validation profiles). A finer primary alone may leave the
+secondary substantially coarser: the tested 2.5° fitter yields an inferred 9.16°
+secondary. Paired mode is an explicit change of numerical protocol, independent
+of physical priors, with no global setting or original serializer change.
+
+`MeshResolutionCheck` now admits reference degrees down to 2°, independently
+validated against unmodified CPU synthesis; below 3° requires paired mode. Finer
+finite 1.5° curves use an independent CPU diagnostic in
+`scripts/fine_mesh_reference.py`, composed from original CPU mesh/gravity/
+thermal, NumPy/Numba distance/gamma/LD and unchanged observer routers. Coarse
+temperature controls and dense complete-curve checks through 2° establish parity.
+It is labelled separately at 1.5°, rather than claiming an unperformed dense
+CPU run or continuum truth. Qualification still aborts outside candidate
+penalties; same-grid CPU fallback cannot establish surface convergence.
+
+Run `test_gpu_reflection_tiled.py` and the full experimental suite. The finer
+driver is `scripts/validate_gpu_fine.py --device cpu --part curves --output curves.json`;
+`--part fitting --fit-level 3` or `--fit-level 2` exercises public physical LSQ
+and changed posterior callbacks on a shared finite reference dataset. GPU variants
+require independently restored bounded allocations. The GPU driver explicitly
+selects JAX CPU and GPU backends for matched complete costs. Read
+[Ada progress](ada_progress.md) for errors, memory accounting, timings, restored
+production and remaining accuracy limits; these comparisons do not certify
+continuum accuracy, finite exposure, physical model systematics or MCMC convergence.

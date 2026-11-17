@@ -1,9 +1,204 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T09:10:54.036587+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T10:09:54.057295+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: observation-phase synthesis and mesh-qualified fitting
+## Latest milestone: bounded irradiation and finer complete curves/fitting
+
+The new opt-in `reflection="tiled"` processes bounded receiver-row tiles against
+**all donor faces**, enabling complete reflected curves with **36,180 faces per
+star at 1.5°**. Fresh device temperatures feed the expanded blackbody emission
+path; original CPU orientation/hulls/eclipse coverage remain explicit bridges.
+An independent CPU reference uses original distance/gamma/LD and observer
+primitives without allocating the original full irradiation matrices. Paired
+component grids now make finer fitting/refinement choices explicit.
+
+CPU/default dense GPU behavior remains unchanged. **All 347 experimental hardware
+tests passed, zero failures/errors/skips** across independent 90/257-test windows
+(125.06/217.38 s).
+The full private CPU suite passed 201 with 146 explicit GPU skips; 19 new hardware
+targets cover the tiled path. Matched complete-curve, physical-fit and changed
+posterior profiles passed the existing gates. The finer surfaces still fail the
+noise-scaled accuracy budget in the three eclipse fixtures: this milestone
+improves the usable numerical resolution, **not continuum certification at 1e-4**.
+
+### Original irradiation with bounded memory
+
+`TiledDeviceReflection` preserves the original cached geometry/temperature build
+order, CPU visibility and bolometric LD selection, LD coefficient prefix order,
+cooler-first sequential iteration, equal-temperature tie choice and final
+quarter-face mirroring. It recomputes coupling tiles each iteration, with no
+pair cutoff, fitted heating approximation or cached physical prediction.
+Receiver rows are padded only for the last tile; all donor faces contribute to
+each original sum. Complete curves use 32-row tiles; direct API permits sizes 8–64; sizes 8/17/32 were
+validated, including uneven tails and zero iterations/albedo.
+
+At 1.5° in the partial blackbody fixture, the two updates include
+**162,786,832 donor pairs per iteration**. At most
+**620,288 pairs** occupy a tile. Compiled reflection temporary
+workspace is **43.83 MiB GPU /
+45.74 MiB JAX CPU**,
+plus 6.14 MiB inputs and 0.62 MiB outputs.
+These are compiled-program accounting, **not total allocator/compiler/runtime or
+whole-curve memory peaks**. The original full visible distance matrix alone has
+325,573,664 elements (2.43 GiB FP64),
+plus a three-coordinate join matrix and other arrays. No dense 1.5° run is claimed.
+Time remains quadratic despite bounded memory.
+
+The explicit tiled mode admits 40000 faces per component, 268435456 prepared
+reflection pairs and the existing 0–32 iteration bound. All prior circular
+unspotted detached q/spin/radius/thermal restrictions remain. Blackbody emission
+gets an explicit 40000-face capacity with its existing bounded spectral chunks,
+consuming fresh reflected device temperatures; its default 8192 cap is unchanged.
+Fine CK04 examples explicitly use original CPU radiance/LD. Fine eclipse coverage
+uses CPU while face integration runs on device. These are **hybrid** curves.
+Unsupported states retain complete CPU fallback/raise, never a physical-prior cut;
+missing device/FP64 remains an infrastructure failure outside candidate penalties.
+
+### Independent CPU controls and explicit component grids
+
+`scripts/fine_mesh_reference.py` composes original CPU mesh, gravity and intrinsic
+thermal normalization with original NumPy/Numba distance/gamma/LD functions in
+independent tiles, then the unchanged Observer/circular curve router. It owns its
+Observer/model and changes no global CPU function or setting. Coarse original CPU controls validate all four laws, both cooler-first orders,
+equal-temperature ties, real table LD and temperatures. Unmodified dense complete-curve controls
+extend through 2°. Maximum independent/dense curve
+difference is **2.22e-16**. At 1.5°, the separately
+labelled independent finite reference is compared with both JAX CPU and GPU;
+maximum normalized implementation difference across the fine study is
+**5.55e-16**. The existing 3e-13 relative/2e-12
+absolute curve gates remain; no finest grid is treated as exact truth.
+
+`mesh_mode="paired"`, with `phase_mode="observations"`, explicitly gives both
+components the requested factor at every target and reference evaluation. Native
+fitting retains the original temperature/radius-dependent secondary adjustment
+and configured clamps (3–12° in this validation environment). A nominal 2.5° primary in the tested fitter produces an
+inferred **9.158° secondary**; a finer primary alone therefore does not imply
+comparable refinement of both stars. Paired mode preserves original physical
+priors, serialization, observation mapping/repeats, third light and noise, while
+explicitly choosing a different numerical grid. No global minimum is lowered.
+`MeshResolutionCheck` now permits original CPU references down to 2°; references
+below 3° require paired mode. Accuracy failures still abort outside candidate
+penalties, and same-grid CPU fallback cannot repair shared surface error.
+
+### Finer meshes help, but the 1e-4 accuracy budget still fails
+
+The three reflected cases retain actual contact-focused phases, both eclipses,
+ordering/repeats, phase shift and third light, with V/bolometric bands and
+**8916/20276/36180 faces per star at 3/2/1.5°**. The table compares successive
+finite original-primitives CPU curves using nominal sigma 1e-4 and original
+ln_f=-2. Joint budget D<=0.1 corresponds to expected likelihood loss 0.005 only
+if the finite reference generates the data; it does not bound a residual cross
+term or continuum error. Instantaneous flux is used; no exposure integration.
+
+| Case | D,3°→2° | D,2°→1.5° | Maximum 2°→1.5° change (sigma_eff) |
+|---|---:|---:|---:|
+| partial_bb | 2.11437 | 0.48843 | 0.10778 |
+| total_bb | 2.89375 | 1.48231 | 0.22040 |
+| partial_ck04 | 3.24404 | 0.57080 | 0.16438 |
+
+All three last pairs exceed the joint budget. The smaller sampled changes do not
+establish monotone convergence or certify 1.5°. Contact/surface quadrature still
+needs adaptive refinement or a justified error estimator. CK04/LD physical model
+systematics and missing spectral information remain separate limits.
+
+### Physical fitting and likelihood at finer paired meshes
+
+Both fit grids use the **same independent 1.5° finite truth/data**: T_primary 6500 K,
+T_secondary 5000 K, inclination 86.4°, seed 1010 Gaussian noise at nominal 1e-4.
+The original public LSQ fits one temperature, constraining secondary=primary−1500
+and fixing inclination. It retains max_nfev 16, two-point/diff_step 1e-4 and original
+convergence/serialization settings. This isolates a physical thermal fit at two
+costly surface resolutions; it is not a general posterior-recovery certificate.
+
+| Both component grids | CPU fitted T_primary (K) | Chi² | D vs 1.5° at fitted parameters |
+|---|---:|---:|---:|
+| 3° | 6498.056361 | 32.959631 | 0.68212 |
+| 2° | 6498.379925 | 31.522794 | 0.24935 |
+
+These parameter shifts combine noise and finite mesh effects, not a measured
+continuum bias. Refinement comparisons use fresh 1.5° predictions at **each fitted
+parameter set**, including original normalization/errors and the actual data
+residual cross-term in JSON. CPU/GPU fit differences are at most
+**2.71e-06 K / 2.31e-11 chi²**,
+within unchanged 0.01 K/1e-5 gates. Changed physical posterior callbacks differ by
+at most **3.13e-10**, within the unchanged 1e-6 gate.
+The current full suite also reruns original public sampler replay; the finer
+experiment adds density callbacks, **not new convergence/mixing/ESS evidence**.
+
+### Matched transfer-inclusive costs
+
+Seconds per partial BB V/bolometric curve. Each first complete call includes
+compilation incurred; previously compiled shapes/code may already be warm.
+Binary/shared original Observer and engine constructors are outside row timers,
+inside complete profile wall. Original CPU starts at a prepared Observer;
+independent CPU includes an owned Observer copy; hybrid includes its per-call
+Observer setup/copy, fresh state/LD bridges, CPU coverage and all transfers.
+These are matching host curve outputs, not device-resident lower bounds.
+
+| Both grids | Original CPU first | Independent CPU first | Hybrid JAX CPU first | Hybrid GPU first |
+|---|---:|---:|---:|---:|
+| 3° | 1.132 | 1.028 | 2.303 | 1.897 |
+| 2° | 4.317 | 2.674 | 2.969 | 2.042 |
+| 1.5° | unperformed | 8.089 | 6.745 | 2.582 |
+
+One repeated complete call per partial BB mesh, with the same hybrid API:
+
+| Both grids | Hybrid JAX CPU repeat (s) | Hybrid GPU repeat (s) |
+|---|---:|---:|
+| 3° | 0.269 | 0.166 |
+| 2° | 1.129 | 0.358 |
+| 1.5° | 5.641 | 0.756 |
+
+Other cases retain first-call costs only in JSON. The small sample count does
+not establish general throughput or performance at certified 1e-4 accuracy.
+
+| Public LSQ, constructor/setup/compile/callbacks/serialization (s) | Original CPU | Hybrid JAX CPU | Hybrid GPU |
+|---|---:|---:|---:|
+| 3° | 15.677 | 6.013 | 3.662 |
+| 2° | 55.090 | 16.592 | 6.179 |
+
+All matched paths use affinity0–15/Nice10, threads1, FP64. The GPU driver
+explicitly selects CPU and GPU JAX backends in each restored allocation.
+Synthetic references, auxiliary post-fit/refinement/parity/list conversion and
+compiled-memory diagnostics lie outside fit/curve subtimers and inside full
+profile wall times **99.87/52.64/121.59 s**
+(curves/3° fits/2° fits). Development cores16–19/Nice19 costs are excluded.
+
+### Reproduction, restoration and next work
+
+```text
+python -m pytest tests/tests_experimental -q -rs
+python scripts/validate_gpu_fine.py --device gpu --part curves --output fine-curves.json
+python scripts/validate_gpu_fine.py --device gpu --part fitting --fit-level 3 --output fine-fitting-3.json
+python scripts/validate_gpu_fine.py --device gpu --part fitting --fit-level 2 --output fine-fitting-2.json
+```
+
+The validation process configuration uses MIN_DISCRETIZATION_FACTOR=3 and
+MAX_DISCRETIZATION_FACTOR=12; library defaults are unchanged.
+Use the private CPU wrapper while production runs; GPU variants require their
+own bounded checkpoint/restore systemd allocation. Registered windows 018–022 used
+**127.69/220.37/102.53/55.21/124.16 s** of test commands,
+each under 270 s internal/300 s systemd limits. Each independently restored the
+exact pinned service/source/config/plan, verified matching checkpoint resumes
+and latest receipt/witness/endpoints, and observed
+**44,288/43,008/43,008/47,104/84,992** durable cells of resumed progress.
+All five units finished inactive/success. This is not a full historical production
+re-audit; raw operational/process/environment logs remain private.
+
+See [curated measurements](ada_validation/background-m010.json),
+[597-file frozen runtime/data manifest](ada_validation/background-m010-source-hashes.json)
+and [current status](ada_validation/progress.json). Compact sorted-key aggregate:
+`7e60dcdd457638146307fbf48c3eb3e9755864cb7da4a2e21f27cd48b91c4a40`. Only explicit experimental adapters/validation
+files changed; original CPU implementation/defaults remain unchanged.
+
+Next implement and test adaptive surface/eclipse quadrature or an error estimator
+at actual observation noise, concentrating on contacts and checking all affected
+thermal/radiance/coverage state afresh. Retain independent finite references,
+paired grid semantics, accuracy stops and separate CPU/GPU parity gates. No
+continuum posterior or MCMC convergence/ESS claim is supported yet.
+
+## Previous milestone: observation-phase synthesis and mesh-qualified fitting
 
 Physical CPU/hybrid fitting now has opt-in `phase_mode="observations"` and
 `MeshResolutionCheck`. The first requests fresh synthesis at actual observation

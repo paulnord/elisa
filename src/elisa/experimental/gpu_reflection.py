@@ -146,7 +146,11 @@ class DeviceReflection:
                     "coupling": (coupling_a, coupling_b), "distance": (da, db),
                     "gamma": ((gaa, gba), (gab, gbb)), "proposal_valid": valid}
 
+        self._geometry, self._directional, self._integral = geometry, directional, integral
         self._evaluate = self._jax.jit(evaluate)
+
+    def _limits(self) -> tuple[int, int]:
+        return _MAX_FACES, _MAX_PAIRS
 
     def prepare(  # noqa: C901, PLR0912, PLR0915 - validate original symmetry and bounded device state
         self, system: Any, iterations: int, *, device_states: dict[str, Any] | None = None,
@@ -163,12 +167,13 @@ class DeviceReflection:
             msg = "Device reflection supports 0 to 32 iterations; use full CPU"
             raise UnsupportedReflectionError(msg)
         stars = [getattr(system, name) for name in _COMPONENTS]
+        max_faces, max_pairs = self._limits()
         xlim = faces.faces_visibility_x_limits(stars[0].polar_radius, stars[1].polar_radius, 1.0)
         visible, symmetry, inputs = [], [], []
         for name, star in zip(_COMPONENTS, stars, strict=True):
             n = len(star.faces)
-            if n > _MAX_FACES or not star.symmetry_test():
-                msg = "Device reflection exceeds 8192 symmetric faces per component; use full CPU"
+            if n > max_faces or not star.symmetry_test():
+                msg = f"Device reflection exceeds {max_faces} symmetric faces per component; use full CPU"
                 raise UnsupportedReflectionError(msg)
             vis, sym = faces.get_visibility_tests(star.face_centres, xlim[name], name, system.morphology, q_test=True)
             v, s = np.flatnonzero(vis), np.flatnonzero(sym)
@@ -207,8 +212,8 @@ class DeviceReflection:
             visible.append(v)
             symmetry.append(s)
         pairs = len(symmetry[0])*len(visible[1])+len(visible[0])*len(symmetry[1])
-        if pairs > _MAX_PAIRS:
-            msg = "Device reflection exceeds 2097152 prepared face pairs; use full CPU"
+        if pairs > max_pairs:
+            msg = f"Device reflection exceeds {max_pairs} prepared face pairs; use full CPU"
             raise UnsupportedReflectionError(msg)
         parameters = np.array([stars[0].albedo, stars[1].albedo, stars[0].t_eff, stars[1].t_eff])
         if (not np.isfinite(parameters).all() or np.any(parameters[:2] < 0)

@@ -125,13 +125,15 @@ def prepare_fit(
     problem: FitProblem, *, kind: str = "mcmc", device: str | None = None, radiance: str = "device",
     general: str = "cpu", morphology: str = "detached", reflection: str = "device",
     phase_mode: str = "native", resolution_check: MeshResolutionCheck | None = None,
+    mesh_mode: str = "native", coverage: str = "device",
 ) -> Any:
     """Use the same real set_up for original and experimental fitting classes."""
-    options = {"phase_mode": phase_mode, "resolution_check": resolution_check}
-    protocol = phase_mode != "native" or resolution_check is not None
+    options = {"phase_mode": phase_mode, "resolution_check": resolution_check, "mesh_mode": mesh_mode}
+    protocol = phase_mode != "native" or resolution_check is not None or mesh_mode != "native"
     original_cls, hybrid_cls = fit_classes(kind, morphology, protocol=protocol)
     fit = (original_cls(**(options if protocol else {})) if device is None
-           else hybrid_cls(device=device, radiance=radiance, general=general, reflection=reflection, **options))
+           else hybrid_cls(device=device, radiance=radiance, general=general, reflection=reflection,
+                           coverage=coverage, **options))
     fit.atmosphere_model, fit.limb_darkening_coefficients = deepcopy(problem.atmosphere), deepcopy(problem.ld)
     fit.set_up(parameters.BinaryInitialParameters(**deepcopy(problem.config)), deepcopy(problem.data),
                passband=list(problem.data), observer_system_cls=BinarySystem, **deepcopy(problem.setup))
@@ -224,16 +226,18 @@ def fit_assessment(
     morphology: str = "detached", max_nfev: int = 16, jac: str = "2-point",
     reflection: str = "device",
     phase_mode: str = "native", resolution_check: MeshResolutionCheck | None = None,
+    mesh_mode: str = "native", coverage: str = "device", radiance: str = "device",
 ) -> dict[str, Any]:
     """Exercise actual original fit() lifecycle and serialized result contracts."""
     problem = make_problem() if problem is None else problem
     results = {}
-    protocol = phase_mode != "native" or resolution_check is not None
-    protocol_options = {"phase_mode": phase_mode, "resolution_check": resolution_check}
+    protocol = phase_mode != "native" or resolution_check is not None or mesh_mode != "native"
+    protocol_options = {"phase_mode": phase_mode, "resolution_check": resolution_check, "mesh_mode": mesh_mode}
     cpu_cls, gpu_cls = fit_classes("lsq", morphology, protocol=protocol)
     for label, cls, options in [("original_cpu", cpu_cls, protocol_options if protocol else {}),
                                 ("hybrid", gpu_cls, {"device": device, "general": general,
-                                                     "reflection": reflection, **protocol_options})]:
+                                                     "reflection": reflection, "coverage": coverage,
+                                                     "radiance": radiance, **protocol_options})]:
         constructed_at = perf_counter()
         fit = cls(**options)
         constructor_seconds = perf_counter() - constructed_at
@@ -265,7 +269,8 @@ def fit_assessment(
         cpu_cls, gpu_cls = fit_classes("mcmc", morphology, protocol=protocol)
         for label, cls, options in [("original_cpu", cpu_cls, protocol_options if protocol else {}),
                                     ("hybrid", gpu_cls, {"device": device, "general": general,
-                                                         "reflection": reflection, **protocol_options})]:
+                                                         "reflection": reflection, "coverage": coverage,
+                                                         "radiance": radiance, **protocol_options})]:
             constructed_at = perf_counter()
             fit = cls(**options)
             constructor_seconds = perf_counter() - constructed_at

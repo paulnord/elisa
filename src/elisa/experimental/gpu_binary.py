@@ -29,6 +29,7 @@ from elisa.experimental.gpu_native import NativePhysicsIntegrator, UnsupportedNa
 from elisa.experimental.gpu_occultation import DeviceEclipseIntegrator, UnsupportedOccultationError
 from elisa.experimental.gpu_radiance import DeviceBlackbodyRadiance, UnsupportedRadianceError, passband_revision
 from elisa.experimental.gpu_reflection import DeviceReflection, UnsupportedReflectionError
+from elisa.experimental.gpu_reflection_tiled import TiledDeviceReflection
 from elisa.experimental.gpu_state import CorrectedSurfaceState
 from elisa.experimental.gpu_surface import SurfaceFluxIntegrator
 from elisa.observer import utils as observer_utils
@@ -113,8 +114,8 @@ class HybridBinaryLightCurve:
             msg = "general must be 'cpu' or 'device_integration'"
             raise ValueError(msg)
         self.general = general
-        if reflection not in ("cpu", "device"):
-            msg = "reflection must be 'cpu' or 'device'"
+        if reflection not in ("cpu", "device", "tiled"):
+            msg = "reflection must be 'cpu', 'device' or 'tiled'"
             raise ValueError(msg)
         self.reflection = reflection
         self.passbands = tuple(passbands)
@@ -222,10 +223,11 @@ class HybridBinaryLightCurve:
         reflection_detail = None
         if active_reflection:
             check_ld_boundaries(system, ("bolometric",))
-        if active_reflection and self.reflection == "device":
+        if active_reflection and self.reflection in ("device", "tiled"):
             law = settings.LIMB_DARKENING_LAW
             if law not in self._reflection_engines:
-                self._reflection_engines[law] = DeviceReflection(law, device=self.device.platform)
+                cls = TiledDeviceReflection if self.reflection == "tiled" else DeviceReflection
+                self._reflection_engines[law] = cls(law, device=self.device.platform)
             packet = self._reflection_engines[law].prepare(
                 system, settings.REFLECTION_EFFECT_ITERATIONS, device_states=device_states,
             )
@@ -248,7 +250,7 @@ class HybridBinaryLightCurve:
         return system, {
             "cpu_mesh_topology_kinematics": mesh_done - started,
             "device_state_with_transfers_compile": state_done - mesh_done,
-            ("device_reflection_with_transfers_compile" if active_reflection and self.reflection == "device"
+            ("device_reflection_with_transfers_compile" if active_reflection and self.reflection in ("device", "tiled")
              else "cpu_reflection"): perf_counter() - state_done,
         }, device_temperatures, reflection_detail
 
@@ -273,7 +275,8 @@ class HybridBinaryLightCurve:
             key = (settings.LIMB_DARKENING_LAW, passband_revision(observer.passband))
             revision = key[1]
             if self._radiance_engine is None or self._radiance_engine[0] != key:
-                engine = DeviceBlackbodyRadiance(observer.passband, key[0], device=self.device.platform)
+                engine = DeviceBlackbodyRadiance(observer.passband, key[0], device=self.device.platform,
+                                                fine_mesh=self.reflection == "tiled")
                 self._radiance_engine = key, engine  # one fixed response revision; no physical cache
             packet = self._radiance_engine[1].prepare(system, ld_cfs, device_temperatures=device_temperatures)
         radiance = packet.evaluate()
@@ -293,7 +296,7 @@ class HybridBinaryLightCurve:
                   "source_preparation": packet.metadata if table else None,
                   "temperature_source": "CPU post-reflection upload" if device_temperatures is None
                   else ("fresh post-reflection device temperatures"
-                        if self.reflection == "device" and settings.REFLECTION_EFFECT
+                        if self.reflection in ("device", "tiled") and settings.REFLECTION_EFFECT
                         and settings.REFLECTION_EFFECT_ITERATIONS > 0
                         else "fresh corrected device temperatures")} if diagnostics else None
         return radiance, detail

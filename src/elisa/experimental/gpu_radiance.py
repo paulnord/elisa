@@ -24,6 +24,7 @@ if TYPE_CHECKING:
 
 _COMPONENTS = ("primary", "secondary")
 _MAX_FACES, _MAX_BANDS = 8192, 8
+_FINE_MESH_FACES = 40000
 
 
 def _normal_intensity(
@@ -112,7 +113,12 @@ class DeviceBlackbodyRadiance:
     padding never participates in temperature or brightness normalization.
     """
 
-    def __init__(self, passbands: Mapping[str, Any], law: str, *, device: str = "gpu") -> None:
+    def __init__(
+        self, passbands: Mapping[str, Any], law: str, *, device: str = "gpu", fine_mesh: bool = False,
+    ) -> None:
+        if not isinstance(fine_mesh, bool):
+            msg = "fine_mesh must be boolean"
+            raise UnsupportedRadianceError(msg)
         if law not in ("linear", "cosine", "logarithmic", "square_root"):
             msg = "Unsupported device optical-depth limb-darkening law"
             raise UnsupportedRadianceError(msg)
@@ -122,6 +128,7 @@ class DeviceBlackbodyRadiance:
             raise UnsupportedRadianceError(str(exc)) from exc
         self._jax, self.device = self._spectrum._jax, self._spectrum.device
         self.passbands, self.law = tuple(passbands), law
+        self.face_capacity = _FINE_MESH_FACES if fine_mesh else _MAX_FACES
         self.ncoeff = 1 if law in ("linear", "cosine") else 2
         import jax.numpy as jnp  # noqa: PLC0415 - optional dependency
 
@@ -148,7 +155,7 @@ class DeviceBlackbodyRadiance:
             raise UnsupportedRadianceError(msg)
         width = max(len(star.faces) for star in stars)
         bases = [int(star.base_symmetry_faces_number) for star in stars]
-        if width > _MAX_FACES or min(bases) <= 0:
+        if width > self.face_capacity or min(bases) <= 0:
             msg = "Device radiance mesh exceeds bounded symmetric-face capacity; use full CPU"
             raise UnsupportedRadianceError(msg)
         base_width = max(bases)

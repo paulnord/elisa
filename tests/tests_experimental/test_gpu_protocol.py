@@ -206,7 +206,7 @@ def test_overcontact_direct_protocol_preserves_original_constraints(device: str)
     assert fit.hybrid_synthesis.last_evaluation["backend"] == "hybrid_native"
 
 
-@pytest.mark.parametrize("references", [(6, 8), (8, 8), (4, 2), (8,), (8, np.nan)])
+@pytest.mark.parametrize("references", [(6, 8), (8, 8), (4, 1.5), (8,), (8, np.nan)])
 def test_invalid_reference_configuration_fails_explicitly(references: tuple[float, ...]) -> None:
     with pytest.raises(ValueError, match="reference degrees"):
         MeshResolutionCheck(refinement_degrees=references)
