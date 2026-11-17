@@ -207,8 +207,15 @@ class HybridBinaryLightCurve:
 
     def __call__(
         self, binary: Any, phases: Any, *, normalize: bool = False, diagnostics: bool = False,
+        observer: Any | None = None,
     ) -> HybridCurveResult:
-        """Return complete curves; full elapsed time includes all host bridges."""
+        """Return curves, optionally retaining a prepared Observer's passband state.
+
+        The supplied Observer is copied before assigning this candidate. Its
+        passbands/order must match the engine; response tables and bandwidths
+        are preserved. This is the fitting synthesis hook's Observer contract.
+        Full elapsed time includes the copy and all host/device bridges.
+        """
         if not self._states["primary"]._jax.config.x64_enabled:  # noqa: SLF001
             msg = "JAX FP64 must remain enabled"
             raise RuntimeError(msg)
@@ -219,7 +226,14 @@ class HybridBinaryLightCurve:
             raise ValueError(msg)
         # CPU builders are not allowed to mutate the caller's candidate.
         model = deepcopy(binary)
-        observer = Observer(passband=list(self.passbands), system=model)
+        if observer is None:
+            observer = Observer(passband=list(self.passbands), system=model)
+        else:
+            if tuple(observer.passband) != self.passbands:
+                msg = "Supplied Observer passbands/order must match the hybrid engine"
+                raise ValueError(msg)
+            observer = deepcopy(observer)
+            observer._system = model  # noqa: SLF001 - prepared fitting Observer contract
         try:
             system, timings = self.build_intrinsic_system(model)
         except UnsupportedHybridModelError as exc:

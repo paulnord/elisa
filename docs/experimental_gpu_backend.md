@@ -465,3 +465,54 @@ Observer. These small CPU/GPU differences do not establish a robust whole-curve
 gain; the CPU hull bridge remains. See the latest [report](ada_progress.md) for
 all errors, cold/full costs, unchanged thresholds, restoration and remaining
 physical fitting/MCMC assessment. No sampler/convergence/ESS claim is made.
+
+## Original physical fitting and likelihood integration
+
+`gpu_fit.HybridBinarySynthesis` implements the existing synthesis-hook signature
+using the original `lc.prepare_binary` serializer and a fresh hybrid curve for
+every physical proposal. It preserves the supplied Observer's actual response
+tables/bandwidths and resulting raw phase/flux state. The unchanged fitter
+prediction layer resolves JD/phase coordinates and support, maps/interpolates
+onto each band's observation order, then **mean** normalizes. Observer maximum
+normalization on synthesis support is an earlier, distinct operation. Repeated
+observations and the synthesis-support third-light convention are retained.
+
+`HybridDetachedLeastSquaresFit` and `HybridDetachedMCMCFit` are opt-in subclasses
+that replace only that hook. The existing constraint resolver, normalized
+parameter coordinates, residuals, `sigma**2*(1+exp(2*ln_f))` noise model, priors,
+failure handling, optimizer/emcee lifecycle and result serialization remain CPU
+implementations. Unsupported device model/backend/resource states use the
+**whole original CPU curve**, preserving posterior support; missing FP64/device
+is a configuration error. CPU default fitters and task/backend selection are
+unchanged. Experimental fitting is serial only; sampler proposals remain on CPU.
+
+```python
+from elisa import settings
+from elisa.experimental.gpu_fit import HybridDetachedLeastSquaresFit
+
+# data and x0 use the existing LCData/BinaryInitialParameters APIs.
+# GPU code must run inside the independently restored, bounded allocation.
+with settings.override(NUMBER_OF_PROCESSES=1, NUMBER_OF_MCMC_PROCESSES=1):
+    fit = HybridDetachedLeastSquaresFit(device="gpu")
+    fit.atmosphere_model = {"primary": "bb", "secondary": "bb"}
+    fit.limb_darkening_coefficients = supplied_per_component_band_and_bolometric_ld
+    result = fit.fit(data, x0, discretization=12, interp_treshold=1000,
+                     diff_step=1e-4, max_nfev=16)
+```
+
+`scripts/validate_gpu_fit.py --device cpu --output fit-cpu.json` and the GPU
+variant exercise actual serializer/mapping/costs, public LSQ fits and seeded
+short public MCMC runs. The Ada milestone passed 203 tests without hardware
+skips. GPU mean-normalized prediction error was at most 4.44e-16 and accumulated
+log-posterior error 1.22e-8 for the tested 1e-4 uncertainties. Short chain coordinates
+and acceptance fractions matched exactly; **three steps do not establish
+convergence, posterior precision or ESS**. Deliberately coarse interpolation
+fixtures have large original CPU discretization errors, reported separately.
+
+Matched warm physical likelihood callbacks took 55.20 ms for hybrid GPU versus
+50.45 ms for original CPU and 133.45 ms for hybrid JAX CPU. New-fitter public LSQ and
+short sampler runs were slower on GPU after including setup/compilation and all
+calls. There is no production fitting-speedup claim. Read [Ada progress](ada_progress.md)
+for the exact domain, cold/full costs, thresholds, raw-synthesis versus mean
+normalization distinction, restoration and remaining GPU physics work. The
+l3/ln_f-only pilot should keep caching its fixed physical curve.

@@ -1,12 +1,12 @@
 {
-  "updated_utc": "2026-11-17T04:28:00.939835+00:00",
+  "updated_utc": "2026-11-17T05:08:19.756627+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "f880f63bf46945353b88aefcd7fc451720dafdd6cfc3ad99d7d5b21907bf9dc3",
-  "code_state_hash_method": "SHA256 of background-m002-source-hashes.json parsed then compact JSON sorted by key",
-  "stage": "Device observer projection, eclipse clipping and batched complete hybrid light curves",
+  "code_state_sha256": "a92edd45c17a248dee371b7331ea4c80a99ece9b8d16b540fa6943b4e1000875",
+  "code_state_hash_method": "SHA256 of background-m003-source-hashes.json parsed then compact JSON sorted by key",
+  "stage": "Original physical fitter/likelihood integration and representative fit/sampler equivalence assessment",
   "last_gpu_suite": {
-    "tests": 184,
+    "tests": 203,
     "failures": 0,
     "errors": 0,
     "skipped": 0
@@ -24,24 +24,24 @@
     "errors": 0,
     "skipped": 8
   },
-  "benchmark_status": "All eight matched CPU/GPU whole-curve gates passed. Batched GPU hybrid reduces preceding hybrid latency and is comparable to original CPU Observer; no robust whole-curve speedup or fitting/MCMC claim.",
+  "benchmark_status": "Original fitter mappings/costs, public LSQ fit and seeded short MCMC fit replay passed. Matched warm GPU callback55.20ms vs originalCPU50.45ms and JAXCPU133.45ms. Full bounded fits/short chains slower on hybrid GPU; no convergence/ESS or production fitting speedup claim.",
   "production": {
-    "window": "background-m002-w002",
+    "window": "background-m003-w003",
     "status": "restored_and_advancing",
-    "job": "j00954",
-    "saved_cursor": 1279383376,
-    "verified_cursor": 1279434576,
-    "durable_cells_before": 1190440503,
-    "durable_cells_after": 1190485559,
-    "durable_cells_advanced": 45056,
-    "verified_utc": "2026-11-17T04:24:46.243904+00:00",
+    "job": "j00961",
+    "saved_cursor": 1309850960,
+    "verified_cursor": 1309896784,
+    "durable_cells_before": 1199936567,
+    "durable_cells_after": 1199980343,
+    "durable_cells_advanced": 43776,
+    "verified_utc": "2026-11-17T05:03:41.705357+00:00",
     "matching_resume_record_verified": true,
     "source_release_reverified": true,
     "config_and_plan_unchanged": true,
     "clean_test_unit_exit_verified": true,
     "last_receipt_witness_endpoints_verified": true,
     "full_historical_reaudit": false,
-    "gpu_batch_seconds": 120.78216758312192
+    "gpu_batch_seconds": 149.97631913493387
   },
   "production_windows": [
     {
@@ -134,6 +134,24 @@
       "last_receipt_witness_endpoints_verified": true,
       "full_historical_reaudit": false,
       "gpu_batch_seconds": 120.78216758312192
+    },
+    {
+      "window": "background-m003-w003",
+      "status": "restored_and_advancing",
+      "job": "j00961",
+      "saved_cursor": 1309850960,
+      "verified_cursor": 1309896784,
+      "durable_cells_before": 1199936567,
+      "durable_cells_after": 1199980343,
+      "durable_cells_advanced": 43776,
+      "verified_utc": "2026-11-17T05:03:41.705357+00:00",
+      "matching_resume_record_verified": true,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "gpu_batch_seconds": 149.97631913493387
     }
   ],
   "hardware": {
@@ -144,7 +162,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Fresh complete HYBRID curves: CPU candidate mesh/roots/topology, reflection/radiance/LD and Qhull/visibility; GPU corrected state, observer projection, partial-face Sutherland-Hodgman clipping, coverage and batched band integration. Full CPU fallback for unsupported model/backend/resource states. Original resident ray pipeline remains separate.",
+  "scope": "Opt-in experimental serial physical-fit classes replace only synthesis; original serializers/constraints, support/JD/interpolation/mean mapping, residual/noise/prior/failure logic and fit lifecycles retained. Fresh hybrid GPU physics, CPU bridges and explicit full-CPU fallback. CPU defaults unchanged; standalone resident ray/emission experiments remain separate.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -158,19 +176,30 @@
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
   "current_full_cpu_suite": {
-    "passed": 109,
+    "passed": 119,
     "failed": 0,
     "errors": 0,
-    "skipped_gpu_cases": 75,
-    "seconds": 55.01
+    "skipped_gpu_cases": 84,
+    "seconds": 91.05
   },
-  "current_milestone_report": "background-m002.json",
+  "current_milestone_report": "background-m003.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
     "code_state_sha256": "daaa6fa16ee1e7ec817a28b627cd2186e9c4005a6e13522f9f26bb9f8325e04f",
     "last_gpu_suite": {
       "tests": 163,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "previous_eclipse_milestone": {
+    "report": "background-m002.json",
+    "stage": "Device observer projection, eclipse clipping and batched complete hybrid light curves",
+    "code_state_sha256": "f880f63bf46945353b88aefcd7fc451720dafdd6cfc3ad99d7d5b21907bf9dc3",
+    "last_gpu_suite": {
+      "tests": 184,
       "failures": 0,
       "errors": 0,
       "skipped": 0

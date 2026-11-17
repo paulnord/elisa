@@ -1,9 +1,143 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T04:29:53Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T05:10:53Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: device projection and partial eclipse clipping
+## Latest milestone: original physical fitter and sampler assessment
+
+`gpu_fit.HybridBinarySynthesis`, `HybridDetachedLeastSquaresFit` and
+`HybridDetachedMCMCFit` now provide an **opt-in serial hybrid synthesis hook** for
+ELISa's original fitting classes. No CPU fitter/default/backend registration was
+changed. Actual `prepare_binary` serialization and constraints build a fresh
+physical binary for every proposal. The original prediction layer still selects
+support, resolves JD/phase coordinates, maps/interpolates each band's observations
+and mean normalizes **after** mapping/repeats. The original residuals, Gaussian
+noise inflation, priors, candidate failure policy and public `fit()` lifecycle
+remain in use. The callback also retains the prepared Observer's response tables,
+bandwidths and resulting raw phase/flux state.
+
+Unsupported GPU model/backend/resource states run the whole original CPU curve,
+with an explicit reason. A q=0.4 regression verifies a finite, exactly matching
+CPU posterior even with emergency exception penalties enabled; device bounds do
+not silently truncate the posterior. Disabled FP64/device unavailability remains
+an infrastructure error. Experimental GPU fitters permit serial operation only;
+CPU multiprocessing defaults remain untouched. Compiled code/shapes are reused,
+but no physical curve is cached across changed-parameter proposals. The existing
+l3/ln_f-only pilot still caches its fixed curve.
+
+### Scientific and fitting evidence
+
+**203 tests passed in 119.53 s on Ada; zero failures/errors/skips.** Full CPU
+checks passed **119**, with **84** hardware skips. The separate GPU assessment
+passed all five direct/JD/manual/uniform/standard-mass scenarios against original
+ELISa. It varies inclination, temperature, mass ratio or mass, surface potential,
+third light and noise, retaining the secondary-temperature constraint. Tests also
+cover reflection-enabled callbacks, Gaussian priors, prior exclusions without
+synthesis, real changed Observer responses and runtime/configuration errors.
+
+The three bands have different, unsorted/repeated/cross-cycle observation grids
+(10 B, 13 V, 5 bolometric samples), with nonzero phase shift. Errors are `1e-4` in
+normalized flux units. Truth is synthesized through the **original fitter's
+union-phase prediction path**, so third light uses the correct synthesis-support
+mean before per-band mapping. Initial models use 12-degree meshes (540 faces per
+star at the baseline); these are model-parity fixtures, not resolution-converged
+astrophysical inference.
+
+- Maximum mean-normalized prediction absolute difference: **4.44e-16**.
+- Maximum accumulated log-likelihood/posterior absolute difference: **1.22e-8**,
+  including the deliberately coarse interpolation and far-proposal cases.
+- The actual public two-parameter least-squares `fit()` calls recover
+  `T_primary=6504.130004 K`, `inclination=86.4018902013 deg`; CPU/GPU differences
+  are **7.49e-10 K** and **5.55e-13 deg**, respectively. Minimum chi² differs by
+  **1.29e-11** (both about 21.9555423754).
+- The actual public MCMC `fit()` calls, with the same starting ensemble/random
+  stream, produce **identical chain coordinates and acceptance fractions** over
+  8 walkers/3 steps. Stored log-density difference is at most **2.39e-9**.
+  **This is callback/move replay, not convergence, posterior precision or ESS.**
+
+Prediction gates remain `3e-13` relative/`2e-12` absolute, and accumulated-density
+error remains below the existing `1e-6` gate. New standardized-residual tolerance
+`2e-8` follows from the prediction gate divided by the nominal `1e-4` error.
+Predeclared optimizer-agreement gates are 0.01 K/1e-4 deg (small fractions of the
+parameter intervals), and `1e-5` in minimum chi² (negligible against unit changes).
+They are not posterior uncertainty estimates. No previous tolerance was relaxed.
+The bounded optimizer uses SciPy `max_nfev=16` (finite difference calls may be
+additional) and relative finite difference step `1e-4`; this comparison does not
+certify arbitrary optimizer termination or physical-model accuracy.
+
+### Numerical parity versus interpolation accuracy
+
+The manual support has the same number of coordinates as the observed union,
+but **different** coordinates; the original code correctly interpolates it.
+The intentionally coarse threshold-12 uniform/manual supports differ from direct
+**CPU** synthesis by up to **0.0826/0.1006 normalized flux**, respectively. That
+is original time/interpolation discretization error, much larger than the tested
+observational uncertainty, and is not hidden by GPU parity. Those grids exercise
+mapping branches; they are not recommended scientific fitting support. The
+representative optimizer and sampler runs use direct synthesis. Mesh, spectral,
+interpolation and convergence errors remain distinct from implementation error.
+
+### Matched fitting costs: keep this experimental
+
+All numbers below include parameter transforms/constraints, real candidate
+construction, fresh physical state, transfers, final observation mapping and
+existing statistical costs. Same checkpointed GPU window, affinity0–15, thread
+counts1, serial MCMC. Model/input setup and the first callback are shown
+separately; warm samples vary physical/nuisance parameters. Fit/run times include
+new fitter construction, original public setup, compilation incurred, all model
+calls, result calculations and serialization. The GPU runtime may already be
+warm from preceding correctness gates. There are only three warm callback
+samples and one bounded fit/run per path, so no broad throughput claim follows.
+
+| Work | Original CPU | Hybrid JAX CPU | Hybrid GPU |
+|---|---:|---:|---:|
+| Median changed-parameter likelihood/prior callback (ms) | 50.45 | 133.45 | 55.20 |
+| First callback, including shape compilation (ms) | 47.98 | 998.15 | 1048.26 |
+| Object/observation setup (ms) | 2.73 | 9.51 | 3.03 |
+| Bounded public LSQ fit, including construction (s) | 1.190 | — | 2.316 |
+| Public 8-walker/3-step MCMC smoke, including construction (s) | 1.977 | — | 3.324 |
+
+The hybrid GPU is slightly slower for warm callbacks here; compilation makes
+these short full fits/runs slower still. The current CPU geometry, reflection,
+radiance/LD and hull bridges remain substantial. **No production default, MCMC
+speedup or ESS/sec claim is justified.** CPU-only development timings used
+cores16–19/nice19 while production ran and are supplementary correctness/cost
+evidence, not the matched timing comparison above.
+
+### Reproduction, remaining scope and restoration
+
+Use the isolated FP64 environment and the existing CPU wrapper for development:
+
+```text
+python -m pytest tests/tests_experimental -q -rs
+python scripts/validate_gpu_fit.py --device cpu --output physical-fit-cpu.json
+python scripts/validate_gpu_fit.py --device gpu --output physical-fit-gpu.json
+```
+
+GPU commands require the authorized independently restored systemd allocation;
+the fitting classes themselves do not manage production. The full window's
+probe/suite/assessment commands took **149.98 s**, within the 270 s internal/
+300 s systemd limits. Cleanup restarted the exact pinned service, verified a
+matching resume record and latest receipt/witness endpoints, and observed
+**43,776 durable cells** of advancement. Test unit cleanup finished successfully.
+This is not a full historical production re-audit. Operational logs remain private.
+
+The complete light-curve path and this assessment are still **hybrid**, within
+the previously declared circular detached blackbody/custom-LD device domain;
+other states retain explicit full CPU fallback. Next compose the already tested
+fresh blackbody/optical-depth emission with corrected temperatures and device
+eclipse integration to reduce the measured CPU spectral/transfer cost. Real
+atmosphere/LD-table scientific fixtures, irradiation device physics, spots,
+broader eccentric/contact coverage and resident mesh/hull work remain; this
+milestone does not silently reduce that assignment scope or mark it complete.
+
+Curated evidence: [fitting assessment](ada_validation/background-m003.json),
+[tested runtime/fixture manifest](ada_validation/background-m003-source-hashes.json),
+and [current status](ada_validation/progress.json). The 554-file manifest hashes
+to `a92edd45c17a248dee371b7331ea4c80a99ece9b8d16b540fa6943b4e1000875`
+using compact sorted-key JSON. Runtime files were verified unchanged after testing.
+
+## Previous milestone: device projection and partial eclipse clipping
 
 Fresh complete hybrid curves now use GPU observer projection, Sutherland–Hodgman
 partial-face intersections, coverage assembly/SMA scaling and batched three-band
@@ -504,4 +638,4 @@ Raw machine-local supervision/checkpoint evidence is preserved in the isolated A
 
 ## Continuing background assignment
 
-Background handoff prepared **2026-11-17T03:41:23.890646+00:00**. Paul has assigned completion and scientific validation of the light-curve pipeline, followed by a fitting/MCMC assessment. See the [authorized assignment, milestones and safety rules](ada_background_handoff.md). The detached worker qualified successfully and completed its first tested milestone above. DOT can follow this report and the same development branch for each tested, pushed milestone. No merge is authorized.
+Background handoff prepared **2026-11-17T03:41:23.890646+00:00**. Paul has assigned completion and scientific validation of the light-curve pipeline, followed by a fitting/MCMC assessment. See the [authorized assignment, milestones and safety rules](ada_background_handoff.md). The detached worker qualified successfully and has published the tested milestones above. DOT can follow this report and the same development branch for each tested, pushed milestone. No merge is authorized.

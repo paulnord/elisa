@@ -1,0 +1,3824 @@
+{
+  "updated_utc": "2026-11-17T05:08:19.756627+00:00",
+  "milestone": "Original physical fitter/likelihood integration and representative fit/sampler equivalence assessment",
+  "tested_checkout_head": "3508bb18669faa42f3abdca63e783d46b0c0ae60",
+  "tested_worktree": "Exact runtime/fixture manifest; tests preceded publication commit",
+  "source_manifest": "background-m003-source-hashes.json",
+  "source_aggregate_sha256": "a92edd45c17a248dee371b7331ea4c80a99ece9b8d16b540fa6943b4e1000875",
+  "source_hash_method": "SHA256 of parsed manifest as compact sorted-key JSON",
+  "source_files": 554,
+  "full_gpu_suite": {
+    "passed": 203,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 119.53
+  },
+  "full_cpu_suite": {
+    "passed": 119,
+    "failed": 0,
+    "errors": 0,
+    "skipped_gpu_cases": 84,
+    "seconds": 91.05
+  },
+  "production_restoration": {
+    "window": "background-m003-w003",
+    "status": "restored_and_advancing",
+    "job": "j00961",
+    "saved_cursor": 1309850960,
+    "verified_cursor": 1309896784,
+    "durable_cells_before": 1199936567,
+    "durable_cells_after": 1199980343,
+    "durable_cells_advanced": 43776,
+    "verified_utc": "2026-11-17T05:03:41.705357+00:00",
+    "matching_resume_record_verified": true,
+    "source_release_reverified": true,
+    "config_and_plan_unchanged": true,
+    "clean_test_unit_exit_verified": true,
+    "last_receipt_witness_endpoints_verified": true,
+    "full_historical_reaudit": false,
+    "gpu_batch_seconds": 149.97631913493387
+  },
+  "gpu": {
+    "device": "gpu",
+    "all_correctness_gates_passed": true,
+    "prediction_cases": [
+      {
+        "mode": "direct",
+        "jd": false,
+        "standard_masses": false,
+        "parameters": [
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@mass_ratio",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": null,
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.1641532182693481e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.1641532182693481e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002274994971230626,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0031245320569723845,
+                "device_state_with_transfers_compile": 0.004323826055042446,
+                "cpu_reflection": 1.716194674372673e-05,
+                "cpu_radiance_ld": 0.03246831696014851,
+                "device_projection_upload_download": 0.0017438370268791914,
+                "cpu_hull_visibility": 0.0030837049707770348,
+                "device_clipping_integration_transfers": 0.0051905750297009945,
+                "total": 0.05103821610100567
+              },
+              "total_synthesis_seconds": 0.0533414640231058
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 0.0,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 3.4924596548080444e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 3.4924596548080444e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0000000000000002,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002242704969830811,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0030984029872342944,
+                "device_state_with_transfers_compile": 0.004427070030942559,
+                "cpu_reflection": 1.6890931874513626e-05,
+                "cpu_radiance_ld": 0.03221059299539775,
+                "device_projection_upload_download": 0.001723548979498446,
+                "cpu_hull_visibility": 0.0030292730079963803,
+                "device_clipping_integration_transfers": 0.005471112090162933,
+                "total": 0.05104200204368681
+              },
+              "total_synthesis_seconds": 0.05331096693407744
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 2.7939677238464355e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 2.7939677238464355e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 0.9999999999999998,
+              "bolometric": 0.9999999999999998
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0022780910367146134,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0031285389559343457,
+                "device_state_with_transfers_compile": 0.004828343982808292,
+                "cpu_reflection": 1.7822952941060066e-05,
+                "cpu_radiance_ld": 0.03248340601567179,
+                "device_projection_upload_download": 0.0016128510469570756,
+                "cpu_hull_visibility": 0.003082682960666716,
+                "device_clipping_integration_transfers": 0.004083805019035935,
+                "total": 0.05026776704471558
+              },
+              "total_synthesis_seconds": 0.05257355107460171
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 2.7939677238464355e-09,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      },
+      {
+        "mode": "direct",
+        "jd": true,
+        "standard_masses": false,
+        "parameters": [
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@mass_ratio",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": null,
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.1641532182693481e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.1641532182693481e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002238726941868663,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0031314250081777573,
+                "device_state_with_transfers_compile": 0.004305932088755071,
+                "cpu_reflection": 1.751293893903494e-05,
+                "cpu_radiance_ld": 0.03242739010602236,
+                "device_projection_upload_download": 0.0013919459888711572,
+                "cpu_hull_visibility": 0.0030849770409986377,
+                "device_clipping_integration_transfers": 0.005160517990589142,
+                "total": 0.05054558999836445
+              },
+              "total_synthesis_seconds": 0.052816597977653146
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 0.0,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 3.4924596548080444e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 3.4924596548080444e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0000000000000002,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0022270160261541605,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0031196930212900043,
+                "device_state_with_transfers_compile": 0.003931197919882834,
+                "cpu_reflection": 1.768302172422409e-05,
+                "cpu_radiance_ld": 0.032521508052013814,
+                "device_projection_upload_download": 0.0012602390488609672,
+                "cpu_hull_visibility": 0.003076090943068266,
+                "device_clipping_integration_transfers": 0.005060871015302837,
+                "total": 0.04996605997439474
+              },
+              "total_synthesis_seconds": 0.052222241065464914
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 2.7939677238464355e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 2.7939677238464355e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 0.9999999999999998,
+              "bolometric": 0.9999999999999998
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0022657779045403004,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003104644943960011,
+                "device_state_with_transfers_compile": 0.004601918044500053,
+                "cpu_reflection": 1.7734011635184288e-05,
+                "cpu_radiance_ld": 0.03350030607543886,
+                "device_projection_upload_download": 0.0012767190346494317,
+                "cpu_hull_visibility": 0.0030918900156393647,
+                "device_clipping_integration_transfers": 0.0036674129078164697,
+                "total": 0.050265843980014324
+              },
+              "total_synthesis_seconds": 0.05256148788612336
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 2.7939677238464355e-09,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      },
+      {
+        "mode": "manual_equal_length",
+        "jd": false,
+        "standard_masses": false,
+        "parameters": [
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@mass_ratio",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": [
+          -0.1,
+          -0.029411764705882346,
+          0.041176470588235314,
+          0.11176470588235296,
+          0.18235294117647063,
+          0.25294117647058834,
+          0.32352941176470595,
+          0.3941176470588236,
+          0.4647058823529413,
+          0.5352941176470589,
+          0.6058823529411766,
+          0.6764705882352943,
+          0.7470588235294119,
+          0.8176470588235296,
+          0.8882352941176472,
+          0.958823529411765,
+          1.0294117647058825,
+          1.1
+        ],
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 9.313225746154785e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 9.313225746154785e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.09514173527057068,
+              "Generic.Bessell.V": 0.10055603416718095,
+              "bolometric": 0.0910450924416365
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0023594640661031008,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003102310001850128,
+                "device_state_with_transfers_compile": 0.003999697044491768,
+                "cpu_reflection": 1.7081969417631626e-05,
+                "cpu_radiance_ld": 0.03215017996262759,
+                "device_projection_upload_download": 0.0016820309683680534,
+                "cpu_hull_visibility": 0.001430528936907649,
+                "device_clipping_integration_transfers": 0.007528047077357769,
+                "total": 0.050899645080789924
+              },
+              "total_synthesis_seconds": 0.05328707199078053
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.1175870895385742e-08,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.1175870895385742e-08,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.06608430610971605,
+              "Generic.Bessell.V": 0.07081643993135545,
+              "bolometric": 0.06396516432288823
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002250969992019236,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003145941998809576,
+                "device_state_with_transfers_compile": 0.0037492860574275255,
+                "cpu_reflection": 1.7252983525395393e-05,
+                "cpu_radiance_ld": 0.032546774949878454,
+                "device_projection_upload_download": 0.0015119710005819798,
+                "cpu_hull_visibility": 0.0011822019005194306,
+                "device_clipping_integration_transfers": 0.00729336601216346,
+                "total": 0.050429300987161696
+              },
+              "total_synthesis_seconds": 0.05270999704953283
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 3.3306690738754696e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.210719347000122e-08,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.210719347000122e-08,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0000000000000002
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.06371135841488995,
+              "Generic.Bessell.V": 0.06793272173928266,
+              "bolometric": 0.06133943881574777
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0022531739668920636,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0033333039609715343,
+                "device_state_with_transfers_compile": 0.003986001014709473,
+                "cpu_reflection": 1.7312937416136265e-05,
+                "cpu_radiance_ld": 0.03228592500090599,
+                "device_projection_upload_download": 0.0017446590354666114,
+                "cpu_hull_visibility": 0.0011685959761962295,
+                "device_clipping_integration_transfers": 0.007709778961725533,
+                "total": 0.051237981067970395
+              },
+              "total_synthesis_seconds": 0.05352099100127816
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 1.210719347000122e-08,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      },
+      {
+        "mode": "uniform",
+        "jd": false,
+        "standard_masses": false,
+        "parameters": [
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@mass_ratio",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": [
+          -0.08333333333333333,
+          0.006410256410256401,
+          0.09615384615384613,
+          0.18589743589743585,
+          0.2756410256410256,
+          0.36538461538461536,
+          0.455128205128205,
+          0.5448717948717947,
+          0.6346153846153845,
+          0.7243589743589742,
+          0.814102564102564,
+          0.9038461538461536,
+          0.9935897435897433,
+          1.0833333333333333
+        ],
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0825842958334051,
+              "Generic.Bessell.V": 0.07317866484291558,
+              "bolometric": 0.030252527765463055
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0022411009995266795,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0031316860113292933,
+                "device_state_with_transfers_compile": 0.004038820043206215,
+                "cpu_reflection": 1.6680918633937836e-05,
+                "cpu_radiance_ld": 0.031955834943801165,
+                "device_projection_upload_download": 0.0012574329739436507,
+                "cpu_hull_visibility": 0.0010910100536420941,
+                "device_clipping_integration_transfers": 0.003634920925833285,
+                "total": 0.04612712701782584
+              },
+              "total_synthesis_seconds": 0.04839544906280935
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 2.7939677238464355e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 2.7939677238464355e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0000000000000002,
+              "Generic.Bessell.V": 0.9999999999999998,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.059304401820494235,
+              "Generic.Bessell.V": 0.0606997790509094,
+              "bolometric": 0.021921403953122365
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0022527830442413688,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0031138219637796283,
+                "device_state_with_transfers_compile": 0.0038925250992178917,
+                "cpu_reflection": 1.723296009004116e-05,
+                "cpu_radiance_ld": 0.033199540921486914,
+                "device_projection_upload_download": 0.0014564170269295573,
+                "cpu_hull_visibility": 0.0011968290200456977,
+                "device_clipping_integration_transfers": 0.003280185046605766,
+                "total": 0.0472082169726491
+              },
+              "total_synthesis_seconds": 0.04948910407256335
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.05454351326080964,
+              "Generic.Bessell.V": 0.05188209259693066,
+              "bolometric": 0.020676208731952528
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002274504047818482,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0030989740043878555,
+                "device_state_with_transfers_compile": 0.00406238401774317,
+                "cpu_reflection": 1.7291982658207417e-05,
+                "cpu_radiance_ld": 0.03308855299837887,
+                "device_projection_upload_download": 0.0013200509129092097,
+                "cpu_hull_visibility": 0.0011441700626164675,
+                "device_clipping_integration_transfers": 0.0038086079293861985,
+                "total": 0.047537417034618556
+              },
+              "total_synthesis_seconds": 0.04984227800741792
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 0.0,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      },
+      {
+        "mode": "direct",
+        "jd": false,
+        "standard_masses": true,
+        "parameters": [
+          "primary@mass",
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": null,
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.49999999999999944,
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.1059455573558807e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.1059455573558807e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0000000000000002
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002177261980250478,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0032221750589087605,
+                "device_state_with_transfers_compile": 0.004562083980999887,
+                "cpu_reflection": 1.8754974007606506e-05,
+                "cpu_radiance_ld": 0.031402844935655594,
+                "device_projection_upload_download": 0.0016320269787684083,
+                "cpu_hull_visibility": 0.0032753259874880314,
+                "device_clipping_integration_transfers": 0.0053700009593740106,
+                "total": 0.05056683998554945
+              },
+              "total_synthesis_seconds": 0.05278586002532393
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 3.3306690738754696e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 3.259629011154175e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 3.259629011154175e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 0.9999999999999998
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0021945040207356215,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0031437979778274894,
+                "device_state_with_transfers_compile": 0.004707086016424,
+                "cpu_reflection": 2.2160937078297138e-05,
+                "cpu_radiance_ld": 0.032375872950069606,
+                "device_projection_upload_download": 0.0013518109917640686,
+                "cpu_hull_visibility": 0.0032293989788740873,
+                "device_clipping_integration_transfers": 0.005275212926790118,
+                "total": 0.05115893296897411
+              },
+              "total_synthesis_seconds": 0.053390415967442095
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 3.3306690738754696e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 3.4924596548080444e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 3.4924596548080444e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999998,
+              "bolometric": 1.0000000000000002
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002209711936302483,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003153817029669881,
+                "device_state_with_transfers_compile": 0.0037771679926663637,
+                "cpu_reflection": 1.784402411431074e-05,
+                "cpu_radiance_ld": 0.03171669493895024,
+                "device_projection_upload_download": 0.0013100430369377136,
+                "cpu_hull_visibility": 0.0032546259462833405,
+                "device_clipping_integration_transfers": 0.005161560024134815,
+                "total": 0.04946039093192667
+              },
+              "total_synthesis_seconds": 0.051706240978091955
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 3.4924596548080444e-09,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      }
+    ],
+    "physical_fit_assessment": {
+      "least_squares": {
+        "original_cpu": {
+          "constructor_seconds": 6.910413503646851e-07,
+          "seconds_including_setup_compile": 1.190076078986749,
+          "total_seconds_including_constructor": 1.1900767700280994,
+          "fitted": {
+            "primary@t_eff": 6504.1300040845235,
+            "system@inclination": 86.40189020129202
+          },
+          "r_squared": 0.9999988201111317,
+          "chi_squared": 21.955542375413756,
+          "serialized_result": {
+            "primary": {
+              "t_eff": {
+                "value": 6504.1300040845235,
+                "fixed": false,
+                "unit": "K",
+                "min": 6000.0,
+                "max": 7000.0
+              },
+              "albedo": {
+                "value": 0.5,
+                "fixed": true,
+                "unit": ""
+              },
+              "gravity_darkening": {
+                "value": 0.32,
+                "fixed": true,
+                "unit": ""
+              },
+              "metallicity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "surface_potential": {
+                "value": 8.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "synchronicity": {
+                "value": 1.0,
+                "fixed": true,
+                "unit": ""
+              }
+            },
+            "system": {
+              "inclination": {
+                "value": 86.40189020129202,
+                "fixed": false,
+                "unit": "deg",
+                "min": 83.0,
+                "max": 89.0
+              },
+              "eccentricity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "argument_of_periastron": {
+                "value": 90.0,
+                "fixed": true,
+                "unit": "deg"
+              },
+              "period": {
+                "value": 3.0,
+                "fixed": true,
+                "unit": "d"
+              },
+              "mass_ratio": {
+                "value": 0.7,
+                "fixed": true,
+                "unit": ""
+              },
+              "semi_major_axis": {
+                "value": 10.0,
+                "fixed": true,
+                "unit": "solRad"
+              },
+              "additional_light": {
+                "value": 0.2,
+                "fixed": true,
+                "unit": ""
+              },
+              "phase_shift": {
+                "value": 0.017,
+                "fixed": true,
+                "unit": ""
+              }
+            },
+            "secondary": {
+              "albedo": {
+                "value": 0.5,
+                "fixed": true,
+                "unit": ""
+              },
+              "gravity_darkening": {
+                "value": 0.32,
+                "fixed": true,
+                "unit": ""
+              },
+              "metallicity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "surface_potential": {
+                "value": 12.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "synchronicity": {
+                "value": 1.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "t_eff": {
+                "value": 5004.1300040845235,
+                "constraint": "primary@t_eff - 1500",
+                "unit": "K"
+              }
+            },
+            "nuisance": {
+              "ln_f": {
+                "value": -2.0,
+                "fixed": true,
+                "unit": null
+              }
+            },
+            "r_squared": {
+              "value": 0.9999988201111317,
+              "unit": null
+            }
+          }
+        },
+        "hybrid": {
+          "constructor_seconds": 3.6269077099859715e-05,
+          "seconds_including_setup_compile": 2.3155638499883935,
+          "total_seconds_including_constructor": 2.3156001190654933,
+          "fitted": {
+            "primary@t_eff": 6504.130004085272,
+            "system@inclination": 86.40189020129257
+          },
+          "r_squared": 0.9999988201111317,
+          "chi_squared": 21.955542375426568,
+          "serialized_result": {
+            "primary": {
+              "t_eff": {
+                "value": 6504.130004085272,
+                "fixed": false,
+                "unit": "K",
+                "min": 6000.0,
+                "max": 7000.0
+              },
+              "albedo": {
+                "value": 0.5,
+                "fixed": true,
+                "unit": ""
+              },
+              "gravity_darkening": {
+                "value": 0.32,
+                "fixed": true,
+                "unit": ""
+              },
+              "metallicity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "surface_potential": {
+                "value": 8.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "synchronicity": {
+                "value": 1.0,
+                "fixed": true,
+                "unit": ""
+              }
+            },
+            "system": {
+              "inclination": {
+                "value": 86.40189020129257,
+                "fixed": false,
+                "unit": "deg",
+                "min": 83.0,
+                "max": 89.0
+              },
+              "eccentricity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "argument_of_periastron": {
+                "value": 90.0,
+                "fixed": true,
+                "unit": "deg"
+              },
+              "period": {
+                "value": 3.0,
+                "fixed": true,
+                "unit": "d"
+              },
+              "mass_ratio": {
+                "value": 0.7,
+                "fixed": true,
+                "unit": ""
+              },
+              "semi_major_axis": {
+                "value": 10.0,
+                "fixed": true,
+                "unit": "solRad"
+              },
+              "additional_light": {
+                "value": 0.2,
+                "fixed": true,
+                "unit": ""
+              },
+              "phase_shift": {
+                "value": 0.017,
+                "fixed": true,
+                "unit": ""
+              }
+            },
+            "secondary": {
+              "albedo": {
+                "value": 0.5,
+                "fixed": true,
+                "unit": ""
+              },
+              "gravity_darkening": {
+                "value": 0.32,
+                "fixed": true,
+                "unit": ""
+              },
+              "metallicity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "surface_potential": {
+                "value": 12.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "synchronicity": {
+                "value": 1.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "t_eff": {
+                "value": 5004.130004085272,
+                "constraint": "primary@t_eff - 1500",
+                "unit": "K"
+              }
+            },
+            "nuisance": {
+              "ln_f": {
+                "value": -2.0,
+                "fixed": true,
+                "unit": null
+              }
+            },
+            "r_squared": {
+              "value": 0.9999988201111317,
+              "unit": null
+            }
+          }
+        }
+      },
+      "least_squares_parity": {
+        "primary@t_eff": {
+          "max_abs": 7.485141395591199e-10,
+          "elements": 1,
+          "atol": 0.01,
+          "rtol": 0
+        },
+        "system@inclination": {
+          "max_abs": 5.542233338928781e-13,
+          "elements": 1,
+          "atol": 0.0001,
+          "rtol": 0
+        },
+        "chi_squared": {
+          "max_abs": 1.2811085525754606e-11,
+          "elements": 1,
+          "atol": 1e-05,
+          "rtol": 0
+        }
+      },
+      "sampler_smoke": {
+        "original_cpu": {
+          "constructor_seconds": 0.007400457980111241,
+          "seconds_including_setup_compile": 1.9693788579897955,
+          "total_seconds_including_constructor": 1.9767793159699067,
+          "chain": [
+            [
+              [
+                0.29931877948458857,
+                0.33352840241796317
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.3065646745529704,
+                0.3313075930193663
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.30393377919942577,
+                0.36394576299971115
+              ],
+              [
+                0.31473652601868257,
+                0.34951201599020487
+              ],
+              [
+                0.30074134587479645,
+                0.32784811500380423
+              ],
+              [
+                0.2992338212291004,
+                0.3253110696822786
+              ]
+            ],
+            [
+              [
+                0.30028853225605057,
+                0.3402056783647239
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.30627874320430276,
+                0.33858037146073017
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.3049523224878178,
+                0.37231841395233894
+              ],
+              [
+                0.31473652601868257,
+                0.34951201599020487
+              ],
+              [
+                0.2949474605856844,
+                0.32768139603651614
+              ],
+              [
+                0.3009565954906147,
+                0.3394726548855957
+              ]
+            ],
+            [
+              [
+                0.30252707246680666,
+                0.35561924679681334
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.30627874320430276,
+                0.33858037146073017
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.3049523224878178,
+                0.37231841395233894
+              ],
+              [
+                0.3286921428807745,
+                0.3585012005388853
+              ],
+              [
+                0.2949474605856844,
+                0.32768139603651614
+              ],
+              [
+                0.2980628249607277,
+                0.33995780930409136
+              ]
+            ]
+          ],
+          "log_probability": [
+            [
+              -245205.6164781449,
+              -244950.4162011972,
+              -252495.4073383385,
+              -261198.764216765,
+              -168498.59670303913,
+              -204266.09194961924,
+              -261796.6180042111,
+              -269121.4903303043
+            ],
+            [
+              -226832.43237239606,
+              -244950.4162011972,
+              -232010.53922179836,
+              -261198.764216765,
+              -150409.4791948888,
+              -204266.09194961924,
+              -261516.94382564776,
+              -228904.44126793114
+            ],
+            [
+              -187746.55849961913,
+              -244950.4162011972,
+              -232010.53922179836,
+              -261198.764216765,
+              -150409.4791948888,
+              -183840.22117227208,
+              -261516.94382564776,
+              -227227.0602670756
+            ]
+          ],
+          "acceptance_fraction": [
+            0.6666666666666666,
+            0.0,
+            0.6666666666666666,
+            0.0,
+            0.6666666666666666,
+            0.6666666666666666,
+            0.3333333333333333,
+            0.6666666666666666
+          ]
+        },
+        "hybrid": {
+          "constructor_seconds": 3.0235969461500645e-05,
+          "seconds_including_setup_compile": 3.3239593520993367,
+          "total_seconds_including_constructor": 3.323989588068798,
+          "chain": [
+            [
+              [
+                0.29931877948458857,
+                0.33352840241796317
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.3065646745529704,
+                0.3313075930193663
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.30393377919942577,
+                0.36394576299971115
+              ],
+              [
+                0.31473652601868257,
+                0.34951201599020487
+              ],
+              [
+                0.30074134587479645,
+                0.32784811500380423
+              ],
+              [
+                0.2992338212291004,
+                0.3253110696822786
+              ]
+            ],
+            [
+              [
+                0.30028853225605057,
+                0.3402056783647239
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.30627874320430276,
+                0.33858037146073017
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.3049523224878178,
+                0.37231841395233894
+              ],
+              [
+                0.31473652601868257,
+                0.34951201599020487
+              ],
+              [
+                0.2949474605856844,
+                0.32768139603651614
+              ],
+              [
+                0.3009565954906147,
+                0.3394726548855957
+              ]
+            ],
+            [
+              [
+                0.30252707246680666,
+                0.35561924679681334
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.30627874320430276,
+                0.33858037146073017
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.3049523224878178,
+                0.37231841395233894
+              ],
+              [
+                0.3286921428807745,
+                0.3585012005388853
+              ],
+              [
+                0.2949474605856844,
+                0.32768139603651614
+              ],
+              [
+                0.2980628249607277,
+                0.33995780930409136
+              ]
+            ]
+          ],
+          "log_probability": [
+            [
+              -245205.61647814352,
+              -244950.41620119958,
+              -252495.4073383374,
+              -261198.76421676436,
+              -168498.59670303966,
+              -204266.09194962034,
+              -261796.6180042104,
+              -269121.49033030384
+            ],
+            [
+              -226832.43237239658,
+              -244950.41620119958,
+              -232010.53922180046,
+              -261198.76421676436,
+              -150409.4791948896,
+              -204266.09194962034,
+              -261516.94382564598,
+              -228904.44126792997
+            ],
+            [
+              -187746.55849961794,
+              -244950.41620119958,
+              -232010.53922180046,
+              -261198.76421676436,
+              -150409.4791948896,
+              -183840.22117227447,
+              -261516.94382564598,
+              -227227.0602670744
+            ]
+          ],
+          "acceptance_fraction": [
+            0.6666666666666666,
+            0.0,
+            0.6666666666666666,
+            0.0,
+            0.6666666666666666,
+            0.6666666666666666,
+            0.3333333333333333,
+            0.6666666666666666
+          ]
+        }
+      },
+      "chain_parity": {
+        "max_abs": 0.0,
+        "elements": 48,
+        "atol": 0,
+        "rtol": 0
+      },
+      "chain_density_parity": {
+        "max_abs": 2.3865140974521637e-09,
+        "elements": 24,
+        "atol": 1e-06,
+        "rtol": 0
+      },
+      "sampler_limitations": "3 steps,8 walkers: callback/move replay only; no convergence, posterior precision or ESS/sec"
+    },
+    "transfer_inclusive_likelihood_timings": {
+      "original_cpu": {
+        "object_and_observation_setup_seconds": 0.002733376924879849,
+        "first_callback_seconds": 0.04798282403498888,
+        "changed_parameter_callback_seconds": [
+          0.05044624302536249,
+          0.050021135015413165,
+          0.05078235501423478
+        ],
+        "median_seconds": 0.05044624302536249,
+        "last_synthesis": null
+      },
+      "hybrid": {
+        "object_and_observation_setup_seconds": 0.003026808029972017,
+        "first_callback_seconds": 1.0482638649409637,
+        "changed_parameter_callback_seconds": [
+          0.05577110999729484,
+          0.05519865499809384,
+          0.0527898280415684
+        ],
+        "median_seconds": 0.05519865499809384,
+        "last_synthesis": {
+          "backend": "hybrid",
+          "fallback_reason": null,
+          "candidate_construction_seconds": 0.002553057041950524,
+          "curve_stage_seconds": {
+            "cpu_mesh_topology_kinematics": 0.003164206980727613,
+            "device_state_with_transfers_compile": 0.00392145907972008,
+            "cpu_reflection": 2.5487970560789108e-05,
+            "cpu_radiance_ld": 0.03178825892973691,
+            "device_projection_upload_download": 0.0014957200037315488,
+            "cpu_hull_visibility": 0.0031326879980042577,
+            "device_clipping_integration_transfers": 0.005404546041972935,
+            "total": 0.0499559820163995
+          },
+          "total_synthesis_seconds": 0.05253883497789502
+        }
+      },
+      "hybrid_jax_cpu": {
+        "object_and_observation_setup_seconds": 0.00950928102247417,
+        "first_callback_seconds": 0.9981475629610941,
+        "changed_parameter_callback_seconds": [
+          0.13610010198317468,
+          0.13345376902725548,
+          0.13186156598385423
+        ],
+        "median_seconds": 0.13345376902725548,
+        "last_synthesis": {
+          "backend": "hybrid",
+          "fallback_reason": null,
+          "candidate_construction_seconds": 0.0027973870746791363,
+          "curve_stage_seconds": {
+            "cpu_mesh_topology_kinematics": 0.0034333530347794294,
+            "device_state_with_transfers_compile": 0.001901141949929297,
+            "cpu_reflection": 1.7684069462120533e-05,
+            "cpu_radiance_ld": 0.032693280023522675,
+            "device_projection_upload_download": 0.000846019946038723,
+            "cpu_hull_visibility": 0.0031865990022197366,
+            "device_clipping_integration_transfers": 0.08518012799322605,
+            "total": 0.12860763096250594
+          },
+          "total_synthesis_seconds": 0.1314765630522743
+        }
+      }
+    },
+    "wall_seconds": 25.907090560998768,
+    "contract": "Original serializer/constraints, support/JD mapping/interpolation, mean-normalization, residuals/noise/priors and fit lifecycle; fresh hybrid physical synthesis per callback",
+    "limitations": [
+      "Experimental hybrid with CPU geometry/reflection/radiance/LD and hull/visibility",
+      "Serial physical callbacks and CPU emcee moves; no batched/resident physical sampler",
+      "No convergence/ESS or physical-posterior precision claim from short chains",
+      "Full callbacks include candidate construction, transfers, costs and shape compilation"
+    ]
+  },
+  "cpu_development": {
+    "device": "cpu",
+    "all_correctness_gates_passed": true,
+    "prediction_cases": [
+      {
+        "mode": "direct",
+        "jd": false,
+        "standard_masses": false,
+        "parameters": [
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@mass_ratio",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": null,
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 2.0372681319713593e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 2.0372681319713593e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0000000000000002
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.003799619968049228,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.005349391954950988,
+                "device_state_with_transfers_compile": 0.0023134469520300627,
+                "cpu_reflection": 2.1871994249522686e-05,
+                "cpu_radiance_ld": 0.04310879705008119,
+                "device_projection_upload_download": 0.0011183220194652677,
+                "cpu_hull_visibility": 0.0035651189973577857,
+                "device_clipping_integration_transfers": 0.11948397604282945,
+                "total": 0.176862807944417
+              },
+              "total_synthesis_seconds": 0.180745743913576
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.0477378964424133e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.0477378964424133e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0000000000000002,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0024839279940351844,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003271857975050807,
+                "device_state_with_transfers_compile": 0.0016389800002798438,
+                "cpu_reflection": 1.824402716010809e-05,
+                "cpu_radiance_ld": 0.032297330908477306,
+                "device_projection_upload_download": 0.0007759379222989082,
+                "cpu_hull_visibility": 0.003120704088360071,
+                "device_clipping_integration_transfers": 0.10050664492882788,
+                "total": 0.1430417139781639
+              },
+              "total_synthesis_seconds": 0.14559535204898566
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 0.0,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.1641532182693481e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.1641532182693481e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0037603360833600163,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.004068123991601169,
+                "device_state_with_transfers_compile": 0.0017946719890460372,
+                "cpu_reflection": 1.7974060028791428e-05,
+                "cpu_radiance_ld": 0.032425301033072174,
+                "device_projection_upload_download": 0.0009261500090360641,
+                "cpu_hull_visibility": 0.004216703004203737,
+                "device_clipping_integration_transfers": 0.02462334104347974,
+                "total": 0.069710465031676
+              },
+              "total_synthesis_seconds": 0.07354164402931929
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 1.1641532182693481e-09,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      },
+      {
+        "mode": "direct",
+        "jd": true,
+        "standard_masses": false,
+        "parameters": [
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@mass_ratio",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": null,
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 2.0372681319713593e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 2.0372681319713593e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0000000000000002
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002553638070821762,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003347560064867139,
+                "device_state_with_transfers_compile": 0.0017916469369083643,
+                "cpu_reflection": 1.8785009160637856e-05,
+                "cpu_radiance_ld": 0.042300108005292714,
+                "device_projection_upload_download": 0.001075000036507845,
+                "cpu_hull_visibility": 0.0034907900262624025,
+                "device_clipping_integration_transfers": 0.10102063091471791,
+                "total": 0.15446913801133633
+              },
+              "total_synthesis_seconds": 0.1570928980363533
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.0477378964424133e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.0477378964424133e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0000000000000002,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002352530020289123,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003231281996704638,
+                "device_state_with_transfers_compile": 0.001955584972165525,
+                "cpu_reflection": 1.812400296330452e-05,
+                "cpu_radiance_ld": 0.027692676987499,
+                "device_projection_upload_download": 0.0007872600108385086,
+                "cpu_hull_visibility": 0.003157552913762629,
+                "device_clipping_integration_transfers": 0.10933939309325069,
+                "total": 0.1475506570423022
+              },
+              "total_synthesis_seconds": 0.14998540200758725
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 0.0,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.1641532182693481e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.1641532182693481e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002327884081751108,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003221644088625908,
+                "device_state_with_transfers_compile": 0.0016618429217487574,
+                "cpu_reflection": 1.837499439716339e-05,
+                "cpu_radiance_ld": 0.029386881971731782,
+                "device_projection_upload_download": 0.0011618629796430469,
+                "cpu_hull_visibility": 0.005021205986849964,
+                "device_clipping_integration_transfers": 0.026678923051804304,
+                "total": 0.06865567294880748
+              },
+              "total_synthesis_seconds": 0.07104721700306982
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 1.1641532182693481e-09,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      },
+      {
+        "mode": "manual_equal_length",
+        "jd": false,
+        "standard_masses": false,
+        "parameters": [
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@mass_ratio",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": [
+          -0.1,
+          -0.029411764705882346,
+          0.041176470588235314,
+          0.11176470588235296,
+          0.18235294117647063,
+          0.25294117647058834,
+          0.32352941176470595,
+          0.3941176470588236,
+          0.4647058823529413,
+          0.5352941176470589,
+          0.6058823529411766,
+          0.6764705882352943,
+          0.7470588235294119,
+          0.8176470588235296,
+          0.8882352941176472,
+          0.958823529411765,
+          1.0294117647058825,
+          1.1
+        ],
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 2.7939677238464355e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 2.7939677238464355e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.09514173527057068,
+              "Generic.Bessell.V": 0.10055603416718095,
+              "bolometric": 0.0910450924416365
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.002449563005939126,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0032861150102689862,
+                "device_state_with_transfers_compile": 0.0017490970203652978,
+                "cpu_reflection": 1.90449645742774e-05,
+                "cpu_radiance_ld": 0.028003242099657655,
+                "device_projection_upload_download": 0.0008480040123686194,
+                "cpu_hull_visibility": 0.0014547740574926138,
+                "device_clipping_integration_transfers": 0.1613612889777869,
+                "total": 0.1980544599937275
+              },
+              "total_synthesis_seconds": 0.200589795014821
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 3.3306690738754696e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.0244548320770264e-08,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.0244548320770264e-08,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.06608430610971605,
+              "Generic.Bessell.V": 0.07081643993135545,
+              "bolometric": 0.06396516432288823
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0029405959649011493,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0033208399545401335,
+                "device_state_with_transfers_compile": 0.001967518008314073,
+                "cpu_reflection": 2.1329964511096478e-05,
+                "cpu_radiance_ld": 0.0378504260443151,
+                "device_projection_upload_download": 0.0009502850007265806,
+                "cpu_hull_visibility": 0.0012771799229085445,
+                "device_clipping_integration_transfers": 0.15678475005552173,
+                "total": 0.20357668807264417
+              },
+              "total_synthesis_seconds": 0.20659012102987617
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 3.3306690738754696e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 6.51925802230835e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 6.51925802230835e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.06371135841488995,
+              "Generic.Bessell.V": 0.06793272173928266,
+              "bolometric": 0.06133943881574777
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.003632665961049497,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0045603299513459206,
+                "device_state_with_transfers_compile": 0.0020420070504769683,
+                "cpu_reflection": 1.9075931049883366e-05,
+                "cpu_radiance_ld": 0.03812780708540231,
+                "device_projection_upload_download": 0.0009368200553581119,
+                "cpu_hull_visibility": 0.0015943358885124326,
+                "device_clipping_integration_transfers": 0.17054416600149125,
+                "total": 0.2193513410165906
+              },
+              "total_synthesis_seconds": 0.22306430793832988
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 6.51925802230835e-09,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      },
+      {
+        "mode": "uniform",
+        "jd": false,
+        "standard_masses": false,
+        "parameters": [
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@mass_ratio",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": [
+          -0.08333333333333333,
+          0.006410256410256401,
+          0.09615384615384613,
+          0.18589743589743585,
+          0.2756410256410256,
+          0.36538461538461536,
+          0.455128205128205,
+          0.5448717948717947,
+          0.6346153846153845,
+          0.7243589743589742,
+          0.814102564102564,
+          0.9038461538461536,
+          0.9935897435897433,
+          1.0833333333333333
+        ],
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 3.3306690738754696e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.3969838619232178e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.3969838619232178e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999999,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0825842958334051,
+              "Generic.Bessell.V": 0.07317866484291558,
+              "bolometric": 0.030252527765463055
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0023537729866802692,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.00323682208545506,
+                "device_state_with_transfers_compile": 0.0018279049545526505,
+                "cpu_reflection": 2.057896926999092e-05,
+                "cpu_radiance_ld": 0.034288994036614895,
+                "device_projection_upload_download": 0.001012702938169241,
+                "cpu_hull_visibility": 0.0013791410019621253,
+                "device_clipping_integration_transfers": 0.026804149034433067,
+                "total": 0.06997384096030146
+              },
+              "total_synthesis_seconds": 0.07241126999724656
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 0.9999999999999998,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.059304401820494235,
+              "Generic.Bessell.V": 0.0606997790509094,
+              "bolometric": 0.021921403953122365
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0023829579586163163,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.0032338870223611593,
+                "device_state_with_transfers_compile": 0.001620274968445301,
+                "cpu_reflection": 2.3644068278372288e-05,
+                "cpu_radiance_ld": 0.027684704051353037,
+                "device_projection_upload_download": 0.0007929200073704123,
+                "cpu_hull_visibility": 0.0014007320860400796,
+                "device_clipping_integration_transfers": 0.012172673945315182,
+                "total": 0.04806496109813452
+              },
+              "total_synthesis_seconds": 0.050497440970502794
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 9.313225746154785e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 9.313225746154785e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 1.0000000000000002,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.05454351326080964,
+              "Generic.Bessell.V": 0.05188209259693066,
+              "bolometric": 0.020676208731952528
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.0024775350466370583,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.003278802032582462,
+                "device_state_with_transfers_compile": 0.0017855949699878693,
+                "cpu_reflection": 1.809396781027317e-05,
+                "cpu_radiance_ld": 0.03925242100376636,
+                "device_projection_upload_download": 0.0008866260759532452,
+                "cpu_hull_visibility": 0.0012240699725225568,
+                "device_clipping_integration_transfers": 0.024840187979862094,
+                "total": 0.07257724204100668
+              },
+              "total_synthesis_seconds": 0.07512205408420414
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 9.313225746154785e-10,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      },
+      {
+        "mode": "direct",
+        "jd": false,
+        "standard_masses": true,
+        "parameters": [
+          "primary@mass",
+          "primary@surface_potential",
+          "primary@t_eff",
+          "system@inclination",
+          "system@additional_light",
+          "nuisance@ln_f"
+        ],
+        "observations": {
+          "Generic.Bessell.B": 10,
+          "Generic.Bessell.V": 13,
+          "bolometric": 5
+        },
+        "support": null,
+        "candidates": [
+          {
+            "normalized_parameters": [
+              0.49999999999999944,
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.25,
+              0.5
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 2.3283064365386963e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 2.3283064365386963e-10,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0000000000000002
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.003594724927097559,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.005149867036379874,
+                "device_state_with_transfers_compile": 0.0020896269707009196,
+                "cpu_reflection": 2.2672000341117382e-05,
+                "cpu_radiance_ld": 0.03792315302416682,
+                "device_projection_upload_download": 0.0011171899968758225,
+                "cpu_hull_visibility": 0.004994335002265871,
+                "device_clipping_integration_transfers": 0.1153121170355007,
+                "total": 0.16833486407995224
+              },
+              "total_synthesis_seconds": 0.1720047009875998
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65,
+              0.65
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 1.1102230246251565e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 1.1641532182693481e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 1.1641532182693481e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 1.0,
+              "Generic.Bessell.V": 1.0,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.003814338007941842,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.005509332986548543,
+                "device_state_with_transfers_compile": 0.002130783977918327,
+                "cpu_reflection": 2.0998995751142502e-05,
+                "cpu_radiance_ld": 0.029260093928314745,
+                "device_projection_upload_download": 0.0008273540297523141,
+                "cpu_hull_visibility": 0.0032649459317326546,
+                "device_clipping_integration_transfers": 0.10294798295944929,
+                "total": 0.14572352496907115
+              },
+              "total_synthesis_seconds": 0.1496123420074582
+            }
+          },
+          {
+            "normalized_parameters": [
+              0.25,
+              0.33999999999999997,
+              0.43,
+              0.52,
+              0.61,
+              0.7
+            ],
+            "predictions": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "likelihood": {
+              "max_abs": 3.3760443329811096e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "posterior": {
+              "max_abs": 3.3760443329811096e-09,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            },
+            "means": {
+              "Generic.Bessell.B": 0.9999999999999998,
+              "Generic.Bessell.V": 0.9999999999999998,
+              "bolometric": 1.0
+            },
+            "original_sampling_error_vs_direct": {
+              "Generic.Bessell.B": 0.0,
+              "Generic.Bessell.V": 0.0,
+              "bolometric": 0.0
+            },
+            "execution": {
+              "backend": "hybrid",
+              "fallback_reason": null,
+              "candidate_construction_seconds": 0.00236716796644032,
+              "curve_stage_seconds": {
+                "cpu_mesh_topology_kinematics": 0.00340800394769758,
+                "device_state_with_transfers_compile": 0.0016781740123406053,
+                "cpu_reflection": 1.845404040068388e-05,
+                "cpu_radiance_ld": 0.03557630197610706,
+                "device_projection_upload_download": 0.0012153940042480826,
+                "cpu_hull_visibility": 0.004741769982501864,
+                "device_clipping_integration_transfers": 0.11244144302327186,
+                "total": 0.16071557602845132
+              },
+              "total_synthesis_seconds": 0.1631703389575705
+            }
+          }
+        ],
+        "normal_prior_posterior": {
+          "max_abs": 3.3760443329811096e-09,
+          "elements": 1,
+          "atol": 1e-06,
+          "rtol": 0
+        }
+      }
+    ],
+    "physical_fit_assessment": {
+      "least_squares": {
+        "original_cpu": {
+          "constructor_seconds": 6.409827619791031e-07,
+          "seconds_including_setup_compile": 1.3141913370927796,
+          "total_seconds_including_constructor": 1.3141919780755416,
+          "fitted": {
+            "primary@t_eff": 6504.1300040845235,
+            "system@inclination": 86.40189020129202
+          },
+          "r_squared": 0.9999988201111317,
+          "chi_squared": 21.955542375413756,
+          "serialized_result": {
+            "primary": {
+              "t_eff": {
+                "value": 6504.1300040845235,
+                "fixed": false,
+                "unit": "K",
+                "min": 6000.0,
+                "max": 7000.0
+              },
+              "albedo": {
+                "value": 0.5,
+                "fixed": true,
+                "unit": ""
+              },
+              "gravity_darkening": {
+                "value": 0.32,
+                "fixed": true,
+                "unit": ""
+              },
+              "metallicity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "surface_potential": {
+                "value": 8.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "synchronicity": {
+                "value": 1.0,
+                "fixed": true,
+                "unit": ""
+              }
+            },
+            "system": {
+              "inclination": {
+                "value": 86.40189020129202,
+                "fixed": false,
+                "unit": "deg",
+                "min": 83.0,
+                "max": 89.0
+              },
+              "eccentricity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "argument_of_periastron": {
+                "value": 90.0,
+                "fixed": true,
+                "unit": "deg"
+              },
+              "period": {
+                "value": 3.0,
+                "fixed": true,
+                "unit": "d"
+              },
+              "mass_ratio": {
+                "value": 0.7,
+                "fixed": true,
+                "unit": ""
+              },
+              "semi_major_axis": {
+                "value": 10.0,
+                "fixed": true,
+                "unit": "solRad"
+              },
+              "additional_light": {
+                "value": 0.2,
+                "fixed": true,
+                "unit": ""
+              },
+              "phase_shift": {
+                "value": 0.017,
+                "fixed": true,
+                "unit": ""
+              }
+            },
+            "secondary": {
+              "albedo": {
+                "value": 0.5,
+                "fixed": true,
+                "unit": ""
+              },
+              "gravity_darkening": {
+                "value": 0.32,
+                "fixed": true,
+                "unit": ""
+              },
+              "metallicity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "surface_potential": {
+                "value": 12.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "synchronicity": {
+                "value": 1.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "t_eff": {
+                "value": 5004.1300040845235,
+                "constraint": "primary@t_eff - 1500",
+                "unit": "K"
+              }
+            },
+            "nuisance": {
+              "ln_f": {
+                "value": -2.0,
+                "fixed": true,
+                "unit": null
+              }
+            },
+            "r_squared": {
+              "value": 0.9999988201111317,
+              "unit": null
+            }
+          }
+        },
+        "hybrid": {
+          "constructor_seconds": 4.9732974730432034e-05,
+          "seconds_including_setup_compile": 5.116774664027616,
+          "total_seconds_including_constructor": 5.116824397002347,
+          "fitted": {
+            "primary@t_eff": 6504.1300040841015,
+            "system@inclination": 86.40189020129158
+          },
+          "r_squared": 0.9999988201111317,
+          "chi_squared": 21.95554237543249,
+          "serialized_result": {
+            "primary": {
+              "t_eff": {
+                "value": 6504.1300040841015,
+                "fixed": false,
+                "unit": "K",
+                "min": 6000.0,
+                "max": 7000.0
+              },
+              "albedo": {
+                "value": 0.5,
+                "fixed": true,
+                "unit": ""
+              },
+              "gravity_darkening": {
+                "value": 0.32,
+                "fixed": true,
+                "unit": ""
+              },
+              "metallicity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "surface_potential": {
+                "value": 8.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "synchronicity": {
+                "value": 1.0,
+                "fixed": true,
+                "unit": ""
+              }
+            },
+            "system": {
+              "inclination": {
+                "value": 86.40189020129158,
+                "fixed": false,
+                "unit": "deg",
+                "min": 83.0,
+                "max": 89.0
+              },
+              "eccentricity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "argument_of_periastron": {
+                "value": 90.0,
+                "fixed": true,
+                "unit": "deg"
+              },
+              "period": {
+                "value": 3.0,
+                "fixed": true,
+                "unit": "d"
+              },
+              "mass_ratio": {
+                "value": 0.7,
+                "fixed": true,
+                "unit": ""
+              },
+              "semi_major_axis": {
+                "value": 10.0,
+                "fixed": true,
+                "unit": "solRad"
+              },
+              "additional_light": {
+                "value": 0.2,
+                "fixed": true,
+                "unit": ""
+              },
+              "phase_shift": {
+                "value": 0.017,
+                "fixed": true,
+                "unit": ""
+              }
+            },
+            "secondary": {
+              "albedo": {
+                "value": 0.5,
+                "fixed": true,
+                "unit": ""
+              },
+              "gravity_darkening": {
+                "value": 0.32,
+                "fixed": true,
+                "unit": ""
+              },
+              "metallicity": {
+                "value": 0.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "surface_potential": {
+                "value": 12.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "synchronicity": {
+                "value": 1.0,
+                "fixed": true,
+                "unit": ""
+              },
+              "t_eff": {
+                "value": 5004.1300040841015,
+                "constraint": "primary@t_eff - 1500",
+                "unit": "K"
+              }
+            },
+            "nuisance": {
+              "ln_f": {
+                "value": -2.0,
+                "fixed": true,
+                "unit": null
+              }
+            },
+            "r_squared": {
+              "value": 0.9999988201111317,
+              "unit": null
+            }
+          }
+        }
+      },
+      "least_squares_parity": {
+        "primary@t_eff": {
+          "max_abs": 4.220055416226387e-10,
+          "elements": 1,
+          "atol": 0.01,
+          "rtol": 0
+        },
+        "system@inclination": {
+          "max_abs": 4.405364961712621e-13,
+          "elements": 1,
+          "atol": 0.0001,
+          "rtol": 0
+        },
+        "chi_squared": {
+          "max_abs": 1.873345922831504e-11,
+          "elements": 1,
+          "atol": 1e-05,
+          "rtol": 0
+        }
+      },
+      "sampler_smoke": {
+        "original_cpu": {
+          "constructor_seconds": 0.007538936915807426,
+          "seconds_including_setup_compile": 2.157458861009218,
+          "total_seconds_including_constructor": 2.1649977979250252,
+          "chain": [
+            [
+              [
+                0.29931877948458857,
+                0.33352840241796317
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.3065646745529704,
+                0.3313075930193663
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.30393377919942577,
+                0.36394576299971115
+              ],
+              [
+                0.31473652601868257,
+                0.34951201599020487
+              ],
+              [
+                0.30074134587479645,
+                0.32784811500380423
+              ],
+              [
+                0.2992338212291004,
+                0.3253110696822786
+              ]
+            ],
+            [
+              [
+                0.30028853225605057,
+                0.3402056783647239
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.30627874320430276,
+                0.33858037146073017
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.3049523224878178,
+                0.37231841395233894
+              ],
+              [
+                0.31473652601868257,
+                0.34951201599020487
+              ],
+              [
+                0.2949474605856844,
+                0.32768139603651614
+              ],
+              [
+                0.3009565954906147,
+                0.3394726548855957
+              ]
+            ],
+            [
+              [
+                0.30252707246680666,
+                0.35561924679681334
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.30627874320430276,
+                0.33858037146073017
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.3049523224878178,
+                0.37231841395233894
+              ],
+              [
+                0.3286921428807745,
+                0.3585012005388853
+              ],
+              [
+                0.2949474605856844,
+                0.32768139603651614
+              ],
+              [
+                0.2980628249607277,
+                0.33995780930409136
+              ]
+            ]
+          ],
+          "log_probability": [
+            [
+              -245205.6164781449,
+              -244950.4162011972,
+              -252495.4073383385,
+              -261198.764216765,
+              -168498.59670303913,
+              -204266.09194961924,
+              -261796.6180042111,
+              -269121.4903303043
+            ],
+            [
+              -226832.43237239606,
+              -244950.4162011972,
+              -232010.53922179836,
+              -261198.764216765,
+              -150409.4791948888,
+              -204266.09194961924,
+              -261516.94382564776,
+              -228904.44126793114
+            ],
+            [
+              -187746.55849961913,
+              -244950.4162011972,
+              -232010.53922179836,
+              -261198.764216765,
+              -150409.4791948888,
+              -183840.22117227208,
+              -261516.94382564776,
+              -227227.0602670756
+            ]
+          ],
+          "acceptance_fraction": [
+            0.6666666666666666,
+            0.0,
+            0.6666666666666666,
+            0.0,
+            0.6666666666666666,
+            0.6666666666666666,
+            0.3333333333333333,
+            0.6666666666666666
+          ]
+        },
+        "hybrid": {
+          "constructor_seconds": 3.175006713718176e-05,
+          "seconds_including_setup_compile": 6.641673070960678,
+          "total_seconds_including_constructor": 6.641704821027815,
+          "chain": [
+            [
+              [
+                0.29931877948458857,
+                0.33352840241796317
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.3065646745529704,
+                0.3313075930193663
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.30393377919942577,
+                0.36394576299971115
+              ],
+              [
+                0.31473652601868257,
+                0.34951201599020487
+              ],
+              [
+                0.30074134587479645,
+                0.32784811500380423
+              ],
+              [
+                0.2992338212291004,
+                0.3253110696822786
+              ]
+            ],
+            [
+              [
+                0.30028853225605057,
+                0.3402056783647239
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.30627874320430276,
+                0.33858037146073017
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.3049523224878178,
+                0.37231841395233894
+              ],
+              [
+                0.31473652601868257,
+                0.34951201599020487
+              ],
+              [
+                0.2949474605856844,
+                0.32768139603651614
+              ],
+              [
+                0.3009565954906147,
+                0.3394726548855957
+              ]
+            ],
+            [
+              [
+                0.30252707246680666,
+                0.35561924679681334
+              ],
+              [
+                0.3053427057882991,
+                0.33389371993911626
+              ],
+              [
+                0.30627874320430276,
+                0.33858037146073017
+              ],
+              [
+                0.28823396653774264,
+                0.3274882153401929
+              ],
+              [
+                0.3049523224878178,
+                0.37231841395233894
+              ],
+              [
+                0.3286921428807745,
+                0.3585012005388853
+              ],
+              [
+                0.2949474605856844,
+                0.32768139603651614
+              ],
+              [
+                0.2980628249607277,
+                0.33995780930409136
+              ]
+            ]
+          ],
+          "log_probability": [
+            [
+              -245205.6164781449,
+              -244950.41620119946,
+              -252495.40733833783,
+              -261198.76421676573,
+              -168498.5967030402,
+              -204266.09194961932,
+              -261796.61800420991,
+              -269121.4903303041
+            ],
+            [
+              -226832.43237239635,
+              -244950.41620119946,
+              -232010.53922180046,
+              -261198.76421676573,
+              -150409.47919489007,
+              -204266.09194961932,
+              -261516.94382564648,
+              -228904.44126793102
+            ],
+            [
+              -187746.5584996185,
+              -244950.41620119946,
+              -232010.53922180046,
+              -261198.76421676573,
+              -150409.47919489007,
+              -183840.22117227298,
+              -261516.94382564648,
+              -227227.0602670753
+            ]
+          ],
+          "acceptance_fraction": [
+            0.6666666666666666,
+            0.0,
+            0.6666666666666666,
+            0.0,
+            0.6666666666666666,
+            0.6666666666666666,
+            0.3333333333333333,
+            0.6666666666666666
+          ]
+        }
+      },
+      "chain_parity": {
+        "max_abs": 0.0,
+        "elements": 48,
+        "atol": 0,
+        "rtol": 0
+      },
+      "chain_density_parity": {
+        "max_abs": 2.270098775625229e-09,
+        "elements": 24,
+        "atol": 1e-06,
+        "rtol": 0
+      },
+      "sampler_limitations": "3 steps,8 walkers: callback/move replay only; no convergence, posterior precision or ESS/sec"
+    },
+    "transfer_inclusive_likelihood_timings": {
+      "original_cpu": {
+        "object_and_observation_setup_seconds": 0.002845688024535775,
+        "first_callback_seconds": 0.05625938891898841,
+        "changed_parameter_callback_seconds": [
+          0.0631842219736427,
+          0.06296096299774945,
+          0.060571592999622226
+        ],
+        "median_seconds": 0.06296096299774945,
+        "last_synthesis": null
+      },
+      "hybrid": {
+        "object_and_observation_setup_seconds": 0.003215211909264326,
+        "first_callback_seconds": 1.5434592559468001,
+        "changed_parameter_callback_seconds": [
+          0.14956973399966955,
+          0.15995088091585785,
+          0.1764512179652229
+        ],
+        "median_seconds": 0.15995088091585785,
+        "last_synthesis": {
+          "backend": "hybrid",
+          "fallback_reason": null,
+          "candidate_construction_seconds": 0.004013773053884506,
+          "curve_stage_seconds": {
+            "cpu_mesh_topology_kinematics": 0.005362556898035109,
+            "device_state_with_transfers_compile": 0.001958651002496481,
+            "cpu_reflection": 2.0208070054650307e-05,
+            "cpu_radiance_ld": 0.03780170495156199,
+            "device_projection_upload_download": 0.0010907889809459448,
+            "cpu_hull_visibility": 0.004871945944614708,
+            "device_clipping_integration_transfers": 0.1189929050160572,
+            "total": 0.1719652289757505
+          },
+          "total_synthesis_seconds": 0.17605547502171248
+        }
+      }
+    },
+    "wall_seconds": 38.06880592205562,
+    "contract": "Original serializer/constraints, support/JD mapping/interpolation, mean-normalization, residuals/noise/priors and fit lifecycle; fresh hybrid physical synthesis per callback",
+    "limitations": [
+      "Experimental hybrid with CPU geometry/reflection/radiance/LD and hull/visibility",
+      "Serial physical callbacks and CPU emcee moves; no batched/resident physical sampler",
+      "No convergence/ESS or physical-posterior precision claim from short chains",
+      "Full callbacks include candidate construction, transfers, costs and shape compilation"
+    ]
+  },
+  "fixture": {
+    "photometric_errors": 0.0001,
+    "noise_seed": 717,
+    "truth_generation": "Original predict_light_curves with union-phase l3 convention and observation mapping, before deterministic noise",
+    "bands": [
+      "Generic.Bessell.B",
+      "Generic.Bessell.V",
+      "bolometric"
+    ],
+    "observation_counts": [
+      10,
+      13,
+      5
+    ],
+    "discretization_degrees": 12,
+    "primary_t_eff_truth": 6500,
+    "secondary_t_eff_constraint": "primary@t_eff - 1500",
+    "inclination_truth_degrees": 86.4,
+    "physical_sampler_steps": 3,
+    "physical_sampler_walkers": 8,
+    "least_squares_max_nfev": 16,
+    "least_squares_diff_step": 0.0001,
+    "reflection_in_timing_driver": false,
+    "reflection_enabled_callback_parity_test": true,
+    "baseline_mesh": {
+      "primary_vertices": 272,
+      "primary_faces": 540,
+      "secondary_vertices": 272,
+      "secondary_faces": 540
+    }
+  },
+  "thresholds": {
+    "prediction_relative": 3e-13,
+    "prediction_absolute": 2e-12,
+    "standardized_residual_absolute": 2e-08,
+    "log_likelihood_posterior_absolute": 1e-06,
+    "fitted_temperature_absolute_k": 0.01,
+    "fitted_inclination_absolute_deg": 0.0001,
+    "minimum_chi_squared_absolute": 1e-05,
+    "sampler_chain_coordinates": "exact replay"
+  },
+  "threshold_basis": "Prediction/likelihood gates retained from prior milestones. Residual tolerance is prediction absolute tolerance divided by nominal1e-4 error. New solver parameter gates are predeclared small fractions (~1e-5) of parameter intervals, not posterior uncertainties; minimum chi\u00b2 gate is negligible relative to order-unity changes. No existing tolerance was relaxed.",
+  "timing_conditions": {
+    "hardware_window": "Same checkpointed window/process CPU/GPU comparison: affinity0-15, Nice10, BLAS/OMP/MKL/NUMEXPR threads1, MCMC process count1. Callback includes parameter transforms/constraints, actual BinarySystem construction, fresh physical model/transfers/mapping/normalization and final existing likelihood/prior. First callback and object/observation setup separate. Least-squares and sampler times include new fitter construction, actual original fit() setup, physical calls, compilation incurred and serialization. Runtime may be warm from earlier correctness gates. Three warm callback samples; fit/sampler single bounded runs, not throughput/convergence studies.",
+    "cpu_development": "Production running; forced JAX CPU, affinity16-19, Nice19, thread counts1. Not a matched timing profile to hardware window; only correctness and supplementary cost evidence."
+  },
+  "unsupported_policy": "Experimental fitting adapter always runs full unmodified CPU Observer for unsupported device model/backend/resource states. GPU unavailability/disabled FP64 is an error, not a physical prior. Test q0.4 returns finite original posterior even with emergency exception penalties enabled. CPU default classes/backends unchanged.",
+  "sampling_accuracy": "The deliberately coarse12-threshold uniform and equal-length manual supports have up to0.10 normalized-flux error against direct original CPU predictions. This is original time/interpolation discretization error, not GPU numerical error, and these supports are branch coverage fixtures rather than scientific fitting recommendations. The representative public fits/sampler use direct synthesis.",
+  "assessment": "Validated opt-in serial hybrid physical fit callbacks and actual public fit lifecycles. Warm GPU likelihood is slightly slower than original CPU in this workload; compilation makes bounded full fits and short chains slower. No production default integration, convergence, ESS/sec or physical-posterior precision claim.",
+  "remaining": [
+    "Compose resident fresh passband/optical-depth emission with corrected temperatures and device eclipse integration",
+    "CPU candidate mesh and hull bridges, irradiation device physics, real atmosphere/LD tables and spot/eccentric/near-contact scientific coverage",
+    "Broader scale/compilation amortization studies before a production fitting backend; no merge"
+  ]
+}
