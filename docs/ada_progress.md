@@ -1,9 +1,115 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T17:30:16.433093+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T18:18:36.683986+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues. Fifth42 is intentionally held for ELISa.**
 
-## Latest milestone: curved eclipse edges and accumulated likelihood safeguards
+## Latest milestone: batched resident Roche geometry in complete curves
+
+`BatchedRocheGeometry` now solves fresh changing-parameter Roche roots, gradients,
+normals, curved Jacobians and Duffy areas on the GPU. `ResidentGeometryLightCurve`
+composes these with gravity and intrinsic temperatures in one resident graph,
+then runs the existing reflection, fresh radiance, observer and flux pipeline.
+**36 new hardware controls and 36 CPU controls pass, with no skips.** All 626
+previous source/data files are byte-identical; 556 earlier hardware controls are
+retained, giving 592 cases of additive coverage, not a fresh 592-case suite.
+Original CPU/default behavior and existing unsupported-case/fallback routes are
+unchanged. These new APIs are opt-in and raise outside their declared domain.
+
+The independent oracle retains the original trigonometric potential and 56
+bisections, original gradients/thermal/reflection/radiance/flux formulas. The port
+uses the same Roche equation in Cartesian arithmetic and 80 bounded bisections.
+Existing 3e-13 relative gates, strict endpoint/inner-branch checks and FP64 remain.
+Complete raw/component/normalized curves, both stars' fields/radiance, identical
+CPU quadrature hashes/traces and original mapped likelihoods all pass. The six
+fixtures include partial/total eclipse, unequal masses/spins, three LD laws,
+CK04 and the tiny-occultor case. Additional tests cover changing actual angular
+rays/topology, bounded waves, exact original Observer behavior before/after,
+resident composition without callbacks, refined fields and 57 contact phases.
+
+This is still a hybrid. Original CPU topology and nested vertex roots generate
+fresh per-candidate angular meshes; observer roots, adaptation, eclipse clipping,
+ancestry and hashing remain CPU work. LD/table bridges still download required
+state. Reflection and radiance remain candidate-specific. No result is reused
+across physical proposals; all proposals are evaluated, with shape groups and
+bounded waves controlling allocations. No padding changes a physical prior.
+
+### Matched performance and the next bottleneck
+
+The following medians include fresh host input, synchronization and required
+host output. Geometry-stage rows have ten changing batches each. Original CPU
+and vectorized NumPy share 56 trigonometric bisections; JAX CPU/GPU share the
+80-step Cartesian port. Algorithm/batching gains and hardware gains are distinct.
+Private CPU profiles use cores16–19/nice19, while bounded device profiles and
+original CPU baselines within them use cores0–15/nice10. BLAS/OMP/MKL/NumExpr
+environment counts are one; actual JAX/XLA pool size is unmeasured. This shared-machine comparison is preliminary.
+
+| Geometry stage / component | Proposals × nodes | Original CPU | Vectorized NumPy | JAX CPU | GPU |
+| --- | --- | --- | --- | --- | --- |
+| sample/primary | 128 × 2048 | 242.514 ms | 216.928 ms | 122.759 ms | 10.407 ms |
+| sample/secondary | 128 × 2048 | 245.512 ms | 211.194 ms | 125.882 ms | 10.494 ms |
+| area/primary | 128 × 2048 | 271.289 ms | 214.895 ms | 130.017 ms | 5.553 ms |
+| area/secondary | 128 × 2048 | 269.406 ms | 222.019 ms | 130.348 ms | 5.600 ms |
+
+Area rows mean 128 angular faces ×16 nodes per proposal. These are geometry
+stages with supplied angular topology, not whole-curve speedups. Sweeps retain
+batch1/32/128, sample512/2048 and area8/128 faces, first shape calls, constructor
+costs, individual samples, nested transfer/dispatch/synchronization intervals,
+interleaved backend ordering and compiler/allocator memory accounting.
+
+Complete costs below compute **two finite field curves per candidate**, original
+uneven/repeated observation mapping, phase/third-light/mean/noise semantics,
+prior and density, all CPU bridges/transfers/host outputs and accuracy checks.
+q, potential, temperatures, inclination, l3 and ln_f change in every batch.
+Fixed observation setup and engine construction are recorded separately; cold
+first calls include encountered compilation. Each warm range has only two
+samples: it does not establish a stable tail or MCMC throughput.
+
+| Complete comparison batch | Original CPU cold / warm range | JAX CPU cold / warm range | GPU cold / warm range |
+| --- | --- | --- | --- |
+| 1 proposals | 10.939 / 10.701–10.721 s | 15.344 / 10.942–10.967 s | 16.156 / 10.839–10.901 s |
+| 4 proposals | 42.724 / 42.508–42.643 s | 47.506 / 43.490–43.629 s | 48.247 / 43.528–43.670 s |
+
+Maximum complete normalized curve/prediction difference is **6.66134e-16**;
+maximum posterior difference is **1.70257e-09** (unchanged absolute gate1e-6).
+Original phase and JD callbacks both pass. Repeated original CPU baselines after
+the device runs retain process/order drift evidence in the report.
+
+The GPU does **not** speed up these complete likelihood batches. In the same warm
+executions, CPU observer geometry/clipping/hash occupies **97.74–97.86%**
+of enclosing batch wall time. Removing every other cost while keeping that CPU
+work fixed gives only **1.023×** as a conditional upper ceiling.
+This is not a limit after porting the observer stage or a future GPU prediction.
+It is why the geometry-stage gains do not translate into current full-model gains.
+
+### Hardware evidence and remaining scientific gates
+
+Active-load samples observe **PCIe generation4, width8**, consistent with the
+upstream port's advertised maximum width8. Idle generation1 is not active link
+capability. Pageable fresh-buffer transfer calibration, active clock/power/thermal
+samples, an independent stage process and a focused CUDA/NVTX/OSRT trace are
+retained in the [hardware characterization](hardware_characterization.md).
+Dispatch/synchronization API intervals are not pure link bandwidth. DRAM bytes,
+L2, occupancy and achieved FP64 counters remain unavailable; no memory-bandwidth
+or computation bottleneck is inferred from utilization or allocation bytes.
+
+**Physical fitting/MCMC remains unqualified at1e-4.** The unchanged strict gate
+requires nominal D<=.1 and accumulated Gaussian log-likelihood enclosure<=.01,
+independently of ln_f. The complete coarse field comparisons have nominal log-likelihood enclosures
+9.54–16.96 and still trigger accuracy stops. They are numerical diagnostic failures, not prior penalties or
+CPU/GPU implementation discrepancies. Earlier finer field/boundary failures
+remain in the preceding reports. No continuum solution, observational adequacy,
+optimized fit, converged chain or ESS/sec claim follows from the port.
+
+All successful bounded units preserve the active Fifth42 hold and exact checkpoint;
+the initial shape-error-message test failure also left the hold intact. Nothing
+was resumed or merged. Next: port/batch the measured CPU observer root/shadow and
+boundary work, and continue field/boundary refinement against the accumulated
+likelihood budget before any qualified physical sampler assessment.
+
+[Curated results and samples](ada_validation/background-m018.json),
+[source manifest](ada_validation/background-m018-source-hashes.json).
+
+## Preceding milestone: curved eclipse edges and accumulated likelihood safeguards
 
 `CurvedEdgeLightCurve` synthesizes complete reflected curves using implicit
 curved-edge quadrature and the preceding curvature-consistent thermal,

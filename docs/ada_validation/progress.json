@@ -1,32 +1,38 @@
 {
-  "updated_utc": "2026-11-17T17:30:16.433093+00:00",
+  "updated_utc": "2026-11-17T18:18:36.683986+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "d585fbade92fec032e354719399c8f70ee2df0857cf221de3fef37ae2e53dde7",
-  "code_state_hash_method": "SHA256 of background-m017-source-hashes.json parsed as compact sorted-key JSON",
-  "stage": "Curved-edge complete Roche curves, nominal likelihood controls and realistic analysis evidence",
+  "code_state_sha256": "1dae177709394f097bc9c7691c6d55f65710f277e94c5f93b50e4a0ffef0358a",
+  "code_state_hash_method": "SHA256 of background-m018-source-hashes.json parsed as compact sorted-key JSON",
+  "stage": "m018 batched resident Roche geometry in complete curves",
   "last_gpu_suite": {
-    "tests": 84,
+    "tests": 36,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "pytest_seconds": 307.17499999999995,
-    "new_cases": {
-      "tests": 27,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "pytest_seconds": 128.021,
-      "scope": "All27new curved-edge/analytic/inference cases executed without skips"
-    },
-    "rerun_dependencies": {
-      "tests": 57,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 0,
-      "pytest_seconds": 179.154,
-      "scope": "All57existing shared/curvature cases; default packet behavior retained"
-    }
+    "suites": [
+      {
+        "tests": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 15.262
+      },
+      {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 62.995
+      },
+      {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 122.062
+      }
+    ]
   },
   "last_gpu_suite_is_current_physics_source": true,
   "cpu_only_suite_before_two_added_test_pairs": {
@@ -35,24 +41,15 @@
     "errors": 0,
     "skipped": 47
   },
-  "benchmark_status": "84freshhardwarecases(27new/57dependencies)pass/no skips;472unchanged controls retained. Accuracy qualification and statistical adequacy separate; no1e-4fit/MCMC/ESSqualification.",
+  "benchmark_status": "Geometry batch gains measured separately from complete costs; no full-likelihood gain or1e-4fit/MCMC/ESSqualification.",
   "production": {
-    "window": "background-m017-w090",
-    "status": "paused_for_elisa",
-    "verified_utc": "2026-11-17T17:28:29.363835+00:00",
-    "source_release_reverified": true,
-    "config_and_plan_unchanged": true,
-    "clean_test_unit_exit_verified_at_boundary": true,
-    "current_unit_active": false,
-    "last_receipt_witness_endpoints_verified": true,
-    "full_historical_reaudit": false,
-    "test_commands_seconds": 154.423333927989,
-    "production_policy": "user_authorized_hold",
-    "checkpoint_unchanged": true,
+    "current_state": "paused_for_elisa",
+    "hold_id": "elisa-continuous-20261117",
     "checkpoint_sha256": "d7fa2a84ea3124343a8a912296ff18e45a354b1c5e0552ea605c474b45e7b7c1",
     "held_durable_native_cells": 1343006263,
-    "original_service_verified": true,
-    "production_resume_requested": false
+    "source_config_plan_service_and_last_receipt_witness_endpoints_verified": true,
+    "full_historical_reaudit": false,
+    "resume_requested": false
   },
   "production_windows": [
     {
@@ -1612,6 +1609,153 @@
       "held_durable_native_cells": 1343006263,
       "original_service_verified": true,
       "production_resume_requested": false
+    },
+    {
+      "window": 109,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 17.95630907791201
+    },
+    {
+      "window": 92,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 65.70716764498502
+    },
+    {
+      "window": 93,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 124.82341606903356
+    },
+    {
+      "window": 94,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 16.36657556402497
+    },
+    {
+      "window": 95,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 16.51317775703501
+    },
+    {
+      "window": 96,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 14.469797629164532
+    },
+    {
+      "window": 97,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 14.79259169101715
+    },
+    {
+      "window": 98,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 35.066456799046136
+    },
+    {
+      "window": 99,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 41.109926668112166
+    },
+    {
+      "window": 100,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 41.58783132198732
+    },
+    {
+      "window": 101,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 130.47965176508296
+    },
+    {
+      "window": 102,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 138.2719993259525
+    },
+    {
+      "window": 103,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 138.90280903782696
+    },
+    {
+      "window": 104,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 29.787036734167486
+    },
+    {
+      "window": 105,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 2.1940842950716615
+    },
+    {
+      "window": 106,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 15.595213480177335
+    },
+    {
+      "window": 107,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 23.733550935983658
+    },
+    {
+      "window": 108,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 5.880934323999099
+    },
+    {
+      "window": 110,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 34.145949625060894
+    },
+    {
+      "window": 111,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 130.30897576804273
+    },
+    {
+      "window": 112,
+      "checkpoint_unchanged": true,
+      "production_policy": "paused_for_elisa",
+      "successful_owned_unit_and_cleanup_verified": true,
+      "command_seconds": 16.07779600599315
     }
   ],
   "hardware": {
@@ -1622,7 +1766,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Complete curved-edge reflected comparison curves and strict nominal finite likelihood controls; realistic CPU/JAXCPU data track curated. Original CPU/default behavior retained.",
+  "scope": "Fresh [q,spin,Phi] rows and changed per-row rays/triangles; Cartesian original Roche potential,80 bounded bisections and original32eps endpoint/residual/inner-branch gates. Original CPU56bisection trigonometric oracle retained independently. FP64 only. Resident roots/gradients/normals/dA-dOmega/Duffy4 areas/gravity/thermal graph. Shape groups and explicit bounded waves; no prediction cache. Existing CPU topology/observer clipping/LD and candidate-specific reflection/radiance remain measured.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -1635,7 +1779,7 @@
     "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
-  "current_milestone_report": "background-m017.json",
+  "current_milestone_report": "background-m018.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
@@ -1816,126 +1960,26 @@
     "skipped": 8
   },
   "current_full_cpu_suite": {
-    "fresh_full_suite_rerun": false,
-    "fresh_suite": {
-      "tests": 84,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 20,
-      "pytest_seconds": 225.414,
-      "passed": 64,
-      "scope": "Same84cases in private forcedCPU;20explicitGPUskips"
-    },
-    "inherited": {
-      "baseline_commit": "f6bf53af53422269b17134897fab44839c8ec650",
-      "baseline_manifest": "background-m016-source-hashes.json",
-      "baseline_files": 622,
-      "unchanged_baseline_files": 621,
-      "modified_baseline_files": [
-        "src/elisa/experimental/gpu_shared_fields.py"
-      ],
-      "default_packet_hook_dependencies_rerun": 57,
-      "earlier_hardware_cases": 529,
-      "unaffected_hardware_cases_retained": 472,
-      "scope": "One protected packet-dispatch hook preserving the original default. All57 affected shared/curvature tests rerun; original nonexperimental CPU/default/kernel/fitter files unchanged. Four additive opt-in files. Not a fresh556case hardware suite.",
-      "earlier_validation": {
-        "baseline_commit": "990586a98ff83533ab37e514af549f9c0d6955e2",
-        "baseline_manifest": "background-m015-source-hashes.json",
-        "baseline_files": 619,
-        "all_baseline_files_unchanged": true,
-        "retained_hardware_cases": 500,
-        "preceding_fresh_hardware_suite": {
-          "tests": 28,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 0,
-          "pytest_seconds": 104.73,
-          "scope": "All28new shared-field CPU/GPU cases ran without skips"
-        },
-        "earlier_validation": {
-          "baseline_commit": "893bd98742c7c47f3bd4fdb0b368179454459e6c",
-          "baseline_manifest": "background-m014-source-hashes.json",
-          "baseline_files": 616,
-          "all_baseline_files_unchanged": true,
-          "retained_hardware_cases": 472,
-          "preceding_fresh_hardware_suite": {
-            "tests": 73,
-            "failures": 0,
-            "errors": 0,
-            "skipped": 0,
-            "pytest_seconds": 149.108,
-            "scope": "40new boundary tests and all33preceding curved tests rerun without skips"
-          },
-          "earlier_validation": {
-            "baseline_commit": "a34227bafa798a107424d3003fba123daad1d48c",
-            "baseline_manifest": "background-m012-source-hashes.json",
-            "baseline_files": 606,
-            "all_baseline_files_unchanged": true,
-            "hardware_tests": {
-              "tests": 399,
-              "failures": 0,
-              "errors": 0,
-              "skipped": 0,
-              "pytest_seconds": 437.581,
-              "partitions": [
-                {
-                  "tests": 89,
-                  "failures": 0,
-                  "errors": 0,
-                  "skipped": 0,
-                  "pytest_seconds": 171.251
-                },
-                {
-                  "tests": 75,
-                  "failures": 0,
-                  "errors": 0,
-                  "skipped": 0,
-                  "pytest_seconds": 145.195
-                },
-                {
-                  "tests": 235,
-                  "failures": 0,
-                  "errors": 0,
-                  "skipped": 0,
-                  "pytest_seconds": 121.135
-                }
-              ],
-              "scope": "All experimental tests in three independently restored windows"
-            },
-            "cpu_tests": {
-              "tests": 399,
-              "failures": 0,
-              "errors": 0,
-              "skipped": 152,
-              "pytest_seconds": 335.475,
-              "passed": 247,
-              "scope": "Final frozen source; all experimental tests, explicit GPU skips in forced-CPU private environment"
-            },
-            "scope": "399 unchanged hardware controls retained; only new additive modules exercised anew. No default CPU function, setting or original kernel changed."
-          },
-          "preceding_fresh_cpu_suite": {
-            "tests": 73,
-            "failures": 0,
-            "errors": 0,
-            "skipped": 12,
-            "pytest_seconds": 110.263,
-            "passed": 61,
-            "scope": "Same73cases in private forcedCPU environment;12explicit hardware skips"
-          },
-          "scope": "All616baseline source/data files unchanged. New module remains opt-in; no CPU/default/kernel/fitter changes. Previous472hardware cases retained, not a fresh472suite."
-        },
-        "preceding_fresh_cpu_suite": {
-          "tests": 28,
-          "failures": 0,
-          "errors": 0,
-          "skipped": 6,
-          "pytest_seconds": 86.078,
-          "passed": 22,
-          "scope": "Same28new cases in private forcedCPU environment; six explicitGPUskips"
-        },
-        "scope": "All619baseline source/data files unchanged. Three new opt-in files, no CPU/default/kernel/fitter changes. Retain500earlier hardware cases, not a fresh500suite."
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "suites": [
+      {
+        "tests": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 12.613
+      },
+      {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 208.481
       }
-    }
+    ]
   },
   "previous_observation_protocol": {
     "stage": "Opt-in observation synthesis and empirical mesh-qualified physical fitting",
@@ -2061,12 +2105,10 @@
     "current_milestone_report": "background-m012.json"
   },
   "current_test_coverage": {
-    "cases": 556,
-    "fresh_hardware_cases": 84,
-    "fresh_new_cases": 27,
-    "rerun_dependencies": 57,
-    "retained_baseline_hardware_cases": 472,
-    "fresh_full_suite_rerun": false
+    "fresh": 36,
+    "retained_byte_identical": 556,
+    "additive_total": 592,
+    "not_a_fresh_full_suite": true
   },
   "previous_curved_surface_milestone": {
     "stage": "True Roche curved-patch integration and consistent implicit eclipse predicates",
@@ -2119,5 +2161,33 @@
       "scope": "All29new curvature-field cases executed without skips"
     },
     "current_milestone_report": "background-m016.json"
+  },
+  "previous_curved_edge_milestone": {
+    "stage": "Curved-edge complete Roche curves, nominal likelihood controls and realistic analysis evidence",
+    "code_state_sha256": "d585fbade92fec032e354719399c8f70ee2df0857cf221de3fef37ae2e53dde7",
+    "last_gpu_suite": {
+      "tests": 84,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_seconds": 307.17499999999995,
+      "new_cases": {
+        "tests": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "pytest_seconds": 128.021,
+        "scope": "All27new curved-edge/analytic/inference cases executed without skips"
+      },
+      "rerun_dependencies": {
+        "tests": 57,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "pytest_seconds": 179.154,
+        "scope": "All57existing shared/curvature cases; default packet behavior retained"
+      }
+    },
+    "current_milestone_report": "background-m017.json"
   }
 }

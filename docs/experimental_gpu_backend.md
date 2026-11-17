@@ -1539,3 +1539,61 @@ verified current TESS products, original/JAX CPU and four-process CPU baselines,
 preliminary ellc fits and their failed finite refinement checks. Their new
 standalone CPU benchmark does not initialize CUDA. No real-data GPU, physical
 fit qualification, converged-chain or ESS/sec result is inferred from them.
+
+
+## Batched resident field geometry (m018)
+
+`BatchedRocheGeometry(component, device="cpu"|"gpu")` accepts `[q, spin, Phi]`
+rows and shared or changed per-row rays/triangles. `sample(..., compact=True)`
+returns points/normals/dA-dOmega/validity; the rich result retains residuals and
+explicit status masks. `areas(..., order=2|3|4)` returns patch areas/reductions.
+All remain resident until explicitly consumed/downloaded. `checked_host` raises
+on an invalid row. A root/domain/resource failure is never a prior rejection.
+FP64 and the original circular detached/unspotted/nonpulsating inner-branch
+q[.5,2],spin[.5,1.5],radius[1e-6,.25] domain remain mandatory. The cap is total
+padded quadrature nodes across proposals<=2097152, not per proposal or peak memory.
+
+```python
+from elisa.experimental.gpu_curved_edges import CurvedEdgeRule, InferenceBudget
+from elisa.experimental.gpu_resident_geometry import ResidentGeometryLightCurve
+
+engine = ResidentGeometryLightCurve(
+    ["Generic.Bessell.V", "bolometric"], CurvedEdgeRule(4, 1),
+    levels=(1, 2), integration_level=2, device="gpu",
+)
+batch = engine.batch(binaries, phase_arrays, source_revision=asset_revision,
+                     observer=observer)
+# Each result contains complete host curves for both finite field levels.
+# Before accepting a likelihood, apply the unchanged InferenceBudget to both
+# curves using actual observation reducers, mean normalization, errors and data.
+```
+
+Only run GPU examples inside an authorized registered bounded allocation.
+`max_resident_faces` (default524288) declares the full-field state wave budget,
+1..2097152; an oversized single candidate raises before allocation. Shape groups
+preserve actual fresh topology; all proposals run, without frozen mesh, cached
+prediction or silent coarsening. Field levels0..3/max40000faces per component,
+phase<=128,band<=8 and existing boundary/node guards stay active. The model is
+finite curved-cell physics from m017; the independent `device="reference"`
+path keeps the original CPU primitives, not the original faceted whole model.
+
+One compiled graph consumes field geometry directly into SI gravity and thermal
+state. Existing tiled irradiation and fresh device BB remain connected. Original
+CPU angular topology/nested vertices, observer geometry/shadow/adaptation/clipping,
+ancestry, hashing and LD/table bridges remain explicit, including necessary host
+state copies. CK04 radiance stays CPU. This is a hybrid. The batch timer encloses
+all planning, transfers, synchronization, complete synthesis and host outputs;
+per-row timers exclude shared field preparation. Single `__call__` replaces its
+stage total with the full enclosing singleton batch total.
+
+Reproduce controls with `test_batched_geometry.py`, `test_resident_geometry.py`
+and `ELISA_GEOMETRY_TEST_DEVICE=gpu` inside the allocation (missing GPU fails;
+no skips). `benchmark_batched_geometry.py` retains original serial CPU,
+vectorized NumPy and selected JAX CPU/GPU outputs, changing physical/ray inputs,
+first calls, ten warm repetitions, nested timers and memory accounting.
+`validate_gpu_resident_geometry.py --backend reference|cpu|gpu --batch 1|4`
+retains every complete original-mapped prediction and density with strict accuracy
+controls. `--jd` tests original time mapping. These are two-field comparison
+batches, not qualified ordinary MCMC likelihoods. All CPU/default fitters and
+explicit full-CPU fallback routes remain unchanged. See the current progress
+report and hardware ledger for measured limitations and reproducible commands.
