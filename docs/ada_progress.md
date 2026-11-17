@@ -199,3 +199,7 @@ Changed physical parameters must never reuse stale coverage or brightness.
 - [GPU wavelength-chunk sweep](ada_validation/window-05-chunk-tuning-gpu.json).
 
 Raw machine-local supervision/checkpoint evidence is preserved in the isolated Ada workspace; public evidence omits process/environment snapshots. The existing `experimental/gpu-backend` benchmark branch remains untouched.
+
+## Continuing background assignment
+
+Background handoff prepared **2026-11-17T03:41:23.890646+00:00**. Paul has assigned completion and scientific validation of the light-curve pipeline, followed by a fitting/MCMC assessment. See the [authorized assignment, milestones and safety rules](ada_background_handoff.md). A detached Codex supervisor is being launched; runtime qualification will be recorded here after verification. The physics results above remain the last validated baseline. DOT can follow this report and the same development branch for each tested, pushed milestone.
