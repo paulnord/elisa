@@ -1597,3 +1597,50 @@ controls. `--jd` tests original time mapping. These are two-field comparison
 batches, not qualified ordinary MCMC likelihoods. All CPU/default fitters and
 explicit full-CPU fallback routes remain unchanged. See the current progress
 report and hardware ledger for measured limitations and reproducible commands.
+
+
+## Guarded observer device path (m019)
+
+`ObserverGeometryBackend(device="cpu"|"gpu")` binds each actual binary/component,
+with reusable compiled shape buckets and fresh physical parameters/LOS. Pure
+shadow kernels support(B,N,3)points,(B,3)parameters and(B,3)LOS rows. The complete
+adapter still runs candidate/phase CPU controllers. `ObserverDeviceLightCurve`
+extends m018's full pipeline without changing its physical finite model:
+
+```python
+from elisa.experimental.gpu_observer_edges import ObserverDeviceLightCurve
+from elisa.experimental.gpu_curved_edges import CurvedEdgeRule
+engine = ObserverDeviceLightCurve(
+    ["Generic.Bessell.V", "bolometric"], CurvedEdgeRule(3, 1),
+    levels=(0, 1), integration_level=1, device="gpu",
+)
+batch = engine.batch(binaries, phase_arrays, source_revision=asset_revision,
+                     observer=observer)
+# Apply InferenceBudget to actual observation mapping before accepting inference.
+```
+
+GPU calls require an authorized registered bounded allocation on Ada. Reference
+mode retains original CPU finite observer/field primitives. Device mode ports
+80-step rays (unroll8),12-step conditioned stationary shadows and nested edge
+prefixes. CPU topology/clipping/cone/singular guards, the last8root decisions,
+final bracket checks and counted precision-seam replays remain.128eps is a
+trigger to recompute in original arithmetic, not an integration tolerance or a
+permission to drop measure.64eps stationary,3e-13implementation gates and all
+physical/resource/FP64 caps remain unchanged. Unsupported cases abort outside
+priors; original full-CPU fallback routes remain unchanged.
+
+`last_observer_stats` records node/padding/work counts and enclosing sample/root
+costs, including CPU tails/replays. The inherited CPU-named observer timer spans
+mixed device/CPU work in this path. The curated report renames it to avoid CPU
+attribution; do not reuse m018CPU-fraction estimates after this port. Packet
+bytes can differ; strict adaptive traces and full flux/likelihood gates remain.
+
+Controls: `test_observer_geometry.py`, plus affected batched/resident/curved/
+shared-field regressions. Set`ELISA_GEOMETRY_TEST_DEVICE=gpu` in the protected
+unit; missing GPU fails rather than skips. `benchmark_gpu_shadows.py` compares
+original serial CPU, vectorized NumPy and JAX CPU/GPU with changing physical rows
+and points, ten warm repeats and matched outputs. `validate_gpu_observer.py`
+measures complete original-mapped likelihood batches; `--levels 2 3
+--integration-level 3`keeps finer field diagnostics explicit, and `--jd`checks
+original time mapping. Numerical fitting/MCMC qualification remains blocked by
+the existing1e-4finite field/boundary checks, separately from implementation parity.

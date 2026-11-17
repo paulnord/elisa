@@ -1,9 +1,105 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T18:18:36.683986+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T19:26:12.598224+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues. Fifth42 is intentionally held for ELISa.**
 
-## Latest milestone: batched resident Roche geometry in complete curves
+## Latest milestone: device observer geometry and guarded eclipse roots
+
+`ObserverDeviceLightCurve` now composes fresh device observer rays, normals,
+curved Jacobians and conditioned silhouette solves into complete reflected
+curves and original mapped physical likelihoods. Nested limb/shadow edge
+prefixes run on device; the original CPU topology, clipping and guarded final
+bisection decisions remain explicit. **144 hardware controls pass without skips.**
+CPU validation passes 124 with 20 explicit GPU skips. Another 472 unaffected
+hardware controls are retained: 616 additive cases, not a fresh 616-case suite.
+Original CPU/default synthesis and priors retain their behavior.
+
+This is a substantive hybrid port, **not an all-GPU observer or qualified MCMC
+backend**. Internal rays retain 80 bounded radial bisections, now optionally
+unrolled 8 at a time; the default remains unroll 1. The shadow uses the original
+12 Newton updates and 64 eps stationary gate in conditioned star-local coordinates.
+Shape-bucketed node batches avoid recompilation at every adaptive leaf count.
+The pure kernels also support changing physical-row/LOS batches; the complete
+CPU controller still visits each candidate/phase. Proposal field geometry and
+thermal state remain resident from m018.
+
+The original finite protocol is especially sensitive at exact seams. CPU
+arithmetic resolves near-zero limbs and inscribed/outer shadow branch seams.
+The last 8 edge/slice decisions remain CPU, and any precision-ambiguous device
+prefix or disagreeing final CPU bracket is replayed in original arithmetic.
+These are counted work/transfer boundaries, never discarded patches, prior cuts
+or cached predictions. The original positive-weight, cone, topology, singular
+source, physical-domain and resource guards remain active. CPU development
+caught a potential-sign transcription and two branch/zero-plateau cases; all
+were resolved before hardware acceptance without changing an oracle or tolerance.
+
+### Complete curves, likelihoods and costs
+
+Six representative cases retain partial/total eclipse, unequal masses/spins,
+three LD laws, CK04 tables and a tiny occultor. Both stars' fields, component,
+raw and normalized curves pass. The full original adaptive traces match,
+including the maximum slice shift. Final packet byte hashes may differ under
+device arithmetic; the independent gates remain 3e-13 relative/zero raw/component
+absolute allowance and 3e-13/2e-12 normalized. Maximum complete normalized curve or
+prediction difference is **7.77156e-16**; maximum posterior difference is
+**1.70985e-09**, under the unchanged 1e-6 absolute density gate.
+
+Every complete batch changes q, potential, temperatures, inclination, l3 and ln_f and
+uses original phase/JD mapping, uneven/repeated observations, normalization,
+noise, prior and density. Both paths compute the same two finite field curves
+per candidate and return all host comparison outputs. No fixed physical
+prediction is reused. Enclosing timers include planning, CPU bridges, transfers,
+synchronization, host outputs and accuracy checks. Constructor and fixed setup
+are separate; first calls include encountered compilation and changed warm calls
+may encounter new bucket shapes. One/two warm samples per complete shape are
+preliminary ranges, not stable-tail or MCMC-throughput estimates.
+
+| Complete comparison batch | Original CPU cold / warm | JAX CPU cold / warm | GPU cold / warm |
+| --- | --- | --- | --- |
+| 1 proposal | 10.731 / 10.520–10.541 s | 48.524 / 20.751–22.251 s | 35.967 / 7.500–9.045 s |
+| 4 proposals | 42.357 / 42.452–42.452 s | 112.445 / 85.519–85.519 s | 60.224 / 32.259–32.259 s |
+| 8 proposals | 84.045 / 84.077–84.077 s | not measured | 92.765 / 59.513–59.513 s |
+
+Warm median original-CPU/GPU ratios are **1.273× / 1.316× /
+1.413×** for B1/B4/B8 respectively. These are finite comparison-batch
+costs, not a complete scientific-analysis or single-model sampler speedup. Cold
+setup/compilation can erase a warm gain. JAX CPU is retained as its own measured
+baseline, not assumed faster. Repeated independent CPU/GPU processes record
+order/cache drift. Current baselines are serial; earlier V505 multiprocess CPU
+evidence remains a separate model/contract.
+
+### Finer controls, hardware and continued work
+
+The additional field 2→3/common 3 comparison recomputes full original/GPU densities.
+Its nominal accumulated log-likelihood enclosures span **0.955841–1.01537**.
+The strict nominal D<=.1 and logL<=.01 guards remain independent of ln_f.
+**1e-4 physical fitting/MCMC remains unqualified.** A numerical accuracy stop
+remains outside prior penalties. Implementation parity is separate from finite
+convergence, uncomputed continuum error and observational model adequacy.
+No converged chain, posterior stability or ESS/sec result is claimed.
+
+The [hardware ledger](hardware_characterization.md) adds active-load context,
+original/vectorized NumPy/JAX CPU/GPU silhouette sweeps through B128 × 2048 nodes,
+compiler/allocator versus sampled memory, and a focused complete-call CUDA/NVTX/
+OSRT graph-node trace with an independent unprofiled run. The inherited timer
+formerly called CPU geometry is **mixed CPU/GPU** here; m018's 97.8% CPU fraction
+no longer describes this path. Copy duration, dispatch, synchronization and
+unassigned gaps are not DRAM bandwidth or achieved FP64. Missing counter and
+critical-path attribution are labeled; no new-processor speedup is predicted.
+
+A pinned Colab handoff follows this scientific code commit, retaining actual
+hardware identification, original/JAX CPU/GPU complete costs, dependency/source
+checks, parity and accuracy stops, and downloadable evidence. Actual Colab
+execution is pending until a real run is available; 10× is an aspiration to test.
+
+All 24 bounded units preserved the exact active Fifth42 checkpoint hold. Nothing
+was resumed or merged. Next: fuse the numerous device root/launch steps and
+continue field/boundary convergence before qualified physical inference/MCMC.
+
+[Curated samples/report](ada_validation/background-m019.json),
+[source manifest](ada_validation/background-m019-source-hashes.json).
+
+## Previous milestone: batched resident Roche geometry in complete curves
 
 `BatchedRocheGeometry` now solves fresh changing-parameter Roche roots, gradients,
 normals, curved Jacobians and Duffy areas on the GPU. `ResidentGeometryLightCurve`

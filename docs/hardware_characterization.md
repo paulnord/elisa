@@ -1,5 +1,109 @@
 # Ada workload and hardware characterization
 
+## Current snapshot: m019 observer port
+
+The [m019 ledger](ada_validation/background-m019.json) extends the preceding
+measurements below. 144 hardware controls pass without skips; complete changing-
+physics comparisons include B1/B4 (original CPU/JAX CPU/GPU) and B8 (original CPU/GPU),
+original JD mapping, independent repeat processes, finer field 2→3 controls and a
+complete-call CUDA/NVTX/OSRT graph-node trace. Ten changing warm silhouette
+samples per shape retain original serial CPU, vectorized NumPy and JAX baselines.
+
+**The inherited observer interval is now mixed CPU/GPU work.** Its old CPU-named
+key is renamed in the curated report. Do not reuse m018's 97.8% CPU fraction or its
+conditional ceiling after this port. CPU clipping/topology, last 8 edge decisions,
+precision seams and full original replays remain counted. Device rays/shadows
+and root prefixes transfer real fresh inputs and return required host state.
+
+### Complete-call timeline
+
+The single profiled changed warm B1 call spans **9.6144 s**, with
+**260556 kernel events**, **12681 copy events**,
+**1.01386 s kernel union**, **0.0697093 s copy union**, and
+**1.08455 s union of recorded device activity**. CPU work/dispatch/waits/gaps
+in the remaining span are not separately attributed. Per-range unions account
+for overlap; API waits overlap device work and must not be added. Cold and warm
+ranges and operation classes are retained. This experiment has profiler overhead;
+the independent unprofiled repeat is the timing control.
+
+Removing every recorded copy nanosecond, optimistically treating it all as
+critical-path time, gives only **1.0073×**
+for this captured range. That is not a 2×/4× interconnect bandwidth prediction:
+copy latency/staging/dispatch and critical overlap are not isolated. Numerous
+nested root/launch operations are directly observed; their hardware bandwidth,
+FP64 execution and launch-latency fractions remain unknown without further
+attribution/counters. Kernel count alone is not proof of a launch bottleneck.
+
+The same warm range also marks original CPU boundary-field evaluations:
+**5.38756 s**, with
+**0 s** overlap with recorded device
+activity. Their serialized fraction is **56.036%**.
+Keeping all other work fixed, 2×/4× acceleration of this measured CPU subset gives
+**1.3892× /
+1.7249×**; eliminating it entirely
+has a **2.2746×** ceiling.
+These are conditional stage scenarios, not predictions for a particular CPU.
+Other host work and launch/gap fractions remain unassigned, and the profiled run
+is not the official throughput timing.
+
+### Conditioned silhouette stages
+
+Each row below is B128 × 2048 points, with ten changed warm physical batches and
+matching opacity/margin outputs. Input placement, synchronization, required
+host output and validation are counted. Reported compiler outputs also include
+resident status/residual fields. The scientific host arrays are 9 bytes/node;
+GPU validity validation adds 1 byte/node of required host transfer. Allocator/
+compiler accounting is distinct from actual DRAM traffic and sampled device
+high-water memory.
+
+| Component | Original serial CPU | Vectorized NumPy | JAX CPU | GPU |
+| --- | --- | --- | --- | --- |
+| primary | 484.1924 ms | 585.1443 ms | 104.8459 ms | 8.4857 ms |
+| secondary | 458.7723 ms | 560.1420 ms | 112.2512 ms | 8.3287 ms |
+
+Original and vectorized NumPy keep the original trig potential and12 Newton
+updates; JAX CPU/GPU keep those stationary equations and12 updates with Cartesian
+potential. Baseline ordering alternates per repeat; source/input hashes and
+individual samples retain the distinction between vectorization/algorithm and
+hardware. These are silhouette stages, not whole-analysis gains.
+
+Active-load PCIe/clock/power/temperature/utilization and sampled memory ranges
+are retained for every new bounded unit. CPU affinity/nice settings and one-
+thread BLAS/OMP/MKL/NumExpr environment match the preceding policy; actual
+JAX/XLA pool size is unmeasured. This shared machine is not an exclusive or
+thermally controlled benchmark. All original CPU baselines inside units share
+their unit's affinity. B8 JAX CPU and a tuned multiprocessing baseline were not
+measured for this model; prior V505 multiprocess results stay separate.
+
+### Conditional next technologies
+
+A faster host link has no demonstrated tenfold complete-path opportunity in
+these measured calls. More VRAM did not remove a measured capacity bottleneck.
+DRAM bytes/read-write bandwidth, L2, occupancy/stalls and achieved FP64 counters remain
+unavailable; no quantitative DRAM/FP64hardware scaling fraction is assigned.
+Coherent CPU-GPU memory still carries access/dispatch/synchronization costs;
+GPU-GPU NVLink is not automatically a CPU-GPU link. Stronger FP64, bandwidth,
+cache, CPU throughput and memory capacity are distinct hypotheses. The immediate
+software experiment is to fuse nested root/launch work and reduce remaining CPU
+bridges, then repeat the whole-path measurements with unchanged scientific gates.
+
+Reproduce in separately registered bounded Ada units:
+
+```sh
+python scripts/benchmark_gpu_shadows.py --device gpu --component primary --verified-bounded-gpu-window --output shadow.json
+python scripts/validate_gpu_observer.py --backend gpu --batch 4 --repeats 1 --verified-bounded-gpu-window --output complete.json
+python scripts/validate_gpu_observer.py --backend gpu --batch 1 --levels 2 3 --integration-level 3 --repeats 1 --verified-bounded-gpu-window --output refined.json
+```
+
+Replace GPU with reference/cpu as appropriate and preserve both input/output
+contracts. For full NVTX ranges, wrap `validate_gpu_observer.evaluate` with the
+same push/pop instrumentation shown below and use `--cuda-graph-trace=node`.
+Compare traces and full raw/component/normalized curves and original posteriors
+before interpreting timings. The strict1e-4likelihood budget still prevents
+physical fit/MCMC qualification; no ESS or Colab tenfold-analysis claim follows.
+
+## Preceding snapshot: m018 field geometry
+
 This ledger separates tested implementation parity, numerical convergence and
 observational/model adequacy. [m018 samples and provenance](ada_validation/background-m018.json)
 retain source/input identities, individual timings, first calls, stage timers,

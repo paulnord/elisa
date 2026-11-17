@@ -150,6 +150,7 @@ class SharedFieldLightCurve:
     """
 
     _packet = staticmethod(boundary_packet)
+    _geometry = staticmethod(ConditionedRocheGeometry)
 
     def __init__(self, passbands: list[str], rule: BoundaryRule, variants: tuple[FieldVariant, ...], *,
                  integration_level: int = 2, device: str = "gpu", radiance: str = "device") -> None:
@@ -202,7 +203,7 @@ class SharedFieldLightCurve:
             msg = "Shared observer passbands/order must match"
             raise ValueError(msg)
         supplied._system = model
-        geometry = {n: ConditionedRocheGeometry(model, n) for n in _NAMES}
+        geometry = {n: self._geometry(model, n) for n in _NAMES}
         common, triangles, fields, maps, controls = self._prepare(model, supplied)
         fields_done = perf_counter()
         signature = hashlib.sha256(json.dumps({

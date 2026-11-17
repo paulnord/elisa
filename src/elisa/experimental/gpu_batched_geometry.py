@@ -40,12 +40,16 @@ class BatchedRocheGeometry:
     The node cap is a workload cap, not a complete GPU memory bound.
     """
 
-    def __init__(self, component: str, *, device: str = "gpu", max_nodes: int = MAX_NODES) -> None:
+    def __init__(self, component: str, *, device: str = "gpu", max_nodes: int = MAX_NODES,
+                 root_unroll: int = 1) -> None:
         if component not in ("primary", "secondary"):
             msg = "component must be primary or secondary"
             raise ValueError(msg)
         if isinstance(max_nodes, bool) or not isinstance(max_nodes, int) or not 1 <= max_nodes <= MAX_NODES:
             msg = "max_nodes must be an integer in [1,2097152]"
+            raise ValueError(msg)
+        if isinstance(root_unroll, bool) or not isinstance(root_unroll, int) or root_unroll not in (1, 2, 4, 8):
+            msg = "root_unroll must be1,2,4or8; mathematical iteration count remains80"
             raise ValueError(msg)
         self.component, self.max_nodes = component, max_nodes
         self.jax, self.jnp, self.device = _jax_device(device)
@@ -100,7 +104,7 @@ class BatchedRocheGeometry:
                 above = potential(mid) > target
                 return jnp.where(above, mid, lo), jnp.where(above, hi, mid)
 
-            low, high = jax.lax.fori_loop(0, ROOT_ITERATIONS, bisect, (low, high))
+            low, high = jax.lax.fori_loop(0, ROOT_ITERATIONS, bisect, (low, high), unroll=root_unroll)
             radius = low + 0.5 * (high - low)
             residual = potential(radius) - target
             local = radius[..., None] * direction

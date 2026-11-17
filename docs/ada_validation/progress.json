@@ -1,36 +1,65 @@
 {
-  "updated_utc": "2026-11-17T18:18:36.683986+00:00",
+  "updated_utc": "2026-11-17T19:26:12.598224+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "1dae177709394f097bc9c7691c6d55f65710f277e94c5f93b50e4a0ffef0358a",
-  "code_state_hash_method": "SHA256 of background-m018-source-hashes.json parsed as compact sorted-key JSON",
-  "stage": "m018 batched resident Roche geometry in complete curves",
+  "code_state_sha256": "a579fc2616e47d03d3b48d4d91666289122e431381208e5d33a686fc861ba9f5",
+  "code_state_hash_method": "SHA256 of background-m019-source-hashes.json parsed as compact sorted-key JSON",
+  "stage": "m019 device observer geometry and guarded eclipse roots",
   "last_gpu_suite": {
-    "tests": 36,
+    "tests": 144,
+    "passed": 144,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
     "suites": [
       {
-        "tests": 27,
+        "tests": 43,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
-        "seconds": 15.262
-      },
-      {
-        "tests": 6,
-        "failures": 0,
-        "errors": 0,
-        "skipped": 0,
-        "seconds": 62.995
+        "seconds": 19.399
       },
       {
         "tests": 3,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
-        "seconds": 122.062
+        "seconds": 81.547
+      },
+      {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 67.775
+      },
+      {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 55.16
+      },
+      {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 187.154
+      },
+      {
+        "tests": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 127.095
+      },
+      {
+        "tests": 57,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 180.675
       }
     ]
   },
@@ -41,13 +70,12 @@
     "errors": 0,
     "skipped": 47
   },
-  "benchmark_status": "Geometry batch gains measured separately from complete costs; no full-likelihood gain or1e-4fit/MCMC/ESSqualification.",
+  "benchmark_status": "Matched complete physical batches and shadow/timeline evidence retained. No10xColab,1e-4physicalfit/MCMC/ESSqualification.",
   "production": {
     "current_state": "paused_for_elisa",
-    "hold_id": "elisa-continuous-20261117",
     "checkpoint_sha256": "d7fa2a84ea3124343a8a912296ff18e45a354b1c5e0552ea605c474b45e7b7c1",
     "held_durable_native_cells": 1343006263,
-    "source_config_plan_service_and_last_receipt_witness_endpoints_verified": true,
+    "source_config_plan_service_and_receipt_witness_endpoints_verified": true,
     "full_historical_reaudit": false,
     "resume_requested": false
   },
@@ -1756,6 +1784,174 @@
       "production_policy": "paused_for_elisa",
       "successful_owned_unit_and_cleanup_verified": true,
       "command_seconds": 16.07779600599315
+    },
+    {
+      "window": 113,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 22.222322733025067
+    },
+    {
+      "window": 114,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 84.68952385208104
+    },
+    {
+      "window": 115,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 70.8240421769442
+    },
+    {
+      "window": 116,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 58.259704806958325
+    },
+    {
+      "window": 117,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 190.0925873760134
+    },
+    {
+      "window": 118,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 129.8018973248545
+    },
+    {
+      "window": 119,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 183.30861282604747
+    },
+    {
+      "window": 120,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 34.264765853993595
+    },
+    {
+      "window": 121,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 95.53662623593118
+    },
+    {
+      "window": 122,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 56.339231843012385
+    },
+    {
+      "window": 123,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 87.27719916810747
+    },
+    {
+      "window": 124,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 201.96420789696276
+    },
+    {
+      "window": 125,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 96.31930920504965
+    },
+    {
+      "window": 126,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 24.72244994598441
+    },
+    {
+      "window": 127,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 23.623363432008773
+    },
+    {
+      "window": 128,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 69.49990465806331
+    },
+    {
+      "window": 129,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 94.44061999989208
+    },
+    {
+      "window": 130,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 48.625847424031235
+    },
+    {
+      "window": 131,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 23.70181812904775
+    },
+    {
+      "window": 132,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 87.64018438500352
+    },
+    {
+      "window": 133,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 56.18834333703853
+    },
+    {
+      "window": 134,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 34.21448834380135
+    },
+    {
+      "window": 135,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 170.7592876580311
+    },
+    {
+      "window": 136,
+      "successful_owned_unit_and_cleanup_verified": true,
+      "production_policy": "paused_for_elisa",
+      "checkpoint_unchanged": true,
+      "command_seconds": 156.14085867686663
     }
   ],
   "hardware": {
@@ -1766,7 +1962,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Fresh [q,spin,Phi] rows and changed per-row rays/triangles; Cartesian original Roche potential,80 bounded bisections and original32eps endpoint/residual/inner-branch gates. Original CPU56bisection trigonometric oracle retained independently. FP64 only. Resident roots/gradients/normals/dA-dOmega/Duffy4 areas/gravity/thermal graph. Shape groups and explicit bounded waves; no prediction cache. Existing CPU topology/observer clipping/LD and candidate-specific reflection/radiance remain measured.",
+  "scope": "Fresh device observer rays/normals/Jacobians, original12-step conditioned shadow Newton equations/64eps gate, and compiled nested edge prefixes. Internal radial80bisections use unroll8 without changing iteration count. Shape-bucketed node batches; full adapter still serializes phase/candidate CPU controllers. Device field geometry remains resident across proposal groups from m018.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -1779,7 +1975,7 @@
     "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
-  "current_milestone_report": "background-m018.json",
+  "current_milestone_report": "background-m019.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
@@ -1960,24 +2156,32 @@
     "skipped": 8
   },
   "current_full_cpu_suite": {
-    "tests": 36,
+    "tests": 144,
+    "passed": 124,
     "failures": 0,
     "errors": 0,
-    "skipped": 0,
+    "skipped": 20,
     "suites": [
       {
-        "tests": 27,
+        "tests": 18,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
-        "seconds": 12.613
+        "seconds": 251.013
       },
       {
-        "tests": 9,
+        "tests": 6,
         "failures": 0,
         "errors": 0,
         "skipped": 0,
-        "seconds": 208.481
+        "seconds": 2.554
+      },
+      {
+        "tests": 120,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 20,
+        "seconds": 427.726
       }
     ]
   },
@@ -2105,9 +2309,9 @@
     "current_milestone_report": "background-m012.json"
   },
   "current_test_coverage": {
-    "fresh": 36,
-    "retained_byte_identical": 556,
-    "additive_total": 592,
+    "fresh": 144,
+    "retained_unaffected": 472,
+    "additive_total": 616,
     "not_a_fresh_full_suite": true
   },
   "previous_curved_surface_milestone": {
@@ -2189,5 +2393,39 @@
       }
     },
     "current_milestone_report": "background-m017.json"
+  },
+  "previous_resident_geometry_milestone": {
+    "stage": "m018 batched resident Roche geometry in complete curves",
+    "code_state_sha256": "1dae177709394f097bc9c7691c6d55f65710f277e94c5f93b50e4a0ffef0358a",
+    "last_gpu_suite": {
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "suites": [
+        {
+          "tests": 27,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "seconds": 15.262
+        },
+        {
+          "tests": 6,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "seconds": 62.995
+        },
+        {
+          "tests": 3,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "seconds": 122.062
+        }
+      ]
+    },
+    "current_milestone_report": "background-m018.json"
   }
 }
