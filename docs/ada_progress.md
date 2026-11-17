@@ -1,9 +1,202 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T14:57:52.587699+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T16:03:54.249012+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: shared quadrature isolates field and correction errors
+## Latest milestone: curvature-consistent fields and reflected comparison curves
+
+`CurvatureFieldLightCurve` now uses actual Roche cell centres, point normals and
+SI gravity, curved cell areas and area-consistent thermal normalization through
+full mutual irradiation and fresh radiance. Complete reflected curves and original
+physical likelihood callbacks pass CPU/GPU implementation checks. All **29 new
+hardware tests passed without skips**; CPU validation passed 21 with eight GPU
+skips. The preceding 500 hardware controls remain under byte-identical 619
+baseline files: **529 cases of additive coverage**, not a fresh 529-case suite.
+Original CPU/default engines, kernels, fitters and fallback routes are unchanged.
+
+**Finite field-refinement distances now pass the 1e-4 diagnostic for these
+fixtures. Accumulated likelihood errors still prevent physical-fit/MCMC
+qualification.** Field2→3 changes the original observation log likelihood by
+0.18–1.33; finer eclipse boundaries change it by about 17–25. A passing
+finite distance gate does not establish a converged posterior or negligible bias.
+
+### One geometry for finite fields and donor coupling
+
+Each cell's collocation ray is the normalized mean of its angular corner rays.
+Original-potential CPU radial roots put its centre on the actual Roche surface;
+point normals and gravity use the original analytic gradient there. Order-4
+Duffy quadrature integrates actual curved area over each parent patch. Evaluate
+the original base quarter, then mirror it exactly. No scalar mesh correction is
+applied. G*M_primary/a² scales both components, matching the original force
+convention, including q in the secondary's dimensionless gradient.
+
+The original unspotted gravity-darkening and renormalization formulas now use
+these curved areas. Device point-gravity and thermal kernels retain fresh arrays
+into the existing tiled full-donor reflection and blackbody emission. Original
+cooler-first iteration, bolometric LD prefix and visibility conventions remain.
+CK04 explicitly uses original CPU radiance/LD interpolation and unsupported-case
+semantics. This is finite collocation irradiation, not a continuous illumination
+solution or proof of reflected energy balance.
+
+All requested field levels share the **same actual clipped quadrature packets**
+within each fresh candidate batch, with checked angular ancestry. Independent
+reference and GPU packet digests and adaptive traces match exactly. Fields remain
+constant in their angular cells; roots, areas, ancestry, clipping and original
+LD/table preparation remain CPU bridges. No cross-candidate physical cache is
+used. Levels 0–3, 1–4 unique field levels and common level max(field levels)..3
+are subject to the existing 40000-face/component and boundary/node/resource
+guards. Unsupported/resource errors abort outside prior penalties; they never
+silently coarsen or change physical priors. Existing broader CPU routes remain.
+
+The independent reference applies **unchanged original CPU equations to this new
+geometry**. It is a different finite numerical method from original faceted
+whole-curve synthesis. A same-packet comparison with the preceding original
+field2/correction2 model gives actual D=0.104319 and
+nominal enclosure D=0.12261; its accuracy
+preflight aborts. This is a recorded method difference, not implementation parity.
+
+### Independent controls and complete-curve accuracy
+
+The new tests check original per-face gravity/thermal/reflection/radiance,
+independent angular-32 Brent-root areas, actual equipotential residuals, SI force
+scaling, intrinsic curved-measure luminosity closure, uniform β=0/no-reflection
+cell-level independence, and exact intrinsic preservation at zero albedo. They
+cover partial/total/non-eclipsing, unequal q/spin, logarithmic/square-root LD,
+CK04 and a small occultor. Changed physics/response/source, disabled FP64,
+capacity/unsupported semantics and unchanged original CPU before/after controls pass.
+
+Across complete-curve profiles, maximum normalized/raw/component-relative
+implementation differences are **6.66134e-16 /
+1.24077e-24 W/m² /
+1.3411e-15**. Existing gates remain
+3e-13 relative with zero absolute tolerance for raw/component flux and
+3e-13/2e-12 for normalized curves. Maximum intrinsic luminosity-ratio error is
+5.55112e-16; maximum cell-centre relative
+potential residual is 1.55431e-14.
+Intrinsic closure is not reflected-energy closure.
+
+The partial fixture uses 57 contact-focused phases and V/bolometric bands.
+Other complete curves retain their actual contact samples in the report.
+Actual D uses sigma=1e-4 with original ln_f=-2 effective noise. Qualification
+retains **nominal sigma independently of ln_f** and the unchanged conservative
+component enclosure D<=0.1. This is a finite diagnostic, not a universal
+astronomical accuracy standard.
+
+| Case | Field levels | Common level/depth | Actual D | Nominal component enclosure D |
+| --- | --- | --- | --- | --- |
+| partial_bb | 1→2 | 2/3 | 0.030739 | 0.0448764 |
+| partial_bb | 2→3 | 3/2 | 0.00809795 | 0.0113973 |
+| partial_bb | 1→2 | 2/4 | 0.0307391 | 0.0448764 |
+| total_bb | 1→2 | 2/3 | 0.0351376 | 0.0483436 |
+| partial_ck04 | 1→2 | 2/3 | 0.00555745 | 0.00574601 |
+| small_occultor | 1→2 | 2/3 | 0.0653274 | 0.0664051 |
+
+All listed field controls pass. Partial field1→2 is stable under boundary
+depth3→4. Independent fixed-field integration controls also pass:
+
+| Fixed field | Integration change | Actual D | Nominal enclosure D |
+| --- | --- | --- | --- |
+| curvature_field2 | level2/depth3→level3/depth2 | 1.458e-05 | 1.55872e-05 |
+| curvature_field1 | depth3→4 | 0.0314724 | 0.0321253 |
+| curvature_field2 | depth3→4 | 0.0314724 | 0.0321253 |
+
+These comparisons do not bound uncomputed finer field/boundary limits. Straight
+leaf chords and empirical topology probes remain. Neither total curved area nor
+finite adjacent-level agreement certifies every local field or hidden contour.
+
+### Original observation likelihoods and matched costs
+
+Fresh base/changed/JD proposals retain original physical serializers,
+constraints/priors, phase/JD conversion, reducers/repeats, third light, mean
+normalization and noise/density. Maximum mapped prediction/posterior differences
+are **6.66134e-16 /
+1.30967e-09**, within the unchanged 1e-6 density
+gate. Out-of-prior vectors still return original -inf before synthesis. Numerical
+accuracy failures stay outside candidate penalties, including nuisance-noise
+inflation.
+
+Each proposal's level2/3 fields use common level3 at depths2 and3, in **separate
+independently restored windows**. The fine preflight checks source/proposal and
+physical/phase signatures against the saved complete coarse curve. The coarse
+control explicitly omits its own boundary qualification. Both sets of callback
+costs and study walls count. Fine-field and boundary likelihood controls retain
+the data-dependent residual cross term in |delta logL|<=sum(|r|E+E²/2):
+
+| Proposal | Finite control | Nominal enclosure D | Actual delta logL | Absolute logL enclosure | Distance preflight |
+| --- | --- | --- | --- | --- | --- |
+| base | field2→3 | 0.00478513 | 1.32718 | 2.6776 | pass finite pair |
+| base | boundary depth2→3 | 0.0283042 | 17.037 | 18.2145 | pass finite pair |
+| changed | field2→3 | 0.00357479 | 0.181135 | 2.46928 | pass finite pair |
+| changed | boundary depth2→3 | 0.0314852 | 25.2411 | 27.0756 | pass finite pair |
+| jd | field2→3 | 0.00478513 | 1.32718 | 2.6776 | pass finite pair |
+| jd | boundary depth2→3 | 0.0283042 | 17.037 | 18.2145 | pass finite pair |
+
+The remaining likelihood changes are material even though these finite distance
+preflights pass. No curvature-field fitting/sampler backend is automatically
+registered; no optimized fit, parameter-bias recovery, chain convergence or
+ESS/sec claim follows. Synthetic controls establish neither observational nor
+physical-model adequacy. Real-data and JAX CPU whole-analysis assessments remain
+separate work; JAX CPU already executes the new path in the CPU tests.
+
+The matched costs below are **two-field comparison batches**, including
+constructors, all fresh fields, common CPU geometry/clipping/hash, all transfers
+and every raw/normalized/component host curve. Same unit, affinity 0–15, Nice 10,
+one thread, FP64; compilation incurred is included, code/response/shape caches can
+warm. These are single measurements, not distributions or ordinary one-model
+MCMC proposal throughput. Output contracts differ from preceding three-model
+studies, so their timings cannot isolate a hardware gain.
+
+| Case | Field levels; common level/depth | CPU reference batch s | GPU hybrid batch s |
+| --- | --- | --- | --- |
+| partial_bb | 1,2; 2/3 | 43.6038 | 47.6761 |
+| partial_bb | 2,3; 3/2 | 66.2321 | 64.1288 |
+| partial_bb | 1,2; 2/4 | 86.5214 | 95.1956 |
+| total_bb | 1,2; 2/3 | 55.6987 | 61.2063 |
+| partial_ck04 | 1,2; 2/3 | 44.6793 | 48.4713 |
+| small_occultor | 1,2; 2/3 | 50.9719 | 54.8988 |
+
+Both comparison callback timers start before physical serialization/constraints
+and construction, then include original prior, prediction and density. Each
+returns the fine curve through original mapping while computing both field
+models. Same-candidate mapping-only oracles are outside these timers and never
+count as fresh synthesis. The paired control totals are:
+
+| Proposal | Coarse CPU/GPU s | Fine CPU/GPU s | Summed CPU/GPU s | Summed study wall s |
+| --- | --- | --- | --- | --- |
+| base | 47.1415 / 44.2456 | 79.4989 / 77.483 | 126.64 / 121.729 | 248.86 |
+| changed | 46.8144 / 45.7936 | 80.8776 / 77.6324 | 127.692 / 123.426 | 251.606 |
+| jd | 46.347 / 44.031 | 79.3427 / 76.5529 | 125.69 / 120.584 | 246.755 |
+
+Some high-field hybrid measurements are slightly faster than the reference;
+most lower-field batches are slower. Common CPU geometry remains substantial.
+These measurements establish no qualified fitting/MCMC acceleration. Study walls
+start after imports; command walls include Python/import startup and serialization.
+Allocation probes/checkpoint/restoration are separate, and CPU development
+timings are excluded from matched evidence.
+
+### Evidence and continuation
+
+Thirteen independently restored systemd allocations used RuntimeMaxSec=300,
+internal 270s deadlines and unconditional exact-original-service restoration.
+All owned units ended inactive/success. Test command sums ranged from
+87.274 to 184.601s. Pinned source/config/plan, exact original
+command/service, matching resume records and latest receipt/witness/endpoints
+were checked. Durable advances after restoration were **43,008, 40,960, 43,008, 40,960, 43,008, 41,728, 43,008, 40,704, 43,008, 41,984, 45,056, 42,240, 43,008 cells**.
+This is latest-evidence verification, not a historical production re-audit.
+Raw operational records remain private.
+
+Frozen source/data: **622 files**, aggregate SHA256
+`e85c1bd2b5075b7376d9159fea41f7dfb95da01e019926cbe47bd96e6a9febfd`. Three opt-in module/test/driver files
+were added; all 619 baseline source/data files remain byte-identical. See
+[curated report](ada_validation/background-m016.json),
+[source manifest](ada_validation/background-m016-source-hashes.json), and
+[API/reproduction/limits](experimental_gpu_backend.md#curvature-consistent-finite-fields).
+
+Next improve eclipse-boundary integration and control accumulated likelihood
+errors with independent curved-field convergence checks, before qualifying
+1e-4 physical fits/MCMC. All accuracy stops remain active; the assignment continues.
+
+## Previous milestone: shared quadrature isolates field and correction errors
 
 `SharedFieldLightCurve` now synthesizes complete reflected comparison batches
 with **identical clipped quadrature for every field variant**. This removes

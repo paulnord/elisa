@@ -1348,3 +1348,95 @@ boundary preflight and untimed same-candidate mapping oracles add to main wall.
 This does not measure ordinary single-model MCMC throughput, mixing or ESS.
 GPU execution requires the independently restored bounded pattern. See
 [current finite errors, timings and remaining work](ada_progress.md).
+
+## Curvature-consistent finite fields
+
+`CurvatureFieldLightCurve` is a new opt-in numerical model. Every field cell's
+collocation centre lies on the actual Roche equipotential, along the normalized
+mean of its angular corner rays. Cell normals and SI gravity are evaluated at
+that point. Order-4 Duffy quadrature integrates true curved area over the parent
+patch, evaluating the original base quarter and mirroring it exactly. There is
+**no scalar mesh correction**. Original CPU/default engines and fitters remain
+unchanged; this new finite method is not an unchanged original faceted curve.
+
+```python
+from elisa.experimental.boundary_geometry import BoundaryRule
+from elisa.experimental.gpu_curvature_fields import CurvatureFieldLightCurve
+
+engine = CurvatureFieldLightCurve(
+    bands, BoundaryRule(order=3, depth=3), levels=(1, 2),
+    integration_level=2, device="gpu",
+)
+batch = engine(binary, observation_phases, observer=observer,
+               source_revision=assets_sha256)
+coarse = batch.curves["curvature_field1"]
+fine = batch.curves["curvature_field2"]
+```
+
+Intrinsic temperatures use the original gravity-darkening law and original
+unspotted renormalization, now on the curved cell areas. Point gravity uses
+G*M_primary/a² for either component, matching the original force convention.
+The device path composes the existing point-gravity and thermal kernels, retaining
+fresh device arrays through tiled irradiation and blackbody emission. The force
+kernel's repeated selector indices only select point forces; corner averages
+are discarded and those indices never define geometric areas or normals.
+Normals/areas/temperatures sent to irradiation all refer to this same new cell
+geometry. This removes the preceding mixture of curved observer integration
+with scalar-corrected faceted donor areas and cached planar field normals.
+
+The independent reference evaluates original CPU gradient, thermal,
+renormalization, reflection, LD, radiance and element-flux formulas on the new
+geometry. Original full-donor sums, cooler-first iteration order, bolometric LD
+prefix convention and visibility rules are retained. This is a finite
+collocation approximation to irradiation, not a new continuum solution or an
+independent proof of reflected energy balance. CK04 examples explicitly select
+`radiance="cpu"` and preserve original table interpolation/unsupported semantics.
+
+Fields remain constant within angular cells. Multiple requested field levels
+use the same checked common quadrature described above. Original observational
+phase/reducer/repeat, third-light, distance, normalization and noise semantics
+remain. `curved_difference` measures finite field and boundary changes, with
+nominal-noise gates outside candidate penalties. Even a passing distance gate
+does not certify an uncomputed limit or a negligible accumulated log-likelihood
+change. No curvature-field fitter/sampler backend is automatically registered.
+
+Levels 0–3 and 1–4 unique field levels are supported, subject to the original
+40000-face cap for each field/common component. `integration_level` must be at
+least the maximum field level and at most 3. The preceding circular detached
+unspotted/nonpulsating q/spin/radius, band/phase and boundary-node guards remain.
+Resource or unsupported states abort explicitly, without coarsening or prior
+cuts; broader original CPU/fallback routes stay available. Provenance records
+`correction_level=-1` and `curvature_fields=1` to distinguish the method.
+
+Actual roots, curved areas, ancestry, common clipping and original LD/table
+preparation remain CPU bridges. Matched batch/callback costs include them,
+construction, compilation incurred, every fresh field model, all transfers and
+raw/normalized/component host outputs. They are comparison-batch costs, not
+ordinary one-model MCMC proposal throughput. No physical prediction or packet
+is cached across candidates; fixed code/response caches can warm.
+
+Run `test_curvature_fields.py`. Reproduce complete contact curves with
+`scripts/validate_gpu_curvature_fields.py --device cpu --part curves --case partial_bb --levels 1 2 --integration-level 2 --depth 3 --output curves.json`.
+Other cases are `total_bb`, `partial_ck04` and `small_occultor`. Repeat field/common
+levels or boundary depth using `--comparison curves.json`; only common field
+levels are compared when batches differ. `--legacy-comparison` accepts a preceding
+shared-field profile with identical physical/source phases and an identical
+actual quadrature digest, reporting a **method change**, never parity.
+
+For high-resolution original observation callbacks, use separately bounded
+coarse/fine studies so the combined numerical preflight does not extend a GPU
+window:
+
+```text
+python scripts/validate_gpu_curvature_fields.py --device cpu --part observations --proposal base --levels 2 3 --integration-level 3 --depth 2 --no-boundary-preflight --output coarse.json
+python scripts/validate_gpu_curvature_fields.py --device cpu --part observations --proposal base --levels 2 3 --integration-level 3 --depth 3 --boundary-reference coarse.json --output fine.json
+```
+
+Use `changed`/`jd` for the other physical proposals. A coarse control that omits
+its own boundary preflight is not a qualified fit. The paired fine study checks
+source/proposal and original physical/phase signatures, then applies the original
+finite component/likelihood enclosure using the saved complete coarse curve.
+Count **both** study walls and both sets of callbacks; each GPU invocation needs
+its own independently restored allocation. The same-candidate mapping oracle is
+untimed as fresh synthesis. No optimized physical fit, chain convergence or
+ESS/sec claim follows from these diagnostic studies. See [current results](ada_progress.md).
