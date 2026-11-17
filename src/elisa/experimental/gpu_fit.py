@@ -38,7 +38,9 @@ class HybridBinarySynthesis:
     and the associated fitter/Observer are single-process, single-caller objects.
     """
 
-    def __init__(self, *, device: str = "gpu", coverage: str = "device", radiance: str = "device") -> None:
+    def __init__(
+        self, *, device: str = "gpu", coverage: str = "device", radiance: str = "device", general: str = "cpu",
+    ) -> None:
         self._jax, _, self.device = _jax_device(device)
         if coverage not in ("cpu", "device"):
             msg = "coverage must be 'cpu' or 'device'"
@@ -48,6 +50,10 @@ class HybridBinarySynthesis:
             msg = "radiance must be 'cpu' or 'device'"
             raise ValueError(msg)
         self.radiance = radiance
+        if general not in ("cpu", "device_integration"):
+            msg = "general must be 'cpu' or 'device_integration'"
+            raise ValueError(msg)
+        self.general = general
         self._engines: dict[tuple[str, ...], HybridBinaryLightCurve] = {}
         self.calls = 0
         self.hybrid_calls = 0
@@ -58,6 +64,9 @@ class HybridBinarySynthesis:
         """Reject a disabled FP64 runtime outside physical-candidate penalties."""
         if not self._jax.config.x64_enabled:
             msg = "JAX FP64 must remain enabled for hybrid fitting"
+            raise RuntimeError(msg)
+        if self.general == "device_integration" and settings.NUMBER_OF_PROCESSES != 1:
+            msg = "Native device integration requires NUMBER_OF_PROCESSES=1"
             raise RuntimeError(msg)
 
     def __call__(self, phases: Any, discretization: float, observer: Any, **physical: Any) -> dict[str, np.ndarray]:
@@ -72,18 +81,19 @@ class HybridBinarySynthesis:
         if labels not in self._engines:
             self._engines[labels] = HybridBinaryLightCurve(
                 list(labels), device=self.device.platform, fallback="cpu", coverage=self.coverage,
-                radiance=self.radiance,
+                radiance=self.radiance, general=self.general,
             )
         result = self._engines[labels](binary, phases, normalize=True, observer=observer)
         # Retain synthetic_binary's observable per-instance Observer state too.
         observer.phases = result.phases.copy()
         observer.fluxes = {band: curve.copy() for band, curve in result.fluxes.items()}
         observer.flux_unit = units.dimensionless_unscaled
-        self.hybrid_calls += result.backend == "hybrid"
+        self.hybrid_calls += result.backend in ("hybrid", "hybrid_native")
         self.cpu_fallback_calls += result.backend == "cpu_fallback"
         self.last_evaluation = {
             "backend": result.backend, "fallback_reason": result.fallback_reason,
             "radiance_mode": self.radiance, "coverage_mode": self.coverage,
+            "general_mode": self.general,
             "candidate_construction_seconds": constructed - started,
             "curve_stage_seconds": result.timings, "total_synthesis_seconds": perf_counter() - started,
         }
@@ -93,9 +103,12 @@ class HybridBinarySynthesis:
 class _HybridPredictionMixin:
     """Replace only the optional synthesis argument of the existing fitters."""
 
-    def __init__(self, *, device: str = "gpu", coverage: str = "device", radiance: str = "device") -> None:
+    def __init__(
+        self, *, device: str = "gpu", coverage: str = "device", radiance: str = "device", general: str = "cpu",
+    ) -> None:
         super().__init__()
-        self.hybrid_synthesis = HybridBinarySynthesis(device=device, coverage=coverage, radiance=radiance)
+        self.hybrid_synthesis = HybridBinarySynthesis(device=device, coverage=coverage,
+                                                      radiance=radiance, general=general)
 
     def predict_light_curves(self, model_parameters: dict[str, Any], **kwargs: Any) -> dict[str, np.ndarray]:
         synthesis = kwargs.pop("synthesis", None)
@@ -107,7 +120,7 @@ class _HybridPredictionMixin:
         return super().predict_light_curves(model_parameters, synthesis=self.hybrid_synthesis, **kwargs)
 
 
-class HybridDetachedLeastSquaresFit(_HybridPredictionMixin, least_squares.DetachedLightCurveFit):
+class _HybridLeastSquares(_HybridPredictionMixin):
     """Experimental serial LSQ: original residual/optimizer, fresh hybrid physics.
 
     set_up and fit retain original argument/normalization semantics. The actual
@@ -126,7 +139,7 @@ class HybridDetachedLeastSquaresFit(_HybridPredictionMixin, least_squares.Detach
         return super().fit(*args, **kwargs)
 
 
-class HybridDetachedMCMCFit(_HybridPredictionMixin, mcmc.DetachedLightCurveFit):
+class _HybridMCMC(_HybridPredictionMixin):
     """Experimental serial MCMC with original likelihood/prior/failure semantics.
 
     Proposals and emcee moves remain on CPU. Each physical callback constructs a
@@ -162,3 +175,19 @@ class HybridDetachedMCMCFit(_HybridPredictionMixin, mcmc.DetachedLightCurveFit):
             msg = "Experimental physical-model sampler is serial, without a pool or vectorization"
             raise ValueError(msg)
         return emcee.EnsembleSampler(nwalkers, ndim, self.ln_probability, **kwargs)
+
+
+class HybridDetachedLeastSquaresFit(_HybridLeastSquares, least_squares.DetachedLightCurveFit):
+    """Original detached public fitter with opt-in hybrid synthesis only."""
+
+
+class HybridOvercontactLeastSquaresFit(_HybridLeastSquares, least_squares.OvercontactLightCurveFit):
+    """Original overcontact constraints/fitter with opt-in hybrid synthesis only."""
+
+
+class HybridDetachedMCMCFit(_HybridMCMC, mcmc.DetachedLightCurveFit):
+    """Original detached posterior/sampler lifecycle with hybrid synthesis only."""
+
+
+class HybridOvercontactMCMCFit(_HybridMCMC, mcmc.OvercontactLightCurveFit):
+    """Original overcontact posterior/constraints with hybrid synthesis only."""

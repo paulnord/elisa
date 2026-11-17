@@ -1,15 +1,18 @@
 {
-  "updated_utc": "2026-11-17T06:07:40.193713+00:00",
+  "updated_utc": "2026-11-17T07:10:53.691234+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "7a9fbab7e03a5e82eaf87e562cbfeb332c8341da90f3c2eb2f9ed2157d6ca312",
-  "code_state_hash_method": "SHA256 of background-m005-source-hashes.json parsed as compact sorted-key JSON",
-  "stage": "Fresh CK04 and interpolated table LD in complete hybrid curves and physical fitting",
+  "code_state_sha256": "f3ec3634baa678172785b2f37e7070976692031503d09123af2fcaed68da6638",
+  "code_state_hash_method": "SHA256 of background-m006-source-hashes.json parsed as compact sorted-key JSON",
+  "stage": "Broader original-physics hybrid curves/fits with selected-length ordered GPU integration",
   "last_gpu_suite": {
-    "tests": 239,
-    "errors": 0,
+    "tests": 269,
     "failures": 0,
-    "skipped": 0
+    "errors": 0,
+    "skipped": 0,
+    "runner_seconds": 222.09431949805003,
+    "pytest_seconds": 221.05,
+    "warnings": "Two inherited CPU Planck UV-tail overflow warnings"
   },
   "last_gpu_suite_is_current_physics_source": true,
   "cpu_only_suite_before_two_added_test_pairs": {
@@ -24,24 +27,24 @@
     "errors": 0,
     "skipped": 8
   },
-  "benchmark_status": "Real table full-curve/public fitting/sampler parity passed. Matched physical callbacks: original_cpu 26.22ms, cpu_radiance_hybrid 23.67ms, hybrid 24.97ms, hybrid_jax_cpu 63.11ms. All cold/full costs reported; no convergence/ESS claim.",
+  "benchmark_status": "Broader complete curves, detached/overcontact fitting, independent ordered reductions and short sampler replay passed. Matched full CPU/native GPU costs and cold fits reported; broader path moves integration only, no all-GPU or ESS claim.",
   "production": {
-    "window": "background-m005-w007",
+    "window": "background-m006-w009",
     "status": "restored_and_advancing",
-    "job": "j00974",
-    "saved_cursor": 1362251344,
-    "verified_cursor": 1362296400,
-    "durable_cells_before": 1214588215,
-    "durable_cells_after": 1214633271,
-    "durable_cells_advanced": 45056,
-    "verified_utc": "2026-11-17T06:07:19.379437+00:00",
-    "matching_resume_record_verified": true,
+    "job": "j00984",
+    "saved_cursor": 1405983824,
+    "verified_cursor": 1406028112,
+    "durable_cells_before": 1228960567,
+    "durable_cells_after": 1229004855,
+    "durable_cells_advanced": 44288,
+    "verified_utc": "2026-11-17T07:08:28.532795+00:00",
     "source_release_reverified": true,
     "config_and_plan_unchanged": true,
+    "matching_resume_record_verified": true,
     "clean_test_unit_exit_verified": true,
     "last_receipt_witness_endpoints_verified": true,
     "full_historical_reaudit": false,
-    "gpu_batch_seconds": 44.02274895599112
+    "gpu_batch_seconds": 175.06713698303793
   },
   "production_windows": [
     {
@@ -224,6 +227,42 @@
       "last_receipt_witness_endpoints_verified": true,
       "full_historical_reaudit": false,
       "gpu_batch_seconds": 44.02274895599112
+    },
+    {
+      "window": "background-m006-w008",
+      "status": "restored_and_advancing",
+      "job": "j00984",
+      "saved_cursor": 1404855888,
+      "verified_cursor": 1404909136,
+      "durable_cells_before": 1227832631,
+      "durable_cells_after": 1227877687,
+      "durable_cells_advanced": 45056,
+      "verified_utc": "2026-11-17T07:01:00.915186+00:00",
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "gpu_batch_seconds": 224.1403343072161
+    },
+    {
+      "window": "background-m006-w009",
+      "status": "restored_and_advancing",
+      "job": "j00984",
+      "saved_cursor": 1405983824,
+      "verified_cursor": 1406028112,
+      "durable_cells_before": 1228960567,
+      "durable_cells_after": 1229004855,
+      "durable_cells_advanced": 44288,
+      "verified_utc": "2026-11-17T07:08:28.532795+00:00",
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "gpu_batch_seconds": 175.06713698303793
     }
   ],
   "hardware": {
@@ -234,7 +273,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Fresh CK04 and table-LD hybrid curves/fitting with original CPU source selection, wavelength preparation, LD/reflection/hull bridges; device quadrature/T4 interpolation/optical depth/occultation. Original CPU semantics/defaults preserved.",
+  "scope": "Opt-in native physical routing for spot/eccentric/near-contact/overcontact curves with ordered GPU flux integration and morphology-specific fitting; original fast path/CPU defaults/full fallbacks preserved.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -248,14 +287,14 @@
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
   "current_full_cpu_suite": {
-    "passed": 137,
+    "passed": 152,
     "failed": 0,
     "errors": 0,
-    "skipped_gpu_cases": 102,
-    "seconds": 127.27,
-    "warnings": "Original CPU Planck cold UV exponential overflow tends to zero; one warning"
+    "skipped_gpu_cases": 117,
+    "seconds": 155.14,
+    "warnings": "One inherited CPU Planck UV-tail overflow warning"
   },
-  "current_milestone_report": "background-m005.json",
+  "current_milestone_report": "background-m006.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
@@ -301,5 +340,17 @@
     },
     "benchmark_status": "Matched new physical callback 23.20ms vs preceding CPU-radiance hybrid 52.43ms, originalCPU 47.69ms, hybridJAXCPU 103.92ms. Full curves and public bounded fits/short sampler replay passed; cold/setup and full costs disclosed. No convergence/ESS or production default claim.",
     "report": "background-m004.json"
+  },
+  "previous_table_milestone": {
+    "stage": "Fresh CK04 and interpolated table LD in complete hybrid curves and physical fitting",
+    "code_state_sha256": "7a9fbab7e03a5e82eaf87e562cbfeb332c8341da90f3c2eb2f9ed2157d6ca312",
+    "last_gpu_suite": {
+      "tests": 239,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "benchmark_status": "Real table full-curve/public fitting/sampler parity passed. Matched physical callbacks: original_cpu 26.22ms, cpu_radiance_hybrid 23.67ms, hybrid 24.97ms, hybrid_jax_cpu 63.11ms. All cold/full costs reported; no convergence/ESS claim.",
+    "report": "background-m005.json"
   }
 }

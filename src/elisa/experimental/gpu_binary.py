@@ -25,6 +25,7 @@ from elisa.binary_system.surface.gravity import calculate_polar_potential_gradie
 from elisa.binary_system.surface.temperature import apply_reflection_effect
 from elisa.binary_system.utils import move_sys_onpos
 from elisa.experimental.gpu_atmosphere import DeviceAtmosphereRadiance, check_ld_boundaries, check_table_transitions
+from elisa.experimental.gpu_native import NativePhysicsIntegrator, UnsupportedNativeIntegrationError
 from elisa.experimental.gpu_occultation import DeviceEclipseIntegrator, UnsupportedOccultationError
 from elisa.experimental.gpu_radiance import DeviceBlackbodyRadiance, UnsupportedRadianceError, passband_revision
 from elisa.experimental.gpu_state import CorrectedSurfaceState
@@ -47,7 +48,8 @@ class HybridCurveResult:
 
     component_fluxes are intrinsic observer-direction luminosities before third
     light/distance/normalization, mapped to the original observation order.
-    They are absent on full CPU fallback. diagnostics are opt-in private-in-
+    They are absent on full CPU fallback and the native-router bridge (which
+    retains original approximation/interpolation of total curves). diagnostics are opt-in private-in-
     memory intermediate containers for scientific validation, not a cache.
     """
 
@@ -85,6 +87,7 @@ class HybridBinaryLightCurve:
     def __init__(
         self, passbands: list[str], *, device: str = "gpu", fallback: str = "cpu", coverage: str = "device",
         radiance: str = "device",
+        general: str = "cpu",
     ) -> None:
         if fallback not in ("cpu", "raise"):
             msg = "fallback must be 'cpu' or 'raise'"
@@ -100,6 +103,10 @@ class HybridBinaryLightCurve:
             raise ValueError(msg)
         self.coverage = coverage
         self.radiance = radiance
+        if general not in ("cpu", "device_integration"):
+            msg = "general must be 'cpu' or 'device_integration'"
+            raise ValueError(msg)
+        self.general = general
         self.passbands = tuple(passbands)
         self.fallback = fallback
         self._states = {name: CorrectedSurfaceState(name, device=device) for name in _COMPONENTS}
@@ -108,6 +115,31 @@ class HybridBinaryLightCurve:
         self._occultations: dict[str, DeviceEclipseIntegrator] = {}
         self._radiance_engine: tuple[tuple[str, str], DeviceBlackbodyRadiance] | None = None
         self._atmosphere_engines: dict[str, DeviceAtmosphereRadiance] = {}
+        self._native_integrators: dict[str, NativePhysicsIntegrator] = {}
+
+    def _unsupported_curve(
+        self, observer: Any, phases: np.ndarray, *, normalize: bool, diagnostics: bool,
+        reason: str, started: float,
+    ) -> HybridCurveResult:
+        """Explicit opt-in original-physics bridge, otherwise full CPU fallback."""
+        if self.general == "device_integration":
+            law = settings.LIMB_DARKENING_LAW
+            if law not in self._native_integrators:
+                self._native_integrators[law] = NativePhysicsIntegrator(law, device=self.device.platform)
+            try:
+                result = self._native_integrators[law](observer, phases, normalize=normalize,
+                                                       diagnostics=diagnostics)
+            except UnsupportedNativeIntegrationError as exc:
+                reason += "; " + str(exc)
+            else:
+                timings = dict(result["timings"], total=perf_counter()-started)
+                return HybridCurveResult(result["phases"], result["fluxes"], {}, "hybrid_native",
+                                         "Original CPU physics bridge: " + reason, timings, result["diagnostics"])
+        if self.fallback == "raise":
+            raise UnsupportedHybridModelError(reason)
+        out_phases, fluxes = observer.lc(phases=phases, normalize=normalize)
+        return HybridCurveResult(out_phases, fluxes, {}, "cpu_fallback", reason,
+                                 {"total": perf_counter()-started})
 
     def _unsupported_reason(self, binary: Any) -> str | None:  # noqa: PLR0911 - explicit fallback reasons
         if self.coverage == "device" and settings.INTERSECTION_BACKEND not in ("sutherland_hodgman", "reference"):
@@ -294,6 +326,9 @@ class HybridBinaryLightCurve:
         if not self._states["primary"]._jax.config.x64_enabled:  # noqa: SLF001
             msg = "JAX FP64 must remain enabled"
             raise RuntimeError(msg)
+        if self.general == "device_integration" and settings.NUMBER_OF_PROCESSES != 1:
+            msg = "Native device integration requires NUMBER_OF_PROCESSES=1"
+            raise RuntimeError(msg)
         started = perf_counter()
         phases = np.array(phases, dtype=np.float64, copy=True)
         if phases.ndim != 1 or not phases.size or not np.isfinite(phases).all():
@@ -325,11 +360,8 @@ class HybridBinaryLightCurve:
                 )
                 timings["cpu_radiance_ld"] = perf_counter() - prepared_at
         except (UnsupportedHybridModelError, UnsupportedRadianceError) as exc:
-            if self.fallback == "raise":
-                raise UnsupportedHybridModelError(str(exc)) from exc
-            out_phases, fluxes = observer.lc(phases=phases, normalize=normalize)
-            return HybridCurveResult(out_phases, fluxes, {}, "cpu_fallback", str(exc),
-                                     {"total": perf_counter() - started})
+            return self._unsupported_curve(observer, phases, normalize=normalize, diagnostics=diagnostics,
+                                           reason=str(exc), started=started)
         resolved = observer.manage_time_series(phases=phases)
         base, origin = observer.phase_interval_reduce(resolved)
         support, reverse = dynamic.phase_crv_symmetry(system, base)
@@ -343,11 +375,8 @@ class HybridBinaryLightCurve:
                 device_radiance=radiance,
             )
         except UnsupportedOccultationError as exc:
-            if self.fallback == "raise":
-                raise UnsupportedHybridModelError(str(exc)) from exc
-            out_phases, fluxes = observer.lc(phases=phases, normalize=normalize)
-            return HybridCurveResult(out_phases, fluxes, {}, "cpu_fallback", str(exc),
-                                     {"total": perf_counter() - started})
+            return self._unsupported_curve(observer, phases, normalize=normalize, diagnostics=diagnostics,
+                                           reason=str(exc), started=started)
         timings.update(integration_times)
         mapped_components = {band: values[reverse][origin] for band, values in components.items()}
         curves = self._observed_fluxes(mapped_components, model, normalize=normalize)

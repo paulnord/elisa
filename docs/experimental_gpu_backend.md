@@ -1,5 +1,10 @@
 # Experimental GPU likelihood pilot
 
+Current complete-curve/fitting APIs and measured limits are summarized in
+[Ada progress](ada_progress.md). The sections below retain the development
+history. The newest broader option is described in
+[original physical routing with device integration](#broader-original-physical-routing-with-device-integration).
+
 This branch starts a GPU-backend development effort; **it is not a GPU port of
 ELISa's stellar model and not a production fitting option**. Existing CPU fitting
 interfaces and defaults are unchanged. The optional code is in
@@ -419,7 +424,8 @@ conditioning masks remain active. Outside this domain, default fallback runs
 the **entire unmodified CPU Observer** and reports the reason; `fallback="raise"`
 instead raises `UnsupportedHybridModelError`. Device unavailability/disabled FP64
 never silently selects CPU. Unsupported states are not physical-prior penalties.
-Mixed/other atmospheres, spots and eccentric/contact GPU states use CPU fallback,
+With the default `general="cpu"`, mixed/other atmospheres, spots and
+eccentric/contact GPU states use CPU fallback,
 preserving upstream data errors and exceptions. See the table-emission section
 below for the actual tested CK04/LD source coverage and conditioning guards.
 
@@ -595,8 +601,9 @@ source errors keep their classes and fitter handling; missing device/FP64 raises
 
 The atlas path supports at most 8 bands, 8192 faces per star, 128 unique spectra
 per band/component, 2–4096 wavelengths and 8388608 prepared spectral samples.
-The sample cap excludes runtime/compiler workspace. Mixed/other atlases, spots
-and eccentric/contact GPU states retain whole CPU fallback. The current
+The sample cap excludes runtime/compiler workspace. With default `general="cpu"`,
+mixed/other atlases, spots and eccentric/contact GPU states retain whole CPU
+fallback. This table-emission milestone's
 scientific fixtures use existing unmodified repository CK04/Van Hamme data,
 V/bolometric bands, solar metallicity and three T/g regions; this is not general
 table/model accuracy or resolution-convergence evidence.
@@ -607,3 +614,80 @@ bounded allocation. It includes complete curves with both eclipses/contacts,
 fresh table/response revisions and LD, physical fitting/likelihood, public fits,
 short sampler replay and matching host-output transfer-inclusive costs. Read
 [Ada progress](ada_progress.md) for current measurements and remaining work.
+
+## Broader original physical routing with device integration
+
+`general="device_integration"` explicitly opts into a second hybrid path when
+the circular detached fast path cannot handle a model/state. It uses the
+original CPU physical routers for synchronous/asynchronous spots, eccentric
+curves with/without spots, and near-contact/overcontact shapes. CPU mesh and spot
+evolution, changing separation, reflection, atmosphere/LD preparation, orientation,
+coverage and configured approximations remain original operations. A fresh
+all-band/component packet moves only per-face flux arithmetic and integration
+to the requested JAX device. There is no resident GPU physical state on this
+broader branch and no physical cache across candidates.
+
+```python
+from elisa.experimental.gpu_binary import HybridBinaryLightCurve
+
+engine = HybridBinaryLightCurve(
+    ["Generic.Bessell.V", "bolometric"],
+    device="gpu", general="device_integration", fallback="cpu",
+)
+result = engine(binary, phases, normalize=True)
+# "hybrid", "hybrid_native", or "cpu_fallback"; reason/timings disclose dispatch.
+print(result.backend, result.fallback_reason, result.timings)
+```
+
+`general="cpu"` is the unchanged default: unsupported fast-path cases run the
+whole original CPU curve. With the broader opt-in, `fallback="raise"` raises
+only after both hybrid paths are ineligible. Partial native resource failures
+discard partial results and rerun complete CPU synthesis. Original data errors
+still propagate; resource limits are not physical prior penalties. Missing GPU
+or disabled FP64 raises, as does nonserial opt-in configuration. In fitting,
+these infrastructure checks remain outside emergency candidate penalties.
+
+The broader bridge requires `NUMBER_OF_PROCESSES=1` and an original nonpulsating
+`BinarySystem`. Bounds are 1–8 bands, 8192 faces per component and 256 physical
+callbacks per curve, with power-of-two selected-face padding. Custom subclasses,
+pulsations, unvalidated routes and resource failures use full CPU fallback.
+Successful native output preserves original phase ordering/repeats, shift,
+third light, distance and normalization. `component_fluxes` is empty because
+native approximations can interpolate total curves; optional diagnostics retain
+actual per-callback CPU containers, immutable packets and component/face fluxes.
+The private working Observer delegate is restored on every exit; no global CPU
+function or caller's model is patched.
+
+The `gpu_ordered.OrderedSurfaceFluxIntegrator` retains FP64 expression stages
+and the selected-length contiguous NumPy pairwise sum order. This resolved an
+overcontact finite-difference optimizer sensitivity without changing the CPU
+oracle, fit settings or gates. Independent signed/cancellation/boundary controls
+compare actual NumPy reductions exactly on both devices. The tested release is
+NumPy2.5.5; universal bitwise equality across releases/transcendentals is not
+promised. The earlier fast-path integrator retains its existing implementation.
+
+Physical fitting subclasses accept `general="device_integration"`:
+`HybridDetachedLeastSquaresFit`, `HybridDetachedMCMCFit`,
+`HybridOvercontactLeastSquaresFit` and `HybridOvercontactMCMCFit`. The new
+overcontact classes inherit the original morphology validation and shared
+potential constraints. Use original `LCData`/`BinaryInitialParameters` and public
+`fit()`/`run_mcmc()` contracts as in the detached example above. Original phase
+mapping/mean normalization, noise/third-light/prior/statistic conventions remain
+in the original fitter. No `LCBinaryAnalyticsTask` backend/default is registered.
+
+Run `tests/tests_experimental/test_gpu_native.py` and
+`scripts/validate_gpu_native.py --device cpu --output native-cpu.json`; run the
+GPU variant only inside the independently restored bounded allocation. Eight
+V/bolometric fixtures include real spotted CK04/LD tables, changing spots and
+separation, reflection and near/overcontact. Additional tests cover nonlinear
+LD and fallback/error semantics. Public spot/overcontact fits and short sampler
+replay use the original optimizer options; eccentric coverage is prediction/
+posterior callbacks. Configured approximation error against rigorous CPU is
+reported separately, including an inherited sparse-input error on both paths.
+
+The hardware suite passed 269 tests with zero skips. Detailed linear-LD curve,
+likelihood, fit and short-chain differences were zero, but the complete broader
+GPU workloads were **slower than original CPU**. Three sampler steps do not
+establish convergence or ESS/sec. See [curated measurements](ada_validation/background-m006.json)
+and [Ada progress](ada_progress.md) for full costs, domain, source fingerprints,
+production restoration evidence and remaining device-physics work.

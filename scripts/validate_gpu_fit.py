@@ -25,7 +25,12 @@ from elisa.analytics.binary_fit import least_squares, mcmc
 from elisa.analytics.binary_fit.lc_prediction import predict_light_curves
 from elisa.analytics.models import cost_fns
 from elisa.analytics.params import parameters
-from elisa.experimental.gpu_fit import HybridDetachedLeastSquaresFit, HybridDetachedMCMCFit
+from elisa.experimental.gpu_fit import (
+    HybridDetachedLeastSquaresFit,
+    HybridDetachedMCMCFit,
+    HybridOvercontactLeastSquaresFit,
+    HybridOvercontactMCMCFit,
+)
 
 BANDS = ("Generic.Bessell.B", "Generic.Bessell.V", "bolometric")
 
@@ -111,14 +116,11 @@ def make_problem(
 
 def prepare_fit(
     problem: FitProblem, *, kind: str = "mcmc", device: str | None = None, radiance: str = "device",
+    general: str = "cpu", morphology: str = "detached",
 ) -> Any:
     """Use the same real set_up for original and experimental fitting classes."""
-    if kind == "mcmc":
-        fit = (mcmc.DetachedLightCurveFit() if device is None
-               else HybridDetachedMCMCFit(device=device, radiance=radiance))
-    else:
-        fit = (least_squares.DetachedLightCurveFit() if device is None
-               else HybridDetachedLeastSquaresFit(device=device, radiance=radiance))
+    original_cls, hybrid_cls = fit_classes(kind, morphology)
+    fit = original_cls() if device is None else hybrid_cls(device=device, radiance=radiance, general=general)
     fit.atmosphere_model, fit.limb_darkening_coefficients = deepcopy(problem.atmosphere), deepcopy(problem.ld)
     fit.set_up(parameters.BinaryInitialParameters(**deepcopy(problem.config)), deepcopy(problem.data),
                passband=list(problem.data), observer_system_cls=BinarySystem, **deepcopy(problem.setup))
@@ -126,6 +128,15 @@ def prepare_fit(
         fit.norm_init_vector = normalized_vector(fit)
         fit.sigmas = fit.normalized_sigma(fit.norm_init_vector)
     return fit
+
+
+def fit_classes(kind: str, morphology: str) -> tuple[Any, Any]:
+    """Return matching morphology-specific original and experimental classes."""
+    if kind == "mcmc":
+        return ((mcmc.DetachedLightCurveFit, HybridDetachedMCMCFit) if morphology == "detached"
+                else (mcmc.OvercontactLightCurveFit, HybridOvercontactMCMCFit))
+    return ((least_squares.DetachedLightCurveFit, HybridDetachedLeastSquaresFit) if morphology == "detached"
+            else (least_squares.OvercontactLightCurveFit, HybridOvercontactLeastSquaresFit))
 
 
 def normalized_vector(fit: Any) -> np.ndarray:
@@ -194,19 +205,23 @@ def prediction_cases(device: str) -> list[dict[str, Any]]:
     return rows
 
 
-def fit_assessment(device: str, *, steps: int = 3, problem: FitProblem | None = None) -> dict[str, Any]:
+def fit_assessment(
+    device: str, *, steps: int = 3, problem: FitProblem | None = None, general: str = "cpu",
+    morphology: str = "detached", max_nfev: int = 16, jac: str = "2-point",
+) -> dict[str, Any]:
     """Exercise actual original fit() lifecycle and serialized result contracts."""
     problem = make_problem() if problem is None else problem
     results = {}
-    for label, cls, options in [("original_cpu", least_squares.DetachedLightCurveFit, {}),
-                                ("hybrid", HybridDetachedLeastSquaresFit, {"device": device})]:
+    cpu_cls, gpu_cls = fit_classes("lsq", morphology)
+    for label, cls, options in [("original_cpu", cpu_cls, {}),
+                                ("hybrid", gpu_cls, {"device": device, "general": general})]:
         constructed_at = perf_counter()
         fit = cls(**options)
         constructor_seconds = perf_counter() - constructed_at
         fit.atmosphere_model, fit.limb_darkening_coefficients = deepcopy(problem.atmosphere), deepcopy(problem.ld)
         started = perf_counter()
         serialized = fit.fit(deepcopy(problem.data), parameters.BinaryInitialParameters(**deepcopy(problem.config)),
-                             **deepcopy(problem.setup), diff_step=1e-4, max_nfev=16,
+                             **deepcopy(problem.setup), diff_step=1e-4, max_nfev=max_nfev, jac=jac,
                              xtol=1e-9, ftol=1e-9, gtol=1e-8)
         elapsed = perf_counter() - started
         props = {k: v["value"] for k, v in fit.flat_result.items() if k != "r_squared"}
@@ -224,12 +239,13 @@ def fit_assessment(device: str, *, steps: int = 3, problem: FitProblem | None = 
     differences["chi_squared"] = compare(results["hybrid"]["chi_squared"], results["original_cpu"]["chi_squared"],
                                          atol=1e-5, rtol=0)
     samplers = {}
-    starting = prepare_fit(problem)
+    starting = prepare_fit(problem, morphology=morphology)
     initial = normalized_vector(starting) + np.random.default_rng(813).normal(0, 0.01, (8, len(starting.fitable)))
     random_state = np.random.get_state()  # noqa: NPY002 - replay original emcee contract
     try:
-        for label, cls, options in [("original_cpu", mcmc.DetachedLightCurveFit, {}),
-                                    ("hybrid", HybridDetachedMCMCFit, {"device": device})]:
+        cpu_cls, gpu_cls = fit_classes("mcmc", morphology)
+        for label, cls, options in [("original_cpu", cpu_cls, {}),
+                                    ("hybrid", gpu_cls, {"device": device, "general": general})]:
             constructed_at = perf_counter()
             fit = cls(**options)
             constructor_seconds = perf_counter() - constructed_at
@@ -252,7 +268,8 @@ def fit_assessment(device: str, *, steps: int = 3, problem: FitProblem | None = 
     chain_parity = compare(samplers["hybrid"]["chain"], samplers["original_cpu"]["chain"], atol=0, rtol=0)
     density_parity = compare(samplers["hybrid"]["log_probability"], samplers["original_cpu"]["log_probability"],
                              atol=1e-6, rtol=0)
-    return {"least_squares": results, "least_squares_parity": differences,
+    return {"least_squares": results, "least_squares_parity": differences, "optimizer_max_nfev": max_nfev,
+            "optimizer_jacobian": jac,
             "sampler_smoke": samplers, "chain_parity": chain_parity, "chain_density_parity": density_parity,
             "sampler_limitations": (f"{steps} steps,8 walkers: callback/move replay only; "
                                     "no convergence, posterior precision or ESS/sec")}

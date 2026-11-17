@@ -1,9 +1,184 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T06:09:59Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T07:12:00Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: actual CK04 spectra and interpolated table limb darkening
+## Latest milestone: broader physical curves and morphology-specific fitting
+
+Explicit `general="device_integration"` now extends the experimental hybrid to
+fresh **spotted, eccentric, near-contact and overcontact** curves. The original
+CPU routers build/evolve the mesh and spots, change separation, apply reflection,
+prepare radiance/LD, orient surfaces, clip eclipses and apply configured curve
+approximations. Each router callback uploads fresh selected faces for **one
+all-band/component device flux integration**. Original Observer phase mapping,
+third light, distance and normalization remain intact. The result reports
+`backend="hybrid_native"`; this broader branch moves integration only. The earlier
+circular detached device-state/radiance/coverage path remains available.
+
+Default `general="cpu"` preserves complete CPU fallback outside the earlier fast
+path. No CPU physical implementation, default, global function or shared model
+is patched. A private per-call Observer delegate uses existing router callbacks
+and is restored even on errors. Resource failures after partial callbacks discard
+all partial results and run the **entire original CPU curve**. Missing GPU/FP64
+and nonserial opt-in configuration raise outside emergency candidate penalties.
+
+`HybridOvercontactLeastSquaresFit` and `HybridOvercontactMCMCFit` inherit the
+original overcontact fitter lifecycle, morphology checks and equal-potential
+constraints. Existing detached classes accept the same opt-in. Physical
+temperature, inclination, spot longitude or eccentricity/potential and l3/noise
+proposals rebuild dependent physics; no stale physical packet is reused.
+
+### Coverage, parity and numerical resolution
+
+**269 hardware tests passed in 221.05 s, zero failures/errors/skips.** Full CPU
+checks passed **152**, with **117** explicit GPU skips, in 155.14 s. Two/one
+warnings respectively are inherited original CPU Planck UV-tail overflow in a
+finite cold-star fallback fixture. Existing acceptance gates are unchanged.
+
+The eight detailed V/bolometric cases cover synchronous spots with reflection,
+asynchronous spots (spin1.1), eccentricity0.2 with reflection, its configured
+similar-neighbour approximation, eccentricity0.15 with spots, near-contact
+q1/potentials3.9, overcontact q1/potentials3.5, and spotted CK04 with real table LD
+and reflection. Meshes have 456–556 faces per star; actual callback separations
+range 0.8025–1.1917 SMA. Eighteen requested phases include both original CPU
+conjunctions with nearby samples, quadratures, ordering/repeats, cross-cycle phases
+and nonzero shift/third light. These new samples are **not an independent exact
+contact calculation**; earlier fast-path contact/clipping tests remain in the
+full suite. Added tests change actual spot location/temperature and exercise
+logarithmic/square-root LD, immutable packets and strict device transfer guards.
+The spotted CK04 fixture uses the existing unmodified spectra and LD data from
+the preceding milestone; there are no downloaded or synthetic replacements.
+
+For these eight **linear-LD** detailed fixtures, actual device face fluxes,
+component sums, raw/normalized observed curves and full-CPU fallback comparisons
+all have **zero measured difference**. Three physical/nuisance proposal vectors
+per spotted/eccentric/overcontact family give zero prediction and accumulated
+posterior difference at normalized observational uncertainty `1e-4` (11 data).
+This is finite tested equivalence, not a universal bitwise guarantee.
+
+The overcontact numerical fit exposed a sensitive rounding issue during CPU
+development: an ordinary device reduction gave forward differences around
+`2e-16`, but changed minimum chi² by **0.00016697**, failing the existing `1e-5`
+fit gate. Larger iteration budgets and central differences still left a
+**0.00005516** difference. The new `gpu_ordered` kernel retains the original FP64
+expression boundaries and **actual selected-length NumPy pairwise sum order**,
+rather than reducing padded faces in a different order. Independent controls
+compare actual installed NumPy sums at empty/8/128/split/tail/8192 boundaries,
+including signed cancellation, with exact equality on CPU and GPU. See the
+[primary NumPy implementation](https://github.com/numpy/numpy/blob/v2.5.5/numpy/_core/src/umath/loops_utils.h.src).
+The CPU oracle, earlier fast kernel and tolerances were unchanged; failed
+development evidence remains private. Current NumPy2.5.5 is the tested layout;
+other versions/transcendental implementations need fresh validation.
+
+Using the original **16-evaluation, two-point, diff_step1e-4** fit options:
+
+- Spotted LSQ: `T_primary=6499.062955947 K`, `inclination=86.3973696824 deg`,
+  chi² **7.0727437603**; all CPU/GPU fit differences are zero.
+- Overcontact LSQ: `T_primary=6499.741941269 K`, `inclination=86.3991914604 deg`,
+  shared potential **3.499978425604**, chi² **8.5173040391**; differences are zero.
+- Public 8-walker/3-step runs for both families replay identical coordinates,
+  densities and acceptance fractions. These are callback/move smoke tests,
+  **not convergence, posterior accuracy or ESS/sec**. Eccentric fitting coverage
+  here is changed-parameter prediction/posterior callbacks, not a new full public
+  optimizer/sampler run.
+
+Native approximation accuracy is separate. With `MAX_D_FLUX=0.01`, configured
+similar-neighbour curves differ from rigorous original CPU by **0.00137973 V /
+0.00129814 bolometric** in maximum normalized flux, equally on both paths. This
+configuration is unsuitable for the `1e-4` fitting noise without an accuracy
+assessment; fitting uses rigorous flags. An inherited original configured-
+approximation error on a sparse six-phase input raises the same zero-size
+reduction `ValueError` on both paths and is retained as an error-equivalence
+test. A sufficiently sampled grid validates the actual approximation path.
+No CPU error, discretization error or gate was hidden by fallback or relaxation.
+
+### Matched complete costs: integration alone does not accelerate these cases
+
+Median **ms per fresh host V/bolometric curve**, three warm samples. All original
+CPU physical stages, dispatch/failed fast-path attempts, uploads, device work and
+final host curves are included. Binary construction is outside every curve
+timer. CPU/JAX-CPU and GPU drivers ran sequentially in the same checkpointed
+window, affinity0–15/Nice10, threads1, FP64. Fixed order and few samples limit
+performance inference. Original CPU and fallback columns below are from the GPU
+driver; the separate CPU-driver baselines and all raw samples are in curated JSON.
+
+| Case | Original CPU | Default CPU fallback | Hybrid JAX CPU | Hybrid GPU |
+|---|---:|---:|---:|---:|
+| Synchronous spot, reflection | 67.94 | 67.63 | 75.71 | 111.36 |
+| Asynchronous spot | 435.69 | 437.92 | 460.05 | 492.88 |
+| Eccentric exact, reflection | 464.13 | 464.50 | 479.23 | 511.07 |
+| Eccentric configured neighbours | 106.09 | 106.92 | 115.29 | 152.43 |
+| Eccentric spot | 818.42 | 827.98 | 851.03 | 885.16 |
+| Near contact, reflection | 33.86 | 40.32 | 42.02 | 62.52 |
+| Overcontact, reflection | 31.83 | 32.22 | 36.38 | 47.39 |
+| Spotted CK04, table LD/reflection | 27.75 | 28.02 | 34.49 | 70.64 |
+
+Combined fast/native engine construction costs **0.635 s**. First diagnostic GPU
+calls, including newly incurred compilation/preparation and CPU work, cost
+**0.093–0.893 s**, separately reported from warm calls. Diagnostic downloads are
+off for timing/inference; only component totals return to host. Ordered reduction
+and per-position transfers cost more than the tiny original CPU sum. Default
+near-contact fallback also includes a failed bounded fast-path attempt.
+
+| Physical fitting work | Original CPU | Hybrid JAX CPU | Hybrid GPU |
+|---|---:|---:|---:|
+| Spotted likelihood/prior median (ms) | 300.47 | 317.24 | 327.05 |
+| Eccentric likelihood/prior median (ms) | 165.84 | 171.06 | 182.78 |
+| Overcontact likelihood/prior median (ms) | 30.24 | 33.08 | 39.36 |
+| Spotted new-fitter public LSQ, all costs (s) | 6.479 | 7.438 | 7.521 |
+| Overcontact new-fitter public LSQ, all costs (s) | 1.320 | 1.660 | 1.986 |
+| Spotted new-fitter 8-walker/3-step run (s) | 9.973 | 11.204 | 11.650 |
+| Overcontact new-fitter 8-walker/3-step run (s) | 1.202 | 1.512 | 1.777 |
+
+Likelihood costs include physical transforms, model construction/serialization,
+original mapping/normalization/statistics and all transfers. Fit/run totals also
+include new object construction, original setup/constraints, compilation incurred,
+all callbacks and result serialization; runtime caches can be warm from earlier
+gates. **No speedup is demonstrated for this broader bridge.** CPU development
+checks on cores16–19/Nice19 while production ran are correctness evidence only
+and excluded from these matched measurements.
+
+### Domain, reproduction, restoration and next work
+
+The broader opt-in requires an original nonpulsating `BinarySystem`, serial
+physics (`NUMBER_OF_PROCESSES=1`), 1–8 passbands, at most8192 faces per component
+and256 router callbacks per curve. Selected faces use power-of-two padding.
+Pulsations/custom subclasses/unvalidated routes/resource failures retain full
+CPU fallback (or explicit `fallback="raise"` after both hybrid paths are
+ineligible). Available original CPU data/physics limits still apply; these eight
+fixtures do not validate every CPU model. Final `component_fluxes` is empty on
+the native bridge because original approximations can interpolate total curves;
+`diagnostics=True` exposes actual per-callback component fluxes instead.
+
+```text
+python -m pytest tests/tests_experimental -q -rs
+python scripts/validate_gpu_native.py --device cpu --output native-cpu.json
+python scripts/validate_gpu_native.py --device gpu --output native-gpu.json
+```
+
+Use the private CPU wrapper for development; GPU commands require the independent
+checkpoint/restore systemd allocation. Registered windows008/009 used
+**224.14/175.07 s** of test commands within270 s internal/300 s systemd bounds.
+Both independently restored the exact pinned service/source/config/plan,
+matched checkpoint resume records, verified latest receipt/witness/endpoints and
+observed **45,056/44,288 durable cells** of resumed advancement. Both test units
+finished inactive/success. Subsequent read-only checks verified further durable
+advancement. This is not a full historical production re-audit. Raw operational
+logs and process/environment snapshots remain private.
+
+See [curated evidence](ada_validation/background-m006.json),
+[580-file runtime/data manifest](ada_validation/background-m006-source-hashes.json)
+and [current status](ada_validation/progress.json). Compact sorted-key manifest
+aggregate: `f3ec3634baa678172785b2f37e7070976692031503d09123af2fcaed68da6638`.
+
+Next port mutual irradiation/reflection temperature iteration onto device for
+the validated circular detached branch, preserving original build order,
+bolometric LD and iteration semantics, then revalidate complete curves/fitter
+costs. Candidate mesh/topology, LD/hull and broader spot/eccentric/contact physics
+remain CPU bridges. Parity does not establish mesh/time/spectral convergence or
+posterior accuracy, and the assignment remains active.
+
+## Previous milestone: actual CK04 spectra and interpolated table limb darkening
 
 The complete hybrid now supports **two CK04 components** and actual CPU-
 interpolated limb darkening, alongside two blackbody components with custom or
