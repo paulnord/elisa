@@ -1,0 +1,82 @@
+{
+  "captured_utc": "2026-11-17T20:29:20.391649+00:00",
+  "snapshot_status": "Experimental m020 source snapshot; milestone and broader validation still in progress",
+  "base_commit": "7ad2f9f83ad6621fa1a507520125e03f3fce9490",
+  "branch": "codex/gpu-fusion-snapshot-20261117T202920Z",
+  "runtime_source_files": 646,
+  "unchanged_runtime_files_from_base": 639,
+  "new_tested_source_files": [
+    "scripts/compare_gpu_joint_budget.py",
+    "scripts/validate_gpu_fused_observer.py",
+    "src/elisa/experimental/gpu_fused_observer.py",
+    "src/elisa/experimental/gpu_joint_budget.py",
+    "src/elisa/experimental/gpu_native_observer.py",
+    "tests/tests_experimental/test_fused_observer.py",
+    "tests/tests_experimental/test_joint_budget.py"
+  ],
+  "hardware": "AMD Ryzen 9 5950X; NVIDIA RTX 3080 Ti 12GiB; FP64",
+  "source_manifest": "fusion-snapshot-20261117-source-hashes.json",
+  "hardware_controls": [
+    {
+      "scope": "fused/joint controls",
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit_sha256": "f6f9f377b440fde80f8a83726bdcd1c43f4afefb4fc5357f058ded4ccbe821e0"
+    },
+    {
+      "scope": "57-phase contact-focused curve",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit_sha256": "0cf6bc4319edd2ce18b75177fd2b2c7c97dbb2e82c0590bd342eb198d7fec9eb"
+    }
+  ],
+  "four_proposal_comparison": {
+    "original_serial_CPU": {
+      "backend": "reference",
+      "engine": "fused",
+      "batch": 4,
+      "first_call_seconds": 37.13829645095393,
+      "changed_warm_seconds": [
+        37.3029667600058,
+        37.56127484992612
+      ],
+      "evidence_sha256": "c9780f181c7a67ed8ccbcf0372774acc9cb536680dfda338026dc7cc76f53b9b",
+      "levels": [
+        0,
+        1
+      ],
+      "integration_level": 1
+    },
+    "fused_GPU": {
+      "backend": "gpu",
+      "engine": "fused",
+      "batch": 4,
+      "first_call_seconds": 41.65313961694483,
+      "changed_warm_seconds": [
+        16.893858180963434,
+        15.72608735295944
+      ],
+      "evidence_sha256": "857f08a89e743ce18e48c13c7b58fc775e91c585a8d2225fcc434923d139407b",
+      "levels": [
+        0,
+        1
+      ],
+      "integration_level": 1
+    },
+    "warm_median_ratio": 2.295044960515872,
+    "interpretation": "Finite two-field comparison batches with changing physical proposals, host curves, original observation mapping/density and accuracy checks; not a full fit or MCMC"
+  },
+  "limitations": [
+    "Two changed warm samples per four-proposal backend; shared machine, serial CPU baseline; not a stable timing distribution.",
+    "First GPU call includes encountered compilation and is slower than first CPU call.",
+    "CPU topology, clipping, guarded final root decisions, validation/replays and table/LD bridges remain.",
+    "Existing numerical accuracy guards remain; physical fitting/MCMC and ESS/sec are not qualified.",
+    "The prior Colab notebook remains pinned to its earlier validated observer commit; this native fusion snapshot has not run on Colab.",
+    "No settings/defaults/priors changed; no merge performed; running worker continues on its own development branch.",
+    "No new GPU workloads were run for this export; source identity is checked against the tested frozen manifest."
+  ]
+}
