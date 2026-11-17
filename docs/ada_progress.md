@@ -1,9 +1,237 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T14:06:44.010759+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T14:57:52.587699+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: fitted eclipse boundaries and conditioned small-occultor shadows
+## Latest milestone: shared quadrature isolates field and correction errors
+
+`SharedFieldLightCurve` now synthesizes complete reflected comparison batches
+with **identical clipped quadrature for every field variant**. This removes
+boundary changes from within-batch field/correction comparisons. All **28 new
+hardware tests passed without skips**; CPU validation passed 22 with six explicit
+GPU skips. The preceding 472 hardware controls remain under byte-identical
+616 baseline files. This is additive coverage of **500 cases**, not a fresh
+500-case hardware suite. No original CPU/default, kernel or fitter changed.
+
+Implementation parity passes. **Holding quadrature fixed still leaves failed
+1e-4 field/correction accuracy controls.** Increasing boundary depth barely
+changes those field distances. Finer observation boundaries pass the finite
+distance gate but still cause meaningful accumulated likelihood changes.
+Complete 1e-4 physical-fit/MCMC qualification remains open; no optimized fit,
+converged chain or ESS/sec claim follows.
+
+### A common physical integration domain
+
+The original nested edge projection changes angular midpoint placement but
+keeps each midpoint on its parent's great-circle edge. Descendants partition
+the parent cone in exact arithmetic. Direct 3x3 solves check **every common-cell
+corner** against its indexed field ancestor using conditioning-scaled normwise
+FP64 coefficient/reconstruction guards. Condition above 1e5, escaped ancestry
+or exhausted resources abort. No nearest-face reassignment or interpolated
+parent field is substituted. Independent great-circle membership searches and
+closed-form spherical-triangle solid angles control this mapping.
+
+An early componentwise inverse-product check spuriously rejected exact seam
+axes. A direct solve and normwise conditioning/reconstruction checks resolved
+that CPU development issue; failed evidence remains private. Original parity
+and numerical-accuracy gates remain unchanged. These checks account for FP64
+roundoff; they are not interval geometry certificates.
+
+At each phase/component, one fresh true-Roche clipped packet serves every
+variant: the same cosine, area and common-cell ancestry arrays. SHA256 digests
+include rule/grid/phase/component/node-count metadata and actual packet bytes.
+Independent CPU-reference and GPU runs must produce identical hashes and
+adaptive traces. All geometry is rebuilt for each physical candidate.
+
+The fixed three-model batch uses:
+
+| Model | Original finite field level | Original correction-angle level |
+|---|---:|---:|
+| A | 1 | 1 |
+| B | 1 | 2 |
+| C | 2 | 2 |
+
+Correction angle is seed_degrees/2**level. A→B changes only the argument of the
+original scalar correction while retaining raw topology and cached
+pre-correction gravity/centres/normals. All later original areas, thermal state,
+irradiation, LD and radiance are rebuilt. B→C refines those finite fields at
+fixed correction angle. A→C is the total field change. Off-diagonal correction
+is a diagnostic ablation, not a new calibrated model, prior or accuracy repair.
+
+### Complete curves and independent accuracy controls
+
+Reference fields/reflection/radiance and element-flux arithmetic use original
+CPU primitives. Device kernels retain the preceding state/reflection/fresh BB
+emission/weighted LD path; real CK04 explicitly uses CPU radiance/LD. Geometry,
+ancestry and clipping remain common CPU bridges. The standalone experiment
+preserves original phase mapping, repeats/order, third light, distance and
+normalization. It differs from the original faceted whole-curve method.
+
+Maximum normalized/raw/component-relative implementation differences are
+**6.66134e-16 /
+1.65436e-24 W/m² /
+1.38583e-15**. Existing gates remain
+3e-13 relative with zero absolute tolerance for raw/component fluxes and
+3e-13/2e-12 for normalized curves. Per-face original field controls, changed
+physics/response/source identity, exact singleton equivalence with the preceding
+boundary engine, and unchanged original CPU before/after controls pass.
+Tests cover reflected partial/total/non-eclipsing, unequal q/spin,
+logarithmic/square-root LD, CK04 and the small-occultor fixture.
+
+For the partial fixture's original 57 contact-focused phases and V/bolometric
+bands, common grid level 2 holds all quadrature fixed within each batch.
+D uses sigma=1e-4 and original ln_f=-2 effective noise; qualification uses
+**nominal sigma independently of ln_f** with the unchanged enclosure D<=0.1 gate.
+
+| Finite field control | Actual D at depth 3 | Nominal component enclosure D at depth 3 | Enclosure D at depth 4 |
+|---|---:|---:|---:|
+| correction only | 0.088094 | 0.215472 | 0.215472 |
+| field grid fixed correction | 0.315132 | 0.531741 | 0.531741 |
+| total field change | 0.349761 | 0.38528 | 0.38528 |
+
+The component enclosure is conservative: primary/secondary, phase and
+third-light normalization changes can cancel. Norms/enclosures do not add even
+though signed normalized changes telescope. All three listed component
+preflights retain their accuracy stops. The nearly unchanged field distances
+under finer boundaries isolate an upstream finite-field/correction limitation
+for this fixture, rather than the coupled field/boundary comparison used before.
+They do not quantify an uncomputed continuous field.
+
+The following comparison changes only common boundary depth 3→4 at fixed
+fields and common base partition:
+
+| Model | Actual D | Nominal component enclosure D | Preflight |
+|---|---:|---:|---|
+| field1_correction1 | 0.0314731 | 0.032126 | pass finite pair |
+| field1_correction2 | 0.0314731 | 0.032126 | pass finite pair |
+| field2_correction2 | 0.0314726 | 0.0321255 | pass finite pair |
+
+A separate common-partition control changes level2/depth3→level3/depth2,
+matching dyadic leaf scale while preserving **each variant's field model**:
+
+| Model | Actual D | Nominal component enclosure D | Preflight |
+|---|---:|---:|---|
+| field1_correction1 | 1.45798e-05 | 1.5587e-05 | pass finite pair |
+| field1_correction2 | 1.45798e-05 | 1.55869e-05 | pass finite pair |
+| field2_correction2 | 1.45802e-05 | 1.55873e-05 | pass finite pair |
+
+These are finite integration controls. A pass does not certify an uncomputed
+boundary or posterior. Straight leaf chords, seven-point topology probes,
+resource guards and the preceding physical domain remain; no continuum or
+sub-probe contour certificate is claimed. Total, CK04 and small-occultor full
+contact curves and every raw/component/normalized array are retained in the
+curated report.
+
+Independent CPU intrinsic T4 moments use unchanged original temperatures and
+**the same order-4 curved area quadrature** for every variant. No temperature is
+renormalized. The ratio is sum(T⁴A)/(T_eff⁴ sum(A))−1; this is intrinsic,
+not reflected energy balance.
+
+| Model | Component | Original corrected-area closure | Same fields, shared curved-area closure |
+|---|---|---:|---:|
+| field1_correction1 | primary | 0 | -2.72032e-07 |
+| field1_correction1 | secondary | 2.22045e-16 | -4.5194e-08 |
+| field1_correction2 | primary | 0 | -2.72032e-07 |
+| field1_correction2 | secondary | 2.22045e-16 | -4.5194e-08 |
+| field2_correction2 | primary | -1.11022e-16 | -6.83961e-08 |
+| field2_correction2 | secondary | 0 | -1.13624e-08 |
+
+Uniform correction rescaling cancels in original intrinsic normalization;
+refinement still changes the finite temperature representation. These small
+intrinsic biases alone do not explain or repair the full reflected-field curve
+differences. Curvature-consistent fields and irradiation/radiance convergence
+need independent validation.
+
+### Original likelihood semantics and complete comparison costs
+
+Fresh base/changed/JD proposals use original serializers, constraints, priors,
+phase/JD mapping, reducers/repeats, third light, final mean and noise/density.
+Maximum mapped prediction/posterior differences are
+**4.44089e-16 /
+9.02219e-10**, within the unchanged 1e-6 density
+gate. All variants independently match original prediction-layer mapping;
+out-of-prior vectors retain original -inf before synthesis. No physical model
+is cached across candidates. Numerical preflights remain outside candidate
+penalties, including nuisance-noise inflation.
+
+The table retains the data-dependent residual cross term in
+|delta logL| <= sum(|r|E+E²/2). Common grid level 2 and depth 4 serve all field
+variants; the boundary preflight compares depth 3→4 for fine fields C.
+
+| Proposal | Finite control | Nominal enclosure D | Actual delta logL | Absolute logL enclosure | Preflight |
+|---|---|---:|---:|---:|---|
+| base | correction only | 0.0675657 | 1.43253 | 27.9804 | pass finite pair |
+| base | field grid fixed correction | 0.152132 | 48.8533 | 83.6336 | abort |
+| base | total field change | 0.127437 | 50.2858 | 75.0193 | abort |
+| base | boundary depth3→4 | 0.0283027 | 17.0359 | 18.2137 | pass finite pair |
+| changed | correction only | 0.0504445 | 0.884455 | 29.1158 | pass finite pair |
+| changed | field grid fixed correction | 0.118172 | 34.6396 | 78.3019 | abort |
+| changed | total field change | 0.0974696 | 35.5241 | 69.6007 | pass finite pair |
+| changed | boundary depth3→4 | 0.0314966 | 25.2504 | 27.0858 | pass finite pair |
+| jd | correction only | 0.0675657 | 1.43253 | 27.9804 | pass finite pair |
+| jd | field grid fixed correction | 0.152132 | 48.8533 | 83.6336 | abort |
+| jd | total field change | 0.127437 | 50.2858 | 75.0193 | abort |
+| jd | boundary depth3→4 | 0.0283027 | 17.0359 | 18.2137 | pass finite pair |
+
+Passing a finite distance gate does not imply a negligible accumulated
+log-likelihood change. These observations' residual cross terms remain
+material, and upstream fields remain unqualified. No shared-field fitter or
+sampler backend is automatically registered.
+
+The costs below are **three-model comparison batches**. Both backends include
+constructors, all fresh fields, one common CPU geometry/clipping/hash pass,
+all transfers and all raw/normalized/component host outputs. Same unit,
+affinity 0–15, Nice 10, threads 1, FP64. Compilation incurred is included;
+sources/shapes may warm caches. Single measurements, not throughput distributions.
+
+| Case | Common level/depth | CPU reference batch s | GPU hybrid batch s |
+|---|---|---:|---:|
+| partial_bb | 2/3 | 43.5916 | 49.8321 |
+| partial_bb | 2/4 | 86.7479 | 93.2231 |
+| partial_bb | 3/2 | 58.7673 | 66.4245 |
+| total_bb | 2/3 | 55.1453 | 62.1155 |
+| partial_ck04 | 2/3 | 44.3688 | 50.0738 |
+| small_occultor | 2/3 | 50.5406 | 57.1737 |
+
+Both matched comparison callback timers start before physical
+serialization/constraints and constructors, then include original prior,
+prediction callback and density. Both compute three comparison curves and
+return C through original mapping. Extra coarse preflight and same-candidate
+mapping-only oracles add to main wall and are not timed as fresh synthesis.
+
+| Proposal | CPU reference comparison callback s | GPU hybrid comparison callback s |
+|---|---:|---:|
+| base | 62.6784 | 70.0633 |
+| changed | 63.2169 | 70.0278 |
+| jd | 62.5707 | 69.3125 |
+
+This output contract is not an ordinary single-model MCMC proposal. No qualified
+fitting/MCMC acceleration, convergence or ESS inference is made. The common CPU
+geometry bridge still dominates. Main walls start after imports; separately
+reported command walls include Python/import startup. Operational restoration
+and probes are separate; CPU development timings are excluded from matched evidence.
+
+### Evidence and continuation
+
+Ten independent systemd allocations used RuntimeMaxSec=300, internal 270 s
+deadlines and unconditional exact-original-service restoration hooks. All owned
+units ended inactive/success. Pinned source/config/plan, exact command/service,
+matching resume records and latest receipt/witness/endpoints were verified.
+Durable advances after restoration were **20,480, 20,480, 20,480, 18,432, 16,384, 16,384, 14,336, 14,336, 14,336, 14,336 cells**. This checks latest
+evidence, not a historical production re-audit. Raw operational records stay private.
+
+Frozen source/data: **619 files**, aggregate SHA256
+`22d8bd91785d4a6a98ab2ff4fbd79997260d96e7a1ae458a6c9393d1e47c74e3`. Three files added; all 616 baseline files
+remain byte-identical. See [curated report](ada_validation/background-m015.json),
+[source manifest](ada_validation/background-m015-source-hashes.json), and
+[API/reproduction/limits](experimental_gpu_backend.md#shared-quadrature-for-field-and-correction-comparisons).
+
+Next develop curvature-consistent or demonstrably converged finite thermal,
+irradiation and radiance fields, validate them on shared quadrature, and control
+accumulated likelihood errors before qualifying 1e-4 physical fits/MCMC.
+All accuracy stops remain active; the assignment continues.
+
+## Previous milestone: fitted eclipse boundaries and conditioned small-occultor shadows
 
 `BoundaryBinaryLightCurve` now synthesizes complete reflected curves with
 boundary-fitted leaf integration. The formerly rejected small-occultor fixture

@@ -1,17 +1,17 @@
 {
-  "updated_utc": "2026-11-17T14:06:44.010759+00:00",
+  "updated_utc": "2026-11-17T14:57:52.587699+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "bfaa1836ea53ad53475f1d374a208ae3ca2506553d64811260dfde1e828c0dbd",
-  "code_state_hash_method": "SHA256 of background-m014-source-hashes.json parsed as compact sorted-key JSON",
-  "stage": "Boundary-fitted curved Roche integration and conditioned small-occultor shadows",
+  "code_state_sha256": "22d8bd91785d4a6a98ab2ff4fbd79997260d96e7a1ae458a6c9393d1e47c74e3",
+  "code_state_hash_method": "SHA256 of background-m015-source-hashes.json parsed as compact sorted-key JSON",
+  "stage": "Shared-quadrature field/correction isolation and finer original likelihood controls",
   "last_gpu_suite": {
-    "tests": 73,
+    "tests": 28,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "pytest_seconds": 149.108,
-    "scope": "40new boundary tests and all33preceding curved tests rerun without skips"
+    "pytest_seconds": 104.73,
+    "scope": "All28new shared-field CPU/GPU cases ran without skips"
   },
   "last_gpu_suite_is_current_physics_source": true,
   "cpu_only_suite_before_two_added_test_pairs": {
@@ -20,14 +20,14 @@
     "errors": 0,
     "skipped": 47
   },
-  "benchmark_status": "73freshhardwaretests pass/no skips;399unchanged baseline hardware controls retained. Conditioned shadows and fitted leaf boundaries; no continuum1e-4inference/ESS claim.",
+  "benchmark_status": "28newhardwarecases pass/no skips;472unchanged baseline cases retained. Separate finite field/correction/boundary and accumulated likelihood controls; no continuum1e-4fit/MCMCqualification.",
   "production": {
-    "window": "background-m014-w052",
+    "window": "background-m015-w062",
     "status": "restored_and_advancing",
-    "verified_utc": "2026-11-17T14:04:59.530665+00:00",
-    "durable_cells_before": 1316173879,
-    "durable_cells_after": 1316216375,
-    "durable_cells_advanced": 42496,
+    "verified_utc": "2026-11-17T14:56:26.344307+00:00",
+    "durable_cells_before": 1323162167,
+    "durable_cells_after": 1323176503,
+    "durable_cells_advanced": 14336,
     "source_release_reverified": true,
     "config_and_plan_unchanged": true,
     "matching_resume_record_verified": true,
@@ -35,7 +35,7 @@
     "clean_test_unit_exit_verified": true,
     "last_receipt_witness_endpoints_verified": true,
     "full_historical_reaudit": false,
-    "test_commands_seconds": 219.80206793709658
+    "test_commands_seconds": 165.43566510197707
   },
   "production_windows": [
     {
@@ -957,6 +957,166 @@
       "last_receipt_witness_endpoints_verified": true,
       "full_historical_reaudit": false,
       "test_commands_seconds": 219.80206793709658
+    },
+    {
+      "window": "background-m015-w053",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:33:35.392108+00:00",
+      "durable_cells_before": 1322935607,
+      "durable_cells_after": 1322956087,
+      "durable_cells_advanced": 20480,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 107.44618277903646
+    },
+    {
+      "window": "background-m015-w054",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:35:26.604729+00:00",
+      "durable_cells_before": 1322964279,
+      "durable_cells_after": 1322984759,
+      "durable_cells_advanced": 20480,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 96.90984491503332
+    },
+    {
+      "window": "background-m015-w055",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:38:44.873057+00:00",
+      "durable_cells_before": 1322991159,
+      "durable_cells_after": 1323011639,
+      "durable_cells_advanced": 20480,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 183.42990143992938
+    },
+    {
+      "window": "background-m015-w056",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:41:10.832217+00:00",
+      "durable_cells_before": 1323019831,
+      "durable_cells_after": 1323038263,
+      "durable_cells_advanced": 18432,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 131.25849657086655
+    },
+    {
+      "window": "background-m015-w057",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:43:26.124377+00:00",
+      "durable_cells_before": 1323046455,
+      "durable_cells_after": 1323062839,
+      "durable_cells_advanced": 16384,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 120.68525476497598
+    },
+    {
+      "window": "background-m015-w058",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:45:19.154131+00:00",
+      "durable_cells_before": 1323073079,
+      "durable_cells_after": 1323089463,
+      "durable_cells_advanced": 16384,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 97.86713213112671
+    },
+    {
+      "window": "background-m015-w059",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:47:24.162458+00:00",
+      "durable_cells_before": 1323095607,
+      "durable_cells_after": 1323109943,
+      "durable_cells_advanced": 14336,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 111.12571836309507
+    },
+    {
+      "window": "background-m015-w060",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:50:25.004984+00:00",
+      "durable_cells_before": 1323116087,
+      "durable_cells_after": 1323130423,
+      "durable_cells_advanced": 14336,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 166.17370734806173
+    },
+    {
+      "window": "background-m015-w061",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:53:25.424333+00:00",
+      "durable_cells_before": 1323136311,
+      "durable_cells_after": 1323150647,
+      "durable_cells_advanced": 14336,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 166.54149025201332
+    },
+    {
+      "window": "background-m015-w062",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T14:56:26.344307+00:00",
+      "durable_cells_before": 1323162167,
+      "durable_cells_after": 1323176503,
+      "durable_cells_advanced": 14336,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 165.43566510197707
     }
   ],
   "hardware": {
@@ -967,7 +1127,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Boundary-fitted curved Roche complete hybrid curves and matched physical likelihood callbacks; original CPU/default behavior preserved. Finite boundaries/fields remain separate from continuum qualification.",
+  "scope": "Complete fresh field/correction batches on shared checked clipped quadrature, original CPU/device physics and matched original likelihood comparison callbacks; CPU/default/fallbacks unchanged.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -980,7 +1140,7 @@
     "benchmark_status": "All CPU/GPU correctness and bounded performance runs passed at all requested sizes. No benchmark size skipped. Spectral chunk tuning passed",
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
-  "current_milestone_report": "background-m014.json",
+  "current_milestone_report": "background-m015.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
@@ -1163,22 +1323,85 @@
   "current_full_cpu_suite": {
     "fresh_full_suite_rerun": false,
     "fresh_suite": {
-      "tests": 73,
+      "tests": 28,
       "failures": 0,
       "errors": 0,
-      "skipped": 12,
-      "pytest_seconds": 110.263,
-      "passed": 61,
-      "scope": "Same73cases in private forcedCPU environment;12explicit hardware skips"
+      "skipped": 6,
+      "pytest_seconds": 86.078,
+      "passed": 22,
+      "scope": "Same28new cases in private forcedCPU environment; six explicitGPUskips"
     },
-    "retained_unchanged_baseline": {
-      "tests": 399,
-      "failures": 0,
-      "errors": 0,
-      "skipped": 152,
-      "pytest_seconds": 335.475,
-      "passed": 247,
-      "scope": "Final frozen source; all experimental tests, explicit GPU skips in forced-CPU private environment"
+    "inherited": {
+      "baseline_commit": "893bd98742c7c47f3bd4fdb0b368179454459e6c",
+      "baseline_manifest": "background-m014-source-hashes.json",
+      "baseline_files": 616,
+      "all_baseline_files_unchanged": true,
+      "retained_hardware_cases": 472,
+      "preceding_fresh_hardware_suite": {
+        "tests": 73,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "pytest_seconds": 149.108,
+        "scope": "40new boundary tests and all33preceding curved tests rerun without skips"
+      },
+      "earlier_validation": {
+        "baseline_commit": "a34227bafa798a107424d3003fba123daad1d48c",
+        "baseline_manifest": "background-m012-source-hashes.json",
+        "baseline_files": 606,
+        "all_baseline_files_unchanged": true,
+        "hardware_tests": {
+          "tests": 399,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "pytest_seconds": 437.581,
+          "partitions": [
+            {
+              "tests": 89,
+              "failures": 0,
+              "errors": 0,
+              "skipped": 0,
+              "pytest_seconds": 171.251
+            },
+            {
+              "tests": 75,
+              "failures": 0,
+              "errors": 0,
+              "skipped": 0,
+              "pytest_seconds": 145.195
+            },
+            {
+              "tests": 235,
+              "failures": 0,
+              "errors": 0,
+              "skipped": 0,
+              "pytest_seconds": 121.135
+            }
+          ],
+          "scope": "All experimental tests in three independently restored windows"
+        },
+        "cpu_tests": {
+          "tests": 399,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 152,
+          "pytest_seconds": 335.475,
+          "passed": 247,
+          "scope": "Final frozen source; all experimental tests, explicit GPU skips in forced-CPU private environment"
+        },
+        "scope": "399 unchanged hardware controls retained; only new additive modules exercised anew. No default CPU function, setting or original kernel changed."
+      },
+      "preceding_fresh_cpu_suite": {
+        "tests": 73,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 12,
+        "pytest_seconds": 110.263,
+        "passed": 61,
+        "scope": "Same73cases in private forcedCPU environment;12explicit hardware skips"
+      },
+      "scope": "All616baseline source/data files unchanged. New module remains opt-in; no CPU/default/kernel/fitter changes. Previous472hardware cases retained, not a fresh472suite."
     }
   },
   "previous_observation_protocol": {
@@ -1305,11 +1528,10 @@
     "current_milestone_report": "background-m012.json"
   },
   "current_test_coverage": {
-    "cases": 472,
-    "fresh_hardware_cases": 73,
-    "unchanged_baseline_hardware_cases": 399,
-    "fresh_full_suite_rerun": false,
-    "condition": "All606m012baseline files remain byte-identical. All33m013tests rerun because gpu_curved.py gained explicit geometry hooks with identical default.40newcases added. No fresh472case suite claimed."
+    "cases": 500,
+    "fresh_hardware_cases": 28,
+    "retained_baseline_hardware_cases": 472,
+    "fresh_full_suite_rerun": false
   },
   "previous_curved_surface_milestone": {
     "stage": "True Roche curved-patch integration and consistent implicit eclipse predicates",
@@ -1323,5 +1545,18 @@
       "scope": "All33new CPU/GPU curved tests executed in own restored hardware window, no skips"
     },
     "current_milestone_report": "background-m013.json"
+  },
+  "previous_boundary_fitted_milestone": {
+    "stage": "Boundary-fitted curved Roche integration and conditioned small-occultor shadows",
+    "code_state_sha256": "bfaa1836ea53ad53475f1d374a208ae3ca2506553d64811260dfde1e828c0dbd",
+    "last_gpu_suite": {
+      "tests": 73,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "pytest_seconds": 149.108,
+      "scope": "40new boundary tests and all33preceding curved tests rerun without skips"
+    },
+    "current_milestone_report": "background-m014.json"
   }
 }

@@ -1253,3 +1253,98 @@ controls are additionally charged in the complete study wall. Compilation
 incurred is included; process caches can warm. These studies are not optimized
 fits, converged chains or ESS measurements. GPU runs require independently
 restored bounded allocations. See [current results](ada_progress.md).
+
+## Shared quadrature for field and correction comparisons
+
+`SharedFieldLightCurve` evaluates a fixed batch of fresh field models on the
+**same clipped quadrature packets**. It is an opt-in diagnostic protocol; the
+preceding curve engines, original Observer, public fitters and fallback routes
+remain unchanged. There is no physical prediction cache across candidates.
+
+```python
+from elisa.experimental.boundary_geometry import BoundaryRule
+from elisa.experimental.gpu_shared_fields import FieldVariant, SharedFieldLightCurve
+from elisa.experimental.gpu_curved import curved_difference
+
+variants = (FieldVariant(1, 1), FieldVariant(1, 2), FieldVariant(2, 2))
+engine = SharedFieldLightCurve(
+    bands, BoundaryRule(order=3, depth=3), variants,
+    integration_level=2, device="gpu",
+)
+batch = engine(binary, observation_phases, observer=observer,
+               source_revision=assets_sha256)
+a, b, c = (batch.curves[v.key] for v in variants)
+# Call each numerical preflight outside physical candidate-penalty handlers.
+correction = curved_difference(a, b, nominal_y_err, require_budget=True)
+field_grid = curved_difference(b, c, nominal_y_err, require_budget=True)
+```
+
+`FieldVariant(level, correction_level)` fixes the original finite field grid
+and the argument of the original scalar mesh-correction formula independently.
+Both levels are 0–2. The correction angle is seed_degrees/2**correction_level;
+all raw topology, points and cached pre-correction gravity/centres/normals stay
+at `level`. Every variant rebuilds subsequent original areas, thermal state,
+irradiation, LD and radiance. Off-diagonal choices are correction ablations,
+not calibrated new physical models or alternative priors. `FieldVariant(l,l)`
+uses the preceding ordinary nested field convention.
+
+The common angular grid is a fresh `NestedMesh(integration_level)`. Original
+Roche projection places each edge midpoint on the same parent great-circle
+edge, even when it is not the angular midpoint. Descendants partition their
+parent cone in exact arithmetic. A direct 3x3 solve checks every child's corner
+against its indexed ancestor with conditioning-scaled normwise FP64 guards and
+a reconstruction check; condition above 1e5 aborts. This accounts for seam-axis
+roundoff and is not an interval geometry certificate. An escaped parent is an
+explicit error; no nearest-face reassignment or interpolated parent value is
+substituted. Independent great-circle membership and exact spherical-triangle
+solid-angle controls check the ancestry.
+
+Each phase/component builds one true-Roche clipped packet. All variants use its
+identical cosine, area and common-cell parent arrays, then map parents through
+checked ancestry. A SHA256 digest includes the rule, integration level, phase,
+component, node count and actual packet bytes. Reference/device runs independently
+rebuild geometry and must produce identical hashes and adaptive traces. A field
+or correction comparison inside one batch therefore holds boundary integration
+fixed. Changing the common grid/depth remains a separate integration control.
+
+The three-model example separates correction-only `a→b`, field-grid refinement
+at fixed correction `b→c`, and the total `a→c`. Normalized changes telescope,
+but their norm/enclosure distances need not add because components and phase
+changes can cancel. The original third-light/max/mean conventions are retained.
+The existing component enclosure and data-residual likelihood cross term bound
+only computed finite differences. Gates use nominal uncertainty independently
+of ln_f; failures abort outside prior penalties. A passing finite pair still
+does not qualify an uncomputed field, boundary or continuous posterior.
+
+The geometry and ancestry bridge remains CPU-side. Reference fields and element
+flux use original CPU primitives; CPU/GPU backends use the preceding JAX state,
+reflection, emission and integration kernels. CK04 explicitly selects
+`radiance="cpu"`. Batch timings include constructors, every fresh field model,
+common geometry/clipping/hash, all transfers and all raw/normalized/component
+host curves. This is a three-model comparison output contract, not one ordinary
+proposal or a claim of all-GPU synthesis. No fitting/sampler backend is registered.
+
+`integration_level` is max(field levels) through 3, with the original 40000-face
+common-grid cap. There are 1–4 unique variants, at most 20276 field faces per
+component, 1–8 bands and 1–128 phases. The preceding boundary-rule/node caps and
+circular detached q/spin/radius guards remain. Resource/unsupported failures
+never silently coarsen a requested model or remove a physical prior region.
+The node cap is not a peak-memory bound. `shared_area_moments` independently
+reports original intrinsic T4 closure and the same temperatures on shared
+order-4 curved areas; it applies no temperature renormalization and does not
+certify reflected energy balance.
+
+Run `test_shared_fields.py`. Reproduce complete reflected profiles with
+`scripts/validate_gpu_shared_fields.py --device cpu --part curves --case partial_bb --integration-level 2 --depth 3 --output shared.json`.
+Cases also include `total_bb`, `partial_ck04` and `small_occultor`.
+Repeat at another common depth/grid using `--comparison shared.json`.
+`--part observations --proposal base --integration-level 2 --depth 4` runs one
+physical observation study; `changed` and `jd` select the other proposals so each
+GPU study fits its independently restored bounded allocation. Both complete
+comparison callbacks include original serialization/constraints, constructor,
+prior, prediction mapping and density; both compute all three comparison curves
+and return the fine curve through the original prediction layer. Extra coarse
+boundary preflight and untimed same-candidate mapping oracles add to main wall.
+This does not measure ordinary single-model MCMC throughput, mixing or ESS.
+GPU execution requires the independently restored bounded pattern. See
+[current finite errors, timings and remaining work](ada_progress.md).
