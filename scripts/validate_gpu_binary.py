@@ -40,6 +40,7 @@ CASES = [
      "discretization": 8, "law": "square_root", "reflection": False},
     {"name": "equal_components", "inclination": 88, "q": 1,
      "potentials": [12, 12], "temperatures": [6500, 6500], "reflection": False},
+    {"name": "small_occulter", "inclination": 90, "potentials": [8, 100], "reflection": False},
 ]
 
 
@@ -149,13 +150,14 @@ def details(result: Any, binary: BinarySystem, engine: HybridBinaryLightCurve) -
 def run(device: str, repeats: int) -> dict[str, Any]:
     started = perf_counter()
     engine = HybridBinaryLightCurve(BANDS, device=device, fallback="raise")
+    preceding = HybridBinaryLightCurve(BANDS, device=device, fallback="raise", coverage="cpu")
     construction_seconds = perf_counter() - started
     output: dict[str, Any] = {
         "device": engine.device.platform, "device_kind": engine.device.device_kind,
         "contract": ("Host B/V/bolometric observed curves; fresh candidate mesh, "
                      "all host bridges and final downloads included"),
-        "model": ("HYBRID: CPU mesh/roots/topology/kinematics, reflection, radiance/LD, "
-                  "rotation and clipping; device state/integration"),
+        "model": ("HYBRID: CPU mesh/roots/topology/kinematics, reflection, radiance/LD and fresh hull/visibility; "
+                  "device corrected state, projection, partial-face clipping, coverage and batched integration"),
         "normalization": ("Observer maximum; l3 uses original observation order/repeats; "
                           "CPU distance helper for raw flux"),
         "constructor_seconds": construction_seconds, "repeats": repeats, "cases": [],
@@ -178,6 +180,10 @@ def run(device: str, repeats: int) -> dict[str, Any]:
             l_cpu = prepared_likelihood(prepared, expected, -2.0)
             l_hybrid = prepared_likelihood(prepared, result.fluxes, -2.0)
             likelihood_error = measurement(l_hybrid, l_cpu, rtol=0, atol=1e-6)
+            earlier = preceding(binary, phases, normalize=True)
+            preceding_parity = {band: measurement(result.fluxes[band], earlier.fluxes[band], atol=2e-12)
+                                for band in BANDS}
+            occultation = result.diagnostics["occultation"]
             row = {
                 "fixture": case, "phases": phases.tolist(),
                 "face_counts": [len(getattr(result.diagnostics["initial_system"], name).faces)
@@ -185,9 +191,13 @@ def run(device: str, repeats: int) -> dict[str, Any]:
                 "normalized": {band: measurement(result.fluxes[band], expected[band], atol=2e-12) for band in BANDS},
                 "raw_w_m_squared": {band: measurement(raw_result.fluxes[band], raw_expected[band]) for band in BANDS},
                 "log_likelihood_error_sigma_1e_4": likelihood_error,
+                "preceding_cpu_coverage_hybrid_parity": preceding_parity,
+                "device_coverage": {key: occultation[key] for key in ("hull_bridge", "phase_chunk", "hull_capacity",
+                                                                     "partial_capacity", "partial_faces")},
                 "first_call_seconds_including_compilation": result.timings,
                 "intermediates": details(result, binary, engine),
                 "warm_hybrid_seconds": [], "warm_original_cpu_seconds": [], "warm_stages_seconds": [],
+                "warm_preceding_cpu_coverage_hybrid_seconds": [],
             }
             for _ in range(repeats):
                 before = perf_counter()
@@ -197,8 +207,14 @@ def run(device: str, repeats: int) -> dict[str, Any]:
                 before = perf_counter()
                 Observer(passband=BANDS, system=binary).lc(phases=phases, normalize=True)
                 row["warm_original_cpu_seconds"].append(perf_counter() - before)
+                before = perf_counter()
+                preceding(binary, phases, normalize=True)
+                row["warm_preceding_cpu_coverage_hybrid_seconds"].append(perf_counter() - before)
             row["median_hybrid_seconds"] = float(np.median(row["warm_hybrid_seconds"]))
             row["median_original_cpu_seconds"] = float(np.median(row["warm_original_cpu_seconds"]))
+            row["median_preceding_cpu_coverage_hybrid_seconds"] = float(
+                np.median(row["warm_preceding_cpu_coverage_hybrid_seconds"]),
+            )
             output["cases"].append(row)
     output["all_correctness_gates_passed"] = True
     output["wall_seconds"] = perf_counter() - started

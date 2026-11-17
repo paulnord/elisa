@@ -1,9 +1,149 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T04:04:33Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T04:29:53Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: corrected state and functional hybrid observed curves
+## Latest milestone: device projection and partial eclipse clipping
+
+Fresh complete hybrid curves now use GPU observer projection, Sutherland–Hodgman
+partial-face intersections, coverage assembly/SMA scaling and batched three-band
+flux integration. **CPU Qhull/Path and the original visibility selectors remain
+a fresh, timed bridge.** The candidate mesh/roots/topology, reflection and
+radiance/LD are still CPU stages. This is a hybrid forward path, with no change
+to existing CPU Observer or fitting defaults.
+
+`gpu_clipping.ConvexTriangleClipper` ports the actual CPU algorithm: translate to
+triangle-local coordinates, clip against the same three half-planes, retain
+crossing/end-vertex order and calculate a translated shoelace area. There is no
+coordinate quantization or half-plane widening. Buffers use the CPU's conservative
+8*hull-capacity bound; nonfinite/overflow states remain explicit unsupported
+outputs. Exact zero determinants and zero-area edge/vertex contacts are retained.
+
+`gpu_occultation.DeviceEclipseIntegrator` snapshots each fresh corrected mesh,
+cached normals, radiance and LD once, projects the real new geometry on device,
+then sends projections to CPU for the exact existing hull/visibility rules.
+Fresh hulls/masks/partial indices return to device. Clipping, uncovered-area
+assembly, the original small-area threshold, physical area scaling and all bands
+then execute in packets of eight phases. Prepared packets have immutable inputs
+and pass strict no-transfer evaluation guards. Nothing is reused from a previous
+physical candidate. The original fixed-direction ray pipeline remains separate.
+
+### Parity and independent geometry gates
+
+**184 tests passed in 72.06 s on Ada, zero failures/errors/skips.** CPU-only
+checks passed **109**, with **75** explicit hardware skips. The eight detailed
+whole-curve cases passed on JAX CPU and GPU in the same checkpointed window.
+They retain all preceding changing-mass/potential/spin/temperature, three-band,
+three-LD-law, reflection, ordering/repeat and both-eclipse cases, and add a tiny
+occulter that exercises ELISa's separate small-object visibility branch.
+
+The clipping tests also use 20 literal analytic/exact-rational area cases with
+both windings (including positive slivers and exact edge/vertex contacts), plus
+60 saved real Roche eclipse hull/triangle batches. Maximum absolute area error
+was **1.12e-16** for the analytic cases and **2.17e-19 SMA²** for the saved eclipse
+batches. This is independent geometry evidence in addition to CPU parity.
+
+In the eight full GPU cases:
+
+- Maximum normalized total-curve absolute difference: **4.45e-16**; maximum raw
+  observed-flux relative difference: **1.09e-15**.
+- Selected-face indices all matched. Maximum LOS-cosine absolute difference:
+  **3.34e-16**; coverage absolute difference: **1.58e-17 SMA²**.
+- Maximum per-face contribution difference, normalized by component flux:
+  **1.02e-13**; maximum component-flux relative difference: **1.35e-13**.
+  Small eclipsed components amplify relative roundoff while their total-curve
+  effect remains tiny. Fully occulted zero coverage remains zero.
+- Maximum accumulated three-band log-likelihood difference: **3.89e-11** at
+  normalized errors `1e-4`, `ln_f=-2` and 45–69 observations per band.
+
+The existing `3e-13` surface relative gate, `64*eps` geometry absolute gate,
+`2e-12` normalized-flux gate and `1e-6` diagnostic likelihood gate are unchanged.
+Analytic clipping areas pass relative `3e-13` with zero absolute tolerance;
+positive slivers are explicitly required to remain positive. Geometry/numeric
+unsupported results are not physical-prior rejections. These are implementation
+parity checks, not mesh/time/spectral convergence or a validation of all possible
+ill-conditioned polygons. No physical fitting, sampler or ESS claim is made.
+
+### Matched full-curve timings
+
+Median **milliseconds per fresh curve**, three warm repeats, all CPU work,
+transfers and matching final host B/V/bolometric curves included. The following
+paths ran in the same checkpointed window with affinity0–15 and thread counts1.
+JAX CPU and GPU drivers ran sequentially. The original CPU and preceding hybrid
+columns below come from the GPU driver; the JAX CPU column comes from its
+separate matched-profile driver. CPU Observer samples from both drivers are
+retained in JSON. Input `BinarySystem` creation is outside all these timers;
+combined construction of both comparison engines and first-call/stage medians
+are separate. First-call measurements include diagnostic captures; warm calls
+use diagnostics=False. Hybrid extra
+component/timing metadata is also included in its elapsed cost.
+
+| Case | Original CPU Observer | Previous hybrid GPU (CPU coverage) | Batched hybrid JAX CPU | Batched hybrid GPU |
+|---|---:|---:|---:|---:|
+| Non-eclipsing | 66.48 | 111.87 | 63.37 | 66.40 |
+| Grazing | 73.02 | 125.04 | 89.09 | 74.12 |
+| Partial, reflection | 74.17 | 119.79 | 226.39 | 74.90 |
+| Total, reflection | 80.19 | 135.27 | 275.69 | 78.99 |
+| q=0.5, logarithmic LD | 74.98 | 127.62 | 276.81 | 72.33 |
+| q=2, square-root LD, finer mesh | 102.86 | 154.71 | 252.44 | 101.21 |
+| Equal components | 67.46 | 113.04 | 231.41 | 67.82 |
+| Small occulter | 72.21 | 136.04 | 99.69 | 68.08 |
+
+The batched GPU path reduces the preceding hybrid's latency, but is approximately
+as expensive as original CPU Observer at these workloads. Only three repeats and
+sequential run order do not establish a robust whole-curve gain from the small
+CPU/GPU differences. Eclipse-heavy batched JAX CPU is substantially slower;
+batching alone does not explain the GPU result. No fitting/MCMC speedup follows.
+
+### Domain, fallback and next work
+
+`HybridBinaryLightCurve(..., coverage="device")` is now the default experimental
+path. `coverage="cpu"` retains the preceding complete hybrid path for comparison.
+The existing circular-detached, unspotted, blackbody/custom-LD state domain is
+unchanged. Device clipping preserves the configured Sutherland–Hodgman/reference
+contract. A configured PYPEX backend uses the **whole original CPU Observer**,
+with its original semantics and an explicit fallback reason.
+
+Current device resource bounds are 128 synthesis-support phases after Observer
+reduction/symmetry, 4096 vertices/8192 faces per star, 128 hull vertices and 256
+partial faces per component/phase. These bound projection and clipping storage;
+they are not physical-prior bounds. Exceeding them runs the full CPU curve or
+raises explicitly when `fallback="raise"`; no phases are dropped. A 601-observation
+regression verifies complete, exactly equal CPU fallback beyond the phase bound.
+Other existing model/data fallbacks remain. This is not an all-GPU forward model.
+
+Next assess the **original mean-normalized physical fitting/likelihood contract**
+with fresh changed-parameter predictions, original phase mapping/normalization,
+third light/noise and representative fit/sampler equivalence. Include candidate
+construction, transfers and any shape recompilation in that assessment; short
+chains are only smoke tests. CPU hull/visibility, resident mesh/state/emission
+composition, real atmosphere/LD tables, spots and broader eccentric/contact GPU
+support remain separate work. The l3/ln_f-only pilot still caches its fixed curve.
+
+Reproduce with the existing private FP64 environment and CPU development wrapper:
+
+```text
+python -m pytest tests/tests_experimental -q -rs
+python scripts/validate_gpu_binary.py --device cpu --repeats 3 --output validation-cpu.json
+python scripts/validate_gpu_binary.py --device gpu --repeats 3 --output validation-gpu.json
+```
+
+GPU commands require the authorized independently restored systemd allocation.
+This window's complete probe/test/CPU/GPU validation batch ran **120.79 s** within
+its 270 s internal/300 s systemd limits. Cleanup restored the exact pinned
+production service, verified a matching resume record and latest receipt/witness
+endpoints, and observed **45,056 durable cells** of advancement. Unit cleanup
+finished successfully. This is not a full historical production re-audit.
+
+See [curated milestone measurements](ada_validation/background-m002.json),
+[tested source/fixture hashes](ada_validation/background-m002-source-hashes.json),
+and [current machine-readable status](ada_validation/progress.json). The 551-file
+runtime/fixture manifest hashes to
+`f880f63bf46945353b88aefcd7fc451720dafdd6cfc3ad99d7d5b21907bf9dc3`
+using compact sorted-key JSON. Tested runtime files remained unchanged afterward.
+All operational logs and process/environment/checkpoint snapshots remain private.
+
+## Previous milestone: corrected state and functional hybrid observed curves
 
 `CorrectedSurfaceState` and `HybridBinaryLightCurve` now produce complete fresh
 **B, V and bolometric observed light curves**, including changing mutual eclipses,

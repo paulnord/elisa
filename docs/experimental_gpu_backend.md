@@ -382,9 +382,11 @@ immutable and evaluated under strict device transfer guards. It is a separate
 adapter; `RocheGeometryPipeline` retains its original uncorrected contract.
 
 `gpu_binary.HybridBinaryLightCurve` connects that state to complete observed
-curves with fresh CPU reflection/radiance/LD and changing CPU eclipse clipping,
-then device integration. It recomputes candidate angular placement, radial roots
-and connectivity on CPU; it does not freeze the ray experiment's directions.
+curves with fresh CPU reflection/radiance/LD. Its current default uses device
+projection/clipping/coverage/integration with a fresh CPU hull/visibility bridge;
+`coverage="cpu"` retains the preceding CPU eclipse path. Each candidate's angular
+placement, radial roots and connectivity are recomputed on CPU; the ray
+experiment's directions are not frozen.
 Each call rebuilds all dependent physical state. This is a functional **hybrid**
 path, not an all-GPU or resident forward model and not a registered fitting backend.
 
@@ -429,3 +431,37 @@ full-curve comparisons. Full hybrid GPU calls were slower than CPU Observer at
 the tested 832/1280-face workloads. See [Ada progress](ada_progress.md) for actual
 errors, transfer-inclusive samples, safety evidence and remaining work. No MCMC,
 ESS/sec, resolution convergence or whole-model acceleration claim follows.
+
+## Device projection and partial-face eclipse clipping
+
+`gpu_occultation.DeviceEclipseIntegrator` projects each new corrected mesh and
+its cached pre-correction normals on device. Projected arrays return to CPU for
+the original Qhull/Path and visibility selectors. Fresh hulls/selection masks
+then upload for `gpu_clipping.ConvexTriangleClipper`, uncovered-area calculation,
+the original surface-noise threshold, SMA² scaling and batched band integration.
+CPU candidate geometry, reflection/radiance/LD and hull construction remain
+explicit costs. This is still a hybrid model, with no stale candidate state.
+
+The device clipper follows the original Sutherland–Hodgman algorithm: three
+triangle half-planes, triangle-local coordinates, ordered crossing/end vertices,
+and translated shoelace area. It preserves exact-zero contacts and positive
+slivers, without quantization or widened boundaries. Immutable prepared packets
+have no intermediate evaluation transfers; host preparation and final downloads
+remain caller costs. Degenerate/empty intersection semantics match the CPU;
+numeric/buffer failures are explicit unsupported results, never prior penalties.
+
+The default hybrid supports the configured Sutherland–Hodgman or reference
+intersection backend. PYPEX uses full CPU fallback, preserving its distinct
+numeric contract. Device storage bounds are 128 synthesis phases after Observer
+reduction/symmetry, 4096 vertices/8192 faces per star, 128 hull vertices and 256
+partial faces per component/phase; clipping packets contain eight phases. Larger
+requests use the entire CPU curve or raise explicitly, without truncation.
+
+The second background milestone passed **184 tests with no hardware skips** and
+eight detailed CPU/GPU full-curve cases. Direct analytic geometry and 60 saved
+Roche eclipse batches supplement original-CPU parity. Matched full GPU curves
+took 66–102 ms versus 112–155 ms for the preceding hybrid and 66–103 ms for CPU
+Observer. These small CPU/GPU differences do not establish a robust whole-curve
+gain; the CPU hull bridge remains. See the latest [report](ada_progress.md) for
+all errors, cold/full costs, unchanged thresholds, restoration and remaining
+physical fitting/MCMC assessment. No sampler/convergence/ESS claim is made.
