@@ -1,9 +1,129 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T19:26:12.598224+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T20:40:03.061534+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues. Fifth42 is intentionally held for ELISa.**
 
-## Latest milestone: device observer geometry and guarded eclipse roots
+## Latest milestone: native nested roots and joint likelihood error controls
+
+`FusedObserverLightCurve` composes native FP64 nested edge/Roche/shadow roots
+with the existing complete reflected curves and original mapped physical
+likelihoods. **31 new hardware controls pass without skips**, including all six
+curve fixtures, changing physical/LOS batches and 57 contact-focused phases.
+Independent CPU coverage also passes 31 controls, retaining unchanged passing
+cases and rerunning corrected new fixtures. All 639 previous scientific source/
+data files are byte-identical. The 616 earlier hardware controls are retained:
+647 additive cases, not a fresh 647-case suite. Original CPU/default behavior,
+priors and explicit unsupported/full-CPU routing retain their behavior.
+
+The GPU tile keeps all 80 radial bisections, 12 shadow Newton updates and outer
+edge iterations inside native bounded loops. Explicit round-to-nearest FP64
+scalar stages retain the physical equations and strict gates. The original
+trigonometric CPU reference remains independent. Pallas/Triton in pinned
+JAX 0.12.0.1 is validated on Ada; its deprecation warning means future compiler
+upgrades require migration and new validation. No packages or drivers changed.
+
+Each lane saves its bracket and iteration before its first 128-eps ambiguity
+or branch seam. Original CPU arithmetic resumes from there; otherwise the
+predeclared last two decisions stay CPU. Original final-bracket checks and full
+replay on disagreement remain measured. This cuts redundant replay while
+preserving exact finite adaptive traces. CPU topology/clipping, standalone
+observer samples/fields/shadows and LD/table bridges remain. The full observer
+controller still visits candidates/phases serially; native root grids support
+changing physical/LOS rows. This remains a hybrid, with fresh state per proposal.
+
+### Complete curves, original likelihoods and measured costs
+
+Raw/component/normalized curves, original observations/JD-compatible mapping,
+third light, mean normalization, noise, prior and density semantics retain
+separate parity gates. The six fixtures include partial/total eclipses,
+unequal masses/spins, three LD laws, real CK04 tables and a tiny occultor.
+The full original adaptive traces match, including maximum slice shifts.
+Maximum normalized curve/prediction difference in the matched batch comparisons is **6.66134e-16** and maximum
+posterior difference **1.3315e-09**, within the unchanged gates.
+
+The CPU reference uses original ELISa primitive equations on the current finite
+curved/field protocol; it is not the default facet-model discretization.
+Each timed batch rebuilds q, potential, temperatures, inclination, l3 and ln_f.
+It returns two finite field curves per candidate plus required host diagnostics,
+original densities and accuracy controls. Enclosing times include CPU bridges,
+transfers, synchronization and host outputs. Fixed input/constructor and process
+startup/exit costs are separate; first calls include encountered compilation.
+These are comparison-workload costs, not qualified production MCMC throughput.
+
+| Proposals | Original CPU cold / warm | JAX CPU cold / warm | Native GPU cold / warm |
+| --- | --- | --- | --- |
+| 1 | 9.265 / 9.061–9.201 s | 42.112 / 14.725–16.266 s | 28.457 / 3.914–5.219 s |
+| 4 | 37.138 / 37.303–37.561 s | 87.390 / 60.561–60.561 s | 41.653 / 15.726–16.894 s |
+| 8 | 74.953 / 74.675–74.675 s | not measured | 59.775 / 30.453–30.453 s |
+
+Warm original-CPU/GPU median ratios are **2.069× / 2.295× / 2.452×**
+for B1/B4/B8. Matching full processes, including setup/imports, cold call and the
+observed 3/2/1 changed warm calls,
+give **0.854× / 1.473× / 1.626×**.
+Cold compilation therefore materially changes the result. Conditional additional
+warm batches needed to offset the observed cold excess are
+5 / 1 / 0;
+new shapes or proposals can change that projection. JAX CPU remains a separate,
+slower baseline for this workload. Earlier V505 multiprocess evidence describes
+a different model/contract; current CPU baselines are serial.
+
+The unchanged earlier observer GPU path has B1 warm costs 7.060–8.445 s.
+Both native fusion and checkpointed CPU continuation changed here, so the full
+improvement is not assigned solely to launch elimination. Independent current
+CPU and GPU processes expose order/cache drift; B1 has three warm samples per
+process, B4 one/two and B8 one. These are preliminary ranges, not stable-tail,
+whole astronomical analysis or ESS/sec estimates.
+
+### Numerical errors still stop physical inference
+
+`JointInferenceBudget` applies the same nominal D<=.1 and Gaussian logL<=.01 gates
+to the sum of field and boundary envelopes about one common anchor, including
+quadratic cross terms. Original observation reducers/normalization/l3 are used;
+ln_f cannot inflate the gate. Analytic tests show individually passing axes can
+fail jointly. An accuracy stop remains outside physical-prior penalties.
+
+Complete fine controls compare field 2→3 on common grid 3, slice order 4→8 and
+boundary depth 1→2. The common anchor is field 3/depth 2/slice 8. Joint nominal
+log-likelihood bounds are **1.37755–1.3794**, above .01.
+
+| Finite change | Nominal D bound | Absolute logL bound | Result |
+| --- | --- | --- | --- |
+| Field 2→3 | 0.00464519–0.00466849 | 0.955826–1.01535 | accuracy stop |
+| Slice 4→8 | 3.37508e-06–5.94456e-06 | 0.000695926–0.0010346 | passes finite pair |
+| Depth 1→2 | 0.0015202–0.00220198 | 0.361503–0.422539 | accuracy stop |
+| Sum envelope | 0.0054451–0.00577433 | 1.37755–1.3794 | accuracy stop |
+
+CPU/GPU complete curves, original densities and joint controls agree; these
+finite-resolution failures are distinct from implementation parity.
+**1e-4 physical fitting/MCMC remains unqualified.** The sum envelope certifies
+only the computed finite perturbations, not uncomputed cross-axis interactions,
+combined resolutions, a continuum or model adequacy. No convergence/ESS claim.
+
+The [hardware ledger](hardware_characterization.md) includes a fresh complete
+CUDA/NVTX graph-node trace. Its warm range has 31,799 kernel
+and 6,112 copy events versus 260,556/12,681 in the prior experiment.
+Recorded CPU boundary references and device activities are separately attributed;
+remaining host work/gaps and unavailable DRAM/L2/occupancy/FP64 counters stay
+unknown. No particular future-processor speedup is predicted.
+
+All 28 bounded units preserved the exact active Fifth42 hold. Four development
+trials failed at API, instrumentation/refactor or new-fixture setup; their held
+cleanup and failed evidence are retained. Final scientific gates pass without
+changing an oracle or tolerance. No production restart or merge occurred.
+The pinned [Colab notebook](../notebooks/elisa_observer_batches.ipynb) retains its
+validated m019 source; actual Colab execution and a native-backend upgrade remain
+pending. No tenfold analysis result is claimed.
+
+Next: continue field/boundary convergence and explicit combined-resolution
+controls, and port remaining observer/controller work before qualified physical
+fits and checkpointable MCMC/ESS assessment. Keep the current intersection
+algorithm; a converged fine triangle mesh remains a valid numerical option.
+
+[Scientific arrays, timings and controls](ada_validation/background-m020.json),
+[source manifest](ada_validation/background-m020-source-hashes.json),
+[API/reproduction details](experimental_gpu_backend.md#native-nested-observer-roots-and-a-joint-finite-inference-budget).
+
+## Previous milestone: device observer geometry and guarded eclipse roots
 
 `ObserverDeviceLightCurve` now composes fresh device observer rays, normals,
 curved Jacobians and conditioned silhouette solves into complete reflected
@@ -445,7 +565,7 @@ Original CPU/default engines, kernels, fitters and fallback routes are unchanged
 
 **Finite field-refinement distances now pass the 1e-4 diagnostic for these
 fixtures. Accumulated likelihood errors still prevent physical-fit/MCMC
-qualification.** Field2→3 changes the original observation log likelihood by
+qualification.** Field 2→3 changes the original observation log likelihood by
 0.18–1.33; finer eclipse boundaries change it by about 17–25. A passing
 finite distance gate does not establish a converged posterior or negligible bias.
 

@@ -1644,3 +1644,81 @@ measures complete original-mapped likelihood batches; `--levels 2 3
 --integration-level 3`keeps finer field diagnostics explicit, and `--jd`checks
 original time mapping. Numerical fitting/MCMC qualification remains blocked by
 the existing1e-4finite field/boundary checks, separately from implementation parity.
+
+## Native nested observer roots and a joint finite inference budget
+
+`elisa.experimental.gpu_fused_observer.FusedObserverLightCurve` is an additional
+opt-in execution path for the current curved-intersection algorithm. Its public
+complete-curve contract matches `ObserverDeviceLightCurve`; the earlier API and
+all original CPU/default behavior are unchanged. See the current
+[Ada report](ada_progress.md) for validation, actual transfer-inclusive costs and
+remaining scientific limits.
+
+The GPU edge prefix runs its outer bisections, all 80 inner Roche bisections and,
+for a shadow, all 12 stationary Newton updates inside native per-tile loops.
+Pallas/Triton grids also accept changing physical-row and line-of-sight batches.
+The complete CPU controller still visits individual candidates and phases.
+Explicit CUDA `add/sub/mul/div/sqrt.rn.f64` operations specify the scalar stage
+rounding and prevent contraction across those stages. Cartesian scalar-axis
+expressions and `r2*r2*sqrt(r2)` in the stationary derivative are mathematically
+the original equations with a different FP64 evaluation tree. They are validated
+against original trigonometric/NumPy arithmetic; bitwise equality of physical
+arrays is not presumed. Existing FP64 barriers and defaults remain intact.
+
+Before a value reaches the unchanged 128-eps ambiguity/branch guard, the native
+lane saves its bracket and iteration **before making that decision**. Original
+CPU arithmetic resumes the remaining decisions from there. Otherwise it runs
+the predeclared last two decisions on CPU. Complete-curve validation uses the default two CPU decisions; zero/eight-tail
+controls test primitive brackets. Original CPU checks both final bracket
+ends and replays the full original solve if they disagree. Tail counts exclude
+final bracket checks and full-replay decisions; replay rows are recorded
+separately, and enclosing timings include all of this work. This retains the
+original finite protocol without classifying a small region by a tolerance or
+reusing a changed proposal's prediction. The original endpoint, branch,
+stationarity, positive-weight, topology, cone, singular-leaf and resource guards
+remain active. Unsupported states and numerical-accuracy failures remain outside
+physical-prior penalties.
+
+The native backend was tested with the pinned JAX/jaxlib/CUDA plugins 0.12.0.1
+on Ada's NVIDIA GPU. It needs the CUDA Pallas/Triton backend; it neither installs
+a compiler nor silently selects a CPU. That JAX backend emits a deprecation
+warning, so future JAX upgrades need a separate compiler migration and validation.
+`device="cpu"` uses rolled JAX observer graphs plus the same checkpointed CPU
+continuation, providing a separate JAX CPU baseline. `device="reference"` retains
+the original CPU equations. Original explicit full-CPU physical-routing options
+remain available for cases outside the experimental circular, detached,
+unspotted inner-branch domain. This new class does not broaden that domain.
+CPU angular topology, clipping/adaptation, LD/table bridges, some observer
+sampling and precision decisions remain; this is a hybrid forward model.
+
+```python
+from elisa.experimental.gpu_curved_edges import CurvedEdgeRule
+from elisa.experimental.gpu_fused_observer import FusedObserverLightCurve
+
+engine = FusedObserverLightCurve(
+    ["Generic.Bessell.V", "bolometric"], CurvedEdgeRule(3, 1),
+    levels=(0, 1), integration_level=1, device="gpu",
+)
+# Actual binaries/phases must be fresh for changing physical proposals.
+batch = engine.batch(binaries, phases_per_binary, source_revision=asset_revision)
+```
+
+`elisa.experimental.gpu_joint_budget.JointInferenceBudget` adds a common-anchor
+control for multiple predeclared finite field/boundary comparisons. Every pair
+uses the original observation reducers, normalization, third light and nominal
+uncertainties. If pair i has pointwise component envelope E_i, the joint control
+uses E=sum(E_i), D=norm(E/sigma), and
+sum(abs(data-anchor)*E/sigma**2 + .5*(E/sigma)**2). Quadratic cross terms between
+axes are included. Default gates remain D<=0.1 and absolute log-likelihood
+bound<=0.01, independent of nuisance-noise inflation. The raised
+`ResolutionNotQualifiedError` remains an accuracy stop.
+
+This controls only the sum of the **computed finite perturbations** about the
+common anchor. It does not certify an uncomputed combination, cross-axis
+interaction, continuum model, posterior bias or observational adequacy. Combined
+resolution changes still need explicit tests. An analytic Gaussian control shows
+that individual axes can pass while their joint enclosure fails. Physical
+fitting/MCMC must retain the other resolution controls; a joint passing value
+alone is not qualification. The current intersection method is the numerical
+path under development; accurate photometry can also use a suitably converged
+fine triangle mesh. No rendering redesign is part of this milestone.

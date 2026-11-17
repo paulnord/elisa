@@ -1,6 +1,89 @@
 # Ada workload and hardware characterization
 
-## Current snapshot: m019 observer port
+## Current snapshot: m020 native nested observer roots
+
+The [m020 ledger](ada_validation/background-m020.json) retains matched original
+serial CPU/JAX CPU/native GPU B1/B4 comparisons, CPU/GPU B8, the previous GPU
+observer path, independent repeats, full scientific arrays and fine joint error
+controls. 31 new hardware controls pass, including 57 contact-focused phases;
+strict finite error controls still prevent 1e-4 physical fitting/MCMC qualification.
+The current port changes both native loop fusion and CPU precision continuation.
+The complete observer still serializes candidate/phase topology controllers.
+
+| Proposals | Original CPU cold / warm | JAX CPU cold / warm | Native GPU cold / warm |
+| --- | --- | --- | --- |
+| 1 | 9.265 / 9.061–9.201 s | 42.112 / 14.725–16.266 s | 28.457 / 3.914–5.219 s |
+| 4 | 37.138 / 37.303–37.561 s | 87.390 / 60.561–60.561 s | 41.653 / 15.726–16.894 s |
+| 8 | 74.953 / 74.675–74.675 s | not measured | 59.775 / 30.453–30.453 s |
+
+Warm ratios and cold/process amortization are in [Ada progress](ada_progress.md).
+Cold and repeated complete-process costs can give smaller gains than warm calls.
+Each sample computes two finite field curves and original mapped densities with
+all required host outputs, bridges, transfers and synchronization. Sample counts
+remain small; these are preliminary distributions. Actual JAX/XLA pool sizes and
+a tuned multiprocess baseline for this exact model are unmeasured. Current CPU
+baselines share unit affinity 0–15/nice 10; BLAS/OMP/MKL/NumExpr environment counts 1.
+Private CPU correctness checks ended before these timing runs. Shared-machine
+thermal/CPU exclusivity is not assumed. Active-load link, clocks, temperatures,
+power/utilization and sampled memory ranges are retained per unit.
+
+### New complete-call timeline and conditional sensitivities
+
+One changed warm B1 trace spans **5.47454 s**, containing
+**31,799 kernels**, **6,112 copies**, and
+**121 native nested root kernels** with
+**0.779053 s** of interval union.
+Kernel union is **0.960386 s**, copy union
+**0.0577499 s**, and total recorded device activity union
+**1.01885 s**. Interval unions avoid overlap counting;
+CUDA API waits overlap device work and must not be added. The remaining
+**4.45569 s** includes
+host physics/topology/clipping, dispatch, synchronization and gaps without full
+attribution. These are profiler experiments; independent unprofiled repeats
+provide the official timing control. Kernel count alone does not establish a
+critical launch-latency fraction. The prior m019 260,556 kernel count and 56.0% CPU
+reference fraction describe the old path; do not apply them here.
+
+Within that remaining host span, original CPU boundary-field references occupy **1.76842 s**,
+with **0 s** recorded device overlap.
+Their measured serialized fraction is **32.3%**.
+With all other work fixed, 2×/4× acceleration of this measured subset gives
+**1.1926× / 1.3197×**;
+elimination gives a **1.4772×** ceiling.
+Other CPU work remains unassigned. The prior kernel union was 1.01386 s and
+CPU boundary-reference time 5.38756 s. GPU active time changed much less than
+launch count; these separate profiler runs do not isolate causal contributions
+of fusion versus CPU continuation. This is conditional stage scaling, not a
+forecast for a named CPU or a ceiling after further porting.
+
+Optimistically eliminating every recorded copy nanosecond gives only
+**1.0107×** for this range.
+That does not isolate bandwidth from latency/staging or account for all host
+critical paths. No 2×/4× host-link or GPU-DRAM bandwidth prediction is justified.
+DRAM traffic, cache, occupancy/stalls and achieved FP64 counters remain unavailable.
+More VRAM/coherence/FP64 or bandwidth are distinct hypotheses, not measured new
+processor benefits. No global clock/link/driver/profiling changes were made.
+
+Reproduce each full driver in a separately registered <=300 s GPU unit:
+
+```sh
+python scripts/validate_gpu_fused_observer.py --backend gpu --batch 4 --repeats 2 --verified-bounded-gpu-window --output complete.json
+python scripts/validate_gpu_fused_observer.py --backend gpu --batch 1 --levels 2 3 --integration-level 3 --depth 2 --slice-order 8 --repeats 1 --verified-bounded-gpu-window --output anchor.json
+python scripts/compare_gpu_joint_budget.py --anchor anchor.json --slice-alternative slice.json --depth-alternative depth.json --output joint.json
+```
+
+Use reference/cpu for separate original/JAX CPU baselines; use `--engine observer`
+for the old GPU execution path. For `slice.json` retain depth 2 but use slice 4;
+for `depth.json` retain slice 8 but use depth 1, with the same levels/common grid.
+All physical proposals, observations and output contracts must match. The joint
+postprocessor is CPU-only. Curated report profiles contain its required inputs.
+NVTX wraps the enclosing evaluate and original `_Field.reference`; trace with
+cuda,nvtx,osrt and cuda-graph-trace=node, sample/CPU-context-switch collection off.
+All raw operational/profiler logs remain private; trace/source hashes and
+scientific aggregates are public. The pinned m019 Colab notebook is unchanged;
+actual Colab/native GPU execution there remains pending. No 10× analysis/ESS claim.
+
+## Previous snapshot: m019 observer port
 
 The [m019 ledger](ada_validation/background-m019.json) extends the preceding
 measurements below. 144 hardware controls pass without skips; complete changing-
