@@ -1,9 +1,182 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T11:53:03.116809+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T13:21:22.598064+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: selective complete curves and correction/normalization assessment
+## Latest milestone: true curved Roche integration and implicit eclipses
+
+`CurvedBinaryLightCurve` now synthesizes complete reflected light curves using
+true Roche quadrature points/normals/Jacobians and foreground shadows defined by
+the same implicit surface. It integrates fresh finite original thermal,
+reflection, LD and radiance fields. **All 33 new hardware tests passed with no
+skips**; CPU development passed 27 with six explicit GPU skips. The preceding
+**399 hardware controls are retained under byte-identical 606 baseline files**.
+This is additive coverage of 432 cases, **not a fresh 432-case hardware run**.
+No original CPU function, default or fitter was changed.
+
+Curved area integration improves substantially and implementation parity passes.
+**The current point-masked boundary rule still fails the 1e-4 observational
+budget.** Continuous-field accuracy remains unqualified. The new method is a
+standalone numerical experiment; no physical fit, continuum posterior or MCMC
+throughput qualification is claimed.
+
+### What changed, and what remains finite
+
+Each angular parent triangle maps a barycentric vector v to ray v/|v|.
+Duffy Gauss weights use |det(a,b,c)|/|v|³. Original CPU potential roots give true
+points; analytic gradients give outward normals and
+r²|gradPhi|/(gradPhi dot radial) for dA/dOmega. Scalar mesh correction is absent
+from **quadrature geometry**. Original corrected finite gravity/thermal,
+full-donor irradiation, atmosphere/LD and radiance fields remain piecewise
+constant on parent faces, retaining their preceding build order. They are
+rebuilt for each candidate and need their own spatial convergence study.
+
+Visibility uses true normals. Occultation tests the original foreground Roche
+potential along the observer ray, using an inscribed-radius bound and a guarded
+stationary-potential solve. Independent Brent tangencies control the predicate.
+Both emission and occultation now refer to the same implicit geometry.
+Seven probes and a safety band select further boundary subdivisions; actual
+quadrature nodes receive true visibility/shadow masks. **This is a finite
+empirical boundary indicator, not an interval bound or exact boundary integral.**
+Node exhaustion and unsupported numerical states abort rather than coarsen.
+
+CPU roots, normals/Jacobians, adaptation and masks are explicit bridges. The
+preceding device field/reflection/blackbody and weighted LD integration kernels
+are connected; CK04 examples select original CPU radiance/LD. These are
+**hybrid** complete curves. Original Observer/fitters and whole-CPU routes remain
+unchanged; the curved mode has no automatically registered fitting backend.
+
+CPU parity uses original finite fields/reflection/radiance and original element
+flux arithmetic with the **same new quadrature**. Differences from unchanged
+original faceted whole curves are separately reported numerical-method changes.
+Maximum normalized/raw/component-relative implementation differences are
+**6.66e-16 / 8.27e-25 W/m² /
+1.3e-15**. Existing normalized 3e-13/2e-12 gates and raw/component
+3e-13 relative, zero-absolute gates remain. Real tests cover reflected partial,
+total, non-eclipsing, CK04 and q/spin/non-linear-LD cases.
+
+### Independent geometry and boundary controls
+
+Original radius Newton roots independently check vector bisection; angular
+finite differences check Jacobians; scalar Brent line solves check shadows.
+Analytic sphere area/LD and uniform opaque-disk overlap controls include partial,
+grazing and total eclipses. Tested depth 7 sphere overlap error is <=5e-6 of the
+unobscured disk, a separate numerical truncation target. It is not a bound on
+Roche contacts, continuous fields or every physical parameter.
+
+Area ratios below compare curved triangle quadrature with independent
+full-sphere angular order32 integration. Geometry uses SMA² units. For context,
+the preceding original-corrected 3° faceted primary area differed by about
+-1.34e-4 in the same partial fixture. Accurate area alone does not qualify
+projected eclipse integrals.
+
+| Field level | Gauss order | Primary relative area difference | Secondary relative area difference |
+|---|---:|---:|---:|
+| 1 | 3 | 9.2296e-10 | 8.96532e-10 |
+| 1 | 4 | -7.16871e-13 | -6.56808e-13 |
+| 2 | 3 | 1.45999e-11 | 1.40477e-11 |
+
+Partial/total BB and partial CK04 profiles retain the original 57/69/57
+contact-focused phases, both eclipses, ordering/repeats, phase shift and third
+light. Validation uses process-only MIN=3°/MAX=12°; library defaults are unchanged.
+D is ||delta/sigma_eff|| for sigma=1e-4 and original ln_f=-2. Numerical gates use
+**nominal sigma independently of ln_f**, with budget D<=0.1.
+
+| Partial-fixture finite comparison | Actual D | Nominal component enclosure D |
+|---|---:|---:|
+| Boundary depth 2→3 | 2.18266 | 2.22258 |
+| Boundary depth 3→4 | 1.16752 | 1.18612 |
+| Order 3→4 at depth 4 | 0.590024 | 0.600822 |
+| Field1→2, same integer depth 4 | 0.414484 | 0.455288 |
+| Field1/depth 4→field2/depth3 | 0.367162 | 0.401853 |
+
+All listed enclosures fail. Changing the field grid also changes angular patch
+basis and absolute boundary leaf size. Equal integer depth is therefore coupled
+field/boundary refinement. The last row matches dyadic leaf scale, but its
+angular bases still differ; it does not isolate continuous-field error. The
+failed boundary/order controls preclude a 1e-4 inference claim regardless.
+
+A CPU-only small-occultor probe, potentials [8,100], is explicitly rejected by
+the unchanged FP64 stationary-residual guard. Original CPU synthesis completes
+for that fixture. No inaccurate new curve or prior penalty is substituted.
+Conditioned local-coordinate shadow solves need investigation; no curved GPU
+parity or accuracy claim is made for that probe. Earlier broad physical routes
+and CPU fallbacks remain available with their preceding semantics.
+
+### Original observation and likelihood semantics
+
+Fresh temperature/inclination/third-light/noise proposals retain original
+serialization, constraints, priors, phase/JD mapping, per-band reducers/repeats,
+mean normalization and noise law. Maximum mapped prediction/posterior errors
+are **4.44e-16 / 1.6e-09**, within the unchanged
+1e-6 density gate. Boundary-depth preflight retains the data residual cross term:
+|delta logL| <= sum(|r|E+E²/2), for the **measured finite pair only**.
+
+| Proposal | Actual D | Nominal component enclosure D | Actual delta logL | Absolute logL enclosure |
+|---|---:|---:|---:|---:|
+| phase base | 2.25351 | 2.30192 | 182.603 | 1100.39 |
+| phase changed | 0.784328 | 0.890478 | -153.675 | 680.758 |
+| JD base | 2.25351 | 2.30192 | 182.603 | 1100.39 |
+
+All these numerical preflights abort outside candidate penalties. Out-of-prior
+proposals retain original -inf rejection without synthesis. A finite pair passing
+would not certify an uncomputed boundary or continuous thermal/irradiation/
+radiance field. No new optimized fit, chain mixing, convergence or ESS/sec result
+is asserted.
+
+### Matched complete-curve costs
+
+Seconds include constructor, fresh finite fields, CPU true geometry/adaptation/
+shadow masks, integration, transfers and raw/normalized/component host outputs.
+Both backends run in the same unit with affinity 0–15, Nice 10, threads 1 and FP64.
+Compilation incurred is included; sources/shapes can warm process caches. These
+are single observations, not throughput distributions.
+
+| Case | Field level | Order/depth | Curved CPU reference s | Curved GPU hybrid s |
+|---|---:|---|---:|---:|
+| partial_bb | 1 | 3/2 | 8.17432 | 10.4086 |
+| partial_bb | 1 | 3/3 | 17.0342 | 19.2064 |
+| partial_bb | 1 | 3/4 | 35.6134 | 37.9711 |
+| partial_bb | 1 | 4/4 | 49.6624 | 52.2414 |
+| partial_bb | 2 | 3/4 | 80.8448 | 83.442 |
+| total_bb | 1 | 3/4 | 48.2952 | 50.8076 |
+| partial_ck04 | 1 | 3/4 | 36.3646 | 39.1261 |
+| partial_bb | 2 | 3/3 | 38.5222 | 40.5752 |
+
+The CPU geometry bridge dominates; these measurements show no overall GPU
+acceleration. Curve main walls also include independent area checks, original
+faceted references, finite controls and report conversion. Their Python/import
+startup is included in separately reported command walls, all below 245 s.
+
+Likelihood sub-timers have different setup boundaries: the CPU reference includes
+the original prediction-layer serializer/time mapping; the selected sub-timer
+starts with a prepared physical binary. Their ratio is **not** a full callback
+speedup. All serialization, constructors, priors, coarse preflight and extra
+references are charged in the complete likelihood-study wall. Accuracy failures
+prevent interpreting any cost as qualified fitting or ESS throughput.
+
+### Evidence and continuation
+
+Ten separately registered systemd allocations used RuntimeMaxSec=300, internal
+270 s deadlines and unconditional original-service restoration hooks. All owned
+units ended inactive/success. Exact pinned service/command/source/config/plan,
+matching resume records and latest receipt/witness/endpoints were verified.
+Durable advances after restoration were **40,960, 10,240, 8,192, 10,240, 8,192, 8,192, 8,192, 8,192, 4,608, 47,104 cells**. This validates latest
+evidence, not a full historical production audit. Raw operational records stay
+private.
+
+Frozen source/data: **611 files**, aggregate SHA256
+`a30a2fab21c2e9102f3a9147b9d939b221e8518dbf01d0529b6d03088dfefe19`. All 606 previous files remain byte-identical;
+five additive files implement and validate the new method. See
+[curated report](ada_validation/background-m013.json),
+[source manifest](ada_validation/background-m013-source-hashes.json), and
+[API/reproduction/limits](experimental_gpu_backend.md#true-roche-patch-quadrature-and-implicit-eclipses).
+
+Next implement boundary-fitted quadrature and investigate conditioned shadow
+solves, then independently qualify boundary and continuous-field error before
+physical fitting at 1e-4. All accuracy stops remain active; the assignment continues.
+
+## Previous milestone: selective complete curves and correction/normalization assessment
 
 A fixed selective surface protocol now runs complete reflected curves and
 original physical-observation likelihoods with fresh CPU/device state. Independent
@@ -527,7 +700,7 @@ not establish general throughput or performance at certified 1e-4 accuracy.
 | 3° | 15.677 | 6.013 | 3.662 |
 | 2° | 55.090 | 16.592 | 6.179 |
 
-All matched paths use affinity0–15/Nice10, threads1, FP64. The GPU driver
+All matched paths use affinity0–15/Nice 10, threads 1, FP64. The GPU driver
 explicitly selects CPU and GPU JAX backends in each restored allocation.
 Synthetic references, auxiliary post-fit/refinement/parity/list conversion and
 compiled-memory diagnostics lie outside fit/curve subtimers and inside full
@@ -681,7 +854,7 @@ errors, complete unsupported-case fallback and overcontact constraint handling.
 Median **ms per complete physical posterior callback**, three changed-vector warm
 samples. Original CPU columns below come from the GPU profile; the JAX CPU
 profile ran sequentially in the same restored allocation. Both use identical
-physics/data/output contracts, affinity0–15/Nice10, threads1, FP64. Each qualified
+physics/data/output contracts, affinity0–15/Nice 10, threads 1, FP64. Each qualified
 callback includes all three fresh CPU mesh checks plus requested target synthesis;
 the CPU path deliberately repeats its target. Parameters, priors, CPU bridges,
 dispatch and all transfers are charged. Setup and first per-instance callback/
@@ -854,7 +1027,7 @@ full-suite pass. All new complete-curve and public-fitting profiles passed.
 
 Median **ms per host V/bolometric curve**. Original CPU and GPU columns below
 come from the same GPU driver; the JAX CPU profile ran sequentially in the same
-checkpointed window. Affinity0–15/Nice10, threads1, FP64. All per-call Observer,
+checkpointed window. Affinity0–15/Nice 10, threads 1, FP64. All per-call Observer,
 source/CPU bridges, dispatch, evaluation and transfers are included. Binary and
 one-time hybrid engine constructors are outside row timers and included in full
 driver wall times. First calls/compilation are separate in JSON. There are three
@@ -1186,7 +1359,7 @@ Median **ms per fresh host V/bolometric curve**, three warm samples. All origina
 CPU physical stages, dispatch/failed fast-path attempts, uploads, device work and
 final host curves are included. Binary construction is outside every curve
 timer. CPU/JAX-CPU and GPU drivers ran sequentially in the same checkpointed
-window, affinity0–15/Nice10, threads1, FP64. Fixed order and few samples limit
+window, affinity0–15/Nice 10, threads 1, FP64. Fixed order and few samples limit
 performance inference. Original CPU and fallback columns below are from the GPU
 driver; the separate CPU-driver baselines and all raw samples are in curated JSON.
 

@@ -1083,3 +1083,93 @@ triangles or CPU/GPU parity alone cannot establish improvement when the scalar
 correction and local indicators do not transfer to the mixed grid. See
 [current numerical results](ada_progress.md) before using this experiment for
 inference. Accuracy failures abort; no fit, chain mixing or ESS gain is claimed.
+
+## True Roche patch quadrature and implicit eclipses
+
+`CurvedBinaryLightCurve` is a standalone, opt-in numerical model. It integrates
+fresh original finite thermal/reflection/radiance fields over the actual Roche
+equipotential. It leaves the original Observer, fitters and all preceding
+backends unchanged. This deliberately changes the integration rule; parity with
+an unchanged original whole light curve is **not** asserted. Its independent CPU
+reference uses original field/reflection/radiance and per-element LD/flux
+primitives with the same new quadrature. Comparisons with original faceted
+curves are separately labelled numerical-method differences.
+
+```python
+from elisa.experimental.curved_geometry import CurvedRule
+from elisa.experimental.gpu_curved import CurvedBinaryLightCurve, curved_difference
+
+engine = CurvedBinaryLightCurve(
+    bands, CurvedRule(order=3, depth=3), field_levels=1, device="gpu",
+)
+result = engine(binary, phases, observer=observer, source_revision=assets_sha256)
+# Compare independently designed boundary/order/field refinements BEFORE a fit.
+report = curved_difference(
+    coarse, fine, nominal_y_err, reducers=reducers, mean_normalize=True,
+    observed=y_data, ln_f=ln_f, require_budget=True,
+)
+```
+
+Each angular parent triangle has a linear barycentric vector v and unit ray
+v/|v|. Duffy Gauss nodes use solid-angle Jacobian |det(a,b,c)|/|v|³. Original CPU
+potential roots give true points; original analytic gradients give outward
+normals and dA/dOmega=r²|gradPhi|/(gradPhi dot radial). No scalar mesh correction
+is applied to quadrature geometry. The thermal, irradiation and radiance fields
+remain **piecewise constant original-ELISa parent-face fields**, including their
+preceding original correction/build order. They are rebuilt for every physical
+candidate. Their own spatial convergence remains separate and unqualified.
+
+Visibility uses the true normal. Occultation tests rays against the foreground
+star's **same implicit Roche surface**, rather than a differently corrected
+faceted silhouette. A positive-term inscribed-radius bound handles central
+rays; elsewhere a CPU stationary-potential solve uses the original gradient and
+an FP64 residual guard. Independent scalar Brent tangencies control that solve.
+The radius<.25 bound supplies a conservative projected-overlap screen.
+
+Boundary integration uses a fixed finite adaptive rule: seven probes and a
+safety band select further barycentric subdivisions, then actual node visibility
+and implicit eclipse masks select the integrand. **This indicator is empirical,
+not an interval enclosure or exact boundary integral.** Node-cap exhaustion or
+unsupported geometry aborts; the rule never silently coarsens. Analytic sphere
+area/LD/eclipse controls and independent boundary-depth/order comparisons are
+required. Changing a parent field grid also changes patch geometry and boundary
+cell size; equal integer depth is not a pure field-error comparison. Matched
+dyadic leaf-scale controls help diagnose that coupling and remain finite tests.
+
+`device="reference"` uses original CPU finite fields and original element-flux
+arithmetic. `"cpu"`/`"gpu"` use the preceding JAX field/integration kernels.
+CPU radial roots, adaptive partition and eclipse masks are common fresh bridges;
+state downloads and quadrature uploads are included in complete costs. This is
+**hybrid**, with no GPU geometry or overall acceleration claim. CK04 examples
+explicitly select `radiance="cpu"`; blackbodies use fresh device emission.
+Only fixed code/response information is reused across candidates.
+
+The new mode supports circular detached unspotted/nonpulsating systems in the
+preceding q/spin/inner-radius domain, field levels 0–2 with at most 20276 parents
+per component, 1–8 bands and 1–128 phases. Orders 2–4, depths 0–7 and at most
+2097152 quadrature nodes per component/phase are explicit construction choices.
+The node cap is not a total-memory bound: seven probes per candidate leaf,
+CPU geometry arrays, device outputs, compiler and allocator add storage.
+Numerical/domain/resource failures raise outside candidate penalties. Original
+CPU/full-fallback routes are unchanged; no curved fitting backend is registered.
+
+`curved_difference` preserves original observation reducers, order/repeats,
+third light and final mean. Its component enclosure bounds only the computed
+finite normalized difference, including rounding and normalization residuals.
+The data-dependent likelihood bound retains the residual cross term. Numerical
+qualification uses nominal sigma independently of ln_f; failures raise
+`ResolutionNotQualifiedError`, never a prior cut or infinite-residual substitute.
+A passing finite pair is not a continuum or continuous-field certificate.
+
+Run `test_curved_geometry.py` and `test_gpu_curved.py`, then
+`scripts/validate_gpu_curved.py --device cpu --part curves --case partial_bb --field-levels 1 --order 3 --depth 3 --output curves.json`
+and `--part observations` in the private CPU wrapper. GPU variants require
+independently restored bounded allocations. `--comparison` loads a preceding
+profile with identical physical/source/phase provenance to assess a finite
+protocol change. See [current evidence and remaining accuracy limits](ada_progress.md).
+
+A CPU-only transit-like probe with potentials [8,100] fails the new shadow
+stationarity residual guard; original CPU synthesis completes. This is an
+explicit unsupported numerical case, not a prior rejection or a substitute
+coarse prediction. Local-coordinate conditioning remains work for the curved
+method; no GPU or accuracy qualification is claimed for that probe.
