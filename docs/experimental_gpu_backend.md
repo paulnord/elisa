@@ -1,5 +1,11 @@
 # Experimental GPU likelihood pilot
 
+## Area-integrated intrinsic temperature
+
+Pass `area_thermal=True` to `FusedObserverLightCurve` to evaluate the gravity-darkening bolometric source over 16 positive curved-area nodes per original quarter cell. The engine stores the fourth root of the cell-average intrinsic emission after stellar energy normalization, then uses the existing irradiation, passband and observer calculations. The finite curve rule records `thermal_area_order=4`. Omitting the option selects the established centre-sampled source. The reference uses original CPU gravity and polar-temperature helpers. Supported detached geometry and existing explicit errors, full-CPU routing and accuracy safeguards continue to apply.
+
+The validation driver selects this model with `--engine area-thermal`. Its `--without-irradiation` option disables model heating while retaining the same irradiated observational fixture. Use `scripts/compare_gpu_irradiation.py` to compare matched heated and intrinsic field pairs on identical eclipse packets. The script gives the mapped per-band perturbations and the signed likelihood cross term. Use `scripts/compare_gpu_rectangle.py` for the separate field/depth qualification test. The measured heated area-integrated case exceeds the nominal 0.01 likelihood budget at 10⁻⁴. [Protocol, results and replay commands](ada_progress.md)
+
 ## Conservative emitted-intensity fields
 
 `ReconstructedObserverLightCurve` in `gpu_reconstructed_observer` accepts the same explicit device, field levels, common integration level and `CurvedEdgeRule` as `FusedObserverLightCurve`. It reconstructs band-specific intensity and limb-darkening moments at shared vertices of the two physical components. It evaluates those moments on the curved observer packets and returns the usual component, raw and normalized curves. The curve rule records `conservative_moment_reconstruction=1`. Original cell-constant engines and the application observer retain their previous behavior.

@@ -9,6 +9,7 @@ a new opt-in finite model, not a change to original CPU/default semantics.
 # ruff: noqa: SLF001, PLR2004 - explicit composition of owned experimental kernels
 from __future__ import annotations
 
+from copy import copy
 from dataclasses import dataclass, replace
 from time import perf_counter
 from typing import Any
@@ -16,7 +17,11 @@ from typing import Any
 import numpy as np
 
 from elisa import const, settings
-from elisa.base.surface.temperature import calculate_effective_temperatures, renormalize_temperatures
+from elisa.base.surface.temperature import (
+    calculate_effective_temperatures,
+    calculate_polar_effective_temperature,
+    renormalize_temperatures,
+)
 from elisa.binary_system.curves.utils import prep_surface_params
 from elisa.binary_system.surface.gravity import (
     calculate_polar_potential_gradient_magnitude,
@@ -59,7 +64,7 @@ class CurvatureFieldSpec:
         return -1
 
 
-def curvature_geometry(binary: Any, level: int) -> tuple[Any, dict, dict]:
+def curvature_geometry(binary: Any, level: int, *, area_thermal: bool = False) -> tuple[Any, dict, dict]:
     """Fresh original angular topology, true cell centres and curved cell areas.
 
     Only the original base quarter is evaluated, then exactly mirrored. The
@@ -80,13 +85,16 @@ def curvature_geometry(binary: Any, level: int) -> tuple[Any, dict, dict]:
         triangles = d[star.faces]
         points, _, _ = geometry[name].sample(triangles[:nbase].mean(axis=1))
         nodes, weights = duffy_nodes(triangles[:nbase], 4)
-        _, _, jacobian = geometry[name].sample(nodes)
+        node_points, _, jacobian = geometry[name].sample(nodes)
         area = (weights*jacobian).reshape((nbase, 16)).sum(axis=1)
         residual = np.abs(geometry[name].potential(points)/star.surface_potential-1)
         if np.any(area <= 0) or not np.isfinite(area).all() or np.any(residual > 3e-13):
             msg = "Curvature field geometry failed area/equipotential gates"
             raise UnsupportedCurvedGeometryError(msg)
         cells[name] = {"points": points, "areas": area, "triangles": triangles}
+        if area_thermal:
+            cells[name]["thermal_points"] = node_points
+            cells[name]["thermal_areas"] = weights * jacobian
         control[name] = {"faces": len(star.faces), "curved_area_SMA2": float(4*area.sum()),
                          "max_collocation_potential_relative_residual": float(residual.max()),
                          "area_order": 4, "scalar_correction": False}
@@ -160,7 +168,24 @@ def _cpu_state(binary: Any, star: Any, name: str, cell: dict) -> dict:
     star.areas = star.mirror_face_values(areas)
     star.potential_gradient_magnitudes = star.mirror_face_values(base_gravity)
     star.log_g = np.log10(star.potential_gradient_magnitudes)
-    star.temperatures = calculate_effective_temperatures(star, base_gravity)
+    if "thermal_points" in cell:
+        # Original CPU polar normalization on the quadrature samples of the base quarter.
+        nodes = copy(star)
+        nodes.areas = cell["thermal_areas"]
+        node_gradient = calculate_potential_gradient(
+            1., name, cell["thermal_points"], star.synchronicity, binary.mass_ratio,
+        )
+        nodes.potential_gradient_magnitudes = np.linalg.norm(node_gradient, axis=1) * (
+            const.G * binary.primary.mass / binary.semi_major_axis**2
+        )
+        polar = calculate_polar_effective_temperature(nodes)
+        node_t = polar * (nodes.potential_gradient_magnitudes / nodes.polar_potential_gradient_magnitude) ** (
+            0.25 * star.gravity_darkening
+        )
+        cell_t4 = (nodes.areas * node_t**4).reshape(len(areas), 16).sum(axis=1) / areas
+        star.temperatures = star.mirror_face_values(cell_t4 ** 0.25)
+    else:
+        star.temperatures = calculate_effective_temperatures(star, base_gravity)
     renormalize_temperatures(star)
     if (not np.isfinite(star.temperatures).all() or np.any(star.temperatures <= 0)
             or not np.isfinite(base_gravity).all() or np.any(base_gravity <= 0)):
@@ -174,6 +199,7 @@ class _CurvatureEngine:
     def __init__(self, passbands: list[str], spec: CurvatureFieldSpec, *, device: str, radiance: str) -> None:
         self.spec, self.device, self.radiance = spec, device, radiance
         self.keep_states = False
+        self.area_thermal = False
         self.last_diagnostics = {}
         self.gravity = {} if device == "reference" else {n: _PointState(n, device=device) for n in _NAMES}
         self.helper = None if device == "reference" else HybridBinaryLightCurve(
@@ -184,7 +210,7 @@ class _CurvatureEngine:
         )
 
     def _fields(self, binary: Any, observer: Any) -> tuple[Any, dict]:
-        system, cells, controls = curvature_geometry(binary, self.spec.level)
+        system, cells, controls = curvature_geometry(binary, self.spec.level, area_thermal=self.area_thermal)
         states, intrinsic = {}, {}
         for name in _NAMES:
             star = getattr(system, name)

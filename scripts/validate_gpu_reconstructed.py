@@ -143,7 +143,9 @@ def evaluate(instance: Any, fit: Any, count: int, iteration: int, revision: str)
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--backend", choices=["reference", "cpu", "gpu"], required=True)
-    parser.add_argument("--engine", choices=["reconstructed", "fused", "observer"], default="reconstructed")
+    parser.add_argument(
+        "--engine", choices=["reconstructed", "fused", "observer", "area-thermal"], default="reconstructed",
+    )
     parser.add_argument("--depth", type=int, default=1)
     parser.add_argument("--slice-order", type=int, default=4)
     parser.add_argument("--order", type=int, default=3)
@@ -151,6 +153,7 @@ def main() -> None:
     parser.add_argument("--iteration-start", type=int, default=0)
     parser.add_argument("--repeats", type=int, default=2)
     parser.add_argument("--jd", action="store_true")
+    parser.add_argument("--without-irradiation", action="store_true")
     parser.add_argument("--levels", type=int, nargs=2, default=[0, 1])
     parser.add_argument("--integration-level", type=int, default=1)
     parser.add_argument("--verified-bounded-gpu-window", action="store_true")
@@ -164,9 +167,15 @@ def main() -> None:
         raise ValueError(msg)
     started = perf_counter()
     revision = asset_revision()
-    with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
+    with (
+        table_settings(),
+        settings.override(REFLECTION_EFFECT=not args.without_irradiation, REFLECTION_EFFECT_ITERATIONS=2),
+    ):
+        # Generate the same original irradiated observational fixture for both physical models.
+        with settings.override(REFLECTION_EFFECT=True):
+            problem = make_problem(jd=args.jd, free_nuisance=True, shape_parameters=True)
         fit = prepare_fit(
-            make_problem(jd=args.jd, free_nuisance=True, shape_parameters=True),
+            problem,
             phase_mode="observations",
             mesh_mode="paired",
         )
@@ -174,6 +183,7 @@ def main() -> None:
         engine = {
             "reconstructed": ReconstructedObserverLightCurve,
             "fused": FusedObserverLightCurve,
+            "area-thermal": FusedObserverLightCurve,
             "observer": ObserverDeviceLightCurve,
         }[args.engine]
         instance = engine(
@@ -182,6 +192,7 @@ def main() -> None:
             levels=tuple(args.levels),
             integration_level=args.integration_level,
             device=args.backend,
+            **({"area_thermal": True} if args.engine == "area-thermal" else {}),
         )
         constructed = perf_counter()
         samples = []
@@ -189,6 +200,8 @@ def main() -> None:
             samples.append(evaluate(instance, fit, args.batch, iteration, revision))
             report = {
                 "backend": args.backend,
+                "irradiation": not args.without_irradiation,
+                "observations_irradiated": True,
                 "batch": args.batch,
                 "jd": args.jd,
                 "levels": args.levels,

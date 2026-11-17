@@ -65,7 +65,7 @@ def _angular_inputs(binary: Any, level: int) -> tuple:
 class _ResidentField:
     """Pure device root/area/force/thermal composition for one shape group."""
 
-    def __init__(self, component: str, *, device: str) -> None:
+    def __init__(self, component: str, *, device: str, area_thermal: bool = False) -> None:
         self.geometry = BatchedRocheGeometry(component, device=device)
         self.jax, self.jnp, self.device = self.geometry.jax, self.geometry.jnp, self.geometry.device
         thermal = GravityDarkeningTemperature(device=device)
@@ -75,18 +75,30 @@ class _ResidentField:
             proposals, base = rays.shape[:2]
             mask = jnp.ones((proposals, base), dtype=bool)
             sampled = self.geometry.sample_kernel(parameters, rays, mask)
-            integrated = self.geometry._areas[4](parameters, triangles, mask)
+            integrated = self.geometry._areas[4](
+                parameters, triangles, mask, physics[:, 3] if area_thermal else None,
+            )
             mirror = jnp.tile(jnp.arange(base), 4)
             signs = jnp.repeat(jnp.asarray(_SIGNS), base, axis=0)
             mass, axis, teff, beta = (physics[:, i] for i in range(4))
             gradient = barrier(sampled["outward_gradients"])
             force = barrier(jnp.linalg.norm(gradient, axis=-1)*(const.G*mass/axis**2)[:, None])[:, mirror]
             areas = barrier(integrated["areas"][:, mirror])
-            intrinsic = thermal._temperatures(force, areas, teff, beta)
-            t = barrier(intrinsic["temperatures"])
+            if area_thermal:
+                heat = integrated["gravity_power_integral"]
+                # Restrict the emitted bolometric source before taking its fourth root.
+                t4 = (heat / integrated["areas"]) * (
+                    integrated["total_area"] / jnp.sum(heat, axis=1)
+                )[:, None]
+                t = barrier(teff[:, None] * t4[:, mirror] ** 0.25)
+                thermal_valid = jnp.all(jnp.isfinite(heat) & (heat > 0), axis=1)
+            else:
+                intrinsic = thermal._temperatures(force, areas, teff, beta)
+                t = barrier(intrinsic["temperatures"])
+                thermal_valid = intrinsic["proposal_valid"]
             coefficient = (jnp.sum(areas, axis=1)*teff**4/jnp.sum(areas*t**4, axis=1))**.25
             t = barrier(t*coefficient[:, None])
-            valid = sampled["proposal_valid"] & integrated["proposal_valid"] & intrinsic["proposal_valid"]
+            valid = sampled["proposal_valid"] & integrated["proposal_valid"] & thermal_valid
             valid &= jnp.all(jnp.isfinite(t) & (t > 0), axis=1)
             return {"face_centres": barrier(sampled["points"][:, mirror]*signs),
                     "normals": barrier(sampled["normals"][:, mirror]*signs),
@@ -193,15 +205,23 @@ class ResidentGeometryLightCurve(CurvedEdgeLightCurve):
     """
 
     def __init__(self, passbands: list[str], rule: CurvedEdgeRule, *, max_resident_faces: int = 524288,
+                 area_thermal: bool = False,
                  **kwargs: Any) -> None:
         super().__init__(passbands, rule, **kwargs)
         if (isinstance(max_resident_faces, bool) or not isinstance(max_resident_faces, int)
                 or not 1 <= max_resident_faces <= MAX_NODES):
             msg = "Declare positive resident face budget<=2097152 before evaluation"
             raise ValueError(msg)
+        if not isinstance(area_thermal, bool):
+            msg = "area_thermal must be boolean"
+            raise TypeError(msg)
+        self.area_thermal = area_thermal
+        if self.device == "reference":
+            for engine in self.engines.values():
+                engine.area_thermal = area_thermal
         self.max_resident_faces, self._batch_active = max_resident_faces, False
         if self.device != "reference":
-            self.samplers = {n: _ResidentField(n, device=self.device) for n in _NAMES}
+            self.samplers = {n: _ResidentField(n, device=self.device, area_thermal=area_thermal) for n in _NAMES}
             self.engines = {v.key: _ResidentEngine(list(self.passbands), device=self.device, radiance=self.radiance)
                             for v in self.variants}
 
@@ -278,6 +298,9 @@ class ResidentGeometryLightCurve(CurvedEdgeLightCurve):
                             raise RuntimeError(msg)
                         results.append(result)
                     start = end
+            if self.area_thermal:
+                results = [replace(r, curves={k: replace(c, rule={**c.rule, "thermal_area_order": 4})
+                                              for k, c in r.curves.items()}) for r in results]
             return ResidentCurveBatch(tuple(results), {"field_preparation": prep_seconds,
                                       "total": perf_counter()-started,
                                       "row_timers_exclude_shared_preparation": self.device != "reference"},

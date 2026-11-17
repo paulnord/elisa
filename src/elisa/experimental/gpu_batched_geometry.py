@@ -175,7 +175,7 @@ class BatchedRocheGeometry:
                 bb = jax.device_put(barycentric, self.device)
                 ww = jax.device_put(quadrature_weights, self.device)
 
-                def integrate(parameters: Any, triangles: Any, face_active: Any) -> Any:
+                def integrate(parameters: Any, triangles: Any, face_active: Any, gravity_exponent: Any = None) -> Any:
                     vectors = jnp.einsum("qj,pnjk->pnqk", bb, triangles)
                     active = jnp.repeat(face_active, quadrature_size, axis=1)
                     sampled = sample(parameters, vectors.reshape((parameters.shape[0], -1, 3)), active)
@@ -190,7 +190,7 @@ class BatchedRocheGeometry:
                     face_valid = finite & node_valid.all(axis=-1) & face_active
                     areas = jnp.sum(weights * jacobian, axis=-1)
                     areas = jnp.where(face_valid, areas, jnp.where(face_active, jnp.nan, 0.0))
-                    return {
+                    result = {
                         "areas": areas,
                         "total_area": jnp.sum(areas, axis=1),
                         "face_valid": face_valid,
@@ -200,6 +200,13 @@ class BatchedRocheGeometry:
                         ),
                         "proposal_valid": jnp.any(face_active, axis=1) & jnp.all(face_valid | ~face_active, axis=1),
                     }
+
+                    if gravity_exponent is not None:
+                        # The common dimensional gravity scale cancels in the stellar T^4 normalization.
+                        g = jnp.linalg.norm(sampled["outward_gradients"], axis=-1).reshape(weights.shape)
+                        power = jnp.where(active.reshape(weights.shape), g, 1.0) ** gravity_exponent[:, None, None]
+                        result["gravity_power_integral"] = jnp.sum(weights * jacobian * power, axis=-1)
+                    return result
 
                 return jax.jit(integrate)
 

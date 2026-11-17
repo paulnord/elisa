@@ -42,6 +42,7 @@ def main() -> None:
         "physical_constants",
     ]:
         assert deep[key] == shallow[key], key
+    assert deep.get("irradiation", True) == shallow.get("irradiation", True)
     assert deep["depth"] > shallow["depth"]
     assert len(deep["samples"]) == len(shallow["samples"])
     rows = []

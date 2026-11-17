@@ -1,5 +1,21 @@
 # Ada workload and hardware characterization
 
+## m022 — Curved-area thermal integration
+
+The measured job constructs a changing binary for every proposal, produces two complete finite light curves on field grids 0/1, returns the curves and evaluates the original mapped density and accuracy checks. CPU and GPU jobs ran with affinity 0–15, nice 10 and single-thread BLAS/OMP on Ada's Ryzen 9 5950X and RTX 3080 Ti (12 GiB, FP64, JAX 0.12.0.1, NVIDIA driver 595.99.02). The CPU reference uses original physics routines on the declared curved finite model. Initial private CPU validation used cores 16–19 at nice 19 and overlapped some bounded units.
+
+| Proposals | Serial CPU reference (s) | JAX CPU (s) | GPU (s) | Warm CPU/GPU | Complete process CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 9.31 / 9.14–9.27 | 42.15 / 14.78–16.20 | 29.21 / 3.96–5.47 | 2.04× | 0.83× |
+| 4 | 37.08 / 37.10 | 87.82 / 61.40 | 41.34 / 16.88 | 2.20× | 1.24× |
+| 8 | 73.90 / 73.83 | Unmeasured | 60.10 / 30.79 | 2.40× | 1.59× |
+
+Cells give cold / changed warm elapsed seconds. An independent B1 run gave a warm CPU/GPU ratio of 1.92×. B1/B4/B8 have 3/1/1 changed warm calls in the primary comparison. The independent Julian-date B1 comparison gave 1.66× on one changed call. The first changed call spent 8.852 s on the reference and 5.230 s on the hybrid observer's common geometry, clipping and packet hashing. The GPU time for batched field preparation was 0.035 s. The ledger records nested stage scopes, per-process RSS, cold costs, repeat distributions and conditional amortization.
+
+The separately profiled warm B1 span was 5.520 s, containing 31,771 kernels and 6,112 copies. Kernels occupied 0.960 s, with 0.779 s in native nested roots. Copy intervals occupied 0.058 s, moving 306.4 MB host-to-device, 391.9 MB device-to-host and 37.1 MB device-to-device. Eliminating the entire recorded copy duration would bound acceleration at 1.011×. The original CPU boundary precision region occupied 1.780 s, with 0.0000 s overlapping recorded device activity. Conditional 2× and 4× reductions in its serialized time give 1.192× and 1.319× overall. Unassigned time also includes preparation, launch, synchronization and gaps. The throughput table uses unprofiled processes.
+
+The B1 unit sampled negotiated PCIe generation 4 and width 8 at nonzero GPU utilization. Sampled shared-device memory reached 594 MiB. DRAM traffic, achieved FP64 throughput, hardware occupancy/stalls and critical bandwidth fraction remain unmeasured. These timings support conditional stage comparisons. Predicting a hardware upgrade or a Colab runtime requires measurements on that target. [Complete timings, telemetry and trace summary](ada_validation/background-m022.json)
+
 ## m021 — Continuous intensity reconstruction
 
 Resident vertex moments are prepared per fresh candidate and field level. The compiled observer stage gathers by parent, interpolates the moments, evaluates limb darkening and sums across accepted rays for every passband. Required host packet data and returned CPU quantities are inside the elapsed measurements. The finite model differs from the m020 cell-constant protocol. Comparisons below pair the same physical proposals and output contract across backends.

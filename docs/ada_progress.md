@@ -1,6 +1,71 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T22:07:57.891347+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-17T22:54:17.779259+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m022 — Intrinsic temperature and irradiation on common eclipse rays
+
+The opt-in GPU path now integrates intrinsic bolometric emission across each source cell before computing the reflected multi-band light curve. This improves individual cell temperatures against a higher-order CPU calculation. **It increases the combined likelihood-error bound on this test from 1.106 to 2.765.** The acceptance limit is 0.01 at nominal flux uncertainty 10⁻⁴. The complete reflected curve agrees across backends. Physical fitting and checkpointable MCMC on this fixture still fail the resolution gate.
+
+### What changes the light curve
+
+For each fresh candidate, the new option accumulates area and area-weighted gravity raised to the gravity-darkening exponent at the same 16 curved-surface nodes. It divides the integrated intrinsic emission by cell area, normalizes the star to its specified effective temperature and takes the fourth root. The independent CPU calculation uses original ELISa gradients and polar-temperature normalization. Original face-based irradiation, passband evaluation and limb darkening consume that fresh state. Geometry, receiver normals and observer quadrature are common to both temperature rules.
+
+On the unequal-spin, mass-ratio 0.7 test with 135 cells per quarter surface, the RMS temperature difference against an independent 64-node-per-cell reference at exponent 0.32 falls from 0.0168 to 3.85×10⁻⁸ K on the primary and from 0.00316 to 9.04×10⁻⁹ K on the secondary. Both nonuniform exponents (0.32 and 1) improve, and the uniform exponent-zero test recovers the input temperature. The integrated T⁴ closure error stays below 10⁻¹⁵ on this CPU fixture. Spectral intensity and irradiation still use one temperature and one local state per cell.
+
+### Does irradiation account for the likelihood error?
+
+We evaluated both temperature rules with irradiation on and off at field levels 2 and 3 and eclipse depths 2 and 3. Each comparison used identical synthetic observations, uncertainties, physical parameters, phase reducers, third light and normalization. The observer uses common integration grid 3, order 3 and slice order 8. The adaptive records and quadrature bytes match exactly for each backend at a given depth across both thermal rules and both irradiation settings. Two preliminary CPU profiles generated different observational data when irradiation was switched off. We excluded them and reran those comparisons with fixed observations.
+
+| Intrinsic temperature | Irradiation | Field bound | Depth bound | Combined bound | Combined D | Signed diagonal Δlog L |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| Cell centre | On | 1.01534 | 0.09042 | 1.10577 | 0.004836 | -0.44814 |
+| Cell centre | Off | 1.14365 | 0.08975 | 1.23341 | 0.005153 | -0.74462 |
+| Curved-area mean of T⁴ | On | 2.67445 | 0.09042 | 2.76488 | 0.011365 | -1.64010 |
+| Curved-area mean of T⁴ | Off | 2.92395 | 0.08975 | 3.01371 | 0.012290 | -1.94703 |
+
+Each bound applies to the four **computed** finite curves for one physical candidate. D is in observational sigma units. Both D ≤ 0.1 and the nominal component-based likelihood bound ≤ 0.01 are required. The signed change compares coarse/shallow to fine/deep. The field term dominates. The fine/deep heated area-averaged model has residual RMS of 59.9, 57.3 and 67.8 nominal σ in B, V and bolometric flux at this proposal. These residuals amplify small flux differences in the likelihood.
+
+| Source temperature | Intrinsic Δlog L | Irradiation response Δlog L | Gaussian cross term | Total field Δlog L |
+| --- | ---: | ---: | ---: | ---: |
+| Cell centre | -0.65804 | +0.28787 | +5.715e-06 | -0.37016 |
+| Curved-area mean of T⁴ | -1.85161 | +0.28946 | +1.460e-05 | -1.56213 |
+
+The second table holds boundary depth at 3 and sums over 28 mapped measurements. Intrinsic means the coarse-minus-fine change with heating off. The irradiation response is the extra change when heating is enabled, including its effect on passband intensity, limb darkening and normalization. Both signed likelihood terms use the same fine heated residual. Their quadratic cross term gives the exact finite Gaussian change. For the area-averaged source the largest absolute mapped intrinsic change is 4.85×10⁻⁷ and the largest change in irradiation response is 5.36×10⁻⁸. The two effects partly cancel. All three passbands reach their largest mapped intrinsic change at phase 0.267, away from eclipse. That makes the direction-dependent emission and the observation normalization worth testing alongside contact integration.
+
+### Validation and costs
+
+79 distinct hardware controls passed, including all 15 new tests, six system fixtures, the CK04 table bridge, three limb-darkening laws, the small occultor, 57 contact phases and the resource/accuracy behavior. All 15 new tests and the original CPU golden case passed under CPU-only execution. The original heated centre model reproduced the preceding CPU fine outputs bit for bit at both depths, including quadrature, component curves and density. On GPU the adaptive decisions and quadrature bytes also matched exactly. Across the two GPU revisions the largest difference in normalized flux was 4.44×10⁻¹⁶ and the largest log-posterior difference was 4.07×10⁻¹⁰, within the existing parity tolerances. Across matched CPU, JAX CPU and GPU comparisons, the largest normalized curve or prediction difference was 6.66e-16 and the largest log-posterior difference was 1.61e-09.
+
+| Proposals | Serial CPU reference (s) | JAX CPU (s) | GPU (s) | Warm CPU/GPU | Complete process CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 9.31 / 9.14–9.27 | 42.15 / 14.78–16.20 | 29.21 / 3.96–5.47 | 2.04× | 0.83× |
+| 4 | 37.08 / 37.10 | 87.82 / 61.40 | 41.34 / 16.88 | 2.20× | 1.24× |
+| 8 | 73.90 / 73.83 | Unmeasured | 60.10 / 30.79 | 2.40× | 1.59× |
+
+The table gives first complete call / changed warm calls on the less expensive field 0/1, depth-1 protocol. Each proposal constructs two fresh finite models, returns all curve outputs and evaluates the original prior, observation mapping, likelihood and accuracy controls. Warm ratios use median times. Equal-count process ratios include initialization, compilation and all transfers. B1 has three changed calls and an independent repeat. B4 and B8 have one changed call per backend. Julian-date inputs were checked separately. For the scientific field-2/3, depth-3, slice-order-8 calculation, a separate matched cold process took 123.03 s on CPU and 60.81 s on GPU (2.02×, one proposal on each). These ratios measure proposal evaluation on Ada. Real Colab execution and posterior ESS/sec remain pending. [Hardware measurements](hardware_characterization.md)
+
+### Reproduce the finite comparison
+
+Run in the pinned environment with the released fixture assets. Use Bash for the commands below. Select `--engine fused` to reproduce the centre comparator. For Ada GPU execution, run with the GPU platform in a registered hold-aware unit and select `--backend gpu --verified-bounded-gpu-window`.
+
+```bash
+export JAX_PLATFORMS=cpu JAX_ENABLE_X64=True
+for depth in 2 3; do
+  for heat in on off; do
+    flags=()
+    if [[ $heat == off ]]; then flags+=(--without-irradiation); fi
+    python scripts/validate_gpu_reconstructed.py --backend reference --engine area-thermal \
+      --batch 1 --repeats 0 --levels 2 3 --integration-level 3 --depth "$depth" \
+      --slice-order 8 "${flags[@]}" --output "d$depth-$heat.json"
+  done
+done
+python scripts/compare_gpu_irradiation.py --heated d3-on.json --intrinsic d3-off.json --output contrast.json
+python scripts/compare_gpu_rectangle.py --deep d3-on.json --shallow d2-on.json --output rectangle.json
+```
+
+Independent observational checks are available for later comparisons. The V505 Per calibrated-pixel extraction (DR73, 30-pixel aperture, 3,150 eclipse samples, JKTEBOP v43) gives 0.49634 mmag RMS and radius ratio 0.97754. The sum of fractional radii differs from the published value by 7.3 quoted standard deviations, with different data release, trend selection and software version. AI Phe's figure-derived conditional timing agrees within 0.31 s of rounded Run A, with per-cadence errors unavailable. NT Aps's 20 s SPOC photometry recovers the published half-period on the cited frequency grid. Each constrains a different observable. The synthetic numerical tests above use their own inputs. [V505 Per study](https://arxiv.org/abs/2106.04323) · [AI Phe study](https://arxiv.org/abs/2003.09295) · [NT Aps study](https://doi.org/10.1017/pasa.2024.122)
+
+All 29 registered units preserved the same stopped Fifth42 checkpoint. The next measurement should resolve intrinsic passband emissivity and limb darkening within a source cell on shared observer rays, retaining the irradiation control and the accumulated likelihood test. [Scientific ledger](ada_validation/background-m022.json) · [Source fingerprints](ada_validation/background-m022-source-hashes.json)
 
 ## m021 — Conserved intensity moments on curved eclipse packets
 
