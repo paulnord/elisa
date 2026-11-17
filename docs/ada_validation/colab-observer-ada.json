@@ -1,0 +1,188 @@
+{
+  "timestamp": "2026-11-17T19:34:28.051620+00:00",
+  "scientific_code_commit": "a3a83b6b4ee69a8244f772a03e19a8e1c669d408",
+  "notebook": "notebooks/elisa_observer_batches.ipynb",
+  "notebook_sha256": "cd5eb784d274b34c2192d3f244d7004e8a68e4f6dac31934a4e3ffdeea87111a",
+  "requirements_sha256": "f0344a3f0188085a7ca300e57d2639bc5c62289b2137558a35e2ddb6cf59bbb6",
+  "source_manifest_sha256": "1475cfc8543ab59bf8c3ae1cd3a93ceba5099085ece9d7a70f0b67577153e7d7",
+  "actual_Colab_execution": false,
+  "Colab_status": "pending_real_Colab_execution",
+  "Ada_execution": {
+    "window": 137,
+    "command_seconds": 145.33853092591744,
+    "all5_original_Python_cells_passed": true,
+    "additional_read_only_CPU_identification_cell_passed": true,
+    "source_proof": [
+      {
+        "id": "elisa-m019-01",
+        "source_sha256": "991854850044d19837bc92bed174cd4f872cd2edd3ed35bda55ac27366d55608",
+        "validated_where": "Ada registered bounded window137 actual notebook execution"
+      },
+      {
+        "id": "elisa-m019-03",
+        "source_sha256": "fd714ee21f1805973fd296f6fd7409ef8429ce85c969846975f5a1b3404f9688",
+        "validated_where": "Ada registered bounded window137 actual notebook execution"
+      },
+      {
+        "id": "elisa-m019-05",
+        "source_sha256": "126297cf2d74ecd8f0a602e8019583105ae53034ea5c8e00ddd23e5f85e90a46",
+        "validated_where": "Ada registered bounded window137 actual notebook execution"
+      },
+      {
+        "id": "elisa-m019-cpu-identification",
+        "source_sha256": "d49f003b2404fc4b8acaad693bad17904d4bc357b9619a8b23802e4a16cf8a0c",
+        "validated_where": "Private CPU-only metadata execution; no GPU workload"
+      },
+      {
+        "id": "elisa-m019-07",
+        "source_sha256": "7deadd5c400031f6507bdd9f527d5719233ae1dd24fb56cb47b50e5d5f9c8520",
+        "validated_where": "Ada registered bounded window137 actual notebook execution"
+      },
+      {
+        "id": "elisa-m019-09",
+        "source_sha256": "7b90d7e6b1900df3380117dcfe3b7244dff98d4ef5992dedf6ec7a77a8d94197",
+        "validated_where": "Ada registered bounded window137 actual notebook execution"
+      }
+    ],
+    "network_installation_and_clone_skipped": true,
+    "installed_pinned_dependencies_verified": 55
+  },
+  "runtime": {
+    "python": "3.12.4",
+    "machine": "x86_64",
+    "GPU": "NVIDIA GeForce RTX 3080 Ti",
+    "x64": true,
+    "affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "dependencies": {
+      "astropy": "8.0.2",
+      "astropy-iers-data": "0.2026.11.16.0.37.44",
+      "attrs": "26.1.0",
+      "certifi": "2026.10.23",
+      "charset-normalizer": "3.5.2",
+      "contourpy": "1.4.0",
+      "corner": "2.3.0",
+      "cycler": "0.12.1",
+      "emcee": "3.1.6",
+      "fonttools": "4.68.0",
+      "idna": "3.20",
+      "jax": "0.12.0.1",
+      "jax-cuda13-pjrt": "0.12.0.1",
+      "jax-cuda13-plugin": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "jsonschema": "4.26.0",
+      "jsonschema-specifications": "2025.9.1",
+      "kiwisolver": "1.5.1",
+      "llvmlite": "0.50.0",
+      "matplotlib": "3.11.2",
+      "ml-dtypes": "0.7.0",
+      "numba": "0.68.1",
+      "numpy": "2.5.5",
+      "nvidia-cublas": "13.10.0.20",
+      "nvidia-cuda-cccl": "13.3.5.0.6",
+      "nvidia-cuda-crt": "13.5.37",
+      "nvidia-cuda-cupti": "13.5.25",
+      "nvidia-cuda-nvcc": "13.5.37",
+      "nvidia-cuda-nvrtc": "13.5.37",
+      "nvidia-cuda-runtime": "13.5.37",
+      "nvidia-cudnn-cu13": "9.28.1.4",
+      "nvidia-cufft": "12.5.0.14",
+      "nvidia-cusolver": "12.4.1.2",
+      "nvidia-cusparse": "12.9.4.2",
+      "nvidia-nccl-cu13": "2.32.6",
+      "nvidia-nvjitlink": "13.5.37",
+      "nvidia-nvshmem-cu13": "3.8.0",
+      "nvidia-nvvm": "13.5.37",
+      "opt-einsum": "3.4.0",
+      "packaging": "26.3",
+      "pandas": "3.1.1",
+      "parameterized": "0.9.0",
+      "pillow": "13.0.0",
+      "pyerfa": "2.0.1.5",
+      "pyparsing": "3.3.3",
+      "python-dateutil": "4.0.0",
+      "pyyaml": "6.0.3",
+      "referencing": "0.37.0",
+      "requests": "2.34.2",
+      "rpds-py": "2026.9.1",
+      "scipy": "1.18.1",
+      "tqdm": "4.70.1",
+      "typing-extensions": "4.16.0",
+      "tzdata": "2026.6",
+      "urllib3": "2.8.0"
+    },
+    "nvidia_smi": "NVIDIA GeForce RTX 3080 Ti, 595.99.02, 12288 MiB, 4, 8",
+    "CPU_model": "AMD Ryzen 9 5950X 16-Core Processor",
+    "logical_CPU_count": 32,
+    "link_snapshot_scope": "Before benchmarks; idle PCIe values do not establish active link capability."
+  },
+  "batch": 1,
+  "warm_repeats": 1,
+  "parity": {
+    "cpu": {
+      "max_normalized_curve_absolute": 7.771561172376096e-16,
+      "max_posterior_absolute": 1.2514647096395493e-09
+    },
+    "gpu": {
+      "max_normalized_curve_absolute": 5.551115123125783e-16,
+      "max_posterior_absolute": 1.775333657860756e-09
+    }
+  },
+  "complete_costs": {
+    "reference": {
+      "fixed_setup_seconds": 0.22365389694459736,
+      "engine_constructor_seconds": 5.8609992265701294e-05,
+      "cold_complete_batch_seconds": 10.812392252031714,
+      "warm_changed_complete_seconds": [
+        10.526983738993295
+      ],
+      "command_seconds": 22.814598714001477
+    },
+    "cpu": {
+      "fixed_setup_seconds": 0.2236082210438326,
+      "engine_constructor_seconds": 0.41206307196989655,
+      "cold_complete_batch_seconds": 48.09769696602598,
+      "warm_changed_complete_seconds": [
+        22.13585855299607
+      ],
+      "command_seconds": 72.70743864192627
+    },
+    "gpu": {
+      "fixed_setup_seconds": 0.2210201269481331,
+      "engine_constructor_seconds": 0.6875766949960962,
+      "cold_complete_batch_seconds": 35.851074957987294,
+      "warm_changed_complete_seconds": [
+        9.114652197924443
+      ],
+      "command_seconds": 47.74168247799389
+    }
+  },
+  "observed_warm_CPU_over_GPU_ratio": 1.1549517754929215,
+  "strict_finite_pair_gate_passed": false,
+  "continuum_certified": false,
+  "fit_or_MCMC_qualified": false,
+  "acceptance": "Original finite accuracy stop retained; no physical fit/sampler acceptance.",
+  "production_state": "paused_for_elisa",
+  "checkpoint_unchanged": true,
+  "limits": [
+    "Ada execution reused the installed pinned environment, skipping network setup. Colab provisioning/driver compatibility and actual Colab performance remain unvalidated.",
+    "The5pipeline/config/runtime/analysis cells executed together in the bounded run. One read-only CPU-identification cell was then added and exercised separately; all earlier source hashes match. No model inputs/numerics/timing code changed.",
+    "One warm sample per backend is preliminary; observed ratio is not a10xassertion, whole scientific analysis, MCMC throughput or ESS evidence."
+  ]
+}

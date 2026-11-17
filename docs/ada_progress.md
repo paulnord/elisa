@@ -87,12 +87,17 @@ no longer describes this path. Copy duration, dispatch, synchronization and
 unassigned gaps are not DRAM bandwidth or achieved FP64. Missing counter and
 critical-path attribution are labeled; no new-processor speedup is predicted.
 
-A pinned Colab handoff follows this scientific code commit, retaining actual
-hardware identification, original/JAX CPU/GPU complete costs, dependency/source
-checks, parity and accuracy stops, and downloadable evidence. Actual Colab
-execution is pending until a real run is available; 10× is an aspiration to test.
+The [runnable Colab notebook](../notebooks/elisa_observer_batches.ipynb) pins
+scientific code commit `a3a83b6` and 55 tested runtime dependencies. Its five pipeline,
+configuration, runtime and archive cells passed on Ada in window137; a read-only
+CPU-identification cell was added and exercised separately, with the earlier
+cell hashes unchanged. Network installation was skipped using the pinned private
+environment. [Execution evidence](ada_validation/colab-observer-ada.json) records
+actual hardware, complete original/JAX CPU/GPU costs, source/dependency checks,
+parity and the retained accuracy stop. **Real Colab execution is pending**;
+no tenfold complete-analysis result is claimed.
 
-All 24 bounded units preserved the exact active Fifth42 checkpoint hold. Nothing
+All 25 bounded units, including notebook execution, preserved the exact active Fifth42 checkpoint hold. Nothing
 was resumed or merged. Next: fuse the numerous device root/launch steps and
 continue field/boundary convergence before qualified physical inference/MCMC.
 

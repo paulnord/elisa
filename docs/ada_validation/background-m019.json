@@ -17444,7 +17444,16 @@
     "remaining": "Field/boundary convergence at1e-4; fully resident/fused observer and topology work; qualified whole-data physical inference and checkpointable MCMC/ESS assessment."
   },
   "colab_handoff": {
-    "planned_followup": "Pinned notebook references this scientific code commit after publication; actual Colab validation remains pending. No10x complete-analysis assertion."
+    "notebook": "notebooks/elisa_observer_batches.ipynb",
+    "execution_report": "colab-observer-ada.json",
+    "scientific_code_commit": "a3a83b6b4ee69a8244f772a03e19a8e1c669d408",
+    "Ada_cells_validated": true,
+    "network_provisioning_tested": false,
+    "actual_Colab_execution": false,
+    "Colab_status": "pending_real_Colab_execution",
+    "tenfold_complete_analysis_gain_claimed": false,
+    "checkpoint_unchanged": true,
+    "additional_window": 137
   },
   "measurement_limits": [
     "Shadow stage10warm physically changed repeats/shape; complete batches only1or2warm samples. Report individual samples/ranges; no stable-tail or ESS claim.",
