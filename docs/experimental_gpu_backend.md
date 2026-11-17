@@ -1173,3 +1173,83 @@ stationarity residual guard; original CPU synthesis completes. This is an
 explicit unsupported numerical case, not a prior rejection or a substitute
 coarse prediction. Local-coordinate conditioning remains work for the curved
 method; no GPU or accuracy qualification is claimed for that probe.
+
+## Boundary-fitted Roche integration
+
+`BoundaryBinaryLightCurve` adds a separate opt-in numerical protocol. The
+preceding `CurvedBinaryLightCurve` keeps its original node-mask rule. Neither
+changes the original Observer, public fitters, physical priors or CPU routes.
+
+```python
+from elisa.experimental.boundary_geometry import BoundaryRule
+from elisa.experimental.gpu_boundary import BoundaryBinaryLightCurve
+from elisa.experimental.gpu_curved import curved_difference
+
+engine = BoundaryBinaryLightCurve(
+    bands, BoundaryRule(order=3, depth=4), field_levels=1, device="gpu",
+)
+result = engine(binary, observation_phases, observer=observer,
+                source_revision=assets_sha256)
+# This preflight is outside physical candidate-penalty handlers.
+report = curved_difference(coarse, fine, nominal_y_err, reducers=reducers,
+                           mean_normalize=True, observed=y_data, ln_f=ln_f,
+                           require_budget=True)
+```
+
+The shadow stationary solve now stays in star-local coordinates, using the
+original potential and its analytic derivative. It preserves the preceding
+positive-derivative, displacement and **64eps relative residual guard**. This
+avoids loss of the secondary's small displacement through repeated unit-centre
+addition/subtraction. Independent original-equation Brent tangencies and
+extended-precision gradient/potential controls cover small-star conditioning.
+The shadow margin has its zero at the stationary-potential silhouette; a
+projected radius minus the full tangency radius would not have the same zero.
+The previous [8,100] potential fixture is tested through complete new curves;
+higher-potential local-equation tests do not qualify complete tiny-star curves.
+
+Seven probes and the preceding two-spread/diameter safety band guide finite
+barycentric subdivision. At the requested depth, sampled contours that cannot
+be represented by endpoint signs receive bounded extra topology subdivisions.
+Each accepted leaf is clipped first to the implicit visible limb and then to
+the clear side of the implicit foreground shadow. Crossing edges receive
+bracketed bisections. Triangulated leaf polygons retain their original parent
+field identity and true Roche quadrature normals/Jacobians. Integration uses
+the fitted shadow polygon without reapplying discontinuous node shadow masks;
+true nonpositive limb cosines contribute zero.
+
+**Straight leaf chords approximate a curved boundary.** Edge root brackets do
+not certify the chord error, and seven probes do not exclude every sub-probe
+contour loop. Topology exhaustion and node-cap failures abort explicitly.
+Analytic sphere overlap, limb-darkening integrals, independent depth/order
+controls and nominal-noise likelihood preflights remain necessary. A passing
+finite pair is not an interval, continuum or continuous-field certificate.
+
+`BoundaryRule` inherits orders 2–4, depths 0–7 and the 2097152-node cap per
+component/phase. It adds fixed `edge_bisections` 32–48 (default 36), and
+`topology_depth` 0–4 (default 4) extra subdivisions only for unresolved sampled
+contours. The cap is checked before refinement and after clipping; it is not a
+peak-memory limit. The preceding physical, phase, band and field-grid bounds
+remain. Unsupported numerics never become prior penalties or silently coarser
+predictions. CK04 explicitly uses `radiance="cpu"`.
+
+Fresh original corrected thermal/reflection/radiance/LD fields remain piecewise
+constant on angular parent faces. Root solving, adaptation and clipping remain
+common CPU bridges; the original CPU reference and device kernels independently
+integrate the same new rule. This is hybrid, with all bridges and transfers
+charged in complete timings. Changing the field grid also changes the patch
+basis; a matched dyadic leaf scale remains a coupled numerical comparison.
+
+Run `test_boundary_geometry.py`, `test_gpu_boundary.py` and the preceding two
+curved test modules. Reproduce complete curves with
+`scripts/validate_gpu_boundary.py --device cpu --part curves --case partial_bb --field-levels 1 --order 3 --depth 4 --output curves.json`,
+then repeat with a new depth/order/field protocol and `--comparison curves.json`.
+Cases also include `total_bb`, `partial_ck04` and `small_occultor`.
+`--part observations` evaluates fresh physical proposals through the original
+serializer, constraints, priors, phase/JD mapping, reducers, third light, final
+mean and noise/density callbacks. Both reference and selected callback timers
+include physical serialization, constructor, prior, the same original
+prediction layer and density. Numerical preflight and independent extra
+controls are additionally charged in the complete study wall. Compilation
+incurred is included; process caches can warm. These studies are not optimized
+fits, converged chains or ESS measurements. GPU runs require independently
+restored bounded allocations. See [current results](ada_progress.md).

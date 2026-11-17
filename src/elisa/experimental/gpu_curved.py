@@ -89,6 +89,11 @@ class CurvedBinaryLightCurve:
     registered and no continuum accuracy is implied by a finite pair passing.
     """
 
+    _geometry_type = RocheGeometry
+    _packet = staticmethod(curved_packet)
+    _method_description = ("True Roche integration of piecewise-constant fresh original finite fields; "
+                           "CPU geometry/masks, empirical boundary indicator, no continuum certificate")
+
     def __init__(self, passbands: list[str], rule: CurvedRule, *, field_levels: int = 1,
                  device: str = "gpu", radiance: str = "device") -> None:
         if not isinstance(rule, CurvedRule) or device not in ("reference", "cpu", "gpu"):
@@ -147,7 +152,7 @@ class CurvedBinaryLightCurve:
             msg = "Observer passbands/order must match the curved engine"
             raise ValueError(msg)
         supplied._system = model
-        geometry = {n: RocheGeometry(model, n) for n in _NAMES}
+        geometry = {n: self._geometry_type(model, n) for n in _NAMES}
         system, triangles = self._fields(model, supplied)
         fields_done = perf_counter()
         signature = hashlib.sha256(json.dumps({
@@ -175,7 +180,7 @@ class CurvedBinaryLightCurve:
             packets, stars, record = [], [], {"phase": float(position.phase), "components": {}}
             for name in _NAMES:
                 foreground = geometry[foreground_name] if overlap_possible and name != foreground_name else None
-                packet = curved_packet(triangles[name], geometry[name], line, self.rule, foreground)
+                packet = self._packet(triangles[name], geometry[name], line, self.rule, foreground)
                 packets.append(packet)
                 parents = packet["parents"]
                 parent = getattr(system, name)
@@ -207,8 +212,7 @@ class CurvedBinaryLightCurve:
                    "integration_with_transfers_compile": integration_seconds, "total": perf_counter()-started}
         detail = {"phase_records": records, "field_faces": {n: len(getattr(system, n).faces) for n in _NAMES},
                   "initial_system": system if diagnostics else None, "support_to_original": reverse[origin],
-                  "method": "True Roche integration of piecewise-constant fresh original finite fields; "
-                  "CPU geometry/masks, empirical boundary indicator, no continuum certificate"}
+                  "method": self._method_description}
         return CurvedCurveResult(resolved+model.phase_shift, flux, raw, mapped, signature, asdict(self.rule),
                                  self.field_levels, float(model.additional_light), timings, detail)
 

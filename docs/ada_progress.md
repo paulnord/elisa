@@ -1,9 +1,208 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T13:21:22.598064+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T14:06:44.010759+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: true curved Roche integration and implicit eclipses
+## Latest milestone: fitted eclipse boundaries and conditioned small-occultor shadows
+
+`BoundaryBinaryLightCurve` now synthesizes complete reflected curves with
+boundary-fitted leaf integration. The formerly rejected small-occultor fixture
+also completes, under the **unchanged FP64 stationary-residual guard**.
+**All 73 hardware tests passed without skips**: 40 new boundary cases and all
+33 preceding curved cases. CPU validation passed 61 with 12 explicit GPU skips.
+The 399 preceding hardware controls remain under byte-identical 606 baseline
+files. This is additive coverage of **472 cases**, not a fresh 472-case suite.
+
+CPU/GPU implementation parity passes. Boundary depth, quadrature order and
+coupled field controls are reported below with the original nominal-noise
+accuracy stops. **Complete 1e-4 physical fitting and continuous-field accuracy
+remain unqualified.** No original CPU function, default Observer, public fitter
+or physical prior changed. This remains a standalone hybrid experiment.
+
+### Conditioned shadow solves and fitted leaf boundaries
+
+The implicit foreground tangency solve now stays in star-local coordinates.
+It evaluates the original potential/analytic gradient without repeatedly adding
+and subtracting the secondary's unit centre. Positive derivative, displacement
+and 64eps*|gradient| residual gates remain. Extended-precision comparisons with
+the unchanged original equations and independent scalar Brent tangencies
+control primary/secondary, q/spin boundaries and small-star conditioning.
+The signed shadow margin now has its zero at the stationary-potential
+silhouette, including a nonzero line-of-sight tangency offset.
+
+The previous potentials [8,100] fixture completes through fresh reflected
+CPU/GPU full curves. Original CPU synthesis remains available with its preceding
+semantics. Much higher-potential local-equation tests are predicate controls;
+they do not qualify complete curves in that extended regime.
+
+Seven probes and a safety band guide subdivision of true Roche patches.
+Crossing leaf edges are bracketed at the implicit limb and foreground shadow,
+then clipped polygons are triangulated while retaining parent field identity.
+Actual Roche normals/Jacobians and original LD/element-flux arithmetic integrate
+the resulting domain. Shadow masks are not reapplied at quadrature nodes;
+nonpositive true limb cosines contribute zero.
+
+**Leaf chords approximate the curved boundary.** Edge root brackets do not
+bound chord error; probes do not certify every sub-probe contour loop. A finer
+CPU development run caught unresolved sampled topology. Fixed bounded extra
+subdivision now resolves that case; the failed evidence remains private.
+Topology exhaustion and node-cap failures still abort explicitly, without
+coarsening or converting numerical errors into prior penalties.
+
+Analytic uniform opaque-disk overlap controls cover partial, grazing and total
+eclipses. At tested depth 5 the maximum unobscured-disk-normalized error is
+**3.79149e-06**, within the independently
+fixed 5e-6 target; the preceding published point-mask control used depth 7.
+Analytic linear-LD disk integrals differ by at most
+**8.88818e-10**. These are truncation controls,
+separate from unchanged CPU/GPU implementation tolerances.
+
+### Complete curves and finite numerical accuracy
+
+Fresh original corrected gravity-darkened/reflected thermal, LD and radiance
+fields remain piecewise constant on angular parent faces. Original build order,
+irradiation iteration and atmosphere/LD semantics are preserved; each physical
+candidate rebuilds its fields. They do not yet establish continuous-field
+accuracy or bolometric closure under the new curved integration measure.
+True roots, adaptation, conditioned shadow solves and clipping are common CPU
+bridges. Device corrected state/reflection/fresh BB emission and weighted LD
+integration are connected; CK04 explicitly uses original CPU radiance/LD.
+
+The reference composes original CPU finite fields/reflection/radiance and
+per-element flux arithmetic with the **same new quadrature**. Differences from
+original faceted whole curves are numerical-method differences, separately
+retained in the report. Maximum normalized/raw/component-relative parity errors
+are **5.55112e-16 /
+1.24077e-24 W/m² /
+1.33443e-15**. Raw/component gates remain
+3e-13 relative with zero absolute tolerance; normalized gates remain 3e-13/2e-12.
+Tests cover reflected partial/total/non-eclipsing, small-occultor, real CK04,
+unequal q/spin and logarithmic/square-root LD cases. Original CPU before/after
+controls and fresh changed-physics/response identity controls pass.
+
+Complete profiles retain original contact-focused phases, both eclipses,
+ordering/repeats, phase shift and third light. D uses sigma=1e-4 and the original
+ln_f=-2 effective noise; numerical qualification uses **nominal sigma** and the
+unchanged D<=0.1 budget independently of ln_f.
+
+| Partial-fixture finite comparison | Actual D | Nominal component enclosure D | Numerical preflight |
+|---|---:|---:|---|
+| Boundary depth 3→4 | 0.127937 | 0.1305 | abort |
+| Boundary depth 4→5 | 0.0314168 | 0.032069 | pass finite pair |
+| Order 3→4 at depth 4 | 0.000275316 | 0.000300679 | pass finite pair |
+| Field1/depth4→field2/depth3 | 0.349771 | 0.385315 | abort |
+
+These enclosures concern only the computed finite pairs. A passing boundary
+pair does not certify an uncomputed boundary, continuous fields or a posterior.
+Changing the field grid also changes patch basis; the last row matches dyadic
+leaf scale and still couples field and integration changes. It is not a pure
+isolation of continuous thermal/irradiation/radiance error. Its maximum V-band
+normalized change is 4.94247e-06, while mean raw V
+flux changes by -3.77283e-06 relative.
+Retaining both shows that normalization does not remove the shape change.
+Independent angular area controls and all raw/component/normalized arrays remain in the report.
+
+A separate CPU-only intrinsic normalization diagnostic evaluates
+sum(T⁴ A)/(T_eff⁴ sum(A))−1 with unchanged original temperatures. Original areas
+are independently checked against original triangle areas in SMA²; curved
+areas use order-4 true Roche quadrature on each parent. No temperature is
+renormalized. This finite integral does not test reflected energy balance.
+
+| Field level | Component | Original corrected-area closure | Same fields, curved-area closure |
+|---|---|---:|---:|
+| 0 | primary | 0 | -1.06339e-06 |
+| 0 | secondary | -1.11022e-16 | -1.76703e-07 |
+| 1 | primary | 0 | -2.72032e-07 |
+| 1 | secondary | 2.22045e-16 | -4.5194e-08 |
+| 2 | primary | -1.11022e-16 | -6.83961e-08 |
+| 2 | secondary | 0 | -1.13624e-08 |
+
+Changing the integration measure produces a small, resolution-dependent
+intrinsic closure bias. Its size alone does not explain or repair the coupled
+field/curve difference; continuous thermal/irradiation convergence still needs
+independent work. The report retains the exact fixture and calculation method.
+
+### Original likelihood semantics and matched costs
+
+Fresh physical proposals use the original serializer, constraints, priors,
+phase/JD mapping, reducers/repeats, third light, final mean, noise law and density
+callback. Maximum mapped prediction/posterior differences are
+**3.33067e-16 /
+1.25146e-09**, within the unchanged 1e-6 density
+gate. Out-of-prior vectors retain -inf rejection before synthesis.
+
+The observation preflight compares boundary depths 3 and 4 at fixed fields.
+Its absolute likelihood enclosure includes the data residual cross term,
+sum(|r|E+E²/2), for this finite pair. Numerical accuracy failures remain outside
+candidate penalties, including when nuisance noise is inflated.
+
+| Proposal | Actual D | Nominal component enclosure D | Actual delta logL | Absolute logL enclosure | Preflight |
+|---|---:|---:|---:|---:|---|
+| phase base | 0.107561 | 0.114969 | 68.2752 | 72.543 | abort |
+| phase changed | 0.100709 | 0.112886 | 89.7342 | 97.7686 | abort |
+| JD base | 0.107561 | 0.114969 | 68.2752 | 72.543 | abort |
+
+The residual cross term produces finite log-likelihood changes of 68–90 in
+these observations. Small curve differences alone therefore cannot qualify
+the posterior. All three observation preflights retain their accuracy stops.
+
+Seconds below include constructor, fresh fields, CPU geometry/adaptation/
+clipping, integration, transfers and raw/normalized/component host outputs.
+Both backends run in the same unit with affinity 0–15, Nice 10, threads 1 and
+FP64. Compilation incurred is included; process caches can warm. These are
+single observations, not throughput distributions.
+
+| Case | Field level | Order/depth | CPU reference s | GPU hybrid s |
+|---|---:|---|---:|---:|
+| partial_bb | 1 | 3/3 | 20.9307 | 23.1216 |
+| partial_bb | 1 | 3/4 | 40.0783 | 42.2096 |
+| partial_bb | 1 | 3/5 | 82.7403 | 84.6861 |
+| partial_bb | 1 | 4/4 | 46.3026 | 48.8831 |
+| partial_bb | 2 | 3/3 | 42.5978 | 44.8998 |
+| total_bb | 1 | 3/4 | 51.2638 | 53.8309 |
+| partial_ck04 | 1 | 3/4 | 41.4432 | 43.8341 |
+| small_occultor | 1 | 3/4 | 46.3488 | 48.9043 |
+
+The following **matched complete callback** timers both start before physical
+serialization/constraints and constructor, then include original prior, the
+same original prediction layer with prepared-binary construction/phase mapping,
+and density. They replace the preceding unmatched callback sub-timers.
+Extra coarse numerical preflight and independent controls add to the complete
+study wall; Python/import startup is additionally in command walls.
+
+| Proposal | CPU reference callback s | GPU hybrid callback s |
+|---|---:|---:|
+| phase base | 28.2441 | 30.8933 |
+| phase changed | 28.5808 | 30.0027 |
+| JD base | 27.9913 | 29.4547 |
+
+CPU geometry remains the principal bridge. No qualified fitting/MCMC speedup,
+optimized fit, chain convergence or ESS/sec claim follows from these results.
+No boundary fitting/sampler backend is automatically registered.
+
+### Evidence and continuation
+
+Ten independently restored systemd allocations used RuntimeMaxSec=300 and
+internal 270 s deadlines. Every owned unit ended inactive/success. Exact pinned
+service/command/source/config/plan, matching resume records and latest
+receipt/witness/endpoints were verified. Durable restoration advances were
+**43,008, 47,616, 46,848, 47,104, 47,104, 47,104, 43,008, 43,008, 43,776, 42,496 cells**. This verifies latest evidence, not a historical production
+re-audit. Raw operational records remain private.
+
+Frozen source/data: **616 files**, aggregate SHA256
+`bfaa1836ea53ad53475f1d374a208ae3ca2506553d64811260dfde1e828c0dbd`. Five files were added; only the preceding
+experimental `gpu_curved.py` gained explicit geometry hooks with identical
+defaults. Its complete 33-test hardware suite was rerun. All 606 earlier files
+remain byte-identical. See the [curated report](ada_validation/background-m014.json),
+[source manifest](ada_validation/background-m014-source-hashes.json), and
+[API/reproduction/limits](experimental_gpu_backend.md#boundary-fitted-roche-integration).
+
+Next isolate upstream field/correction error from boundary error on a shared
+integration protocol, assess curved-measure thermal normalization, and extend
+the original observation preflight to finer boundaries before qualifying
+physical fits at 1e-4. Accuracy stops remain active; the assignment continues.
+
+## Previous milestone: true curved Roche integration and implicit eclipses
 
 `CurvedBinaryLightCurve` now synthesizes complete reflected light curves using
 true Roche quadrature points/normals/Jacobians and foreground shadows defined by
