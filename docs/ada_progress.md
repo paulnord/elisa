@@ -1,9 +1,157 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T05:10:53Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T05:35:21Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: original physical fitter and sampler assessment
+## Latest milestone: fresh device emission in complete curves and fitting
+
+`gpu_radiance.DeviceBlackbodyRadiance` now composes the validated continuous
+Planck/passband kernel with CPU-compatible symmetry and the **same band's**
+hemispheric limb-darkening integral. Its normal intensity feeds the device
+eclipse packets directly. The default experimental hybrid no longer downloads
+normal radiance and uploads it again; diagnostics and `coverage="cpu"` explicitly
+materialize it when requested. `radiance="cpu"` retains the preceding spectral
+path for matched comparisons. Existing CPU Observer/fitter defaults are unchanged.
+
+The CPU-compatible corrected state/build order is retained. Without reflection,
+fresh corrected device temperatures feed emission directly. CPU reflection still
+uses downloaded state; its **final changed temperatures** upload for emission.
+The earlier intrinsic device temperatures cannot be reused after reflection.
+CPU mesh/roots/topology/kinematics, reflection, custom-LD preparation and fresh
+Qhull/Path visibility remain measured bridges. This is a complete **hybrid**
+light-curve/fitting path, not an all-GPU or resident forward model.
+
+Only fixed quadrature/code is reused. Every call re-samples the actual Observer
+response on the exact CPU wavelength grids and checks its revision; this CPU
+cost is included. A changed response callable invalidates reuse even with the
+same labels/table. A single immutable response revision is retained per engine;
+physical temperatures, LD, brightness and eclipse coverage are fresh. Planck
+samples use the existing Simpson/end-interval, Akima clipping, pi and Angstrom
+conventions; no temperature rounding or new spectral approximation was introduced.
+
+### Parity and independent physical checks
+
+**215 tests passed in 133.04 s on Ada, zero failures/errors/skips.** Full CPU
+checks passed **125**, with **90** explicit hardware skips. The eight detailed
+whole-curve cases passed on both JAX CPU and GPU under the same allocated runtime
+profile. They cover non-eclipsing/grazing/partial/total eclipses, both eclipses,
+contact-focused phases, repeats/reordering/phase shift/third light, unequal and
+equal components, q/spin limits, changed potentials/temperatures/topology, a tiny
+occulter, three LD laws, and reflection off/on. The original physical fitting
+assessment also passed with the new emission path.
+
+- Same-band normal intensity maximum relative difference: **3.41e-15**.
+- Raw total-curve relative difference: **1.27e-15**; Observer-normalized absolute
+  difference: **4.45e-16**; component-flux relative difference: **1.35e-13**.
+  Tiny eclipsed components amplify relative geometric roundoff, as before.
+- Full-curve diagnostic accumulated log-likelihood difference: **2.17e-11** at
+  normalized errors `1e-4`. Original fitter mean-normalized predictions differ
+  by at most **6.67e-16**; likelihood/posterior differences remain **1.22e-8**
+  across direct/JD/manual/uniform/mass-mode/changed-parameter and prior cases.
+- Independent 256-node angular quadrature recovers emitted hemispheric flux
+  from normal intensity for linear/cosine, logarithmic and square-root LD;
+  the largest emission/energy/snapshot comparison relative error is **3.38e-14**.
+  This checks that optical-depth division and directional LD/pi are applied once.
+- Prepared temperature/LD inputs remain immutable, strict no-transfer emission
+  and eclipse packet evaluation passes, and eclipse packets retain the actual
+  device radiance arrays. Changed real passband responses/coefficients/temperatures
+  and reflection dispatch are tested. Invalid optical-depth rows are explicitly
+  masked; a legal two-wavelength CPU quadrature case uses the exact full CPU curve.
+
+The actual bounded public LSQ fits recover `T_primary=6504.130004 K` and
+`inclination=86.4018902013 deg`; CPU/GPU differences are **9.94e-10 K**,
+**6.12e-13 deg** and **1.74e-11 in minimum chi²**. Eight walkers/three public MCMC
+steps replay identical coordinates/acceptance fractions, with stored density
+difference **2.65e-9**. **This is not convergence, posterior precision or ESS.**
+All preceding surface/geometry/curve/likelihood/optimizer tolerances remain
+unchanged. The earlier deliberately coarse manual/uniform support errors remain
+original CPU interpolation error, separate from implementation parity. Mesh,
+spectral/time resolution and physical inference accuracy are not certified here.
+
+### Matched transfer-inclusive costs
+
+Median **ms per fresh curve**, three warm repeats. All final host B/V/bolometric
+curves, fresh CPU/device physics, response revision checks and transfers are
+included. Original CPU, preceding CPU-radiance hybrid GPU and new hybrid GPU run
+in the same driver; JAX CPU runs separately in the same checkpointed window.
+Affinity0–15, Nice10, thread counts1, FP64; no concurrent production GPU work.
+Binary construction is outside all these curve timers. Combined construction of
+both comparison engines was 0.637 s; first diagnostic curve calls including shape
+compilation ranged 0.187–2.096 s. JSON retains each cold/stage/warm sample.
+
+| Case | Original CPU | Previous hybrid GPU | New hybrid JAX CPU | New hybrid GPU |
+|---|---:|---:|---:|---:|
+| Non-eclipsing | 66.55 | 65.16 | 21.14 | 20.14 |
+| Grazing | 73.07 | 71.03 | 88.37 | 25.99 |
+| Partial, reflection | 75.48 | 74.81 | 196.22 | 34.32 |
+| Total, reflection | 79.20 | 77.04 | 238.43 | 36.68 |
+| q=0.5, logarithmic | 76.94 | 71.63 | 241.76 | 32.48 |
+| q=2, square root | 99.20 | 96.49 | 202.40 | 31.19 |
+| Equal components | 66.65 | 67.46 | 193.24 | 28.40 |
+| Small occulter | 71.49 | 67.33 | 44.47 | 28.85 |
+
+These fixtures have 832 or 1280 faces per star. Device spectral preparation,
+revision checks, LD and emission take about **3.2–3.6 ms** warm. In the changed-
+parameter callback, the preceding CPU spectral stage takes 31.8 ms and the new
+stage 3.27 ms (individual last-call samples, not a subtracted median decomposition).
+The faster non-eclipsing JAX CPU result also shows why batching/quadrature reuse
+and device acceleration must be distinguished. These small workloads and three
+samples do not establish universal throughput or production suitability.
+
+| Physical fitting work | Original CPU | Previous hybrid GPU | New hybrid JAX CPU | New hybrid GPU |
+|---|---:|---:|---:|---:|
+| Median changed-parameter likelihood/prior (ms) | 47.69 | 52.43 | 103.92 | 23.20 |
+| First callback, compilation included (ms) | 47.80 | 1086.61 | 1207.92 | 1207.57 |
+| Object/observation setup (ms) | 2.82 | 2.80 | 9.17 | 8.89 |
+| Bounded new-fitter public LSQ, all costs (s) | 1.192 | — | — | 1.767 |
+| New-fitter 8-walker/3-step MCMC, all costs (s) | 1.956 | — | — | 2.535 |
+
+Fitting includes parameter transforms/constraints, actual candidate construction,
+all transfers/physics, original observation mapping/mean normalization and
+statistical costs. Public fit/run costs include construction, original setup,
+compilation incurred, all callbacks and result calculations/serialization. The
+runtime may already be warm from correctness gates. Despite faster warm callbacks,
+these short full fits/runs remain slower than original CPU. No MCMC convergence,
+ESS/sec or production default change follows. Supplementary CPU development
+checks ran on cores16–19/Nice19 while production ran; overlapping CPU checks are
+correctness evidence and are excluded from these matched timing comparisons.
+
+### Domain, reproduction and restoration
+
+The existing circular detached unspotted/nonpulsating blackbody/custom-LD domain
+and geometry/occultation bounds remain. Device emission accepts 1–8 bands,
+3–4096 wavelengths per band, at most 16384 combined samples and 8192 faces per star.
+Unsupported model/backend/resource/numeric states run the **entire original CPU
+curve**, preserving posterior support and original CPU errors. Missing device or
+FP64 remains an infrastructure error. Real atmosphere/LD tables, spots and
+broader eccentric/contact GPU physics still require further scientific work.
+
+```text
+python -m pytest tests/tests_experimental -q -rs
+python scripts/validate_gpu_binary.py --device cpu --repeats 3 --output curves-cpu.json
+python scripts/validate_gpu_binary.py --device gpu --repeats 3 --output curves-gpu.json
+python scripts/validate_gpu_fit.py --device gpu --output fit-gpu.json
+```
+
+Use the private CPU wrapper for development and independently restored allocation
+for every GPU command. Registered windows 004/005 used **135.97/78.12 s** of
+probe/test/assessment commands, each within 270 s internal/300 s systemd limits.
+Both restored the exact pinned service/source/config/plan, matched resume records
+and verified latest receipt/witness endpoints, with **45,056/47,104 durable cells**
+of advancement. Both units finished inactive/success. This is not a full
+historical production re-audit; operational logs remain private.
+
+Next validate real atmosphere/LD-table scientific fixtures and extend the fresh
+radiance bridge while preserving original interpolation and error semantics.
+Broader irradiation/spot/eccentric/contact coverage and resident mesh/hull work
+remain explicit scope; this milestone does not mark the assignment complete.
+Curated [measurements](ada_validation/background-m004.json),
+[556-file tested manifest](ada_validation/background-m004-source-hashes.json) and
+[current status](ada_validation/progress.json) include unchanged CPU oracle hashes.
+Manifest aggregate (compact sorted-key JSON):
+`7988bbd7b89b30eda385eba2558f26bb3174ccdfc9b1782f8c140bb8ddaba70b`.
+
+## Previous milestone: original physical fitter and sampler assessment
 
 `gpu_fit.HybridBinarySynthesis`, `HybridDetachedLeastSquaresFit` and
 `HybridDetachedMCMCFit` now provide an **opt-in serial hybrid synthesis hook** for

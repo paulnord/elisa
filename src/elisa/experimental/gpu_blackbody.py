@@ -42,13 +42,19 @@ def _simpson_weights(wavelength: np.ndarray) -> np.ndarray:
     return weights
 
 
-def _prepare_quadrature(passbands: Mapping[str, Any], chunk_size: int) -> tuple[np.ndarray, ...]:
-    """Construct private CPU-compatible spectral samples and integration weights."""
+def _sample_passbands(passbands: Mapping[str, Any]) -> tuple[tuple[np.ndarray, np.ndarray], ...]:
+    """Sample the actual current response functions on the exact CPU grids.
+
+    These samples, rather than band labels/table identity, define a quadrature
+    revision. A changed prepared Observer or response callable must invalidate
+    any reused spectral engine. No temperature/physical state is part of this
+    fixed-response snapshot.
+    """
     standard = np.array(get_standard_wavelengths(), dtype=np.float64, copy=True)
     if standard.ndim != 1 or not np.isfinite(standard).all() or np.any(standard <= 0):
         msg = "Standard wavelength grid must be finite and positive"
         raise ValueError(msg)
-    waves, weights = [], []
+    samples = []
     for name, band in passbands.items():
         if not isinstance(name, str) or not name:
             msg = "Passband names must be nonempty strings"
@@ -67,8 +73,16 @@ def _prepare_quadrature(passbands: Mapping[str, Any], chunk_size: int) -> tuple[
         if not np.isfinite(response).all():
             msg = "Passband response must be finite on its quadrature grid"
             raise ValueError(msg)
-        waves.append(wave)
-        weights.append(_simpson_weights(wave) * np.maximum(response, 0) * (const.PI * _ANGSTROM_M))
+        samples.append((wave, response.copy()))
+    return tuple(samples)
+
+
+def _prepare_quadrature(passbands: Mapping[str, Any], chunk_size: int) -> tuple[np.ndarray, ...]:
+    """Construct private CPU-compatible spectral samples and integration weights."""
+    samples = _sample_passbands(passbands)
+    waves = [wave for wave, _ in samples]
+    weights = [_simpson_weights(wave) * np.maximum(response, 0) * (const.PI * _ANGSTROM_M)
+               for wave, response in samples]
     union = np.unique(np.concatenate(waves))
     if len(union) > _MAX_TOTAL_WAVES:
         msg = "Combined quadrature exceeds 16384 wavelength samples"

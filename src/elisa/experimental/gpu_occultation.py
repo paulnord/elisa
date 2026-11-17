@@ -128,7 +128,9 @@ class DeviceEclipseIntegrator:
 
         self._evaluate = self._jax.jit(evaluate)
 
-    def _snapshot(self, system: Any, bands: tuple[str, ...]) -> tuple[tuple[Any, ...], list[Any]]:
+    def _snapshot(  # noqa: C901 - explicit host versus device radiance validation
+        self, system: Any, bands: tuple[str, ...], device_radiance: dict[str, Any] | None = None,
+    ) -> tuple[tuple[Any, ...], list[Any]]:
         if (system.eccentricity != 0 or system.morphology != "detached"
                 or system.has_spots() or system.has_pulsations()):
             msg = "Device occultation requires a circular detached unspotted/nonpulsating state"
@@ -140,22 +142,40 @@ class DeviceEclipseIntegrator:
             raise UnsupportedOccultationError(msg)
         points, normals = np.zeros((2, vertices, 3)), np.zeros((2, width, 3))
         faces = np.zeros((2, width, 3), dtype=np.int64)
-        areas, radiance = np.zeros((2, width)), np.zeros((2, len(bands), width))
-        ncoeff = len(stars[0].ld_cfs[bands[0]][0])
-        coefficients = np.zeros((2, len(bands), width, ncoeff))
+        areas = np.zeros((2, width))
+        if device_radiance is None:
+            radiance = np.zeros((2, len(bands), width))
+            ncoeff = len(stars[0].ld_cfs[bands[0]][0])
+            coefficients = np.zeros((2, len(bands), width, ncoeff))
         thresholds = np.array([2 * np.pi * s.polar_radius**2 / len(s.faces) / 1e6 for s in stars])
         for comp, star in enumerate(stars):
             points[comp, :len(star.points)], normals[comp, :len(star.faces)] = star.points, star.normals
             faces[comp, :len(star.faces)], areas[comp, :len(star.faces)] = star.faces, star.areas
-            for band_index, band in enumerate(bands):
-                radiance[comp, band_index, :len(star.faces)] = star.normal_radiance[band]
-                coefficients[comp, band_index, :len(star.faces)] = star.ld_cfs[band]
-        arrays = (points, normals, faces, areas, radiance, coefficients, thresholds,
-                  np.array(system.semi_major_axis**2))
-        if not all(np.isfinite(x).all() for x in arrays) or np.any(radiance < 0):
+            if device_radiance is None:
+                for band_index, band in enumerate(bands):
+                    radiance[comp, band_index, :len(star.faces)] = star.normal_radiance[band]
+                    coefficients[comp, band_index, :len(star.faces)] = star.ld_cfs[band]
+        arrays = (points, normals, faces, areas, thresholds, np.array(system.semi_major_axis**2))
+        if not all(np.isfinite(x).all() for x in arrays):
             msg = "Nonfinite/negative fresh surface state is unsupported for device occultation"
             raise UnsupportedOccultationError(msg)
-        return tuple(self._jax.device_put(x, self.device, may_alias=False) for x in arrays), stars
+        points, normals, faces, areas, thresholds, scale = (
+            self._jax.device_put(x, self.device, may_alias=False) for x in arrays
+        )
+        if device_radiance is None:
+            if not np.isfinite(radiance).all() or np.any(radiance < 0) or not np.isfinite(coefficients).all():
+                msg = "Nonfinite/negative fresh radiance/LD is unsupported for device occultation"
+                raise UnsupportedOccultationError(msg)
+            radiance, coefficients = (self._jax.device_put(x, self.device, may_alias=False)
+                                      for x in (radiance, coefficients))
+        else:
+            # Keep fresh spectral output on device through all eclipse packets.
+            radiance, coefficients = device_radiance["normal_radiance"], device_radiance["coefficients"]
+            if (radiance.shape != (2, len(bands), width) or coefficients.shape[:3] != radiance.shape
+                    or any(x.device != self.device or x.dtype != np.float64 for x in (radiance, coefficients))):
+                msg = "Device radiance/LD must have matching padded shapes, FP64 and device"
+                raise ValueError(msg)
+        return (points, normals, faces, areas, radiance, coefficients, thresholds, scale), stars
 
     @staticmethod
     def _selectors(
@@ -195,6 +215,7 @@ class DeviceEclipseIntegrator:
 
     def __call__(  # noqa: C901, PLR0915 - explicit timed host/device stages
         self, system: Any, motion: Any, in_eclipse: Any, bands: tuple[str, ...], *, diagnostics: bool = False,
+        device_radiance: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         if not self._jax.config.x64_enabled:
             msg = "JAX FP64 must remain enabled"
@@ -203,7 +224,7 @@ class DeviceEclipseIntegrator:
         if not 1 <= len(motion) <= _MAX_PHASES:
             msg = "Device projection supports up to 128 synthesis phases per curve; use full CPU"
             raise UnsupportedOccultationError(msg)
-        surface, stars = self._snapshot(system, bands)
+        surface, stars = self._snapshot(system, bands, device_radiance)
         points, normals, faces, areas, radiance, coefficients, thresholds, scale = surface
         count = len(motion)
         padded_count = (count + _CHUNK - 1) // _CHUNK * _CHUNK

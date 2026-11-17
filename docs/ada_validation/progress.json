@@ -1,12 +1,12 @@
 {
-  "updated_utc": "2026-11-17T05:08:19.756627+00:00",
+  "updated_utc": "2026-11-17T05:33:36.768160+00:00",
   "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
   "branch": "codex/gpu-resident-roche-pipeline",
-  "code_state_sha256": "a92edd45c17a248dee371b7331ea4c80a99ece9b8d16b540fa6943b4e1000875",
-  "code_state_hash_method": "SHA256 of background-m003-source-hashes.json parsed then compact JSON sorted by key",
-  "stage": "Original physical fitter/likelihood integration and representative fit/sampler equivalence assessment",
+  "code_state_sha256": "7988bbd7b89b30eda385eba2558f26bb3174ccdfc9b1782f8c140bb8ddaba70b",
+  "code_state_hash_method": "SHA256 of background-m004-source-hashes.json parsed then compact JSON sorted by key",
+  "stage": "Fresh device blackbody/optical-depth radiance composed into complete hybrid curves and physical fitting",
   "last_gpu_suite": {
-    "tests": 203,
+    "tests": 215,
     "failures": 0,
     "errors": 0,
     "skipped": 0
@@ -24,24 +24,24 @@
     "errors": 0,
     "skipped": 8
   },
-  "benchmark_status": "Original fitter mappings/costs, public LSQ fit and seeded short MCMC fit replay passed. Matched warm GPU callback55.20ms vs originalCPU50.45ms and JAXCPU133.45ms. Full bounded fits/short chains slower on hybrid GPU; no convergence/ESS or production fitting speedup claim.",
+  "benchmark_status": "Matched new physical callback 23.20ms vs preceding CPU-radiance hybrid 52.43ms, originalCPU 47.69ms, hybridJAXCPU 103.92ms. Full curves and public bounded fits/short sampler replay passed; cold/setup and full costs disclosed. No convergence/ESS or production default claim.",
   "production": {
-    "window": "background-m003-w003",
+    "window": "background-m004-w005",
     "status": "restored_and_advancing",
-    "job": "j00961",
-    "saved_cursor": 1309850960,
-    "verified_cursor": 1309896784,
-    "durable_cells_before": 1199936567,
-    "durable_cells_after": 1199980343,
-    "durable_cells_advanced": 43776,
-    "verified_utc": "2026-11-17T05:03:41.705357+00:00",
+    "job": "j00968",
+    "saved_cursor": 1337560656,
+    "verified_cursor": 1337611856,
+    "durable_cells_before": 1206674743,
+    "durable_cells_after": 1206721847,
+    "durable_cells_advanced": 47104,
+    "verified_utc": "2026-11-17T05:33:19.708561+00:00",
     "matching_resume_record_verified": true,
     "source_release_reverified": true,
     "config_and_plan_unchanged": true,
     "clean_test_unit_exit_verified": true,
     "last_receipt_witness_endpoints_verified": true,
     "full_historical_reaudit": false,
-    "gpu_batch_seconds": 149.97631913493387
+    "gpu_batch_seconds": 78.11613036808558
   },
   "production_windows": [
     {
@@ -152,6 +152,42 @@
       "last_receipt_witness_endpoints_verified": true,
       "full_historical_reaudit": false,
       "gpu_batch_seconds": 149.97631913493387
+    },
+    {
+      "window": "background-m004-w004",
+      "status": "restored_and_advancing",
+      "job": "j00968",
+      "saved_cursor": 1337300560,
+      "verified_cursor": 1337349712,
+      "durable_cells_before": 1206414647,
+      "durable_cells_after": 1206459703,
+      "durable_cells_advanced": 45056,
+      "verified_utc": "2026-11-17T05:30:45.797621+00:00",
+      "matching_resume_record_verified": true,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "gpu_batch_seconds": 135.96508513495792
+    },
+    {
+      "window": "background-m004-w005",
+      "status": "restored_and_advancing",
+      "job": "j00968",
+      "saved_cursor": 1337560656,
+      "verified_cursor": 1337611856,
+      "durable_cells_before": 1206674743,
+      "durable_cells_after": 1206721847,
+      "durable_cells_advanced": 47104,
+      "verified_utc": "2026-11-17T05:33:19.708561+00:00",
+      "matching_resume_record_verified": true,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "gpu_batch_seconds": 78.11613036808558
     }
   ],
   "hardware": {
@@ -162,7 +198,7 @@
     "precision": "float64",
     "preallocation": false
   },
-  "scope": "Opt-in experimental serial physical-fit classes replace only synthesis; original serializers/constraints, support/JD/interpolation/mean mapping, residual/noise/prior/failure logic and fit lifecycles retained. Fresh hybrid GPU physics, CPU bridges and explicit full-CPU fallback. CPU defaults unchanged; standalone resident ray/emission experiments remain separate.",
+  "scope": "Fresh device corrected state and blackbody/optical-depth radiance feed device projection/clipping/integration; CPU mesh/reflection/custom LD/hull bridges and whole-CPU fallbacks remain. Original physical fitting semantics/defaults preserved.",
   "previous_resident_baseline": {
     "code_state_sha256": "d92617dea2581c4381a362dbfbf53b31c366ca111c8ed7f8067bd6e46b849e3f",
     "stage": "GPU validated geometry/gravity, intrinsic temperature and blackbody passband emission",
@@ -176,13 +212,13 @@
     "scope": "Fixed supplied topology and uncorrected ray mesh, changing geometry/gravity/intrinsic temperatures/blackbody emitted passband flux. No mesh correction, irradiation, atmosphere-table/LD update, eclipse coverage, full fitting, MCMC or ESS claim."
   },
   "current_full_cpu_suite": {
-    "passed": 119,
+    "passed": 125,
     "failed": 0,
     "errors": 0,
-    "skipped_gpu_cases": 84,
-    "seconds": 91.05
+    "skipped_gpu_cases": 90,
+    "seconds": 125.05
   },
-  "current_milestone_report": "background-m003.json",
+  "current_milestone_report": "background-m004.json",
   "previous_hybrid_milestone": {
     "report": "background-m001.json",
     "stage": "CPU-compatible corrected surface state and fresh hybrid observed light curves",
@@ -204,5 +240,17 @@
       "errors": 0,
       "skipped": 0
     }
+  },
+  "previous_fitting_milestone": {
+    "stage": "Original physical fitter/likelihood integration and representative fit/sampler equivalence assessment",
+    "code_state_sha256": "a92edd45c17a248dee371b7331ea4c80a99ece9b8d16b540fa6943b4e1000875",
+    "last_gpu_suite": {
+      "tests": 203,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "benchmark_status": "Original fitter mappings/costs, public LSQ fit and seeded short MCMC fit replay passed. Matched warm GPU callback55.20ms vs originalCPU50.45ms and JAXCPU133.45ms. Full bounded fits/short chains slower on hybrid GPU; no convergence/ESS or production fitting speedup claim.",
+    "report": "background-m003.json"
   }
 }

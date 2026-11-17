@@ -38,12 +38,16 @@ class HybridBinarySynthesis:
     and the associated fitter/Observer are single-process, single-caller objects.
     """
 
-    def __init__(self, *, device: str = "gpu", coverage: str = "device") -> None:
+    def __init__(self, *, device: str = "gpu", coverage: str = "device", radiance: str = "device") -> None:
         self._jax, _, self.device = _jax_device(device)
         if coverage not in ("cpu", "device"):
             msg = "coverage must be 'cpu' or 'device'"
             raise ValueError(msg)
         self.coverage = coverage
+        if radiance not in ("cpu", "device"):
+            msg = "radiance must be 'cpu' or 'device'"
+            raise ValueError(msg)
+        self.radiance = radiance
         self._engines: dict[tuple[str, ...], HybridBinaryLightCurve] = {}
         self.calls = 0
         self.hybrid_calls = 0
@@ -68,6 +72,7 @@ class HybridBinarySynthesis:
         if labels not in self._engines:
             self._engines[labels] = HybridBinaryLightCurve(
                 list(labels), device=self.device.platform, fallback="cpu", coverage=self.coverage,
+                radiance=self.radiance,
             )
         result = self._engines[labels](binary, phases, normalize=True, observer=observer)
         # Retain synthetic_binary's observable per-instance Observer state too.
@@ -78,6 +83,7 @@ class HybridBinarySynthesis:
         self.cpu_fallback_calls += result.backend == "cpu_fallback"
         self.last_evaluation = {
             "backend": result.backend, "fallback_reason": result.fallback_reason,
+            "radiance_mode": self.radiance, "coverage_mode": self.coverage,
             "candidate_construction_seconds": constructed - started,
             "curve_stage_seconds": result.timings, "total_synthesis_seconds": perf_counter() - started,
         }
@@ -87,9 +93,9 @@ class HybridBinarySynthesis:
 class _HybridPredictionMixin:
     """Replace only the optional synthesis argument of the existing fitters."""
 
-    def __init__(self, *, device: str = "gpu", coverage: str = "device") -> None:
+    def __init__(self, *, device: str = "gpu", coverage: str = "device", radiance: str = "device") -> None:
         super().__init__()
-        self.hybrid_synthesis = HybridBinarySynthesis(device=device, coverage=coverage)
+        self.hybrid_synthesis = HybridBinarySynthesis(device=device, coverage=coverage, radiance=radiance)
 
     def predict_light_curves(self, model_parameters: dict[str, Any], **kwargs: Any) -> dict[str, np.ndarray]:
         synthesis = kwargs.pop("synthesis", None)

@@ -1,7 +1,8 @@
 """Functional HYBRID observed binary light curves, with explicit CPU fallbacks.
 
-CPU candidate mesh/topology -> device corrected state -> CPU reflection,
-blackbody/custom LD -> device projection/clipping/integration with a CPU hull bridge.
+CPU candidate mesh/topology -> device corrected state -> CPU reflection/custom
+LD -> device blackbody, optical-depth radiance and projection/clipping/integration
+with a CPU hull bridge.
 Host bridges are intentional and timed. This is not a resident forward model
 and does not alter Observer or any existing CPU fitting/default interface.
 """
@@ -18,12 +19,13 @@ import numpy as np
 from elisa import const, settings
 from elisa.binary_system import dynamic
 from elisa.binary_system.container import OrbitalPositionContainer
-from elisa.binary_system.curves.utils import prep_surface_params
+from elisa.binary_system.curves.utils import get_limbdarkening_cfs, prep_surface_params
 from elisa.binary_system.surface.coverage import compute_surface_coverage
 from elisa.binary_system.surface.gravity import calculate_polar_potential_gradient_magnitude
 from elisa.binary_system.surface.temperature import apply_reflection_effect
 from elisa.binary_system.utils import move_sys_onpos
 from elisa.experimental.gpu_occultation import DeviceEclipseIntegrator, UnsupportedOccultationError
+from elisa.experimental.gpu_radiance import DeviceBlackbodyRadiance, UnsupportedRadianceError, passband_revision
 from elisa.experimental.gpu_state import CorrectedSurfaceState
 from elisa.experimental.gpu_surface import SurfaceFluxIntegrator
 from elisa.observer import utils as observer_utils
@@ -69,14 +71,18 @@ class HybridBinaryLightCurve:
     Missing GPU/FP64 never silently changes the requested device.
 
     Only explicit phases and W/m2 or Observer maximum-normalized output are
-    exposed here. This is not yet a fitter/likelihood backend. No physical
-    curve is reused across calls; compilation reuse depends only on shapes.
+    exposed here; gpu_fit adapts the original physical fitting synthesis hook.
+    No physical curve is reused across calls; compilation reuse depends on
+    shapes and fixed spectral quadrature is checked against fresh responses.
     coverage="device" uses GPU projection/clipping with a fresh CPU hull/visibility
     bridge. coverage="cpu" retains the preceding per-phase CPU coverage path.
+    radiance="device" streams fresh Planck/optical-depth emission directly into
+    eclipse integration. radiance="cpu" retains the preceding CPU spectral path.
     """
 
     def __init__(
         self, passbands: list[str], *, device: str = "gpu", fallback: str = "cpu", coverage: str = "device",
+        radiance: str = "device",
     ) -> None:
         if fallback not in ("cpu", "raise"):
             msg = "fallback must be 'cpu' or 'raise'"
@@ -87,13 +93,18 @@ class HybridBinaryLightCurve:
         if coverage not in ("cpu", "device"):
             msg = "coverage must be 'cpu' or 'device'"
             raise ValueError(msg)
+        if radiance not in ("cpu", "device"):
+            msg = "radiance must be 'cpu' or 'device'"
+            raise ValueError(msg)
         self.coverage = coverage
+        self.radiance = radiance
         self.passbands = tuple(passbands)
         self.fallback = fallback
         self._states = {name: CorrectedSurfaceState(name, device=device) for name in _COMPONENTS}
         self.device = self._states["primary"].device
         self._integrators: dict[str, SurfaceFluxIntegrator] = {}
         self._occultations: dict[str, DeviceEclipseIntegrator] = {}
+        self._radiance_engine: tuple[tuple[str, str], DeviceBlackbodyRadiance] | None = None
 
     def _unsupported_reason(self, binary: Any) -> str | None:  # noqa: PLR0911 - explicit fallback reasons
         if self.coverage == "device" and settings.INTERSECTION_BACKEND not in ("sutherland_hodgman", "reference"):
@@ -124,6 +135,10 @@ class HybridBinaryLightCurve:
         method never performs a fallback: unsupported states raise explicitly.
         The public curve call owns the full-model fallback decision.
         """
+        system, timings, _ = self._build_intrinsic_system(binary)
+        return system, timings
+
+    def _build_intrinsic_system(self, binary: Any) -> tuple[Any, dict[str, float], Any]:
         reason = self._unsupported_reason(binary)
         if reason:
             raise UnsupportedHybridModelError(reason)
@@ -133,14 +148,17 @@ class HybridBinaryLightCurve:
         system.build_faces(components_distance=1.0)
         system.build_velocities(components_distance=1.0)
         mesh_done = perf_counter()
+        device_temperatures = {}
         for name, kernel in self._states.items():
             star = getattr(system, name)
             prepared = kernel.prepare(star, binary.mass_ratio, system.primary.mass, binary.semi_major_axis)
             # Deliberate device -> CPU bridge for reflection/atmosphere/clipping.
-            result = kernel._jax.tree.map(np.asarray, prepared.evaluate())  # noqa: SLF001
+            on_device = prepared.evaluate()
+            result = kernel._jax.tree.map(np.asarray, on_device)  # noqa: SLF001
             if not bool(result["proposal_valid"]):
                 msg = f"Unsupported corrected {name} state (geometry/gravity/thermal masks); use full CPU"
                 raise UnsupportedHybridModelError(msg)
+            device_temperatures[name] = on_device["temperatures"]
             for key in ("points", "face_centres", "normals", "areas",
                         "potential_gradient_magnitudes", "log_g", "temperatures"):
                 setattr(star, key, np.array(result[key], copy=True))
@@ -150,19 +168,53 @@ class HybridBinaryLightCurve:
         state_done = perf_counter()
         apply_reflection_effect(system, 1.0, settings.REFLECTION_EFFECT_ITERATIONS)
         system.flat_it()
+        if settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0:
+            # CPU reflection changed the intrinsic arrays. Re-upload its final
+            # temperatures; retaining old device temperatures would be stale.
+            device_temperatures = None
         return system, {
             "cpu_mesh_topology_kinematics": mesh_done - started,
             "device_state_with_transfers_compile": state_done - mesh_done,
             "cpu_reflection": perf_counter() - state_done,
-        }
+        }, device_temperatures
+
+    def _prepare_radiance(
+        self, system: Any, observer: Any, device_temperatures: Any, *, diagnostics: bool,
+    ) -> tuple[Any, Any]:
+        """Fresh LD/temperature snapshot, revision-checked fixed quadrature reuse."""
+        ld_cfs = get_limbdarkening_cfs(system, passband=observer.passband)
+        key = (settings.LIMB_DARKENING_LAW, passband_revision(observer.passband))
+        if self._radiance_engine is None or self._radiance_engine[0] != key:
+            engine = DeviceBlackbodyRadiance(observer.passband, key[0], device=self.device.platform)
+            self._radiance_engine = key, engine  # one fixed response revision; no physical cache
+        engine = self._radiance_engine[1]
+        packet = engine.prepare(system, ld_cfs, device_temperatures=device_temperatures)
+        radiance = packet.evaluate()
+        if not np.asarray(radiance["proposal_valid"]).all():
+            msg = "Unsupported fresh device spectral/optical-depth state; use full CPU"
+            raise UnsupportedRadianceError(msg)
+        for name in _COMPONENTS:
+            getattr(system, name).ld_cfs = ld_cfs[name]
+        if diagnostics or self.coverage == "cpu":
+            values = np.asarray(radiance["normal_radiance"])
+            for comp, name in enumerate(_COMPONENTS):
+                star = getattr(system, name)
+                star.normal_radiance = {band: values[comp, b, :len(star.faces)].copy()
+                                        for b, band in enumerate(self.passbands)}
+        detail = {"prepared_batch": packet, "result": radiance, "response_revision": key[1],
+                  "temperature_source": "CPU post-reflection upload" if device_temperatures is None
+                  else "fresh corrected device temperatures"} if diagnostics else None
+        return radiance, detail
 
     def _integrate_curve(
         self, system: Any, model: Any, motion: Any, in_eclipse: Any, law: str, *, diagnostics: bool,
+        device_radiance: Any = None,
     ) -> tuple[Any, Any, Any, Any]:
         if self.coverage == "device":
             if law not in self._occultations:
                 self._occultations[law] = DeviceEclipseIntegrator(law, device=self.device.platform)
-            result = self._occultations[law](system, motion, in_eclipse, self.passbands, diagnostics=diagnostics)
+            result = self._occultations[law](system, motion, in_eclipse, self.passbands, diagnostics=diagnostics,
+                                            device_radiance=device_radiance)
             return result["components"], result["timings"], result["positions"], result["details"]
         if law not in self._integrators:
             self._integrators[law] = SurfaceFluxIntegrator(law, device=self.device.platform)
@@ -235,19 +287,26 @@ class HybridBinaryLightCurve:
             observer = deepcopy(observer)
             observer._system = model  # noqa: SLF001 - prepared fitting Observer contract
         try:
-            system, timings = self.build_intrinsic_system(model)
-        except UnsupportedHybridModelError as exc:
+            system, timings, device_temperatures = self._build_intrinsic_system(model)
+            prepared_at = perf_counter()
+            radiance, radiance_detail = None, None
+            if self.radiance == "device":
+                radiance, radiance_detail = self._prepare_radiance(
+                    system, observer, device_temperatures, diagnostics=diagnostics,
+                )
+                timings["device_radiance_ld_with_transfers"] = perf_counter() - prepared_at
+            else:
+                prep_surface_params(
+                    system, return_values=False, write_to_containers=True, passband=observer.passband,
+                    left_bandwidth=observer.left_bandwidth, right_bandwidth=observer.right_bandwidth,
+                )
+                timings["cpu_radiance_ld"] = perf_counter() - prepared_at
+        except (UnsupportedHybridModelError, UnsupportedRadianceError) as exc:
             if self.fallback == "raise":
-                raise
+                raise UnsupportedHybridModelError(str(exc)) from exc
             out_phases, fluxes = observer.lc(phases=phases, normalize=normalize)
             return HybridCurveResult(out_phases, fluxes, {}, "cpu_fallback", str(exc),
                                      {"total": perf_counter() - started})
-        prepared_at = perf_counter()
-        prep_surface_params(
-            system, return_values=False, write_to_containers=True, passband=observer.passband,
-            left_bandwidth=observer.left_bandwidth, right_bandwidth=observer.right_bandwidth,
-        )
-        timings["cpu_radiance_ld"] = perf_counter() - prepared_at
         resolved = observer.manage_time_series(phases=phases)
         base, origin = observer.phase_interval_reduce(resolved)
         support, reverse = dynamic.phase_crv_symmetry(system, base)
@@ -258,6 +317,7 @@ class HybridBinaryLightCurve:
         try:
             components, integration_times, captures, occultation = self._integrate_curve(
                 system, model, motion, in_eclipse, settings.LIMB_DARKENING_LAW, diagnostics=diagnostics,
+                device_radiance=radiance,
             )
         except UnsupportedOccultationError as exc:
             if self.fallback == "raise":
@@ -271,6 +331,7 @@ class HybridBinaryLightCurve:
         timings["total"] = perf_counter() - started
         detail = {"initial_system": system, "positions": captures, "support_phases": support,
                   "support_to_original": reverse[origin], "in_eclipse": in_eclipse,
-                  "occultation": occultation, "coverage_mode": self.coverage} if diagnostics else None
+                  "occultation": occultation, "coverage_mode": self.coverage, "radiance_mode": self.radiance,
+                  "radiance": radiance_detail} if diagnostics else None
         return HybridCurveResult(resolved + model.phase_shift, curves, mapped_components,
                                  "hybrid", None, timings, detail)

@@ -109,12 +109,16 @@ def make_problem(
                       atmosphere, ld, truth)
 
 
-def prepare_fit(problem: FitProblem, *, kind: str = "mcmc", device: str | None = None) -> Any:
+def prepare_fit(
+    problem: FitProblem, *, kind: str = "mcmc", device: str | None = None, radiance: str = "device",
+) -> Any:
     """Use the same real set_up for original and experimental fitting classes."""
     if kind == "mcmc":
-        fit = mcmc.DetachedLightCurveFit() if device is None else HybridDetachedMCMCFit(device=device)
+        fit = (mcmc.DetachedLightCurveFit() if device is None
+               else HybridDetachedMCMCFit(device=device, radiance=radiance))
     else:
-        fit = least_squares.DetachedLightCurveFit() if device is None else HybridDetachedLeastSquaresFit(device=device)
+        fit = (least_squares.DetachedLightCurveFit() if device is None
+               else HybridDetachedLeastSquaresFit(device=device, radiance=radiance))
     fit.atmosphere_model, fit.limb_darkening_coefficients = deepcopy(problem.atmosphere), deepcopy(problem.ld)
     fit.set_up(parameters.BinaryInitialParameters(**deepcopy(problem.config)), deepcopy(problem.data),
                passband=BANDS, observer_system_cls=BinarySystem, **deepcopy(problem.setup))
@@ -256,13 +260,14 @@ def fit_assessment(device: str, *, steps: int = 3) -> dict[str, Any]:
 
 def timings(device: str, *, repeats: int = 3) -> dict[str, Any]:
     problem = make_problem(free_nuisance=True)
-    paths = {"original_cpu": None, "hybrid": device}
+    paths = {"original_cpu": (None, "cpu"), "preceding_cpu_radiance_hybrid": (device, "cpu"),
+             "hybrid": (device, "device")}
     if device == "gpu":
-        paths["hybrid_jax_cpu"] = "cpu"
+        paths["hybrid_jax_cpu"] = ("cpu", "device")
     result = {}
-    for label, requested in paths.items():
+    for label, (requested, radiance) in paths.items():
         before_setup = perf_counter()
-        fit = prepare_fit(problem, device=requested)
+        fit = prepare_fit(problem, device=requested, radiance=radiance)
         setup_seconds = perf_counter() - before_setup
         vector = normalized_vector(fit)
         start = perf_counter()
@@ -294,7 +299,7 @@ def run(device: str) -> dict[str, Any]:
             "wall_seconds": perf_counter() - started,
             "contract": ("Original serializer/constraints, support/JD mapping/interpolation, mean-normalization, "
                          "residuals/noise/priors and fit lifecycle; fresh hybrid physical synthesis per callback"),
-            "limitations": ["Experimental hybrid with CPU geometry/reflection/radiance/LD and hull/visibility",
+            "limitations": ["Experimental hybrid with CPU geometry/reflection/custom LD and hull/visibility",
                             "Serial physical callbacks and CPU emcee moves; no batched/resident physical sampler",
                             "No convergence/ESS or physical-posterior precision claim from short chains",
                             "Full callbacks include candidate construction, transfers, costs and shape compilation"]}

@@ -382,7 +382,8 @@ immutable and evaluated under strict device transfer guards. It is a separate
 adapter; `RocheGeometryPipeline` retains its original uncorrected contract.
 
 `gpu_binary.HybridBinaryLightCurve` connects that state to complete observed
-curves with fresh CPU reflection/radiance/LD. Its current default uses device
+curves with fresh CPU reflection/custom LD and device blackbody/optical-depth
+radiance. Its current default uses device
 projection/clipping/coverage/integration with a fresh CPU hull/visibility bridge;
 `coverage="cpu"` retains the preceding CPU eclipse path. Each candidate's angular
 placement, radial roots and connectivity are recomputed on CPU; the ray
@@ -439,7 +440,7 @@ its cached pre-correction normals on device. Projected arrays return to CPU for
 the original Qhull/Path and visibility selectors. Fresh hulls/selection masks
 then upload for `gpu_clipping.ConvexTriangleClipper`, uncovered-area calculation,
 the original surface-noise threshold, SMA² scaling and batched band integration.
-CPU candidate geometry, reflection/radiance/LD and hull construction remain
+CPU candidate geometry, reflection/custom LD and hull construction remain
 explicit costs. This is still a hybrid model, with no stale candidate state.
 
 The device clipper follows the original Sutherland–Hodgman algorithm: three
@@ -516,3 +517,51 @@ calls. There is no production fitting-speedup claim. Read [Ada progress](ada_pro
 for the exact domain, cold/full costs, thresholds, raw-synthesis versus mean
 normalization distinction, restoration and remaining GPU physics work. The
 l3/ln_f-only pilot should keep caching its fixed physical curve.
+
+## Fresh device radiance in complete curves and physical fitting
+
+`gpu_radiance.DeviceBlackbodyRadiance` combines the existing continuous Planck
+quadrature with base-patch face mirroring and the same passband's integrated
+limb-darkening factor. Hemispheric surface flux divided by that factor (including
+pi) gives normal intensity. Directional LD, projected coverage, third light,
+distance and curve/fitter normalization remain downstream, each applied once.
+Independent angular quadrature checks this energy convention for all LD laws.
+
+`HybridBinaryLightCurve` and the opt-in physical fitters now default to
+`radiance="device"`; `radiance="cpu"` selects the preceding CPU spectral path
+for comparison. Corrected device temperatures feed emission without re-upload
+when reflection is off. When CPU reflection changes temperatures, its final
+arrays upload afresh. Device radiance/LD arrays then pass directly to eclipse
+packets; no normal-radiance host round trip occurs unless diagnostics or CPU
+coverage is requested. CPU state downloads, reflection, mesh/topology/kinematics
+and the fresh CPU hull/visibility bridge remain explicit hybrid costs.
+
+Only immutable quadrature/code is reused. Every curve re-samples actual Observer
+response functions on the CPU grids and checks a content revision, including
+changes made without renaming a band or changing its table object. Fresh
+temperature/LD/brightness/coverage is never cached across physical proposals.
+Prepared emission snapshots support strict no-transfer repeated evaluation.
+
+Device spectral bounds are 1–8 bands, 3–4096 samples per band, at most 16384
+combined samples and 8192 faces per star. Outside the validated model or resource
+domain, and for unsupported numeric output, the whole original CPU curve runs;
+these are not prior exclusions. Missing device/FP64 remains a runtime error.
+Real atmosphere/LD tables, spots and eccentric/contact GPU states remain outside
+this declared domain.
+
+The fourth background milestone passed 215 tests with zero hardware skips,
+eight detailed full-curve cases on matched JAX CPU/GPU profiles, and the original
+physical fitting assessment. Normal intensity agrees within 3.41e-15 relative;
+mean-normalized fitter predictions within 6.67e-16 absolute. Actual bounded
+least-squares fits agree and short sampler coordinates/acceptances replay exactly.
+No previous tolerance was relaxed.
+
+Matched warm full curves took 20–37 ms versus 65–96 ms for the preceding hybrid
+and 67–99 ms for original CPU. Changed-parameter likelihood/prior callbacks took
+23.20 ms versus 52.43 ms for the preceding hybrid, 47.69 ms for original CPU and
+103.92 ms for hybrid JAX CPU. All CPU bridges, response checks and transfers are
+included; compilation/setup are separate. Full bounded new-fitter LSQ and
+three-step sampler runs remain slower than original CPU after compilation. These
+small workloads and short runs do not establish general throughput, convergence
+or ESS/sec. See [Ada progress](ada_progress.md) and its curated evidence for cold
+costs, actual samples, domain, independent restoration and remaining work.
