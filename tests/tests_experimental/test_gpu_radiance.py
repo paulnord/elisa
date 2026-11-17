@@ -118,7 +118,7 @@ def test_full_curve_response_revision_temperature_source_and_resident_radiance(
     with settings.override(REFLECTION_EFFECT=True, LIMB_DARKENING_LAW="linear"):
         reflected = engine(binary, phases, normalize=True, diagnostics=True)
         expected = Observer(passband=BANDS, system=binary).lc(phases=phases, normalize=True)[1]
-        assert reflected.diagnostics["radiance"]["temperature_source"] == "CPU post-reflection upload"
+        assert reflected.diagnostics["radiance"]["temperature_source"] == "fresh post-reflection device temperatures"
         for band in BANDS:
             assert_allclose(reflected.fluxes[band], expected[band], rtol=3e-13, atol=2e-12)
 

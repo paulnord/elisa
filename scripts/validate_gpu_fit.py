@@ -116,11 +116,12 @@ def make_problem(
 
 def prepare_fit(
     problem: FitProblem, *, kind: str = "mcmc", device: str | None = None, radiance: str = "device",
-    general: str = "cpu", morphology: str = "detached",
+    general: str = "cpu", morphology: str = "detached", reflection: str = "device",
 ) -> Any:
     """Use the same real set_up for original and experimental fitting classes."""
     original_cls, hybrid_cls = fit_classes(kind, morphology)
-    fit = original_cls() if device is None else hybrid_cls(device=device, radiance=radiance, general=general)
+    fit = (original_cls() if device is None
+           else hybrid_cls(device=device, radiance=radiance, general=general, reflection=reflection))
     fit.atmosphere_model, fit.limb_darkening_coefficients = deepcopy(problem.atmosphere), deepcopy(problem.ld)
     fit.set_up(parameters.BinaryInitialParameters(**deepcopy(problem.config)), deepcopy(problem.data),
                passband=list(problem.data), observer_system_cls=BinarySystem, **deepcopy(problem.setup))
@@ -208,13 +209,15 @@ def prediction_cases(device: str) -> list[dict[str, Any]]:
 def fit_assessment(
     device: str, *, steps: int = 3, problem: FitProblem | None = None, general: str = "cpu",
     morphology: str = "detached", max_nfev: int = 16, jac: str = "2-point",
+    reflection: str = "device",
 ) -> dict[str, Any]:
     """Exercise actual original fit() lifecycle and serialized result contracts."""
     problem = make_problem() if problem is None else problem
     results = {}
     cpu_cls, gpu_cls = fit_classes("lsq", morphology)
     for label, cls, options in [("original_cpu", cpu_cls, {}),
-                                ("hybrid", gpu_cls, {"device": device, "general": general})]:
+                                ("hybrid", gpu_cls, {"device": device, "general": general,
+                                                     "reflection": reflection})]:
         constructed_at = perf_counter()
         fit = cls(**options)
         constructor_seconds = perf_counter() - constructed_at
@@ -245,7 +248,8 @@ def fit_assessment(
     try:
         cpu_cls, gpu_cls = fit_classes("mcmc", morphology)
         for label, cls, options in [("original_cpu", cpu_cls, {}),
-                                    ("hybrid", gpu_cls, {"device": device, "general": general})]:
+                                    ("hybrid", gpu_cls, {"device": device, "general": general,
+                                                         "reflection": reflection})]:
             constructed_at = perf_counter()
             fit = cls(**options)
             constructor_seconds = perf_counter() - constructed_at

@@ -3,7 +3,8 @@
 Uses the original CPU spectral grid/response/Simpson convention. The same
 passband's integrated limb-darkening law divides hemispheric surface flux;
 projected coverage and directional limb darkening are applied downstream once.
-Reflection remains CPU physics and its updated temperatures must be uploaded.
+Fresh device-reflected temperatures feed emission directly; the optional CPU
+reflection path uploads its final temperatures instead.
 """
 
 # ruff: noqa: SLF001 - composition of experimental device kernels
@@ -104,8 +105,8 @@ class DeviceBlackbodyRadiance:
     """Compose fresh Planck flux, CPU symmetry and optical-depth normalization.
 
     Fixed passband quadrature is a snapshot. prepare() uploads fresh per-face
-    LD and, after CPU reflection, temperatures. Without reflection, corrected
-    temperature arrays may remain device inputs. Emission uses the CPU's base
+    LD and, after CPU reflection, temperatures. Corrected/device-reflected
+    temperature arrays remain device inputs. Emission uses the CPU's base
     symmetry patch and mirrors it to all faces before dividing by each face's
     actual same-band LD integral. Unequal component meshes are zero padded;
     padding never participates in temperature or brightness normalization.

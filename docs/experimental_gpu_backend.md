@@ -2,7 +2,9 @@
 
 Current complete-curve/fitting APIs and measured limits are summarized in
 [Ada progress](ada_progress.md). The sections below retain the development
-history. The newest broader option is described in
+history. Current irradiation is described in
+[device mutual irradiation](#device-mutual-irradiation-in-complete-curves).
+The broader physical-routing option is described in
 [original physical routing with device integration](#broader-original-physical-routing-with-device-integration).
 
 This branch starts a GPU-backend development effort; **it is not a GPU port of
@@ -691,3 +693,59 @@ GPU workloads were **slower than original CPU**. Three sampler steps do not
 establish convergence or ESS/sec. See [curated measurements](ada_validation/background-m006.json)
 and [Ada progress](ada_progress.md) for full costs, domain, source fingerprints,
 production restoration evidence and remaining device-physics work.
+
+## Device mutual irradiation in complete curves
+
+The circular detached hybrid and its physical fitting subclasses now default
+to `reflection="device"`. `reflection="cpu"` selects the preceding CPU-reflection
+hybrid for comparison. Original CPU Observer/fitters and global settings retain
+their defaults. The broader `hybrid_native` spot/eccentric/contact branch still
+uses the original CPU physical routers, including their reflection routine.
+
+`gpu_reflection.DeviceReflection` consumes each candidate's cached pre-correction
+centres/normals and corrected areas/intrinsic temperatures. Original CPU helpers
+select visibility/quarter-face indices and obtain bolometric LD from the fresh
+intrinsic temperatures/log(g). Device work computes pairwise distance/join vectors,
+directional LD, coupling matrices and reflection factors, updates the cooler star
+first using the latest counterpart values, repeats the requested iteration count,
+then mirrors final temperatures. Equal-temperature ties select primary first.
+Intrinsic bolometric LD stays fixed during iteration, as in the original CPU;
+the symmetry helper's LD coefficient **prefix ordering** is preserved exactly.
+No change to that CPU scientific convention is bundled with this port.
+
+Final device-reflected temperatures feed device blackbody or CK04 emission and
+eclipse integration directly. A host copy still supports original LD/atlas file
+selection and interpolation. CPU angular mesh/roots/topology/kinematics, visibility,
+LD lookup, source preparation and observer hull bridges remain measured costs;
+this is a hybrid model. Only code/compiled shapes are reused across proposals.
+`diagnostics=True` exposes the immutable reflection packet and actual device
+matrices/temperature outputs; diagnostics are off for complete timing/inference.
+
+```python
+engine = HybridBinaryLightCurve(
+    ["Generic.Bessell.V", "bolometric"], device="gpu",
+    reflection="device", fallback="cpu",
+)
+result = engine(binary, phases, normalize=True)
+```
+
+Reflection is bounded to the earlier circular detached unspotted/nonpulsating
+state domain, separation1 SMA, 8192 faces per star, 2097152 combined prepared face
+pairs and 32 iterations. The matrix cap excludes compiler/runtime workspace.
+Disabled reflection or nonpositive iterations follow the original no-op behavior.
+Unsupported resources/numeric states use complete CPU synthesis, or the explicit
+broader bridge when requested; `fallback="raise"` raises after eligible paths
+are exhausted. Original missing LD-source errors retain their classes and fitter
+handling. Missing device/disabled FP64 remains an infrastructure error outside
+candidate penalties.
+
+Run `tests/tests_experimental/test_gpu_reflection.py` and
+`scripts/validate_gpu_reflection.py --device cpu --output reflection-cpu.json`.
+Run the GPU variant only inside the independently restored bounded allocation.
+Tests include all four laws, both update orders/ties, real table LD, unilluminated
+faces, zero albedo, iteration progression through32, changed albedo/physical
+proposals, immutable snapshots/no-transfer evaluation, complete curves and public
+blackbody/table fits with short sampler replay. The full 287-test hardware suite
+ran in two independent restored windows with no skipped cases. Read
+[Ada progress](ada_progress.md) for matched complete costs and scientific limits;
+parity and short sampler replay do not establish mesh/spectral convergence or ESS.

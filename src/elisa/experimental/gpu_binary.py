@@ -1,6 +1,6 @@
 """Functional HYBRID observed binary light curves, with explicit CPU fallbacks.
 
-CPU candidate mesh/topology -> device corrected state -> CPU reflection/custom
+CPU candidate mesh/topology -> device corrected state -> device reflection/CPU LD
 LD -> device blackbody, optical-depth radiance and projection/clipping/integration
 with a CPU hull bridge.
 Host bridges are intentional and timed. This is not a resident forward model
@@ -28,6 +28,7 @@ from elisa.experimental.gpu_atmosphere import DeviceAtmosphereRadiance, check_ld
 from elisa.experimental.gpu_native import NativePhysicsIntegrator, UnsupportedNativeIntegrationError
 from elisa.experimental.gpu_occultation import DeviceEclipseIntegrator, UnsupportedOccultationError
 from elisa.experimental.gpu_radiance import DeviceBlackbodyRadiance, UnsupportedRadianceError, passband_revision
+from elisa.experimental.gpu_reflection import DeviceReflection, UnsupportedReflectionError
 from elisa.experimental.gpu_state import CorrectedSurfaceState
 from elisa.experimental.gpu_surface import SurfaceFluxIntegrator
 from elisa.observer import utils as observer_utils
@@ -68,8 +69,8 @@ class HybridBinaryLightCurve:
     Supported hybrid domain: circular detached, unspotted/nonpulsating binaries,
     q in [0.5,2], spin in [0.5,1.5], raw own-centre radii [1e-6,.25] SMA,
     beta in [0,1], two blackbody OR two CK04 components, custom or CPU-interpolated
-    table LD. Reflection/source selection/wavelength preparation/LD interpolation
-    use original CPU implementations. Mixed/other atlases, eccentric/contact
+    table LD. Source selection/wavelength preparation/LD interpolation use
+    original CPU implementations. Mixed/other atlases, eccentric/contact
     systems and spots use unmodified Observer when fallback='cpu' (default), or
     raise UnsupportedHybridModelError.
     Missing GPU/FP64 never silently changes the requested device.
@@ -82,12 +83,17 @@ class HybridBinaryLightCurve:
     bridge. coverage="cpu" retains the preceding per-phase CPU coverage path.
     radiance="device" streams fresh Planck/optical-depth emission directly into
     eclipse integration. radiance="cpu" retains the preceding CPU spectral path.
+    reflection="device" uses the original cooler-first sequential iteration;
+    reflection="cpu" retains the preceding CPU-reflection path.
+    general="device_integration" opts into broader original CPU physical routers
+    with fresh device integration, including their original CPU reflection.
     """
 
     def __init__(
         self, passbands: list[str], *, device: str = "gpu", fallback: str = "cpu", coverage: str = "device",
         radiance: str = "device",
         general: str = "cpu",
+        reflection: str = "device",
     ) -> None:
         if fallback not in ("cpu", "raise"):
             msg = "fallback must be 'cpu' or 'raise'"
@@ -107,6 +113,10 @@ class HybridBinaryLightCurve:
             msg = "general must be 'cpu' or 'device_integration'"
             raise ValueError(msg)
         self.general = general
+        if reflection not in ("cpu", "device"):
+            msg = "reflection must be 'cpu' or 'device'"
+            raise ValueError(msg)
+        self.reflection = reflection
         self.passbands = tuple(passbands)
         self.fallback = fallback
         self._states = {name: CorrectedSurfaceState(name, device=device) for name in _COMPONENTS}
@@ -116,6 +126,7 @@ class HybridBinaryLightCurve:
         self._radiance_engine: tuple[tuple[str, str], DeviceBlackbodyRadiance] | None = None
         self._atmosphere_engines: dict[str, DeviceAtmosphereRadiance] = {}
         self._native_integrators: dict[str, NativePhysicsIntegrator] = {}
+        self._reflection_engines: dict[str, DeviceReflection] = {}
 
     def _unsupported_curve(
         self, observer: Any, phases: np.ndarray, *, normalize: bool, diagnostics: bool,
@@ -165,16 +176,18 @@ class HybridBinaryLightCurve:
         return None
 
     def build_intrinsic_system(self, binary: Any) -> tuple[Any, dict[str, float]]:
-        """Fresh CPU mesh/kinematics, device state, then CPU reflection.
+        """Fresh CPU mesh/kinematics, device state, then configured reflection.
 
         Returned container owns its arrays and has not yet been rotated. This
         method never performs a fallback: unsupported states raise explicitly.
         The public curve call owns the full-model fallback decision.
         """
-        system, timings, _ = self._build_intrinsic_system(binary)
+        system, timings, _, _ = self._build_intrinsic_system(binary)
         return system, timings
 
-    def _build_intrinsic_system(self, binary: Any) -> tuple[Any, dict[str, float], Any]:
+    def _build_intrinsic_system(  # noqa: C901, PLR0912 - explicit fresh state and reflection dispatch
+        self, binary: Any, *, diagnostics: bool = False,
+    ) -> tuple[Any, dict[str, float], Any, Any]:
         reason = self._unsupported_reason(binary)
         if reason:
             raise UnsupportedHybridModelError(reason)
@@ -185,16 +198,19 @@ class HybridBinaryLightCurve:
         system.build_velocities(components_distance=1.0)
         mesh_done = perf_counter()
         device_temperatures = {}
+        device_states = {}
         for name, kernel in self._states.items():
             star = getattr(system, name)
             prepared = kernel.prepare(star, binary.mass_ratio, system.primary.mass, binary.semi_major_axis)
-            # Deliberate device -> CPU bridge for reflection/atmosphere/clipping.
+            # CPU bridge for original visibility/LD/atlas preparation and hulls;
+            # retain device arrays for irradiation and fresh spectral emission.
             on_device = prepared.evaluate()
             result = kernel._jax.tree.map(np.asarray, on_device)  # noqa: SLF001
             if not bool(result["proposal_valid"]):
                 msg = f"Unsupported corrected {name} state (geometry/gravity/thermal masks); use full CPU"
                 raise UnsupportedHybridModelError(msg)
             device_temperatures[name] = on_device["temperatures"]
+            device_states[name] = on_device
             for key in ("points", "face_centres", "normals", "areas",
                         "potential_gradient_magnitudes", "log_g", "temperatures"):
                 setattr(star, key, np.array(result[key], copy=True))
@@ -202,21 +218,39 @@ class HybridBinaryLightCurve:
                 1.0, binary.mass_ratio, star.polar_radius, name, star.synchronicity,
             )
         state_done = perf_counter()
-        if settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0:
+        active_reflection = settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0
+        reflection_detail = None
+        if active_reflection:
             check_ld_boundaries(system, ("bolometric",))
-        apply_reflection_effect(system, 1.0, settings.REFLECTION_EFFECT_ITERATIONS)
+        if active_reflection and self.reflection == "device":
+            law = settings.LIMB_DARKENING_LAW
+            if law not in self._reflection_engines:
+                self._reflection_engines[law] = DeviceReflection(law, device=self.device.platform)
+            packet = self._reflection_engines[law].prepare(
+                system, settings.REFLECTION_EFFECT_ITERATIONS, device_states=device_states,
+            )
+            reflected = packet.evaluate()
+            if not bool(reflected["proposal_valid"]):
+                msg = "Unsupported nonfinite device reflection state; use entire CPU curve"
+                raise UnsupportedReflectionError(msg)
+            for name, values in zip(_COMPONENTS, reflected["temperatures"], strict=True):
+                getattr(system, name).temperatures = np.asarray(values).copy()
+                device_temperatures[name] = values
+            if diagnostics:
+                reflection_detail = {"prepared": packet, "result": reflected}
+        else:
+            apply_reflection_effect(system, 1.0, settings.REFLECTION_EFFECT_ITERATIONS)
+            if active_reflection:
+                device_temperatures = None
         system.flat_it()
         if system.primary.atmosphere == "ck04":
             check_table_transitions(system)
-        if settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0:
-            # CPU reflection changed the intrinsic arrays. Re-upload its final
-            # temperatures; retaining old device temperatures would be stale.
-            device_temperatures = None
         return system, {
             "cpu_mesh_topology_kinematics": mesh_done - started,
             "device_state_with_transfers_compile": state_done - mesh_done,
-            "cpu_reflection": perf_counter() - state_done,
-        }, device_temperatures
+            ("device_reflection_with_transfers_compile" if active_reflection and self.reflection == "device"
+             else "cpu_reflection"): perf_counter() - state_done,
+        }, device_temperatures, reflection_detail
 
     def _prepare_radiance(
         self, system: Any, observer: Any, device_temperatures: Any, *, diagnostics: bool,
@@ -258,7 +292,10 @@ class HybridBinaryLightCurve:
                   "emission": "CPU-prepared CK04/device quadrature and T4 interpolation" if table else "device Planck",
                   "source_preparation": packet.metadata if table else None,
                   "temperature_source": "CPU post-reflection upload" if device_temperatures is None
-                  else "fresh corrected device temperatures"} if diagnostics else None
+                  else ("fresh post-reflection device temperatures"
+                        if self.reflection == "device" and settings.REFLECTION_EFFECT
+                        and settings.REFLECTION_EFFECT_ITERATIONS > 0
+                        else "fresh corrected device temperatures")} if diagnostics else None
         return radiance, detail
 
     def _integrate_curve(
@@ -345,7 +382,9 @@ class HybridBinaryLightCurve:
             observer = deepcopy(observer)
             observer._system = model  # noqa: SLF001 - prepared fitting Observer contract
         try:
-            system, timings, device_temperatures = self._build_intrinsic_system(model)
+            system, timings, device_temperatures, reflection_detail = self._build_intrinsic_system(
+                model, diagnostics=diagnostics,
+            )
             prepared_at = perf_counter()
             radiance, radiance_detail = None, None
             if self.radiance == "device":
@@ -359,7 +398,7 @@ class HybridBinaryLightCurve:
                     left_bandwidth=observer.left_bandwidth, right_bandwidth=observer.right_bandwidth,
                 )
                 timings["cpu_radiance_ld"] = perf_counter() - prepared_at
-        except (UnsupportedHybridModelError, UnsupportedRadianceError) as exc:
+        except (UnsupportedHybridModelError, UnsupportedRadianceError, UnsupportedReflectionError) as exc:
             return self._unsupported_curve(observer, phases, normalize=normalize, diagnostics=diagnostics,
                                            reason=str(exc), started=started)
         resolved = observer.manage_time_series(phases=phases)
@@ -384,6 +423,7 @@ class HybridBinaryLightCurve:
         detail = {"initial_system": system, "positions": captures, "support_phases": support,
                   "support_to_original": reverse[origin], "in_eclipse": in_eclipse,
                   "occultation": occultation, "coverage_mode": self.coverage, "radiance_mode": self.radiance,
-                  "radiance": radiance_detail} if diagnostics else None
+                  "radiance": radiance_detail, "reflection_mode": self.reflection,
+                  "reflection": reflection_detail} if diagnostics else None
         return HybridCurveResult(resolved + model.phase_shift, curves, mapped_components,
                                  "hybrid", None, timings, detail)

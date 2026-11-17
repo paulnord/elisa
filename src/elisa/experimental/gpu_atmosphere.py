@@ -111,7 +111,8 @@ class DeviceAtmosphereRadiance:
     fitter policy. Resource/numeric masks require whole CPU fallback, never a
     prior exclusion. Both stars must use CK04 here; blackbody and mixed-atlas
     dispatch are separate explicit paths. Optional corrected device temperatures
-    match the host values used to select files; post-reflection arrays upload.
+    match the host values used to select files. Corrected/device-reflected arrays
+    remain device inputs; optional CPU post-reflection arrays upload.
     """
 
     def __init__(self, passbands: tuple[str, ...], law: str, *, device: str = "gpu") -> None:

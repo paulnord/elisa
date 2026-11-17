@@ -1,9 +1,177 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T07:12:00Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
+Updated **2026-11-17T07:46:33Z**. Review branch: `codex/gpu-resident-roche-pipeline`.
 **Nothing merged. The assignment continues.**
 
-## Latest milestone: broader physical curves and morphology-specific fitting
+## Latest milestone: device mutual irradiation in complete curves and fitting
+
+The circular detached hybrid now defaults to **device mutual irradiation**.
+`gpu_reflection.DeviceReflection` builds fresh pair distances/join vectors,
+directional LD and coupling matrices, executes the original cooler-first
+sequential reflection iteration and mirrors final temperatures. Those device
+temperatures feed fresh blackbody/CK04 emission and eclipse integration directly.
+`reflection="cpu"` retains the preceding CPU-reflection hybrid for comparison.
+The original CPU Observer, fitters, physics and global defaults are unchanged.
+
+The CPU build sequence is preserved: cached centres/normals/gravity precede mesh
+correction; areas and intrinsic temperatures follow it; reflection follows
+intrinsic energy normalization. Original CPU helpers select reflection visibility
+and quarter-face indices and obtain bolometric LD at **intrinsic** temperatures.
+LD stays fixed during reflection iteration, the cooler component updates first,
+the other component immediately uses that update, and equal-temperature ties
+select primary first. The original symmetry helper's **LD coefficient prefix
+ordering**, including varying table LD, is retained. This port does not repair
+or reinterpret that CPU scientific convention.
+
+The pipeline remains **hybrid**. CPU angular mesh/roots/topology/kinematics,
+visibility/LD lookup, file/spectral preparation and observer hulls remain. Final
+temperature host copies support original table/source decisions; reflection
+matrices/factors stay on device during iteration. No candidate's temperatures,
+geometry, LD or coupling matrices are cached. The broader `hybrid_native`
+spot/eccentric/contact branch still uses its original CPU physics/reflection.
+
+### Validation and scientific limits
+
+**287 hardware tests passed, zero skips/failures/errors**, across two independent
+windows: **85 in 100.87 s** and **202 in 142.11 s**, with no duplicate tests.
+The full CPU suite passed **161**, with **126** explicit GPU skips, in 171.50 s.
+Two/one warnings respectively are inherited original CPU Planck UV-tail overflow
+in a finite cold-star fallback fixture. No existing acceptance gate changed.
+
+Six detailed V/bolometric cases each have540 faces per component and45–69 requested
+phases: primary cooler/q0.5/spins0.5,1.5/non-eclipsing; secondary cooler/q2/
+spins1.5,0.5/total eclipse; equal temperatures/cosine LD; logarithmic LD/partial
+eclipse; square-root LD/grazing; and CK04 with actual interpolated table LD.
+Iteration counts are1,3,2,2,5,2. Both eclipses, nearby contact estimates, phase
+ordering/repeats, cross-cycle observations, shift, third light and distance are
+compared with unmodified CPU. Contact estimates locate useful phases; original
+Roche surfaces/clipping remain the oracle. Existing contact-mask tests are in the
+full suite. The real CK04/LD files are the preceding versioned fixtures, with
+source hashes retained; these cases do not validate an entire stellar atlas.
+
+Maximum measured GPU differences:
+
+- Reflection coupling matrices: **1.12e-15 absolute**; gamma: **3.34e-16 absolute**.
+  Isolated and complete reflected temperatures: **3.63e-16 relative**.
+- Normal radiance: **3.20e-15 relative**; LD: **5.49e-16 relative**. Actual face
+  flux divided by component flux: **7.98e-16 absolute**; component sums:
+  **1.04e-15 relative**; coverage/SMA²: **1.00e-17 absolute**.
+- Raw observed curves: **9.77e-16 relative**; normalized curves:
+  **5.56e-16 absolute**. Original fitter mean-normalized predictions:
+  **4.45e-16 absolute**; accumulated posterior: **3.50e-9 absolute**, at
+  normalized uncertainty `1e-4` (28 B/V/bolometric blackbody or17 V/bolometric table observations).
+
+Independent controls check that zero receiving albedo leaves that star unheated,
+unilluminated faces stay unchanged, heating is nonnegative, and iterations
+0/1/2/4/32 track original CPU and heating progression. Both temperature update
+orders and the equality tie are tested. Receiving-face heating maxima in the
+detailed fixtures range about1.59–45.43 K. Prepared packets are immutable and
+pass strict no-transfer evaluation. Changed albedo, temperature, q/potential,
+inclination and nuisance proposals recompute all dependent state. Resource
+failure produces the exact original finite CPU posterior even in emergency
+penalty mode; missing LD sources retain their original error class and disabled
+FP64 raises outside candidate penalties.
+
+Public fits retain the original 16-evaluation/two-point/diff_step1e-4 settings:
+
+- Blackbody: `T_primary=6504.131860320 K`, `inclination=86.4018911275 deg`, chi²
+  **21.9508086857**. CPU/GPU differences are **1.98e-10 K**, **3.70e-13 deg** and
+  **1.08e-11 chi²**.
+- CK04/table LD: `T_primary=10078.571433897 K`, `inclination=86.3998042190 deg`,
+  chi² **9.4225894123**. Differences are **1.73e-10 K**, **2.85e-14 deg** and
+  **2.62e-13 chi²**.
+- Public 8-walker/3-step runs replay identical coordinates and acceptance
+  fractions; stored density differences are at most **6.52e-9**. These are
+  callback/move smoke checks, **not convergence, posterior precision or ESS/sec**.
+
+### Matched transfer-inclusive costs
+
+Median **ms per fresh host V/bolometric curve**, three warm samples. CPU and GPU
+drivers ran sequentially in the same checkpointed window, affinity0–15/Nice10,
+threads1, FP64. Every path includes fresh CPU bridges, uploads, device work and
+final host outputs; Binary construction is outside every curve timer. Original
+CPU and preceding-hybrid columns below come from the GPU driver; the separate
+CPU profile's baselines, all samples and stage/cold costs remain in curated JSON.
+
+| Case | Original CPU | CPU-reflection hybrid GPU | New hybrid JAX CPU | New hybrid GPU |
+|---|---:|---:|---:|---:|
+| Primary cooler, non-eclipsing | 44.55 | 21.80 | 18.62 | 20.87 |
+| Secondary cooler, total | 56.35 | 30.12 | 108.26 | 29.35 |
+| Equal temperatures, cosine | 48.42 | 28.46 | 192.01 | 27.99 |
+| Logarithmic, partial | 52.07 | 26.80 | 101.28 | 25.12 |
+| Square-root, grazing | 50.92 | 25.17 | 94.52 | 24.95 |
+| CK04, actual table LD | 27.63 | 30.44 | 90.87 | 30.78 |
+
+Combined engine construction costs **0.632 s**; first diagnostic full GPU calls,
+including newly incurred compilation/CPU preparation, cost **0.698–2.519 s**.
+Small differences against the preceding hybrid, fixed order and few samples
+do **not establish a reflection speedup**. Blackbody gains over original CPU
+mostly retain earlier device emission work; the CK04 curve is slower.
+
+An isolated matched reflection comparison copies the same initial container and
+returns both final host temperature arrays. Original CPU costs **0.88–1.27 ms**,
+while device preparation/geometry/iteration/download costs **2.05–3.02 ms**.
+Matrices download only in separate diagnostics. Device reflection alone is
+**slower at these540-face workloads**. A resident kernel lower bound is not
+substituted for this complete comparison.
+
+| Physical fitting work | Original CPU | CPU-reflection hybrid GPU | New hybrid JAX CPU | New hybrid GPU |
+|---|---:|---:|---:|---:|
+| Blackbody likelihood/prior median (ms) | 55.55 | 24.64 | 105.22 | 25.31 |
+| Table likelihood/prior median (ms) | 27.20 | 23.97 | 61.17 | 24.64 |
+| Blackbody new-fitter public LSQ (s) | 1.170 | — | 3.949 | 2.320 |
+| Table new-fitter public LSQ (s) | 0.344 | — | 2.348 | 2.050 |
+| Blackbody new-fitter 8-walker/3-step run (s) | 1.883 | — | 4.775 | 2.940 |
+| Table new-fitter 8-walker/3-step run (s) | 0.912 | — | 3.529 | 2.476 |
+
+New hybrid setup costs **9.5–9.9 ms**, first likelihood callbacks
+**1.496–1.561 s**, separately from warm costs. Likelihood timers include physical
+transforms/model construction/serialization, original union-phase mapping,
+mean normalization, priors, third-light/noise semantics and all transfers. Public
+fit/run totals also include new object/original setup/constraints, compilation
+incurred, callbacks and result serialization; runtime/source caches may be warm
+from preceding gates. Full fits/runs remain slower than original CPU. These
+measurements support no new reflection, table-fitting or ESS claim. CPU development
+on cores16–19/Nice19 while production ran is excluded from matched timings.
+
+### Domain, reproduction, restoration and next work
+
+The earlier q/spin/radius/thermal/atmosphere/occultation gates remain. Reflection
+adds bounds of8192 faces per component,2097152 combined prepared face pairs and32
+iterations, in the symmetric circular detached separation1 domain. These are
+resource/contract limits, not physical prior cuts. Unsupported states run the
+entire original CPU curve, or the explicit broader bridge if requested;
+`fallback="raise"` raises after eligible hybrid paths are exhausted. Disabled
+reflection/nonpositive iterations retain the original no-op behavior. No global
+CPU function, production default or caller's physical model is patched.
+
+```text
+python -m pytest tests/tests_experimental -q -rs
+python scripts/validate_gpu_reflection.py --device cpu --output reflection-cpu.json
+python scripts/validate_gpu_reflection.py --device gpu --output reflection-gpu.json
+```
+
+Use the private CPU wrapper during development. GPU commands require the
+independent checkpoint/restore systemd allocation. Registered windows010/011/012
+used **103.59/145.06/92.32 s** of test commands within270 s internal/300 s systemd
+bounds. Each independently restored the exact pinned service/source/config/plan,
+verified matching checkpoint resumes and latest receipt/witness/endpoints, and
+observed **43,008/46,592/45,056 durable cells** of resumed advancement. All three
+test units finished inactive/success. This is not a full historical production
+re-audit; raw operational logs/process/environment snapshots remain private.
+
+See [curated evidence](ada_validation/background-m007.json),
+[583-file runtime/data manifest](ada_validation/background-m007-source-hashes.json)
+and [current status](ada_validation/progress.json). Compact sorted-key manifest
+aggregate: `2a0e3b807974cc2f34521bc189d8cb722d6e3c2993a8d23bc9709a318f135c04`.
+All tested runtime/data files were unchanged after the hardware windows.
+
+Next assess mesh/phase/spectral discretization error separately from implementation
+parity for complete reflected curves and physical fits at `1e-4` uncertainty.
+CPU mesh, LD and hull residency work remains; broader device physics and any
+posterior/convergence claims require their own evidence. The assignment continues.
+
+## Previous milestone: broader physical curves and morphology-specific fitting
 
 Explicit `general="device_integration"` now extends the experimental hybrid to
 fresh **spotted, eccentric, near-contact and overcontact** curves. The original

@@ -136,7 +136,7 @@ def test_fresh_changed_curves_both_eclipses_contacts_and_order(device: str, incl
     binary = binary_fixture(inclination=inclination, phase_shift=0.017, additional_light=0.2)
     phases = contact_phases(binary) + binary.phase_shift
     engine = HybridBinaryLightCurve(BANDS, device=device, fallback="raise")
-    # Reflection itself is the original CPU routine, using fresh corrected
+    # Device reflection preserves the original iteration using fresh corrected
     # areas, PRE-correction centres/normals/gravity and new intrinsic T.
     with settings.override(REFLECTION_EFFECT=True, NUMBER_OF_PROCESSES=1, LIMB_DARKENING_LAW="linear"):
         result = engine(binary, phases, normalize=False, diagnostics=True)
