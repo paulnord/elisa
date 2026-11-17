@@ -1,6 +1,24 @@
 # Ada workload and hardware characterization
 
-## Current snapshot: m020 native nested observer roots
+## m021 — Continuous intensity reconstruction
+
+Resident vertex moments are prepared per fresh candidate and field level. The compiled observer stage gathers by parent, interpolates the moments, evaluates limb darkening and sums across accepted rays for every passband. Required host packet data and returned CPU quantities are inside the elapsed measurements. The finite model differs from the m020 cell-constant protocol. Comparisons below pair the same physical proposals and output contract across backends.
+
+| Proposals | Serial CPU reference | JAX CPU | GPU |
+| ---: | ---: | ---: | ---: |
+| 1 | 9.84 / 9.80–9.88 | 48.13 / 15.80–17.45 | 32.44 / 3.87–5.20 |
+| 4 | 38.88 / 38.99 | 91.48 / 62.22 | 45.79 / 16.80 |
+| 8 | 77.57 / 77.24 | Unmeasured | 63.72 / 30.29 |
+
+Numbers are cold / warm seconds for two full finite curves per candidate and mapped density and accuracy checks. CPU and GPU processes used the same cores 0–15 and single-thread BLAS/OMP settings. The independent NumPy reference includes original CPU physics and a direct gnomonic solve. Reusing per-face conditioning avoids repeated SVDs at its sample points. JAX CPU provides a separate compiled comparison. The initial series overlapped some lower-priority CPU accuracy runs on cores 16–19. Final B1/B8 baseline and GPU runs were collected separately from those accuracy runs. B1 independent repeats, exact sample counts, host peak RSS and per-candidate stage values are in the ledger.
+
+For the first changed B1 proposal moment preparation across both stars and both field levels took 0.068 s on the optimized CPU reference and 0.015 s on GPU. The 56 packet interpolation and integration calls took 0.458 s on CPU and 0.054 s on GPU, including required transfers and results. These are nested stage timings from the corresponding complete calls. The common geometry, clipping and packet hashing span was 9.025 s on CPU and 5.023 s on the hybrid GPU path. The latter includes CPU and device work.
+
+The warm B1 CUDA trace spans **5.562 s** and contains **32,813 kernels** and **6,080 copies**. Kernel intervals cover 0.967 s, including 0.779 s in native nested root kernels. Copy intervals cover 0.050 s across 208.7 MB host-to-device, 391.9 MB device-to-host and 37.1 MB device-to-device (decimal MB). Removing all recorded copy duration on the critical path would bound acceleration by 1.009×. Staging, launch and synchronization gaps require separate attribution. The independently marked CPU boundary-reference work occupied 1.800 s, with 0.0000 s of device overlap. Conditional 2× and 4× reductions in its serialized duration yield 1.193× and 1.320× overall. Profiler overhead is included in the trace. The table uses separate unprofiled processes.
+
+The B1 GPU run sampled PCIe Gen 4 ×8 under nonzero utilization. Shared-device memory reached 598 MiB in those unit samples. Ada runs a Ryzen 9 5950X and RTX 3080 Ti with 12 GiB, JAX 0.12.0.1, driver 595.99.02 and FP64. Kernel DRAM traffic, achieved FP64, cache behavior, stalls, exact allocator peaks and the fraction of transfer duration attributable to bandwidth remain unmeasured. The timeline cannot predict a device upgrade's effect. [Per-window telemetry, stage timings and trace](ada_validation/background-m021.json)
+
+## m020 native nested observer roots
 
 The [m020 ledger](ada_validation/background-m020.json) retains matched original
 serial CPU/JAX CPU/native GPU B1/B4 comparisons, CPU/GPU B8, the previous GPU

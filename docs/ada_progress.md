@@ -1,9 +1,65 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T20:40:03.061534+00:00**. Review branch: `codex/gpu-resident-roche-pipeline`.
-**Nothing merged. The assignment continues. Fifth42 is intentionally held for ELISa.**
+Updated **2026-11-17T22:07:57.891347+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
 
-## Latest milestone: native nested roots and joint likelihood error controls
+## m021 — Conserved intensity moments on curved eclipse packets
+
+A continuous reconstruction now runs through complete reflected curves and the original mapped likelihood. On the fine test, it conserves each surface-integrated intensity moment and agrees with the independent CPU calculation. **Refining the field changes the likelihood more with continuous moments than with cell-constant emission on this fixture.** The established cell-constant path remains the default for these experimental engines. Both representations exceed the 0.01 accumulated log-likelihood budget at nominal uncertainty 10⁻⁴. Physical fits and MCMC remain unqualified.
+
+### What changed in the observer calculation
+
+For each passband the opt-in engine takes fresh original fields on both stars and forms the moments I₀, I₀a and, for a two-coefficient limb-darkening law, I₀b. A 16-point curved-area integral weights the contributions of incident faces to each shared vertex. The positive weights make the nodal field continuous across triangle edges and preserve each moment's integral under that area rule. At every accepted eclipse quadrature ray the engine interpolates these moments in its source triangle, applies the declared limb-darkening law and reduces the flux for all bands together. The vertex arrays stay on device across a candidate's phases. Candidate changes rebuild the fields. Each engine rejects a second batch before it can disturb the active candidate. The original reflection iterations, passband and limb-darkening inputs supply the face values.
+
+The safety checks cover source area agreement, moment closure, parent-cone membership, memory bounds and FP64. The maximum moment closure error across both stars and fields in the deep GPU run is 3.55e-16 relative to the absolute source integral. CPU adaptive clipping, topology, precision decisions, table bridges and host packet construction still contribute to the complete cost. Unsupported geometry retains the existing explicit error and full-CPU routing semantics.
+
+### Four computed resolution combinations
+
+Both field levels used common integration grid 3, Duffy order 3 and slice order 8. Both boundary depths used the same physical proposal, 28 mapped observations across B, V and bolometric flux, third light and original normalization. The rectangle computes all four curves. Its bound adds the magnitude of the measured mixed difference to the two one-axis component envelopes and applies the nominal Gaussian likelihood test. It also requires the direct diagonal component-envelope check to pass. Both budgets use the nominal observational uncertainties independently of the fitted noise parameter.
+
+| Representation | Field 2↔3 | Depth 2↔3 | Combined bound | Combined D | Actual Δlog L¹ |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Cell-constant | 1.01534 | 0.09042 | 1.10577 | 0.004836 | -0.44814 |
+| Continuous moments | 8.33911 | 0.09042 | 8.42954 | 0.038381 | -3.77180 |
+
+¹ Signed change from fine/deep to coarse/shallow under the nominal Gaussian likelihood. Field, depth and combined bounds are absolute. D is in observational sigma units. The unchanged acceptance limits are D ≤ 0.1 and absolute log-likelihood bound ≤ 0.01. These controls cover only the computed rectangle and this physical proposal.
+
+With bitwise-identical quadrature packets within each backend, switching from cell-constant to continuous moments changes the largest mapped flux by 1.40×10⁻⁶ at field level 2 and 3.52×10⁻⁷ at level 3 (depth 3). The continuous field's mixed distance is 1.07e-09 in sigma units. Its field-axis likelihood bound receives 3.329, 3.175 and 1.835 from B, V and bolometric observations. The largest terms occur at phases 0.767 and 0.267 in this residual-weighted comparison. Positive averaging preserves the integral while changing the spatial distribution of emission. The observed sensitivity motivates evaluating the thermal and irradiation source fields more accurately. Continuum accuracy remains open.
+
+### Implementation parity and complete costs
+
+The milestone exercised **105 distinct hardware controls**, including 22 new cases and 83 regressions for affected paths. Ten case executions repeated controls while validating the CPU optimization and candidate ownership. All 22 new controls also passed under CPU-only execution. The six system fixtures, 57 contact-focused phases, physical changes, three limb-darkening laws, CK04 table bridge, small occultor and original CPU observer round-trip are covered. A standalone CPU golden check reproduced the preceding cell-constant reference's component, raw and normalized curves and posterior bit for bit for two changed proposals. On the first field-2/3, depth-2, slice-8 proposal, the CPU and GPU cell-constant results each reproduced the corresponding m020 output bit for bit, including quadrature bytes. The final independent CPU solve reuses the source face's condition number. B1 and B4 CPU output comparisons before and after this optimization were bitwise identical.
+
+Maximum normalized curve or mapped prediction difference across the comparisons was **7.77e-16** and maximum posterior difference was **1.37e-09**. The full adaptive records and finite metadata matched, including an independent Julian-date run. These comparisons use the same declared finite field representation on each backend. The CPU reference evaluates the original ELISa physics routines with independent curved roots, interpolation solves and flux integration. The default facet observer also has its own preservation test.
+
+Each table entry gives seconds for the cold complete call / changed warm call(s). A call rebuilds both finite fields and complete curves per candidate and includes host outputs, transfers, synchronization, original density and resolution checks.
+
+| Proposals | Serial CPU reference | JAX CPU | GPU |
+| ---: | ---: | ---: | ---: |
+| 1 | 9.84 / 9.80–9.88 | 48.13 / 15.80–17.45 | 32.44 / 3.87–5.20 |
+| 4 | 38.88 / 38.99 | 91.48 / 62.22 | 45.79 / 16.80 |
+| 8 | 77.57 / 77.24 | Unmeasured | 63.72 / 30.29 |
+
+Warm serial-CPU/GPU ratios for B1/B4/B8 were 2.22× / 2.32× / 2.55×. Ratios for equal-length complete processes, including initialization, compilation and the measured 3/1/1 changed warm calls, were 0.84× / 1.21× / 1.61×. B4 and B8 each have one warm call per backend. B1 also has an independent repeat. The separate JAX CPU measurement and per-stage costs are in the hardware ledger. The CPU reference is serial with vectorized NumPy operations. Production posterior throughput, ESS/sec and Colab speed require separate measurements. The earlier handoff notebook remains pinned to its tested revision. Real Colab execution is pending.
+
+### Reproduce
+
+Use the pinned private environment or the equivalent published dependencies and the repository fixtures. Force the CPU platform for reference/CPU runs. On Ada, GPU invocations belong inside registered hold-aware bounded units. Select `--backend gpu --verified-bounded-gpu-window` there. Use `--engine fused` for the cell-constant comparator and `--jd` for Julian dates.
+
+```bash
+JAX_PLATFORMS=cpu JAX_ENABLE_X64=True python scripts/validate_gpu_reconstructed.py \
+  --backend reference --batch 4 --repeats 1 --output batch.json
+for depth in 2 3; do
+  JAX_PLATFORMS=cpu JAX_ENABLE_X64=True python scripts/validate_gpu_reconstructed.py \
+    --backend reference --batch 1 --repeats 0 --levels 2 3 --integration-level 3 \
+    --depth "$depth" --slice-order 8 --output "depth-$depth.json"
+done
+JAX_PLATFORMS=cpu JAX_ENABLE_X64=True python scripts/compare_gpu_rectangle.py \
+  --deep depth-3.json --shallow depth-2.json --output rectangle.json
+```
+
+The ledger contains the four finite curves for each backend and representation, input hashes, individual timings, test counts, proof of checkpoint preservation and profiler interval summaries. All 30 registered units preserved the same stopped Fifth42 checkpoint. The development branch remains separate. Next, isolate intrinsic and irradiated source-field errors on shared rays, test a more accurate source-field evaluation, and repeat the field/depth likelihood controls before fitting. [Scientific results](ada_validation/background-m021.json) · [Source manifest](ada_validation/background-m021-source-hashes.json) · [Hardware measurements](hardware_characterization.md)
+
+## m020: native nested roots and joint likelihood error controls
 
 `FusedObserverLightCurve` composes native FP64 nested edge/Roche/shadow roots
 with the existing complete reflected curves and original mapped physical

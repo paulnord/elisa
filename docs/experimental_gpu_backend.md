@@ -1,5 +1,14 @@
 # Experimental GPU likelihood pilot
 
+## Conservative emitted-intensity fields
+
+`ReconstructedObserverLightCurve` in `gpu_reconstructed_observer` accepts the same explicit device, field levels, common integration level and `CurvedEdgeRule` as `FusedObserverLightCurve`. It reconstructs band-specific intensity and limb-darkening moments at shared vertices of the two physical components. It evaluates those moments on the curved observer packets and returns the usual component, raw and normalized curves. The curve rule records `conservative_moment_reconstruction=1`. Original cell-constant engines and the application observer retain their previous behavior.
+
+`RectangleInferenceBudget.compare(fine_deep, coarse_deep, fine_shallow, coarse_shallow, sigma, observed=..., reducers=..., mean_normalize=True)` applies direct and mixed field/depth controls to matched physical inputs. The default call raises `ResolutionNotQualifiedError` when the nominal bound exceeds either threshold. Use `require_budget=False` to inspect the diagnostic, including the mixed difference and component envelopes. Accuracy and resource limits remain outside physical-prior penalties.
+
+On the reflected 10⁻⁴ fixture, continuous and cell-constant fields both exceed the accumulated likelihood tolerance. The new representation is experimental. [Validation and reproduction](ada_progress.md)
+
+
 Current Ada allocation policy (2026-11-17): Fifth42 is intentionally checkpointed
 and held inactive until genuine ELISa completion. Each GPU study remains a
 registered <=300-second unit whose entry and cleanup verify the exact stopped

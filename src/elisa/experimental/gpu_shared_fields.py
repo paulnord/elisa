@@ -188,7 +188,32 @@ class SharedFieldLightCurve:
                 maps[variant.key][name], controls[variant.key][name] = parent, control
         return common, triangles, fields, maps, controls
 
-    def __call__(self, binary: Any, phases: Any, *, source_revision: str, observer: Any = None,  # noqa: C901, PLR0915
+    def _integrate_packets(self, model: Any, fields: dict, maps: dict, packets: dict,
+                           variant: Any) -> dict:
+        """Original cell-constant integration; protected opt-in reconstruction hook."""
+        stars = []
+        for name in _NAMES:
+            packet = packets[name]
+            index = maps[variant.key][name][packet["parents"]]
+            star = getattr(fields[variant.key], name)
+            stars.append(SimpleNamespace(
+                indices=np.arange(len(index)), los_cosines=packet["mu"],
+                coverage=packet["area"]*model.semi_major_axis**2,
+                ld_cfs={b: star.ld_cfs[b][index] for b in self.passbands},
+                normal_radiance={b: star.normal_radiance[b][index] for b in self.passbands},
+            ))
+        width = max(len(s.indices) for s in stars)
+        pad = 1 << max(0, width-1).bit_length()
+        values = {}
+        for band in self.passbands:
+            if self.device == "reference":
+                result = [np.sum(calculate_surface_element_fluxes(band, s)) for s in stars]
+            else:
+                _, result = self.integrator.from_containers(band, stars, pad_to=pad)
+            values[band] = np.asarray(result)
+        return values
+
+    def __call__(self, binary: Any, phases: Any, *, source_revision: str, observer: Any = None,
                  normalize: bool = True, diagnostics: bool = False) -> SharedFieldResult:
         """Synthesize complete comparison curves with original observer semantics."""
         started = perf_counter()
@@ -240,25 +265,9 @@ class SharedFieldLightCurve:
             geometry_seconds += perf_counter()-step
             step = perf_counter()
             for variant in self.variants:
-                stars = []
-                for name in _NAMES:
-                    packet = packets[name]
-                    index = maps[variant.key][name][packet["parents"]]
-                    star = getattr(fields[variant.key], name)
-                    stars.append(SimpleNamespace(
-                        indices=np.arange(len(index)), los_cosines=packet["mu"],
-                        coverage=packet["area"]*model.semi_major_axis**2,
-                        ld_cfs={b: star.ld_cfs[b][index] for b in self.passbands},
-                        normal_radiance={b: star.normal_radiance[b][index] for b in self.passbands},
-                    ))
-                width = max(len(s.indices) for s in stars)
-                pad = 1 << max(0, width-1).bit_length()
+                values = self._integrate_packets(model, fields, maps, packets, variant)
                 for band in self.passbands:
-                    if self.device == "reference":
-                        values = [np.sum(calculate_surface_element_fluxes(band, s)) for s in stars]
-                    else:
-                        _, values = self.integrator.from_containers(band, stars, pad_to=pad)
-                    components[variant.key][band][t] = np.asarray(values)
+                    components[variant.key][band][t] = values[band]
             integration_seconds += perf_counter()-step
             records.append(record)
         timings = {"all_fresh_fields_and_common_partition": fields_done-started,
