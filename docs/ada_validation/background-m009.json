@@ -1,0 +1,4759 @@
+{
+  "updated_utc": "2026-11-17T09:10:54.036587+00:00",
+  "milestone": "Opt-in observation synthesis and empirical mesh-qualified physical fitting",
+  "tested_checkout_head": "00a84e830b32660cf72bc10c0cb3de21a2f20f13",
+  "tested_worktree": "Exact source/data fingerprints include new protocol, driver and tests plus modified hybrid fitting adapter/validation helper",
+  "source_manifest": "background-m009-source-hashes.json",
+  "source_files": 593,
+  "source_aggregate_sha256": "803542842a961f781d36b63b27b99fffc6560d935e7a0880944b74ed27aaa7a5",
+  "source_hash_method": "SHA256 of parsed manifest as compact sorted-key JSON",
+  "source_changes": {
+    "files": 593,
+    "aggregate": "803542842a961f781d36b63b27b99fffc6560d935e7a0880944b74ed27aaa7a5",
+    "changed_previous_files": [
+      "scripts/validate_gpu_fit.py",
+      "src/elisa/experimental/gpu_fit.py"
+    ],
+    "new_files": [
+      "docs/ada_validation/plot_m008.py",
+      "scripts/validate_gpu_protocol.py",
+      "src/elisa/experimental/gpu_protocol.py",
+      "tests/tests_experimental/test_gpu_protocol.py"
+    ]
+  },
+  "environment": {
+    "python": "3.12.4 | packaged by Anaconda, Inc. | (main, Jun 18 2024, 15:12:24) [GCC 11.2.0]",
+    "jax": "0.12.0.1",
+    "jaxlib": "0.12.0.1",
+    "gpu": "cuda:0",
+    "device_kind": "NVIDIA GeForce RTX 3080 Ti",
+    "x64": true,
+    "dtype": "float64",
+    "packages": {
+      "jax-cuda13-plugin": "0.12.0.1",
+      "jax-cuda13-pjrt": "0.12.0.1",
+      "numpy": "2.5.5",
+      "scipy": "1.18.1",
+      "astropy": "8.0.2",
+      "emcee": "3.1.6",
+      "elisa": "1.0.0"
+    }
+  },
+  "full_gpu_suite": {
+    "tests": 328,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "pytest_seconds": 274.277,
+    "partitions": [
+      {
+        "tests": 126,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "pytest_seconds": 132.082
+      },
+      {
+        "tests": 202,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "pytest_seconds": 142.195
+      }
+    ],
+    "scope": "All tests/tests_experimental in two independently restored windows"
+  },
+  "full_cpu_suite": {
+    "tests": 328,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 137,
+    "pytest_seconds": 192.878,
+    "passed": 191,
+    "scope": "All experimental tests; GPU cases explicitly skipped by CPU-only environment",
+    "supplemental_final_serial_contract": "1 passed,28 deselected; final source then exercised by full hardware suite",
+    "warnings": "One existing Planck exponential-overflow warning"
+  },
+  "new_protocol_tests": {
+    "hardware_passed": 29,
+    "hardware_skipped": 0,
+    "development_cpu_passed": 19,
+    "development_gpu_skipped": 10
+  },
+  "summary": {
+    "direct_cpu_vs_original_max_normalized_abs": 0.0,
+    "hybrid_direct_vs_original_max_normalized_abs": 4.440892098500626e-16,
+    "hybrid_direct_max_posterior_abs": 1.1641532182693481e-09,
+    "native_support_difference_max_abs": 0.11976070506039171,
+    "strict_target_to_finest_distance_sigma": 17.53241547600878,
+    "strict_middle_to_finest_distance_sigma": 10.74171062499683,
+    "positive_control_distance_sigma_range": [
+      0.012275889233001866,
+      0.03459892217291787
+    ],
+    "qualified_predictions_max_normalized_abs": 6.661338147750939e-16,
+    "qualified_max_posterior_abs": 2.842170943040401e-14,
+    "lsq_parameter_parity": {
+      "primary@t_eff": {
+        "max_abs": 0.0,
+        "elements": 1,
+        "atol": 0.01,
+        "rtol": 0
+      },
+      "system@inclination": {
+        "max_abs": 4.352784799266374e-11,
+        "elements": 1,
+        "atol": 0.0001,
+        "rtol": 0
+      },
+      "chi_squared": {
+        "max_abs": 2.1316282072803006e-14,
+        "elements": 1,
+        "atol": 1e-05,
+        "rtol": 0
+      }
+    },
+    "sampler_coordinate_max_abs": 0.0,
+    "sampler_density_max_abs": 2.1316282072803006e-14
+  },
+  "profiles": {
+    "cpu": {
+      "device": "cpu",
+      "all_correctness_gates_passed": true,
+      "direct_mapping": [
+        {
+          "jd": false,
+          "preserve_phases": false,
+          "candidates": [
+            {
+              "parameters": {
+                "primary@surface_potential": 8.0,
+                "primary@t_eff": 6300.0,
+                "system@inclination": 85.0,
+                "system@mass_ratio": 0.7,
+                "system@additional_light": 0.2,
+                "nuisance@ln_f": -2.0,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 4800.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 2.3283064365386963e-10,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.0030252650612965226,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.004253612947650254,
+                  "device_state_with_transfers_compile": 0.002054471056908369,
+                  "device_reflection_with_transfers_compile": 0.002791845938190818,
+                  "device_radiance_ld_with_transfers": 0.005445001996122301,
+                  "device_projection_upload_download": 0.000994218047708273,
+                  "cpu_hull_visibility": 0.00382591993547976,
+                  "device_clipping_integration_transfers": 0.0831131599843502,
+                  "total": 0.10412587702739984
+                },
+                "total_synthesis_seconds": 0.10725443507544696
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 8.059999999999999,
+                "primary@t_eff": 6650.0,
+                "system@inclination": 86.9,
+                "system@mass_ratio": 0.73,
+                "system@additional_light": 0.52,
+                "nuisance@ln_f": -1.0999999999999996,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 5150.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 2.3283064365386963e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.003476303070783615,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0032651659566909075,
+                  "device_state_with_transfers_compile": 0.001727706054225564,
+                  "device_reflection_with_transfers_compile": 0.0017874089535325766,
+                  "device_radiance_ld_with_transfers": 0.0047575500793755054,
+                  "device_projection_upload_download": 0.0007780520245432854,
+                  "cpu_hull_visibility": 0.003573926049284637,
+                  "device_clipping_integration_transfers": 0.08415698201861233,
+                  "total": 0.10146524698939174
+                },
+                "total_synthesis_seconds": 0.10503413307014853
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 7.8999999999999995,
+                "primary@t_eff": 6340.0,
+                "system@inclination": 85.58,
+                "system@mass_ratio": 0.704,
+                "system@additional_light": 0.488,
+                "nuisance@ln_f": -0.8000000000000007,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 4840.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.3969838619232178e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.003061944036744535,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0059407640947028995,
+                  "device_state_with_transfers_compile": 0.0030237819300964475,
+                  "device_reflection_with_transfers_compile": 0.0029901390662416816,
+                  "device_radiance_ld_with_transfers": 0.00831852201372385,
+                  "device_projection_upload_download": 0.001101610017940402,
+                  "cpu_hull_visibility": 0.00516406400129199,
+                  "device_clipping_integration_transfers": 0.03315341006964445,
+                  "total": 0.06155574205331504
+                },
+                "total_synthesis_seconds": 0.0647043080534786
+              }
+            }
+          ],
+          "native_support_difference_max_abs": {
+            "Generic.Bessell.B": 0.08282167033543264,
+            "Generic.Bessell.V": 0.07356300527658122,
+            "bolometric": 0.030493180975934342
+          }
+        },
+        {
+          "jd": true,
+          "preserve_phases": false,
+          "candidates": [
+            {
+              "parameters": {
+                "primary@surface_potential": 8.0,
+                "primary@t_eff": 6300.0,
+                "system@inclination": 85.0,
+                "system@mass_ratio": 0.7,
+                "system@additional_light": 0.2,
+                "nuisance@ln_f": -2.0,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "system@primary_minimum_time": 2450000.0,
+                "secondary@t_eff": 4800.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 2.3283064365386963e-10,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.0029143569990992546,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0038893079617992043,
+                  "device_state_with_transfers_compile": 0.0018935080152004957,
+                  "device_reflection_with_transfers_compile": 0.0017082099802792072,
+                  "device_radiance_ld_with_transfers": 0.005032947985455394,
+                  "device_projection_upload_download": 0.0008037911029532552,
+                  "cpu_hull_visibility": 0.0036051839124411345,
+                  "device_clipping_integration_transfers": 0.08450042805634439,
+                  "total": 0.10300753498449922
+                },
+                "total_synthesis_seconds": 0.10602008609566838
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 8.059999999999999,
+                "primary@t_eff": 6650.0,
+                "system@inclination": 86.9,
+                "system@mass_ratio": 0.73,
+                "system@additional_light": 0.52,
+                "nuisance@ln_f": -1.0999999999999996,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "system@primary_minimum_time": 2450000.0,
+                "secondary@t_eff": 5150.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 2.3283064365386963e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.002680486999452114,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.004212746047414839,
+                  "device_state_with_transfers_compile": 0.0017764390213415027,
+                  "device_reflection_with_transfers_compile": 0.0015745979035273194,
+                  "device_radiance_ld_with_transfers": 0.004982461920008063,
+                  "device_projection_upload_download": 0.0007216059602797031,
+                  "cpu_hull_visibility": 0.003392845974303782,
+                  "device_clipping_integration_transfers": 0.08396194502711296,
+                  "total": 0.10216130397748202
+                },
+                "total_synthesis_seconds": 0.10493679996579885
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 7.8999999999999995,
+                "primary@t_eff": 6340.0,
+                "system@inclination": 85.58,
+                "system@mass_ratio": 0.704,
+                "system@additional_light": 0.488,
+                "nuisance@ln_f": -0.8000000000000007,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "system@primary_minimum_time": 2450000.0,
+                "secondary@t_eff": 4840.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.3969838619232178e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.0030730250291526318,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.00433804199565202,
+                  "device_state_with_transfers_compile": 0.0018705750117078424,
+                  "device_reflection_with_transfers_compile": 0.0015700910007581115,
+                  "device_radiance_ld_with_transfers": 0.004746960010379553,
+                  "device_projection_upload_download": 0.0006498110014945269,
+                  "cpu_hull_visibility": 0.003245198051445186,
+                  "device_clipping_integration_transfers": 0.017201393959112465,
+                  "total": 0.03520140901673585
+                },
+                "total_synthesis_seconds": 0.038367166998796165
+              }
+            }
+          ],
+          "native_support_difference_max_abs": {
+            "Generic.Bessell.B": 0.08282167026743259,
+            "Generic.Bessell.V": 0.07356300523209036,
+            "bolometric": 0.030493180952386734
+          }
+        },
+        {
+          "jd": false,
+          "preserve_phases": true,
+          "candidates": [
+            {
+              "parameters": {
+                "primary@surface_potential": 8.0,
+                "primary@t_eff": 6300.0,
+                "system@inclination": 85.0,
+                "system@mass_ratio": 0.7,
+                "system@additional_light": 0.2,
+                "nuisance@ln_f": -2.0,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 4800.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 2.3283064365386963e-10,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.002894069068133831,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0035491399466991425,
+                  "device_state_with_transfers_compile": 0.0017902640393003821,
+                  "device_reflection_with_transfers_compile": 0.0017222559545189142,
+                  "device_radiance_ld_with_transfers": 0.00493851990904659,
+                  "device_projection_upload_download": 0.0007231989875435829,
+                  "cpu_hull_visibility": 0.0034774550003930926,
+                  "device_clipping_integration_transfers": 0.08496495999861509,
+                  "total": 0.10266883799340576
+                },
+                "total_synthesis_seconds": 0.10565363708883524
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 8.059999999999999,
+                "primary@t_eff": 6650.0,
+                "system@inclination": 86.9,
+                "system@mass_ratio": 0.73,
+                "system@additional_light": 0.52,
+                "nuisance@ln_f": -1.0999999999999996,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 5150.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 2.3283064365386963e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.002750447951257229,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.003438541083596647,
+                  "device_state_with_transfers_compile": 0.0016542290104553103,
+                  "device_reflection_with_transfers_compile": 0.0014131959760561585,
+                  "device_radiance_ld_with_transfers": 0.004733955953270197,
+                  "device_projection_upload_download": 0.0008592949016019702,
+                  "cpu_hull_visibility": 0.0030820620013400912,
+                  "device_clipping_integration_transfers": 0.08575140801258385,
+                  "total": 0.10243812494445592
+                },
+                "total_synthesis_seconds": 0.10528122703544796
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 7.8999999999999995,
+                "primary@t_eff": 6340.0,
+                "system@inclination": 85.58,
+                "system@mass_ratio": 0.704,
+                "system@additional_light": 0.488,
+                "nuisance@ln_f": -0.8000000000000007,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 4840.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.3969838619232178e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.002888728049583733,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0045285699889063835,
+                  "device_state_with_transfers_compile": 0.0020199849968776107,
+                  "device_reflection_with_transfers_compile": 0.0021039540879428387,
+                  "device_radiance_ld_with_transfers": 0.005596486036665738,
+                  "device_projection_upload_download": 0.0008205219637602568,
+                  "cpu_hull_visibility": 0.004093431984074414,
+                  "device_clipping_integration_transfers": 0.020544414990581572,
+                  "total": 0.04124297096859664
+                },
+                "total_synthesis_seconds": 0.044213942950591445
+              }
+            }
+          ],
+          "native_support_difference_max_abs": {
+            "Generic.Bessell.B": 0.11598191574586314,
+            "Generic.Bessell.V": 0.11976070506039171,
+            "bolometric": 0.0969972244826891
+          }
+        }
+      ],
+      "qualification": {
+        "strict_sigma1e4_failures": [
+          {
+            "backend": "original_cpu",
+            "callback": "lsq",
+            "report": {
+              "status": "budget_failed",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 6.770185770934683,
+                  "rms_sigma": 3.313315087984239,
+                  "distance_sigma": 17.53241547600878,
+                  "distance_squared": 307.3855924233921,
+                  "expected_delta_log_likelihood": -153.69279621169605,
+                  "delta_chi_squared": 307.3855924233921,
+                  "delta_log_likelihood": -153.69279621169605,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 4.01989300240461,
+                  "rms_sigma": 2.029992497797272,
+                  "distance_sigma": 10.74171062499683,
+                  "distance_squared": 115.38434715116982,
+                  "expected_delta_log_likelihood": -57.69217357558491,
+                  "delta_chi_squared": 115.38434715116982,
+                  "delta_log_likelihood": -57.69217357558491,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.2193549070507288
+            }
+          },
+          {
+            "backend": "original_cpu",
+            "callback": "mcmc",
+            "report": {
+              "status": "budget_failed",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 6.770185770934683,
+                  "rms_sigma": 3.313315087984239,
+                  "distance_sigma": 17.53241547600878,
+                  "distance_squared": 307.3855924233921,
+                  "expected_delta_log_likelihood": -153.69279621169605,
+                  "delta_chi_squared": 307.3855924233921,
+                  "delta_log_likelihood": -153.69279621169605,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 4.01989300240461,
+                  "rms_sigma": 2.029992497797272,
+                  "distance_sigma": 10.74171062499683,
+                  "distance_squared": 115.38434715116982,
+                  "expected_delta_log_likelihood": -57.69217357558491,
+                  "delta_chi_squared": 115.38434715116982,
+                  "delta_log_likelihood": -57.69217357558491,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.21034125902224332
+            }
+          },
+          {
+            "backend": "hybrid",
+            "callback": "lsq",
+            "report": {
+              "status": "budget_failed",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 6.770185770934683,
+                  "rms_sigma": 3.313315087984239,
+                  "distance_sigma": 17.53241547600878,
+                  "distance_squared": 307.3855924233921,
+                  "expected_delta_log_likelihood": -153.69279621169605,
+                  "delta_chi_squared": 307.3855924233921,
+                  "delta_log_likelihood": -153.69279621169605,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 4.01989300240461,
+                  "rms_sigma": 2.029992497797272,
+                  "distance_sigma": 10.74171062499683,
+                  "distance_squared": 115.38434715116982,
+                  "expected_delta_log_likelihood": -57.69217357558491,
+                  "delta_chi_squared": 115.38434715116982,
+                  "delta_log_likelihood": -57.69217357558491,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.21107505692634732
+            }
+          },
+          {
+            "backend": "hybrid",
+            "callback": "mcmc",
+            "report": {
+              "status": "budget_failed",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 6.770185770934683,
+                  "rms_sigma": 3.313315087984239,
+                  "distance_sigma": 17.53241547600878,
+                  "distance_squared": 307.3855924233921,
+                  "expected_delta_log_likelihood": -153.69279621169605,
+                  "delta_chi_squared": 307.3855924233921,
+                  "delta_log_likelihood": -153.69279621169605,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 4.01989300240461,
+                  "rms_sigma": 2.029992497797272,
+                  "distance_sigma": 10.74171062499683,
+                  "distance_squared": 115.38434715116982,
+                  "expected_delta_log_likelihood": -57.69217357558491,
+                  "delta_chi_squared": 115.38434715116982,
+                  "delta_log_likelihood": -57.69217357558491,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.21091522788628936
+            }
+          }
+        ],
+        "low_precision_sigma": 0.05,
+        "predictions": [
+          {
+            "parameters": {
+              "primary@t_eff": 6300.0,
+              "system@inclination": 85.0,
+              "primary@albedo": 0.5,
+              "primary@gravity_darkening": 0.32,
+              "primary@metallicity": 0.0,
+              "primary@surface_potential": 8.0,
+              "primary@synchronicity": 1.0,
+              "secondary@albedo": 0.5,
+              "secondary@gravity_darkening": 0.32,
+              "secondary@metallicity": 0.0,
+              "secondary@surface_potential": 12.0,
+              "secondary@synchronicity": 1.0,
+              "system@eccentricity": 0.0,
+              "system@argument_of_periastron": 90.0,
+              "system@period": 3.0,
+              "system@mass_ratio": 0.7,
+              "system@semi_major_axis": 10.0,
+              "system@additional_light": 0.2,
+              "system@phase_shift": 0.017,
+              "nuisance@ln_f": -2.0,
+              "secondary@t_eff": 4800.0
+            },
+            "qualification": {
+              "status": "qualified",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 0.013212336578440828,
+                  "rms_sigma": 0.006538581692887084,
+                  "distance_sigma": 0.03459892217291787,
+                  "distance_squared": 0.0011970854155276278,
+                  "expected_delta_log_likelihood": -0.0005985427077638139,
+                  "delta_chi_squared": 0.0011970854155276278,
+                  "delta_log_likelihood": -0.0005985427077638139,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 0.007845010632515649,
+                  "rms_sigma": 0.004011929306292927,
+                  "distance_sigma": 0.02122913444404593,
+                  "distance_squared": 0.0004506761492433772,
+                  "expected_delta_log_likelihood": -0.0002253380746216886,
+                  "delta_chi_squared": 0.0004506761492433772,
+                  "delta_log_likelihood": -0.0002253380746216886,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.21058852295391262
+            },
+            "parity": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "posterior": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            }
+          },
+          {
+            "parameters": {
+              "primary@t_eff": 6650.0,
+              "system@inclination": 86.9,
+              "primary@albedo": 0.5,
+              "primary@gravity_darkening": 0.32,
+              "primary@metallicity": 0.0,
+              "primary@surface_potential": 8.0,
+              "primary@synchronicity": 1.0,
+              "secondary@albedo": 0.5,
+              "secondary@gravity_darkening": 0.32,
+              "secondary@metallicity": 0.0,
+              "secondary@surface_potential": 12.0,
+              "secondary@synchronicity": 1.0,
+              "system@eccentricity": 0.0,
+              "system@argument_of_periastron": 90.0,
+              "system@period": 3.0,
+              "system@mass_ratio": 0.7,
+              "system@semi_major_axis": 10.0,
+              "system@additional_light": 0.2,
+              "system@phase_shift": 0.017,
+              "nuisance@ln_f": -2.0,
+              "secondary@t_eff": 5150.0
+            },
+            "qualification": {
+              "status": "qualified",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0005440001798324712,
+                  "max_abs_sigma": 0.010902741163437415,
+                  "rms_sigma": 0.004817166686553959,
+                  "distance_sigma": 0.025490050153133617,
+                  "distance_squared": 0.000649742656809267,
+                  "expected_delta_log_likelihood": -0.0003248713284046335,
+                  "delta_chi_squared": 0.000649742656809267,
+                  "delta_log_likelihood": -0.0003248713284046335,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0003250982090017285,
+                  "max_abs_sigma": 0.006515552304660025,
+                  "rms_sigma": 0.0023199250023355988,
+                  "distance_sigma": 0.012275889233001866,
+                  "distance_squared": 0.00015069745646093116,
+                  "expected_delta_log_likelihood": -7.534872823046558e-05,
+                  "delta_chi_squared": 0.00015069745646093116,
+                  "delta_log_likelihood": -7.534872823046558e-05,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.20884615904651582
+            },
+            "parity": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 3.3306690738754696e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "posterior": {
+              "max_abs": 2.1316282072803006e-14,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            }
+          },
+          {
+            "parameters": {
+              "primary@t_eff": 6350.0,
+              "system@inclination": 86.9,
+              "primary@albedo": 0.5,
+              "primary@gravity_darkening": 0.32,
+              "primary@metallicity": 0.0,
+              "primary@surface_potential": 8.0,
+              "primary@synchronicity": 1.0,
+              "secondary@albedo": 0.5,
+              "secondary@gravity_darkening": 0.32,
+              "secondary@metallicity": 0.0,
+              "secondary@surface_potential": 12.0,
+              "secondary@synchronicity": 1.0,
+              "system@eccentricity": 0.0,
+              "system@argument_of_periastron": 90.0,
+              "system@period": 3.0,
+              "system@mass_ratio": 0.7,
+              "system@semi_major_axis": 10.0,
+              "system@additional_light": 0.2,
+              "system@phase_shift": 0.017,
+              "nuisance@ln_f": -2.0,
+              "secondary@t_eff": 4850.0
+            },
+            "qualification": {
+              "status": "qualified",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0005458184357387541,
+                  "max_abs_sigma": 0.010939182279176016,
+                  "rms_sigma": 0.004841118514662124,
+                  "distance_sigma": 0.025616791314372757,
+                  "distance_squared": 0.0006562199972441235,
+                  "expected_delta_log_likelihood": -0.00032810999862206176,
+                  "delta_chi_squared": 0.0006562199972441235,
+                  "delta_log_likelihood": -0.00032810999862206176,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0003261921565349546,
+                  "max_abs_sigma": 0.006537476979032041,
+                  "rms_sigma": 0.002331208835789291,
+                  "distance_sigma": 0.01233559766730975,
+                  "distance_squared": 0.00015216696980973774,
+                  "expected_delta_log_likelihood": -7.608348490486887e-05,
+                  "delta_chi_squared": 0.00015216696980973774,
+                  "delta_log_likelihood": -7.608348490486887e-05,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.2104197459993884
+            },
+            "parity": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 6.661338147750939e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "posterior": {
+              "max_abs": 2.842170943040401e-14,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            }
+          }
+        ],
+        "costs_including_all_cpu_checks": {
+          "direct_original_cpu": {
+            "setup_seconds": 0.00300952501129359,
+            "first_callback_seconds": 0.04536943498533219,
+            "samples_seconds": [
+              0.045207580900751054,
+              0.04506424197461456,
+              0.04529090796131641
+            ],
+            "median_seconds": 0.045207580900751054,
+            "qualification_reports": [
+              null,
+              null,
+              null
+            ]
+          },
+          "direct_hybrid": {
+            "setup_seconds": 0.0026877409545704722,
+            "first_callback_seconds": 1.2660358869470656,
+            "samples_seconds": [
+              0.10271655791439116,
+              0.10361393389757723,
+              0.3724073119228706
+            ],
+            "median_seconds": 0.10361393389757723,
+            "qualification_reports": [
+              null,
+              null,
+              null
+            ]
+          },
+          "qualified_original_cpu": {
+            "setup_seconds": 0.013018422992900014,
+            "first_callback_seconds": 0.25789529900066555,
+            "samples_seconds": [
+              0.2552272059256211,
+              0.25453098700381815,
+              0.2542912559583783
+            ],
+            "median_seconds": 0.25453098700381815,
+            "qualification_reports": [
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006770182238637901,
+                    "max_abs_sigma": 0.013212336578440828,
+                    "rms_sigma": 0.006538581692887084,
+                    "distance_sigma": 0.03459892217291787,
+                    "distance_squared": 0.0011970854155276278,
+                    "expected_delta_log_likelihood": -0.0005985427077638139,
+                    "delta_chi_squared": 0.0011970854155276278,
+                    "delta_log_likelihood": -0.0005985427077638139,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.00040198909050537246,
+                    "max_abs_sigma": 0.007845010632515649,
+                    "rms_sigma": 0.004011929306292927,
+                    "distance_sigma": 0.02122913444404593,
+                    "distance_squared": 0.0004506761492433772,
+                    "expected_delta_log_likelihood": -0.0002253380746216886,
+                    "delta_chi_squared": 0.0004506761492433772,
+                    "delta_log_likelihood": -0.0002253380746216886,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.20929905003868043
+              },
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006468918887332364,
+                    "max_abs_sigma": 0.012710389643303807,
+                    "rms_sigma": 0.006521110094072376,
+                    "distance_sigma": 0.03450647116197705,
+                    "distance_squared": 0.0011906965520523535,
+                    "expected_delta_log_likelihood": -0.0005953482760261767,
+                    "delta_chi_squared": 0.0011906965520523535,
+                    "delta_log_likelihood": -0.0005953482760261767,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0003988445860803047,
+                    "max_abs_sigma": 0.007783644114788425,
+                    "rms_sigma": 0.003993724412171675,
+                    "distance_sigma": 0.021132803199067744,
+                    "distance_squared": 0.00044659537105052786,
+                    "expected_delta_log_likelihood": -0.00022329768552526393,
+                    "delta_chi_squared": 0.00044659537105052786,
+                    "delta_log_likelihood": -0.00022329768552526393,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.2086637259926647
+              },
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006527937016400642,
+                    "max_abs_sigma": 0.012739583364730913,
+                    "rms_sigma": 0.006082528237936122,
+                    "distance_sigma": 0.032185714120213774,
+                    "distance_squared": 0.0010359201934281284,
+                    "expected_delta_log_likelihood": -0.0005179600967140642,
+                    "delta_chi_squared": 0.0010359201934281284,
+                    "delta_log_likelihood": -0.0005179600967140642,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.00039444246150854845,
+                    "max_abs_sigma": 0.0076977345344372014,
+                    "rms_sigma": 0.003969595234474236,
+                    "distance_sigma": 0.021005123592011923,
+                    "distance_squared": 0.0004412152171156958,
+                    "expected_delta_log_likelihood": -0.0002206076085578479,
+                    "delta_chi_squared": 0.0004412152171156958,
+                    "delta_log_likelihood": -0.0002206076085578479,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.20828240003902465
+              }
+            ]
+          },
+          "qualified_hybrid": {
+            "setup_seconds": 0.003004747093655169,
+            "first_callback_seconds": 1.493461268953979,
+            "samples_seconds": [
+              0.3207331990124658,
+              0.31366341398097575,
+              0.565920548979193
+            ],
+            "median_seconds": 0.3207331990124658,
+            "qualification_reports": [
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006770182238637901,
+                    "max_abs_sigma": 0.013212336578440828,
+                    "rms_sigma": 0.006538581692887084,
+                    "distance_sigma": 0.03459892217291787,
+                    "distance_squared": 0.0011970854155276278,
+                    "expected_delta_log_likelihood": -0.0005985427077638139,
+                    "delta_chi_squared": 0.0011970854155276278,
+                    "delta_log_likelihood": -0.0005985427077638139,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.00040198909050537246,
+                    "max_abs_sigma": 0.007845010632515649,
+                    "rms_sigma": 0.004011929306292927,
+                    "distance_sigma": 0.02122913444404593,
+                    "distance_squared": 0.0004506761492433772,
+                    "expected_delta_log_likelihood": -0.0002253380746216886,
+                    "delta_chi_squared": 0.0004506761492433772,
+                    "delta_log_likelihood": -0.0002253380746216886,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.2138503029709682
+              },
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006468918887332364,
+                    "max_abs_sigma": 0.012710389643303807,
+                    "rms_sigma": 0.006521110094072376,
+                    "distance_sigma": 0.03450647116197705,
+                    "distance_squared": 0.0011906965520523535,
+                    "expected_delta_log_likelihood": -0.0005953482760261767,
+                    "delta_chi_squared": 0.0011906965520523535,
+                    "delta_log_likelihood": -0.0005953482760261767,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0003988445860803047,
+                    "max_abs_sigma": 0.007783644114788425,
+                    "rms_sigma": 0.003993724412171675,
+                    "distance_sigma": 0.021132803199067744,
+                    "distance_squared": 0.00044659537105052786,
+                    "expected_delta_log_likelihood": -0.00022329768552526393,
+                    "delta_chi_squared": 0.00044659537105052786,
+                    "delta_log_likelihood": -0.00022329768552526393,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.21153914905153215
+              },
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006527937016400642,
+                    "max_abs_sigma": 0.012739583364730913,
+                    "rms_sigma": 0.006082528237936122,
+                    "distance_sigma": 0.032185714120213774,
+                    "distance_squared": 0.0010359201934281284,
+                    "expected_delta_log_likelihood": -0.0005179600967140642,
+                    "delta_chi_squared": 0.0010359201934281284,
+                    "delta_log_likelihood": -0.0005179600967140642,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.00039444246150854845,
+                    "max_abs_sigma": 0.0076977345344372014,
+                    "rms_sigma": 0.003969595234474236,
+                    "distance_sigma": 0.021005123592011923,
+                    "distance_squared": 0.0004412152171156958,
+                    "expected_delta_log_likelihood": -0.0002206076085578479,
+                    "delta_chi_squared": 0.0004412152171156958,
+                    "delta_log_likelihood": -0.0002206076085578479,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.21002832998055965
+              }
+            ]
+          }
+        },
+        "public_fit_assessment": {
+          "least_squares": {
+            "original_cpu": {
+              "constructor_seconds": 9.08703077584505e-06,
+              "seconds_including_setup_compile": 4.833257268066518,
+              "total_seconds_including_constructor": 4.833266355097294,
+              "fitted": {
+                "primary@t_eff": 6000.0,
+                "system@inclination": 84.78907129502781
+              },
+              "r_squared": 0.7755879636833818,
+              "chi_squared": 14.259109547045632,
+              "serialized_result": {
+                "primary": {
+                  "t_eff": {
+                    "value": 6000.0,
+                    "fixed": false,
+                    "unit": "K",
+                    "min": 6000.0,
+                    "max": 7000.0
+                  },
+                  "albedo": {
+                    "value": 0.5,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "gravity_darkening": {
+                    "value": 0.32,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "metallicity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "surface_potential": {
+                    "value": 8.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "synchronicity": {
+                    "value": 1.0,
+                    "fixed": true,
+                    "unit": ""
+                  }
+                },
+                "system": {
+                  "inclination": {
+                    "value": 84.78907129502781,
+                    "fixed": false,
+                    "unit": "deg",
+                    "min": 83.0,
+                    "max": 89.0
+                  },
+                  "eccentricity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "argument_of_periastron": {
+                    "value": 90.0,
+                    "fixed": true,
+                    "unit": "deg"
+                  },
+                  "period": {
+                    "value": 3.0,
+                    "fixed": true,
+                    "unit": "d"
+                  },
+                  "mass_ratio": {
+                    "value": 0.7,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "semi_major_axis": {
+                    "value": 10.0,
+                    "fixed": true,
+                    "unit": "solRad"
+                  },
+                  "additional_light": {
+                    "value": 0.2,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "phase_shift": {
+                    "value": 0.017,
+                    "fixed": true,
+                    "unit": ""
+                  }
+                },
+                "secondary": {
+                  "albedo": {
+                    "value": 0.5,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "gravity_darkening": {
+                    "value": 0.32,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "metallicity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "surface_potential": {
+                    "value": 12.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "synchronicity": {
+                    "value": 1.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "t_eff": {
+                    "value": 4500.0,
+                    "constraint": "primary@t_eff - 1500",
+                    "unit": "K"
+                  }
+                },
+                "nuisance": {
+                  "ln_f": {
+                    "value": -2.0,
+                    "fixed": true,
+                    "unit": null
+                  }
+                },
+                "r_squared": {
+                  "value": 0.7755879636833818,
+                  "unit": null
+                }
+              }
+            },
+            "hybrid": {
+              "constructor_seconds": 4.7378940507769585e-05,
+              "seconds_including_setup_compile": 6.724809765000828,
+              "total_seconds_including_constructor": 6.724857143941335,
+              "fitted": {
+                "primary@t_eff": 6000.0,
+                "system@inclination": 84.78907129507735
+              },
+              "r_squared": 0.7755879636833791,
+              "chi_squared": 14.259109547045595,
+              "serialized_result": {
+                "primary": {
+                  "t_eff": {
+                    "value": 6000.0,
+                    "fixed": false,
+                    "unit": "K",
+                    "min": 6000.0,
+                    "max": 7000.0
+                  },
+                  "albedo": {
+                    "value": 0.5,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "gravity_darkening": {
+                    "value": 0.32,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "metallicity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "surface_potential": {
+                    "value": 8.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "synchronicity": {
+                    "value": 1.0,
+                    "fixed": true,
+                    "unit": ""
+                  }
+                },
+                "system": {
+                  "inclination": {
+                    "value": 84.78907129507735,
+                    "fixed": false,
+                    "unit": "deg",
+                    "min": 83.0,
+                    "max": 89.0
+                  },
+                  "eccentricity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "argument_of_periastron": {
+                    "value": 90.0,
+                    "fixed": true,
+                    "unit": "deg"
+                  },
+                  "period": {
+                    "value": 3.0,
+                    "fixed": true,
+                    "unit": "d"
+                  },
+                  "mass_ratio": {
+                    "value": 0.7,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "semi_major_axis": {
+                    "value": 10.0,
+                    "fixed": true,
+                    "unit": "solRad"
+                  },
+                  "additional_light": {
+                    "value": 0.2,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "phase_shift": {
+                    "value": 0.017,
+                    "fixed": true,
+                    "unit": ""
+                  }
+                },
+                "secondary": {
+                  "albedo": {
+                    "value": 0.5,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "gravity_darkening": {
+                    "value": 0.32,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "metallicity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "surface_potential": {
+                    "value": 12.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "synchronicity": {
+                    "value": 1.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "t_eff": {
+                    "value": 4500.0,
+                    "constraint": "primary@t_eff - 1500",
+                    "unit": "K"
+                  }
+                },
+                "nuisance": {
+                  "ln_f": {
+                    "value": -2.0,
+                    "fixed": true,
+                    "unit": null
+                  }
+                },
+                "r_squared": {
+                  "value": 0.7755879636833791,
+                  "unit": null
+                }
+              }
+            }
+          },
+          "least_squares_parity": {
+            "primary@t_eff": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 0.01,
+              "rtol": 0
+            },
+            "system@inclination": {
+              "max_abs": 4.9539039537194185e-11,
+              "elements": 1,
+              "atol": 0.0001,
+              "rtol": 0
+            },
+            "chi_squared": {
+              "max_abs": 3.730349362740526e-14,
+              "elements": 1,
+              "atol": 1e-05,
+              "rtol": 0
+            }
+          },
+          "optimizer_max_nfev": 16,
+          "optimizer_jacobian": "2-point",
+          "sampler_smoke": {
+            "original_cpu": {
+              "constructor_seconds": 0.009395726025104523,
+              "seconds_including_setup_compile": 8.644758756970987,
+              "total_seconds_including_constructor": 8.654154482996091,
+              "chain": [
+                [
+                  [
+                    0.2967637990318088,
+                    0.332136176857745
+                  ],
+                  [
+                    0.3053427057882991,
+                    0.33389371993911626
+                  ],
+                  [
+                    0.3054034455319541,
+                    0.3306748317305012
+                  ],
+                  [
+                    0.28486298125484927,
+                    0.3246869044736722
+                  ],
+                  [
+                    0.30393377919942577,
+                    0.36394576299971115
+                  ],
+                  [
+                    0.31473652601868257,
+                    0.34951201599020487
+                  ],
+                  [
+                    0.29960535841655817,
+                    0.31500321857984764
+                  ],
+                  [
+                    0.2937067820403036,
+                    0.31754588049698784
+                  ]
+                ],
+                [
+                  [
+                    0.2983795489195751,
+                    0.3393427881715394
+                  ],
+                  [
+                    0.30422845286824446,
+                    0.3336654452222873
+                  ],
+                  [
+                    0.30553585670111,
+                    0.33835825073661907
+                  ],
+                  [
+                    0.2645901855688318,
+                    0.3187770075880532
+                  ],
+                  [
+                    0.306150105256509,
+                    0.37400123353875
+                  ],
+                  [
+                    0.314447534676149,
+                    0.3488529297944087
+                  ],
+                  [
+                    0.283385022454001,
+                    0.3167513786083901
+                  ],
+                  [
+                    0.29745549800533083,
+                    0.334553803507722
+                  ]
+                ],
+                [
+                  [
+                    0.2983795489195751,
+                    0.3393427881715394
+                  ],
+                  [
+                    0.2917672608849126,
+                    0.32355341341630367
+                  ],
+                  [
+                    0.30553585670111,
+                    0.33835825073661907
+                  ],
+                  [
+                    0.24251058296386163,
+                    0.3055173191979855
+                  ],
+                  [
+                    0.30536339895638387,
+                    0.3704319473326422
+                  ],
+                  [
+                    0.3299679354077898,
+                    0.35803897285156033
+                  ],
+                  [
+                    0.266786125016526,
+                    0.30328167369921905
+                  ],
+                  [
+                    0.29306202658689884,
+                    0.3324852406143664
+                  ]
+                ]
+              ],
+              "log_probability": [
+                [
+                  50.426354739359695,
+                  50.41877149790958,
+                  50.42408282790323,
+                  50.44333388076019,
+                  50.3355984415299,
+                  50.378303587528336,
+                  50.44299587754244,
+                  50.44494244850678
+                ],
+                [
+                  50.41165710831384,
+                  50.41976752576909,
+                  50.41005374663376,
+                  50.460146218507376,
+                  50.29341136258468,
+                  50.38029534500184,
+                  50.451241413111674,
+                  50.42174587489533
+                ],
+                [
+                  50.41165710831384,
+                  50.44085092454427,
+                  50.41005374663376,
+                  50.47710217548336,
+                  50.30909131139175,
+                  50.34445612735995,
+                  50.4628424556593,
+                  50.42772319009623
+                ]
+              ],
+              "acceptance_fraction": [
+                0.6666666666666666,
+                0.6666666666666666,
+                0.6666666666666666,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "hybrid": {
+              "constructor_seconds": 3.723998088389635e-05,
+              "seconds_including_setup_compile": 11.712451878935099,
+              "total_seconds_including_constructor": 11.712489118915983,
+              "chain": [
+                [
+                  [
+                    0.2967637990318088,
+                    0.332136176857745
+                  ],
+                  [
+                    0.3053427057882991,
+                    0.33389371993911626
+                  ],
+                  [
+                    0.3054034455319541,
+                    0.3306748317305012
+                  ],
+                  [
+                    0.28486298125484927,
+                    0.3246869044736722
+                  ],
+                  [
+                    0.30393377919942577,
+                    0.36394576299971115
+                  ],
+                  [
+                    0.31473652601868257,
+                    0.34951201599020487
+                  ],
+                  [
+                    0.29960535841655817,
+                    0.31500321857984764
+                  ],
+                  [
+                    0.2937067820403036,
+                    0.31754588049698784
+                  ]
+                ],
+                [
+                  [
+                    0.2983795489195751,
+                    0.3393427881715394
+                  ],
+                  [
+                    0.30422845286824446,
+                    0.3336654452222873
+                  ],
+                  [
+                    0.30553585670111,
+                    0.33835825073661907
+                  ],
+                  [
+                    0.2645901855688318,
+                    0.3187770075880532
+                  ],
+                  [
+                    0.306150105256509,
+                    0.37400123353875
+                  ],
+                  [
+                    0.314447534676149,
+                    0.3488529297944087
+                  ],
+                  [
+                    0.283385022454001,
+                    0.3167513786083901
+                  ],
+                  [
+                    0.29745549800533083,
+                    0.334553803507722
+                  ]
+                ],
+                [
+                  [
+                    0.2983795489195751,
+                    0.3393427881715394
+                  ],
+                  [
+                    0.2917672608849126,
+                    0.32355341341630367
+                  ],
+                  [
+                    0.30553585670111,
+                    0.33835825073661907
+                  ],
+                  [
+                    0.24251058296386163,
+                    0.3055173191979855
+                  ],
+                  [
+                    0.30536339895638387,
+                    0.3704319473326422
+                  ],
+                  [
+                    0.3299679354077898,
+                    0.35803897285156033
+                  ],
+                  [
+                    0.266786125016526,
+                    0.30328167369921905
+                  ],
+                  [
+                    0.29306202658689884,
+                    0.3324852406143664
+                  ]
+                ]
+              ],
+              "log_probability": [
+                [
+                  50.42635473935969,
+                  50.41877149790957,
+                  50.42408282790323,
+                  50.44333388076018,
+                  50.33559844152989,
+                  50.378303587528336,
+                  50.44299587754244,
+                  50.44494244850676
+                ],
+                [
+                  50.41165710831385,
+                  50.41976752576907,
+                  50.410053746633736,
+                  50.4601462185074,
+                  50.29341136258469,
+                  50.380295345001855,
+                  50.45124141311168,
+                  50.42174587489532
+                ],
+                [
+                  50.41165710831385,
+                  50.44085092454426,
+                  50.410053746633736,
+                  50.47710217548336,
+                  50.30909131139177,
+                  50.34445612735995,
+                  50.46284245565929,
+                  50.42772319009624
+                ]
+              ],
+              "acceptance_fraction": [
+                0.6666666666666666,
+                0.6666666666666666,
+                0.6666666666666666,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "chain_parity": {
+            "max_abs": 0.0,
+            "elements": 48,
+            "atol": 0,
+            "rtol": 0
+          },
+          "chain_density_parity": {
+            "max_abs": 2.1316282072803006e-14,
+            "elements": 24,
+            "atol": 1e-06,
+            "rtol": 0
+          },
+          "sampler_limitations": "3 steps,8 walkers: callback/move replay only; no convergence, posterior precision or ESS/sec"
+        },
+        "scientific_limit": "5% assigned noise and matching synthetic noise is a separate positive control, not a relaxed 1e-4 criterion. Reference meshes are empirical; no continuum certificate."
+      },
+      "wall_seconds": 52.92406703904271,
+      "contract": "Explicit original observation support; fresh original CPU target/two refinements per qualified callback outside penalty boundary, then original CPU/hybrid target evaluation. All complete costs include qualification and transfers; no physical cache or MCMC convergence claim."
+    },
+    "gpu": {
+      "device": "gpu",
+      "all_correctness_gates_passed": true,
+      "direct_mapping": [
+        {
+          "jd": false,
+          "preserve_phases": false,
+          "candidates": [
+            {
+              "parameters": {
+                "primary@surface_potential": 8.0,
+                "primary@t_eff": 6300.0,
+                "system@inclination": 85.0,
+                "system@mass_ratio": 0.7,
+                "system@additional_light": 0.2,
+                "nuisance@ln_f": -2.0,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 4800.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.1059455573558807e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.0029111900366842747,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.003437279025092721,
+                  "device_state_with_transfers_compile": 0.004494064953178167,
+                  "device_reflection_with_transfers_compile": 0.0024401049595326185,
+                  "device_radiance_ld_with_transfers": 0.003397083026356995,
+                  "device_projection_upload_download": 0.0016113080782815814,
+                  "cpu_hull_visibility": 0.003207616973668337,
+                  "device_clipping_integration_transfers": 0.00491433497518301,
+                  "total": 0.024778311024419963
+                },
+                "total_synthesis_seconds": 0.027743112994357944
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 8.059999999999999,
+                "primary@t_eff": 6650.0,
+                "system@inclination": 86.9,
+                "system@mass_ratio": 0.73,
+                "system@additional_light": 0.52,
+                "nuisance@ln_f": -1.0999999999999996,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 5150.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.1641532182693481e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.002701417077332735,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0030485789757221937,
+                  "device_state_with_transfers_compile": 0.0038382119964808226,
+                  "device_reflection_with_transfers_compile": 0.0016458630561828613,
+                  "device_radiance_ld_with_transfers": 0.0030302840750664473,
+                  "device_projection_upload_download": 0.0011221289169043303,
+                  "cpu_hull_visibility": 0.0030572840478271246,
+                  "device_clipping_integration_transfers": 0.0050966780399903655,
+                  "total": 0.021869024960324168
+                },
+                "total_synthesis_seconds": 0.024608803098089993
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 7.8999999999999995,
+                "primary@t_eff": 6340.0,
+                "system@inclination": 85.58,
+                "system@mass_ratio": 0.704,
+                "system@additional_light": 0.488,
+                "nuisance@ln_f": -0.8000000000000007,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 4840.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 1.1102230246251565e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 9.313225746154785e-10,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.0026419649366289377,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0035136729711666703,
+                  "device_state_with_transfers_compile": 0.004694040049798787,
+                  "device_reflection_with_transfers_compile": 0.002535345032811165,
+                  "device_radiance_ld_with_transfers": 0.003431557910516858,
+                  "device_projection_upload_download": 0.0014069139724597335,
+                  "cpu_hull_visibility": 0.0031745460582897067,
+                  "device_clipping_integration_transfers": 0.0038460869109258056,
+                  "total": 0.023830911028198898
+                },
+                "total_synthesis_seconds": 0.02651943394448608
+              }
+            }
+          ],
+          "native_support_difference_max_abs": {
+            "Generic.Bessell.B": 0.08282167033543264,
+            "Generic.Bessell.V": 0.07356300527658122,
+            "bolometric": 0.030493180975934342
+          }
+        },
+        {
+          "jd": true,
+          "preserve_phases": false,
+          "candidates": [
+            {
+              "parameters": {
+                "primary@surface_potential": 8.0,
+                "primary@t_eff": 6300.0,
+                "system@inclination": 85.0,
+                "system@mass_ratio": 0.7,
+                "system@additional_light": 0.2,
+                "nuisance@ln_f": -2.0,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "system@primary_minimum_time": 2450000.0,
+                "secondary@t_eff": 4800.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.1059455573558807e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.0028180560329928994,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.003464139997959137,
+                  "device_state_with_transfers_compile": 0.004563385038636625,
+                  "device_reflection_with_transfers_compile": 0.0025482280179858208,
+                  "device_radiance_ld_with_transfers": 0.003351968014612794,
+                  "device_projection_upload_download": 0.0014644019538536668,
+                  "cpu_hull_visibility": 0.003132406040094793,
+                  "device_clipping_integration_transfers": 0.005025563994422555,
+                  "total": 0.02477110899053514
+                },
+                "total_synthesis_seconds": 0.02762806706596166
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 8.059999999999999,
+                "primary@t_eff": 6650.0,
+                "system@inclination": 86.9,
+                "system@mass_ratio": 0.73,
+                "system@additional_light": 0.52,
+                "nuisance@ln_f": -1.0999999999999996,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "system@primary_minimum_time": 2450000.0,
+                "secondary@t_eff": 5150.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.1641532182693481e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.0023241470335051417,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0032557079102844,
+                  "device_state_with_transfers_compile": 0.003918934031389654,
+                  "device_reflection_with_transfers_compile": 0.001836812007240951,
+                  "device_radiance_ld_with_transfers": 0.0029727660585194826,
+                  "device_projection_upload_download": 0.0012574229622259736,
+                  "cpu_hull_visibility": 0.0030236010206863284,
+                  "device_clipping_integration_transfers": 0.004849252989515662,
+                  "total": 0.022107381955720484
+                },
+                "total_synthesis_seconds": 0.02447437006048858
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 7.8999999999999995,
+                "primary@t_eff": 6340.0,
+                "system@inclination": 85.58,
+                "system@mass_ratio": 0.704,
+                "system@additional_light": 0.488,
+                "nuisance@ln_f": -0.8000000000000007,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "system@primary_minimum_time": 2450000.0,
+                "secondary@t_eff": 4840.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 1.1102230246251565e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 9.313225746154785e-10,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.002596129081211984,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0034352949587628245,
+                  "device_state_with_transfers_compile": 0.004834315041080117,
+                  "device_reflection_with_transfers_compile": 0.0027295189211145043,
+                  "device_radiance_ld_with_transfers": 0.003423713962547481,
+                  "device_projection_upload_download": 0.0012267549755051732,
+                  "cpu_hull_visibility": 0.0031579540809616446,
+                  "device_clipping_integration_transfers": 0.003829426015727222,
+                  "total": 0.0238713170401752
+                },
+                "total_synthesis_seconds": 0.02651321201119572
+              }
+            }
+          ],
+          "native_support_difference_max_abs": {
+            "Generic.Bessell.B": 0.08282167026743259,
+            "Generic.Bessell.V": 0.07356300523209036,
+            "bolometric": 0.030493180952386734
+          }
+        },
+        {
+          "jd": false,
+          "preserve_phases": true,
+          "candidates": [
+            {
+              "parameters": {
+                "primary@surface_potential": 8.0,
+                "primary@t_eff": 6300.0,
+                "system@inclination": 85.0,
+                "system@mass_ratio": 0.7,
+                "system@additional_light": 0.2,
+                "nuisance@ln_f": -2.0,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 4800.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.1059455573558807e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.002864693058654666,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.003799760015681386,
+                  "device_state_with_transfers_compile": 0.00448785291519016,
+                  "device_reflection_with_transfers_compile": 0.0026768509997054935,
+                  "device_radiance_ld_with_transfers": 0.0033669969998300076,
+                  "device_projection_upload_download": 0.0014722160995006561,
+                  "cpu_hull_visibility": 0.003170148003846407,
+                  "device_clipping_integration_transfers": 0.00501120591070503,
+                  "total": 0.025258474051952362
+                },
+                "total_synthesis_seconds": 0.028173041064292192
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 8.059999999999999,
+                "primary@t_eff": 6650.0,
+                "system@inclination": 86.9,
+                "system@mass_ratio": 0.73,
+                "system@additional_light": 0.52,
+                "nuisance@ln_f": -1.0999999999999996,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 5150.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 1.1641532182693481e-09,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.002235610969364643,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.003221724065952003,
+                  "device_state_with_transfers_compile": 0.003971512895077467,
+                  "device_reflection_with_transfers_compile": 0.0018676200415939093,
+                  "device_radiance_ld_with_transfers": 0.0030156460124999285,
+                  "device_projection_upload_download": 0.0012077989522367716,
+                  "cpu_hull_visibility": 0.003008103114552796,
+                  "device_clipping_integration_transfers": 0.0052356988890096545,
+                  "total": 0.022521549952216446
+                },
+                "total_synthesis_seconds": 0.024789682938717306
+              }
+            },
+            {
+              "parameters": {
+                "primary@surface_potential": 7.8999999999999995,
+                "primary@t_eff": 6340.0,
+                "system@inclination": 85.58,
+                "system@mass_ratio": 0.704,
+                "system@additional_light": 0.488,
+                "nuisance@ln_f": -0.8000000000000007,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@synchronicity": 1.0,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "system@eccentricity": 0.0,
+                "system@argument_of_periastron": 90.0,
+                "system@period": 3.0,
+                "system@semi_major_axis": 10.0,
+                "system@phase_shift": 0.017,
+                "secondary@t_eff": 4840.0
+              },
+              "cpu_protocol_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 0.0,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 0.0,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 0.0,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "hybrid_vs_direct_original": {
+                "Generic.Bessell.B": {
+                  "max_abs": 1.1102230246251565e-16,
+                  "elements": 10,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "Generic.Bessell.V": {
+                  "max_abs": 4.440892098500626e-16,
+                  "elements": 13,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                },
+                "bolometric": {
+                  "max_abs": 2.220446049250313e-16,
+                  "elements": 5,
+                  "atol": 2e-12,
+                  "rtol": 3e-13
+                }
+              },
+              "posterior": {
+                "max_abs": 9.313225746154785e-10,
+                "elements": 1,
+                "atol": 1e-06,
+                "rtol": 0
+              },
+              "execution": {
+                "backend": "hybrid",
+                "fallback_reason": null,
+                "radiance_mode": "device",
+                "coverage_mode": "device",
+                "general_mode": "cpu",
+                "reflection_mode": "device",
+                "candidate_construction_seconds": 0.0026479759253561497,
+                "curve_stage_seconds": {
+                  "cpu_mesh_topology_kinematics": 0.0034279819810763,
+                  "device_state_with_transfers_compile": 0.004548948025330901,
+                  "device_reflection_with_transfers_compile": 0.0027079390129074454,
+                  "device_radiance_ld_with_transfers": 0.0034140549832955003,
+                  "device_projection_upload_download": 0.0014359980123117566,
+                  "cpu_hull_visibility": 0.0032570300390943885,
+                  "device_clipping_integration_transfers": 0.0039764828979969025,
+                  "total": 0.024039702955633402
+                },
+                "total_synthesis_seconds": 0.026731471996754408
+              }
+            }
+          ],
+          "native_support_difference_max_abs": {
+            "Generic.Bessell.B": 0.11598191574586314,
+            "Generic.Bessell.V": 0.11976070506039171,
+            "bolometric": 0.0969972244826891
+          }
+        }
+      ],
+      "qualification": {
+        "strict_sigma1e4_failures": [
+          {
+            "backend": "original_cpu",
+            "callback": "lsq",
+            "report": {
+              "status": "budget_failed",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 6.770185770934683,
+                  "rms_sigma": 3.313315087984239,
+                  "distance_sigma": 17.53241547600878,
+                  "distance_squared": 307.3855924233921,
+                  "expected_delta_log_likelihood": -153.69279621169605,
+                  "delta_chi_squared": 307.3855924233921,
+                  "delta_log_likelihood": -153.69279621169605,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 4.01989300240461,
+                  "rms_sigma": 2.029992497797272,
+                  "distance_sigma": 10.74171062499683,
+                  "distance_squared": 115.38434715116982,
+                  "expected_delta_log_likelihood": -57.69217357558491,
+                  "delta_chi_squared": 115.38434715116982,
+                  "delta_log_likelihood": -57.69217357558491,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.2386783059919253
+            }
+          },
+          {
+            "backend": "original_cpu",
+            "callback": "mcmc",
+            "report": {
+              "status": "budget_failed",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 6.770185770934683,
+                  "rms_sigma": 3.313315087984239,
+                  "distance_sigma": 17.53241547600878,
+                  "distance_squared": 307.3855924233921,
+                  "expected_delta_log_likelihood": -153.69279621169605,
+                  "delta_chi_squared": 307.3855924233921,
+                  "delta_log_likelihood": -153.69279621169605,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 4.01989300240461,
+                  "rms_sigma": 2.029992497797272,
+                  "distance_sigma": 10.74171062499683,
+                  "distance_squared": 115.38434715116982,
+                  "expected_delta_log_likelihood": -57.69217357558491,
+                  "delta_chi_squared": 115.38434715116982,
+                  "delta_log_likelihood": -57.69217357558491,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.22134637692943215
+            }
+          },
+          {
+            "backend": "hybrid",
+            "callback": "lsq",
+            "report": {
+              "status": "budget_failed",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 6.770185770934683,
+                  "rms_sigma": 3.313315087984239,
+                  "distance_sigma": 17.53241547600878,
+                  "distance_squared": 307.3855924233921,
+                  "expected_delta_log_likelihood": -153.69279621169605,
+                  "delta_chi_squared": 307.3855924233921,
+                  "delta_log_likelihood": -153.69279621169605,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 4.01989300240461,
+                  "rms_sigma": 2.029992497797272,
+                  "distance_sigma": 10.74171062499683,
+                  "distance_squared": 115.38434715116982,
+                  "expected_delta_log_likelihood": -57.69217357558491,
+                  "delta_chi_squared": 115.38434715116982,
+                  "delta_log_likelihood": -57.69217357558491,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.22297213203273714
+            }
+          },
+          {
+            "backend": "hybrid",
+            "callback": "mcmc",
+            "report": {
+              "status": "budget_failed",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 6.770185770934683,
+                  "rms_sigma": 3.313315087984239,
+                  "distance_sigma": 17.53241547600878,
+                  "distance_squared": 307.3855924233921,
+                  "expected_delta_log_likelihood": -153.69279621169605,
+                  "delta_chi_squared": 307.3855924233921,
+                  "delta_log_likelihood": -153.69279621169605,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 4.01989300240461,
+                  "rms_sigma": 2.029992497797272,
+                  "distance_sigma": 10.74171062499683,
+                  "distance_squared": 115.38434715116982,
+                  "expected_delta_log_likelihood": -57.69217357558491,
+                  "delta_chi_squared": 115.38434715116982,
+                  "delta_log_likelihood": -57.69217357558491,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": false,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.2222935470053926
+            }
+          }
+        ],
+        "low_precision_sigma": 0.05,
+        "predictions": [
+          {
+            "parameters": {
+              "primary@t_eff": 6300.0,
+              "system@inclination": 85.0,
+              "primary@albedo": 0.5,
+              "primary@gravity_darkening": 0.32,
+              "primary@metallicity": 0.0,
+              "primary@surface_potential": 8.0,
+              "primary@synchronicity": 1.0,
+              "secondary@albedo": 0.5,
+              "secondary@gravity_darkening": 0.32,
+              "secondary@metallicity": 0.0,
+              "secondary@surface_potential": 12.0,
+              "secondary@synchronicity": 1.0,
+              "system@eccentricity": 0.0,
+              "system@argument_of_periastron": 90.0,
+              "system@period": 3.0,
+              "system@mass_ratio": 0.7,
+              "system@semi_major_axis": 10.0,
+              "system@additional_light": 0.2,
+              "system@phase_shift": 0.017,
+              "nuisance@ln_f": -2.0,
+              "secondary@t_eff": 4800.0
+            },
+            "qualification": {
+              "status": "qualified",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0006770182238637901,
+                  "max_abs_sigma": 0.013212336578440828,
+                  "rms_sigma": 0.006538581692887084,
+                  "distance_sigma": 0.03459892217291787,
+                  "distance_squared": 0.0011970854155276278,
+                  "expected_delta_log_likelihood": -0.0005985427077638139,
+                  "delta_chi_squared": 0.0011970854155276278,
+                  "delta_log_likelihood": -0.0005985427077638139,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.00040198909050537246,
+                  "max_abs_sigma": 0.007845010632515649,
+                  "rms_sigma": 0.004011929306292927,
+                  "distance_sigma": 0.02122913444404593,
+                  "distance_squared": 0.0004506761492433772,
+                  "expected_delta_log_likelihood": -0.0002253380746216886,
+                  "delta_chi_squared": 0.0004506761492433772,
+                  "delta_log_likelihood": -0.0002253380746216886,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.22220625297632068
+            },
+            "parity": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "posterior": {
+              "max_abs": 1.4210854715202004e-14,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            }
+          },
+          {
+            "parameters": {
+              "primary@t_eff": 6650.0,
+              "system@inclination": 86.9,
+              "primary@albedo": 0.5,
+              "primary@gravity_darkening": 0.32,
+              "primary@metallicity": 0.0,
+              "primary@surface_potential": 8.0,
+              "primary@synchronicity": 1.0,
+              "secondary@albedo": 0.5,
+              "secondary@gravity_darkening": 0.32,
+              "secondary@metallicity": 0.0,
+              "secondary@surface_potential": 12.0,
+              "secondary@synchronicity": 1.0,
+              "system@eccentricity": 0.0,
+              "system@argument_of_periastron": 90.0,
+              "system@period": 3.0,
+              "system@mass_ratio": 0.7,
+              "system@semi_major_axis": 10.0,
+              "system@additional_light": 0.2,
+              "system@phase_shift": 0.017,
+              "nuisance@ln_f": -2.0,
+              "secondary@t_eff": 5150.0
+            },
+            "qualification": {
+              "status": "qualified",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0005440001798324712,
+                  "max_abs_sigma": 0.010902741163437415,
+                  "rms_sigma": 0.004817166686553959,
+                  "distance_sigma": 0.025490050153133617,
+                  "distance_squared": 0.000649742656809267,
+                  "expected_delta_log_likelihood": -0.0003248713284046335,
+                  "delta_chi_squared": 0.000649742656809267,
+                  "delta_log_likelihood": -0.0003248713284046335,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0003250982090017285,
+                  "max_abs_sigma": 0.006515552304660025,
+                  "rms_sigma": 0.0023199250023355988,
+                  "distance_sigma": 0.012275889233001866,
+                  "distance_squared": 0.00015069745646093116,
+                  "expected_delta_log_likelihood": -7.534872823046558e-05,
+                  "delta_chi_squared": 0.00015069745646093116,
+                  "delta_log_likelihood": -7.534872823046558e-05,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.21606257802341133
+            },
+            "parity": {
+              "Generic.Bessell.B": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 3.3306690738754696e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 2.220446049250313e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "posterior": {
+              "max_abs": 2.842170943040401e-14,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            }
+          },
+          {
+            "parameters": {
+              "primary@t_eff": 6350.0,
+              "system@inclination": 86.9,
+              "primary@albedo": 0.5,
+              "primary@gravity_darkening": 0.32,
+              "primary@metallicity": 0.0,
+              "primary@surface_potential": 8.0,
+              "primary@synchronicity": 1.0,
+              "secondary@albedo": 0.5,
+              "secondary@gravity_darkening": 0.32,
+              "secondary@metallicity": 0.0,
+              "secondary@surface_potential": 12.0,
+              "secondary@synchronicity": 1.0,
+              "system@eccentricity": 0.0,
+              "system@argument_of_periastron": 90.0,
+              "system@period": 3.0,
+              "system@mass_ratio": 0.7,
+              "system@semi_major_axis": 10.0,
+              "system@additional_light": 0.2,
+              "system@phase_shift": 0.017,
+              "nuisance@ln_f": -2.0,
+              "secondary@t_eff": 4850.0
+            },
+            "qualification": {
+              "status": "qualified",
+              "degrees": [
+                12.0,
+                8.0,
+                6.0
+              ],
+              "phase_mode": "observations",
+              "reference_backend": "original_cpu",
+              "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+              "max_distance_sigma": 0.1,
+              "continuum_certified": false,
+              "comparisons": [
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0005458184357387541,
+                  "max_abs_sigma": 0.010939182279176016,
+                  "rms_sigma": 0.004841118514662124,
+                  "distance_sigma": 0.025616791314372757,
+                  "distance_squared": 0.0006562199972441235,
+                  "expected_delta_log_likelihood": -0.00032810999862206176,
+                  "delta_chi_squared": 0.0006562199972441235,
+                  "delta_log_likelihood": -0.00032810999862206176,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                },
+                {
+                  "elements": 28,
+                  "max_abs_flux": 0.0003261921565349546,
+                  "max_abs_sigma": 0.006537476979032041,
+                  "rms_sigma": 0.002331208835789291,
+                  "distance_sigma": 0.01233559766730975,
+                  "distance_squared": 0.00015216696980973774,
+                  "expected_delta_log_likelihood": -7.608348490486887e-05,
+                  "delta_chi_squared": 0.00015216696980973774,
+                  "delta_log_likelihood": -7.608348490486887e-05,
+                  "max_distance_sigma": 0.1,
+                  "within_diagnostic_budget": true,
+                  "reference_status": "finite-resolution comparison; no continuum certification"
+                }
+              ],
+              "total_seconds": 0.21668295399285853
+            },
+            "parity": {
+              "Generic.Bessell.B": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 10,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "Generic.Bessell.V": {
+                "max_abs": 6.661338147750939e-16,
+                "elements": 13,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              },
+              "bolometric": {
+                "max_abs": 4.440892098500626e-16,
+                "elements": 5,
+                "atol": 2e-12,
+                "rtol": 3e-13
+              }
+            },
+            "posterior": {
+              "max_abs": 1.4210854715202004e-14,
+              "elements": 1,
+              "atol": 1e-06,
+              "rtol": 0
+            }
+          }
+        ],
+        "costs_including_all_cpu_checks": {
+          "direct_original_cpu": {
+            "setup_seconds": 0.003048166981898248,
+            "first_callback_seconds": 0.04534951702225953,
+            "samples_seconds": [
+              0.04564242798369378,
+              0.045055174035951495,
+              0.04488711804151535
+            ],
+            "median_seconds": 0.045055174035951495,
+            "qualification_reports": [
+              null,
+              null,
+              null
+            ]
+          },
+          "direct_hybrid": {
+            "setup_seconds": 0.0028074459405615926,
+            "first_callback_seconds": 1.467558544012718,
+            "samples_seconds": [
+              0.026906140032224357,
+              0.023957218043506145,
+              0.3358365389285609
+            ],
+            "median_seconds": 0.026906140032224357,
+            "qualification_reports": [
+              null,
+              null,
+              null
+            ]
+          },
+          "qualified_original_cpu": {
+            "setup_seconds": 0.01065198692958802,
+            "first_callback_seconds": 0.26540639193262905,
+            "samples_seconds": [
+              0.2607252849265933,
+              0.25866298004984856,
+              0.25888343492988497
+            ],
+            "median_seconds": 0.25888343492988497,
+            "qualification_reports": [
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006770182238637901,
+                    "max_abs_sigma": 0.013212336578440828,
+                    "rms_sigma": 0.006538581692887084,
+                    "distance_sigma": 0.03459892217291787,
+                    "distance_squared": 0.0011970854155276278,
+                    "expected_delta_log_likelihood": -0.0005985427077638139,
+                    "delta_chi_squared": 0.0011970854155276278,
+                    "delta_log_likelihood": -0.0005985427077638139,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.00040198909050537246,
+                    "max_abs_sigma": 0.007845010632515649,
+                    "rms_sigma": 0.004011929306292927,
+                    "distance_sigma": 0.02122913444404593,
+                    "distance_squared": 0.0004506761492433772,
+                    "expected_delta_log_likelihood": -0.0002253380746216886,
+                    "delta_chi_squared": 0.0004506761492433772,
+                    "delta_log_likelihood": -0.0002253380746216886,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.21507955098059028
+              },
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006468918887332364,
+                    "max_abs_sigma": 0.012710389643303807,
+                    "rms_sigma": 0.006521110094072376,
+                    "distance_sigma": 0.03450647116197705,
+                    "distance_squared": 0.0011906965520523535,
+                    "expected_delta_log_likelihood": -0.0005953482760261767,
+                    "delta_chi_squared": 0.0011906965520523535,
+                    "delta_log_likelihood": -0.0005953482760261767,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0003988445860803047,
+                    "max_abs_sigma": 0.007783644114788425,
+                    "rms_sigma": 0.003993724412171675,
+                    "distance_sigma": 0.021132803199067744,
+                    "distance_squared": 0.00044659537105052786,
+                    "expected_delta_log_likelihood": -0.00022329768552526393,
+                    "delta_chi_squared": 0.00044659537105052786,
+                    "delta_log_likelihood": -0.00022329768552526393,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.21256967505905777
+              },
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006527937016400642,
+                    "max_abs_sigma": 0.012739583364730913,
+                    "rms_sigma": 0.006082528237936122,
+                    "distance_sigma": 0.032185714120213774,
+                    "distance_squared": 0.0010359201934281284,
+                    "expected_delta_log_likelihood": -0.0005179600967140642,
+                    "delta_chi_squared": 0.0010359201934281284,
+                    "delta_log_likelihood": -0.0005179600967140642,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.00039444246150854845,
+                    "max_abs_sigma": 0.0076977345344372014,
+                    "rms_sigma": 0.003969595234474236,
+                    "distance_sigma": 0.021005123592011923,
+                    "distance_squared": 0.0004412152171156958,
+                    "expected_delta_log_likelihood": -0.0002206076085578479,
+                    "delta_chi_squared": 0.0004412152171156958,
+                    "delta_log_likelihood": -0.0002206076085578479,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.21336030995007604
+              }
+            ]
+          },
+          "qualified_hybrid": {
+            "setup_seconds": 0.002991660963743925,
+            "first_callback_seconds": 1.6666773119941354,
+            "samples_seconds": [
+              0.24517550505697727,
+              0.24122424994129688,
+              0.5730760600417852
+            ],
+            "median_seconds": 0.24517550505697727,
+            "qualification_reports": [
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006770182238637901,
+                    "max_abs_sigma": 0.013212336578440828,
+                    "rms_sigma": 0.006538581692887084,
+                    "distance_sigma": 0.03459892217291787,
+                    "distance_squared": 0.0011970854155276278,
+                    "expected_delta_log_likelihood": -0.0005985427077638139,
+                    "delta_chi_squared": 0.0011970854155276278,
+                    "delta_log_likelihood": -0.0005985427077638139,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.00040198909050537246,
+                    "max_abs_sigma": 0.007845010632515649,
+                    "rms_sigma": 0.004011929306292927,
+                    "distance_sigma": 0.02122913444404593,
+                    "distance_squared": 0.0004506761492433772,
+                    "expected_delta_log_likelihood": -0.0002253380746216886,
+                    "delta_chi_squared": 0.0004506761492433772,
+                    "delta_log_likelihood": -0.0002253380746216886,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.21751504705753177
+              },
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006468918887332364,
+                    "max_abs_sigma": 0.012710389643303807,
+                    "rms_sigma": 0.006521110094072376,
+                    "distance_sigma": 0.03450647116197705,
+                    "distance_squared": 0.0011906965520523535,
+                    "expected_delta_log_likelihood": -0.0005953482760261767,
+                    "delta_chi_squared": 0.0011906965520523535,
+                    "delta_log_likelihood": -0.0005953482760261767,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0003988445860803047,
+                    "max_abs_sigma": 0.007783644114788425,
+                    "rms_sigma": 0.003993724412171675,
+                    "distance_sigma": 0.021132803199067744,
+                    "distance_squared": 0.00044659537105052786,
+                    "expected_delta_log_likelihood": -0.00022329768552526393,
+                    "delta_chi_squared": 0.00044659537105052786,
+                    "delta_log_likelihood": -0.00022329768552526393,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.21513280097860843
+              },
+              {
+                "status": "qualified",
+                "degrees": [
+                  12.0,
+                  8.0,
+                  6.0
+                ],
+                "phase_mode": "observations",
+                "reference_backend": "original_cpu",
+                "noise_reference": "original normalized observational errors, independent of fitted ln_f",
+                "max_distance_sigma": 0.1,
+                "continuum_certified": false,
+                "comparisons": [
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.0006527937016400642,
+                    "max_abs_sigma": 0.012739583364730913,
+                    "rms_sigma": 0.006082528237936122,
+                    "distance_sigma": 0.032185714120213774,
+                    "distance_squared": 0.0010359201934281284,
+                    "expected_delta_log_likelihood": -0.0005179600967140642,
+                    "delta_chi_squared": 0.0010359201934281284,
+                    "delta_log_likelihood": -0.0005179600967140642,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  },
+                  {
+                    "elements": 28,
+                    "max_abs_flux": 0.00039444246150854845,
+                    "max_abs_sigma": 0.0076977345344372014,
+                    "rms_sigma": 0.003969595234474236,
+                    "distance_sigma": 0.021005123592011923,
+                    "distance_squared": 0.0004412152171156958,
+                    "expected_delta_log_likelihood": -0.0002206076085578479,
+                    "delta_chi_squared": 0.0004412152171156958,
+                    "delta_log_likelihood": -0.0002206076085578479,
+                    "max_distance_sigma": 0.1,
+                    "within_diagnostic_budget": true,
+                    "reference_status": "finite-resolution comparison; no continuum certification"
+                  }
+                ],
+                "total_seconds": 0.21565542300231755
+              }
+            ]
+          }
+        },
+        "public_fit_assessment": {
+          "least_squares": {
+            "original_cpu": {
+              "constructor_seconds": 7.193069905042648e-06,
+              "seconds_including_setup_compile": 5.036748707992956,
+              "total_seconds_including_constructor": 5.036755901062861,
+              "fitted": {
+                "primary@t_eff": 6000.0,
+                "system@inclination": 84.78907129502781
+              },
+              "r_squared": 0.7755879636833818,
+              "chi_squared": 14.259109547045632,
+              "serialized_result": {
+                "primary": {
+                  "t_eff": {
+                    "value": 6000.0,
+                    "fixed": false,
+                    "unit": "K",
+                    "min": 6000.0,
+                    "max": 7000.0
+                  },
+                  "albedo": {
+                    "value": 0.5,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "gravity_darkening": {
+                    "value": 0.32,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "metallicity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "surface_potential": {
+                    "value": 8.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "synchronicity": {
+                    "value": 1.0,
+                    "fixed": true,
+                    "unit": ""
+                  }
+                },
+                "system": {
+                  "inclination": {
+                    "value": 84.78907129502781,
+                    "fixed": false,
+                    "unit": "deg",
+                    "min": 83.0,
+                    "max": 89.0
+                  },
+                  "eccentricity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "argument_of_periastron": {
+                    "value": 90.0,
+                    "fixed": true,
+                    "unit": "deg"
+                  },
+                  "period": {
+                    "value": 3.0,
+                    "fixed": true,
+                    "unit": "d"
+                  },
+                  "mass_ratio": {
+                    "value": 0.7,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "semi_major_axis": {
+                    "value": 10.0,
+                    "fixed": true,
+                    "unit": "solRad"
+                  },
+                  "additional_light": {
+                    "value": 0.2,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "phase_shift": {
+                    "value": 0.017,
+                    "fixed": true,
+                    "unit": ""
+                  }
+                },
+                "secondary": {
+                  "albedo": {
+                    "value": 0.5,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "gravity_darkening": {
+                    "value": 0.32,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "metallicity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "surface_potential": {
+                    "value": 12.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "synchronicity": {
+                    "value": 1.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "t_eff": {
+                    "value": 4500.0,
+                    "constraint": "primary@t_eff - 1500",
+                    "unit": "K"
+                  }
+                },
+                "nuisance": {
+                  "ln_f": {
+                    "value": -2.0,
+                    "fixed": true,
+                    "unit": null
+                  }
+                },
+                "r_squared": {
+                  "value": 0.7755879636833818,
+                  "unit": null
+                }
+              }
+            },
+            "hybrid": {
+              "constructor_seconds": 4.40030125901103e-05,
+              "seconds_including_setup_compile": 6.326626851921901,
+              "total_seconds_including_constructor": 6.326670854934491,
+              "fitted": {
+                "primary@t_eff": 6000.0,
+                "system@inclination": 84.78907129507134
+              },
+              "r_squared": 0.7755879636833793,
+              "chi_squared": 14.259109547045611,
+              "serialized_result": {
+                "primary": {
+                  "t_eff": {
+                    "value": 6000.0,
+                    "fixed": false,
+                    "unit": "K",
+                    "min": 6000.0,
+                    "max": 7000.0
+                  },
+                  "albedo": {
+                    "value": 0.5,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "gravity_darkening": {
+                    "value": 0.32,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "metallicity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "surface_potential": {
+                    "value": 8.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "synchronicity": {
+                    "value": 1.0,
+                    "fixed": true,
+                    "unit": ""
+                  }
+                },
+                "system": {
+                  "inclination": {
+                    "value": 84.78907129507134,
+                    "fixed": false,
+                    "unit": "deg",
+                    "min": 83.0,
+                    "max": 89.0
+                  },
+                  "eccentricity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "argument_of_periastron": {
+                    "value": 90.0,
+                    "fixed": true,
+                    "unit": "deg"
+                  },
+                  "period": {
+                    "value": 3.0,
+                    "fixed": true,
+                    "unit": "d"
+                  },
+                  "mass_ratio": {
+                    "value": 0.7,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "semi_major_axis": {
+                    "value": 10.0,
+                    "fixed": true,
+                    "unit": "solRad"
+                  },
+                  "additional_light": {
+                    "value": 0.2,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "phase_shift": {
+                    "value": 0.017,
+                    "fixed": true,
+                    "unit": ""
+                  }
+                },
+                "secondary": {
+                  "albedo": {
+                    "value": 0.5,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "gravity_darkening": {
+                    "value": 0.32,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "metallicity": {
+                    "value": 0.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "surface_potential": {
+                    "value": 12.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "synchronicity": {
+                    "value": 1.0,
+                    "fixed": true,
+                    "unit": ""
+                  },
+                  "t_eff": {
+                    "value": 4500.0,
+                    "constraint": "primary@t_eff - 1500",
+                    "unit": "K"
+                  }
+                },
+                "nuisance": {
+                  "ln_f": {
+                    "value": -2.0,
+                    "fixed": true,
+                    "unit": null
+                  }
+                },
+                "r_squared": {
+                  "value": 0.7755879636833793,
+                  "unit": null
+                }
+              }
+            }
+          },
+          "least_squares_parity": {
+            "primary@t_eff": {
+              "max_abs": 0.0,
+              "elements": 1,
+              "atol": 0.01,
+              "rtol": 0
+            },
+            "system@inclination": {
+              "max_abs": 4.352784799266374e-11,
+              "elements": 1,
+              "atol": 0.0001,
+              "rtol": 0
+            },
+            "chi_squared": {
+              "max_abs": 2.1316282072803006e-14,
+              "elements": 1,
+              "atol": 1e-05,
+              "rtol": 0
+            }
+          },
+          "optimizer_max_nfev": 16,
+          "optimizer_jacobian": "2-point",
+          "sampler_smoke": {
+            "original_cpu": {
+              "constructor_seconds": 0.006144165992736816,
+              "seconds_including_setup_compile": 9.136893396032974,
+              "total_seconds_including_constructor": 9.143037562025711,
+              "chain": [
+                [
+                  [
+                    0.2967637990318088,
+                    0.332136176857745
+                  ],
+                  [
+                    0.3053427057882991,
+                    0.33389371993911626
+                  ],
+                  [
+                    0.3054034455319541,
+                    0.3306748317305012
+                  ],
+                  [
+                    0.28486298125484927,
+                    0.3246869044736722
+                  ],
+                  [
+                    0.30393377919942577,
+                    0.36394576299971115
+                  ],
+                  [
+                    0.31473652601868257,
+                    0.34951201599020487
+                  ],
+                  [
+                    0.29960535841655817,
+                    0.31500321857984764
+                  ],
+                  [
+                    0.2937067820403036,
+                    0.31754588049698784
+                  ]
+                ],
+                [
+                  [
+                    0.2983795489195751,
+                    0.3393427881715394
+                  ],
+                  [
+                    0.30422845286824446,
+                    0.3336654452222873
+                  ],
+                  [
+                    0.30553585670111,
+                    0.33835825073661907
+                  ],
+                  [
+                    0.2645901855688318,
+                    0.3187770075880532
+                  ],
+                  [
+                    0.306150105256509,
+                    0.37400123353875
+                  ],
+                  [
+                    0.314447534676149,
+                    0.3488529297944087
+                  ],
+                  [
+                    0.283385022454001,
+                    0.3167513786083901
+                  ],
+                  [
+                    0.29745549800533083,
+                    0.334553803507722
+                  ]
+                ],
+                [
+                  [
+                    0.2983795489195751,
+                    0.3393427881715394
+                  ],
+                  [
+                    0.2917672608849126,
+                    0.32355341341630367
+                  ],
+                  [
+                    0.30553585670111,
+                    0.33835825073661907
+                  ],
+                  [
+                    0.24251058296386163,
+                    0.3055173191979855
+                  ],
+                  [
+                    0.30536339895638387,
+                    0.3704319473326422
+                  ],
+                  [
+                    0.3299679354077898,
+                    0.35803897285156033
+                  ],
+                  [
+                    0.266786125016526,
+                    0.30328167369921905
+                  ],
+                  [
+                    0.29306202658689884,
+                    0.3324852406143664
+                  ]
+                ]
+              ],
+              "log_probability": [
+                [
+                  50.426354739359695,
+                  50.41877149790958,
+                  50.42408282790323,
+                  50.44333388076019,
+                  50.3355984415299,
+                  50.378303587528336,
+                  50.44299587754244,
+                  50.44494244850678
+                ],
+                [
+                  50.41165710831384,
+                  50.41976752576909,
+                  50.41005374663376,
+                  50.460146218507376,
+                  50.29341136258468,
+                  50.38029534500184,
+                  50.451241413111674,
+                  50.42174587489533
+                ],
+                [
+                  50.41165710831384,
+                  50.44085092454427,
+                  50.41005374663376,
+                  50.47710217548336,
+                  50.30909131139175,
+                  50.34445612735995,
+                  50.4628424556593,
+                  50.42772319009623
+                ]
+              ],
+              "acceptance_fraction": [
+                0.6666666666666666,
+                0.6666666666666666,
+                0.6666666666666666,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            },
+            "hybrid": {
+              "constructor_seconds": 3.6788987927138805e-05,
+              "seconds_including_setup_compile": 10.126279760967009,
+              "total_seconds_including_constructor": 10.126316549954936,
+              "chain": [
+                [
+                  [
+                    0.2967637990318088,
+                    0.332136176857745
+                  ],
+                  [
+                    0.3053427057882991,
+                    0.33389371993911626
+                  ],
+                  [
+                    0.3054034455319541,
+                    0.3306748317305012
+                  ],
+                  [
+                    0.28486298125484927,
+                    0.3246869044736722
+                  ],
+                  [
+                    0.30393377919942577,
+                    0.36394576299971115
+                  ],
+                  [
+                    0.31473652601868257,
+                    0.34951201599020487
+                  ],
+                  [
+                    0.29960535841655817,
+                    0.31500321857984764
+                  ],
+                  [
+                    0.2937067820403036,
+                    0.31754588049698784
+                  ]
+                ],
+                [
+                  [
+                    0.2983795489195751,
+                    0.3393427881715394
+                  ],
+                  [
+                    0.30422845286824446,
+                    0.3336654452222873
+                  ],
+                  [
+                    0.30553585670111,
+                    0.33835825073661907
+                  ],
+                  [
+                    0.2645901855688318,
+                    0.3187770075880532
+                  ],
+                  [
+                    0.306150105256509,
+                    0.37400123353875
+                  ],
+                  [
+                    0.314447534676149,
+                    0.3488529297944087
+                  ],
+                  [
+                    0.283385022454001,
+                    0.3167513786083901
+                  ],
+                  [
+                    0.29745549800533083,
+                    0.334553803507722
+                  ]
+                ],
+                [
+                  [
+                    0.2983795489195751,
+                    0.3393427881715394
+                  ],
+                  [
+                    0.2917672608849126,
+                    0.32355341341630367
+                  ],
+                  [
+                    0.30553585670111,
+                    0.33835825073661907
+                  ],
+                  [
+                    0.24251058296386163,
+                    0.3055173191979855
+                  ],
+                  [
+                    0.30536339895638387,
+                    0.3704319473326422
+                  ],
+                  [
+                    0.3299679354077898,
+                    0.35803897285156033
+                  ],
+                  [
+                    0.266786125016526,
+                    0.30328167369921905
+                  ],
+                  [
+                    0.29306202658689884,
+                    0.3324852406143664
+                  ]
+                ]
+              ],
+              "log_probability": [
+                [
+                  50.426354739359695,
+                  50.418771497909574,
+                  50.42408282790323,
+                  50.443333880760186,
+                  50.335598441529925,
+                  50.37830358752832,
+                  50.442995877542444,
+                  50.44494244850677
+                ],
+                [
+                  50.41165710831385,
+                  50.41976752576908,
+                  50.41005374663374,
+                  50.46014621850738,
+                  50.293411362584685,
+                  50.38029534500185,
+                  50.45124141311166,
+                  50.42174587489531
+                ],
+                [
+                  50.41165710831385,
+                  50.440850924544264,
+                  50.41005374663374,
+                  50.47710217548337,
+                  50.309091311391754,
+                  50.34445612735994,
+                  50.46284245565929,
+                  50.427723190096245
+                ]
+              ],
+              "acceptance_fraction": [
+                0.6666666666666666,
+                0.6666666666666666,
+                0.6666666666666666,
+                1.0,
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ]
+            }
+          },
+          "chain_parity": {
+            "max_abs": 0.0,
+            "elements": 48,
+            "atol": 0,
+            "rtol": 0
+          },
+          "chain_density_parity": {
+            "max_abs": 2.1316282072803006e-14,
+            "elements": 24,
+            "atol": 1e-06,
+            "rtol": 0
+          },
+          "sampler_limitations": "3 steps,8 walkers: callback/move replay only; no convergence, posterior precision or ESS/sec"
+        },
+        "scientific_limit": "5% assigned noise and matching synthetic noise is a separate positive control, not a relaxed 1e-4 criterion. Reference meshes are empirical; no continuum certificate."
+      },
+      "wall_seconds": 52.389589059050195,
+      "contract": "Explicit original observation support; fresh original CPU target/two refinements per qualified callback outside penalty boundary, then original CPU/hybrid target evaluation. All complete costs include qualification and transfers; no physical cache or MCMC convergence claim."
+    }
+  },
+  "production_restoration": [
+    {
+      "window": "background-m009-w015",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T09:04:18.306892+00:00",
+      "durable_cells_before": 1256330551,
+      "durable_cells_after": 1256336695,
+      "durable_cells_advanced": 6144,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 134.84610613202676
+    },
+    {
+      "window": "background-m009-w016",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T09:07:18.152124+00:00",
+      "durable_cells_before": 1256436791,
+      "durable_cells_after": 1256440887,
+      "durable_cells_advanced": 4096,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 145.08905980084091
+    },
+    {
+      "window": "background-m009-w017",
+      "status": "restored_and_advancing",
+      "verified_utc": "2026-11-17T09:09:27.314729+00:00",
+      "durable_cells_before": 1256472119,
+      "durable_cells_after": 1256474167,
+      "durable_cells_advanced": 2048,
+      "source_release_reverified": true,
+      "config_and_plan_unchanged": true,
+      "matching_resume_record_verified": true,
+      "exact_original_command_and_service_verified": true,
+      "clean_test_unit_exit_verified": true,
+      "last_receipt_witness_endpoints_verified": true,
+      "full_historical_reaudit": false,
+      "test_commands_seconds": 109.47218349401373
+    }
+  ],
+  "protocol": {
+    "default": "native interpolation/support is unchanged; all new behavior is explicit opt-in",
+    "phase_mode_observations": "Original direct predictor on actual observation union each proposal, bypasses unused support setup; original dynamic JD/phase conversion, reducers/order/repeats, support-mean l3, maximum then observation-mean normalization and noise law retained",
+    "resolution_check": "Original CPU target12deg +8deg +6deg on independently copied Observers, both target-to-finest and middle-to-finest joint D<=0.1; check fresh each candidate, then requested CPU/hybrid target evaluated",
+    "noise_budget": "Original normalized observational y_err, independent of fitted ln_f. Actual posterior retains original sigma\u00b2*(1+exp(2ln_f)).",
+    "failure_policy": "Resolution/reference failure aborts outside original catch-all LSQ/MCMC handlers even emergencyTrue; never physical-prior cut, invalid-model diagnostic or same-grid CPU fallback. Actual original target/preparation failures retain original rejection policy. Prior exclusions do no synthesis.",
+    "reference_domain": "Exactly two finer decreasing CPU grids >=3deg; finite empirical comparison, not continuum certificate or monotonicity assumption",
+    "unsupported_device": "Original complete CPU target fallback, preserving finite posterior when valid. Fallback cannot repair shared mesh error.",
+    "runtime": "Single caller/serial synthesis/LSQ/MCMC; no global CPU patch/backend registration, default change, physical cache or retained accuracy certificate"
+  },
+  "scientific_assessment": {
+    "high_precision": "Known1e-4 fixture fails the explicit budget in CPU and hybrid LSQ/MCMC before GPU synthesis; this is a controlled accuracy stop, not an implementation-parity failure.",
+    "positive_control": "Separate assigned sigma0.05 with matching independent seeded Gaussian synthetic noise909; not a relaxed1e-4 criterion. All selected candidate finite checks pass. Weak fit hits the T6000K lower bound; no parameter recovery claim.",
+    "inference": "Original public16-evaluation two-point/diff_step1e-4 two-parameter LSQ and8walkers/3steps sampler replay; no changes to priors, bounds, serializers or move implementations. No convergence, ESS/sec, calibrated uncertainty, domain-wide certificate or continuum posterior claim.",
+    "accuracy_budget": "D0.1 corresponds to expected loss0.005 for data generated by finite reference; it does not bound the realized residual cross-term or omitted physics.",
+    "remaining": "Finer/adaptive surface convergence at1e-4, including contacts/reflection; finite exposure, missing spectral/model systematics and longer-chain convergence remain separate"
+  },
+  "timing_conditions": {
+    "matched": "Sequential CPU-forced then GPU driver inside window017, same affinity0-15/Nice10/threads1/FP64 and complete host output contracts; three warm changed-vector samples.",
+    "callbacks": "Complete original parameter/prior/likelihood work, fresh physical curves, all CPU references when enabled, CPU bridges, device dispatch and all transfers. Setup is separate; first per-instance callback includes compilation incurred but process code caches can already be warm.",
+    "fits": "Constructor plus public fit() includes setup, compilation incurred, qualification/callbacks, original optimization/sampler and serialization. Auxiliary dataset generation, option copying, post-fit diagnostic prediction/parity and result-list conversions are outside fitter subtimers but included in complete driver wall time.",
+    "qualification": "CPU target and both refinements plus requested target always charged; CPU target is currently deliberately repeated, not reused to claim an acceleration.",
+    "development": "Cores16-19/Nice19 CPU development while production runs is correctness evidence only, excluded from matched measurements.",
+    "limits": "Small sample counts and short replay do not establish general throughput or ESS/sec; fine-grid fallback and accuracy failures are disclosed"
+  },
+  "reproduce": [
+    "python -m pytest tests/tests_experimental -q -rs",
+    "python scripts/validate_gpu_protocol.py --device cpu --output protocol-cpu.json",
+    "python scripts/validate_gpu_protocol.py --device gpu --output protocol-gpu.json"
+  ]
+}

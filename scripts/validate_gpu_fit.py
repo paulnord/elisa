@@ -31,6 +31,13 @@ from elisa.experimental.gpu_fit import (
     HybridOvercontactLeastSquaresFit,
     HybridOvercontactMCMCFit,
 )
+from elisa.experimental.gpu_protocol import (
+    MeshResolutionCheck,
+    ProtocolDetachedLeastSquaresFit,
+    ProtocolDetachedMCMCFit,
+    ProtocolOvercontactLeastSquaresFit,
+    ProtocolOvercontactMCMCFit,
+)
 
 BANDS = ("Generic.Bessell.B", "Generic.Bessell.V", "bolometric")
 
@@ -117,11 +124,14 @@ def make_problem(
 def prepare_fit(
     problem: FitProblem, *, kind: str = "mcmc", device: str | None = None, radiance: str = "device",
     general: str = "cpu", morphology: str = "detached", reflection: str = "device",
+    phase_mode: str = "native", resolution_check: MeshResolutionCheck | None = None,
 ) -> Any:
     """Use the same real set_up for original and experimental fitting classes."""
-    original_cls, hybrid_cls = fit_classes(kind, morphology)
-    fit = (original_cls() if device is None
-           else hybrid_cls(device=device, radiance=radiance, general=general, reflection=reflection))
+    options = {"phase_mode": phase_mode, "resolution_check": resolution_check}
+    protocol = phase_mode != "native" or resolution_check is not None
+    original_cls, hybrid_cls = fit_classes(kind, morphology, protocol=protocol)
+    fit = (original_cls(**(options if protocol else {})) if device is None
+           else hybrid_cls(device=device, radiance=radiance, general=general, reflection=reflection, **options))
     fit.atmosphere_model, fit.limb_darkening_coefficients = deepcopy(problem.atmosphere), deepcopy(problem.ld)
     fit.set_up(parameters.BinaryInitialParameters(**deepcopy(problem.config)), deepcopy(problem.data),
                passband=list(problem.data), observer_system_cls=BinarySystem, **deepcopy(problem.setup))
@@ -131,13 +141,16 @@ def prepare_fit(
     return fit
 
 
-def fit_classes(kind: str, morphology: str) -> tuple[Any, Any]:
+def fit_classes(kind: str, morphology: str, *, protocol: bool = False) -> tuple[Any, Any]:
     """Return matching morphology-specific original and experimental classes."""
     if kind == "mcmc":
-        return ((mcmc.DetachedLightCurveFit, HybridDetachedMCMCFit) if morphology == "detached"
-                else (mcmc.OvercontactLightCurveFit, HybridOvercontactMCMCFit))
-    return ((least_squares.DetachedLightCurveFit, HybridDetachedLeastSquaresFit) if morphology == "detached"
-            else (least_squares.OvercontactLightCurveFit, HybridOvercontactLeastSquaresFit))
+        return (((ProtocolDetachedMCMCFit if protocol else mcmc.DetachedLightCurveFit), HybridDetachedMCMCFit)
+                if morphology == "detached" else
+                ((ProtocolOvercontactMCMCFit if protocol else mcmc.OvercontactLightCurveFit), HybridOvercontactMCMCFit))
+    return (((ProtocolDetachedLeastSquaresFit if protocol else least_squares.DetachedLightCurveFit),
+             HybridDetachedLeastSquaresFit) if morphology == "detached" else
+            ((ProtocolOvercontactLeastSquaresFit if protocol else least_squares.OvercontactLightCurveFit),
+             HybridOvercontactLeastSquaresFit))
 
 
 def normalized_vector(fit: Any) -> np.ndarray:
@@ -210,14 +223,17 @@ def fit_assessment(
     device: str, *, steps: int = 3, problem: FitProblem | None = None, general: str = "cpu",
     morphology: str = "detached", max_nfev: int = 16, jac: str = "2-point",
     reflection: str = "device",
+    phase_mode: str = "native", resolution_check: MeshResolutionCheck | None = None,
 ) -> dict[str, Any]:
     """Exercise actual original fit() lifecycle and serialized result contracts."""
     problem = make_problem() if problem is None else problem
     results = {}
-    cpu_cls, gpu_cls = fit_classes("lsq", morphology)
-    for label, cls, options in [("original_cpu", cpu_cls, {}),
+    protocol = phase_mode != "native" or resolution_check is not None
+    protocol_options = {"phase_mode": phase_mode, "resolution_check": resolution_check}
+    cpu_cls, gpu_cls = fit_classes("lsq", morphology, protocol=protocol)
+    for label, cls, options in [("original_cpu", cpu_cls, protocol_options if protocol else {}),
                                 ("hybrid", gpu_cls, {"device": device, "general": general,
-                                                     "reflection": reflection})]:
+                                                     "reflection": reflection, **protocol_options})]:
         constructed_at = perf_counter()
         fit = cls(**options)
         constructor_seconds = perf_counter() - constructed_at
@@ -242,14 +258,14 @@ def fit_assessment(
     differences["chi_squared"] = compare(results["hybrid"]["chi_squared"], results["original_cpu"]["chi_squared"],
                                          atol=1e-5, rtol=0)
     samplers = {}
-    starting = prepare_fit(problem, morphology=morphology)
+    starting = prepare_fit(problem, morphology=morphology, **protocol_options)
     initial = normalized_vector(starting) + np.random.default_rng(813).normal(0, 0.01, (8, len(starting.fitable)))
     random_state = np.random.get_state()  # noqa: NPY002 - replay original emcee contract
     try:
-        cpu_cls, gpu_cls = fit_classes("mcmc", morphology)
-        for label, cls, options in [("original_cpu", cpu_cls, {}),
+        cpu_cls, gpu_cls = fit_classes("mcmc", morphology, protocol=protocol)
+        for label, cls, options in [("original_cpu", cpu_cls, protocol_options if protocol else {}),
                                     ("hybrid", gpu_cls, {"device": device, "general": general,
-                                                         "reflection": reflection})]:
+                                                         "reflection": reflection, **protocol_options})]:
             constructed_at = perf_counter()
             fit = cls(**options)
             constructor_seconds = perf_counter() - constructed_at

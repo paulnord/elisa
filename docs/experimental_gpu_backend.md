@@ -6,6 +6,8 @@ history. Current irradiation is described in
 [device mutual irradiation](#device-mutual-irradiation-in-complete-curves).
 The broader physical-routing option is described in
 [original physical routing with device integration](#broader-original-physical-routing-with-device-integration).
+Opt-in cadence and finite-mesh qualification are described in
+[observation-phase and mesh-qualified fitting](#observation-phase-and-mesh-qualified-fitting).
 
 This branch starts a GPU-backend development effort; **it is not a GPU port of
 ELISa's stellar model and not a production fitting option**. Existing CPU fitting
@@ -785,3 +787,76 @@ their sampled diagnostic budgets. Read [Ada progress](ada_progress.md) and
 [curated evidence](ada_validation/background-m008.json) for actual errors,
 complete costs, source hashes, figure reproduction and unresolved accuracy scope.
 No convergence, continuum posterior or ESS/sec claim follows.
+
+## Observation-phase and mesh-qualified fitting
+
+All four `Hybrid*LeastSquaresFit`/`Hybrid*MCMCFit` classes accept
+`phase_mode="observations"`. Default `"native"` preserves original support
+selection and interpolation. Observation mode synthesizes freshly at the original
+observation union each call; it bypasses unused uniform/manual/adaptive support
+preparation. Original dynamic JD/phase conversion, phase preservation/shift,
+reducers, repeated per-band observations, maximum-then-mean normalization,
+third-light and noise laws remain in the original predictor. This explicit
+cadence-dependent third-light convention can differ from native support synthesis
+even with arbitrarily dense interpolation grids. It is instantaneous synthesis,
+without exposure integration.
+
+```python
+from elisa.experimental.gpu_fit import HybridDetachedLeastSquaresFit
+from elisa.experimental.gpu_protocol import MeshResolutionCheck
+
+fit = HybridDetachedLeastSquaresFit(
+    device="gpu", phase_mode="observations",
+    resolution_check=MeshResolutionCheck(
+        refinement_degrees=(8.0, 6.0), max_distance_sigma=0.1,
+    ),
+)
+# Use the original fit()/set_up() inputs with discretization=12.0.
+```
+
+The CPU-only counterparts in `elisa.experimental.gpu_protocol` are
+`ProtocolDetachedLeastSquaresFit`, `ProtocolOvercontactLeastSquaresFit`,
+`ProtocolDetachedMCMCFit`, and `ProtocolOvercontactMCMCFit`. They use the same
+optional protocol and original CPU synthesis. No global CPU fitter/default or
+analytics-task backend registration changes. Both protocols require serial
+synthesis/optimizer/sampler use; instances are single-caller objects.
+
+`resolution_check=None` disables mesh qualification. If supplied, it requires
+observation mode and exactly two strictly finer decreasing references, each at
+least 3 degrees, within the already exercised CPU grid range. At **each candidate**,
+the original CPU model runs on the target and both finer meshes, on copied
+Observers retaining passband/atmosphere/LD settings. Both target-to-finest and
+middle-to-finest concatenated-band distances must satisfy the configured budget.
+This guards against simple endpoint cancellation without assuming monotone
+convergence. The noise scale is the original **normalized observational y_err**,
+independent of fitted ln_f; increasing nuisance noise cannot evade qualification.
+The original likelihood still uses its unchanged noise-inflation law.
+
+Qualification executes **before** the original LSQ/MCMC candidate-penalty
+handlers. `ResolutionNotQualifiedError.report` and `last_resolution_check` expose
+the failed budget or failed refinement. The exception aborts the fit/run even
+with `PENALIZE_ALL_EXCEPTIONS=True`; it is never an infinite residual, -inf prior
+cut, diagnostic invalid-model count, or CPU fallback. A failed original target
+retains its exact original physical-candidate rejection policy. Out-of-prior
+MCMC proposals retain their original rejection without synthesis/check work.
+Unsupported device physics/resources still use the complete original CPU target;
+that fallback cannot cure shared discretization error.
+
+Only successful empirical checks proceed to the requested CPU/hybrid target
+evaluation. The three CPU checks and that final target are all included in
+complete costs; the CPU path currently repeats the target deliberately. No
+physical predictions or accuracy certificates are cached. A finite-grid pass is
+**not a continuum bound**, model-systematics assessment, or guarantee of a
+data-dependent likelihood change. D<=0.1 corresponds to expected likelihood loss
+0.005 if the finite reference generates the data. Budget/reference/phase settings
+are explicit construction-time choices; do not adapt them during a run to make
+failed proposals pass. A failure requires a scientifically revised numerical
+protocol and a fresh fit/run, rather than continuing a selectively truncated chain.
+
+Run `tests/tests_experimental/test_gpu_protocol.py` and
+`scripts/validate_gpu_protocol.py --device cpu --output protocol-cpu.json`;
+GPU variants require an independently restored bounded allocation. The driver
+tests original direct mapping and posterior parity, explicit 1e-4 mesh failure,
+a separate 5% noise positive control with public physical fits/short sampler
+replay, and complete transfer-inclusive qualification costs. See
+[Ada progress](ada_progress.md) for actual results and remaining surface accuracy.

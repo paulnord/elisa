@@ -1,10 +1,12 @@
 """Opt-in HYBRID physical fitting using the original ELISa fitting callbacks.
 
-Only the synthesis hook changes. Parameter/constraint serialization, support
+With native defaults only the synthesis hook changes. Parameter/constraint serialization, support
 selection, JD/phase mapping, interpolation, per-band observation-mean
 normalization, residuals, noise likelihood, priors and failure policy are the
 existing CPU implementations. Physical curves are rebuilt for every proposal;
 this is neither device-resident sampling nor a production backend registration.
+Explicit observation-phase/empirical mesh checks are optional protocols shared
+with CPU wrappers; their accuracy failures abort outside candidate penalties.
 """
 
 from __future__ import annotations
@@ -18,6 +20,12 @@ from elisa.analytics.binary_fit import least_squares, mcmc
 from elisa.analytics.models import lc
 from elisa.experimental.gpu_binary import HybridBinaryLightCurve
 from elisa.experimental.gpu_likelihood import _jax_device
+from elisa.experimental.gpu_protocol import (
+    MeshResolutionCheck,
+    ProtocolLeastSquaresMixin,
+    ProtocolMCMCMixin,
+    ProtocolPredictionMixin,
+)
 
 if TYPE_CHECKING:
     import numpy as np
@@ -106,14 +114,15 @@ class HybridBinarySynthesis:
         return result.fluxes
 
 
-class _HybridPredictionMixin:
+class _HybridPredictionMixin(ProtocolPredictionMixin):
     """Replace only the optional synthesis argument of the existing fitters."""
 
     def __init__(
         self, *, device: str = "gpu", coverage: str = "device", radiance: str = "device", general: str = "cpu",
         reflection: str = "device",
+        phase_mode: str = "native", resolution_check: MeshResolutionCheck | None = None,
     ) -> None:
-        super().__init__()
+        super().__init__(phase_mode=phase_mode, resolution_check=resolution_check)
         self.hybrid_synthesis = HybridBinarySynthesis(device=device, coverage=coverage,
                                                       radiance=radiance, general=general, reflection=reflection)
 
@@ -127,7 +136,7 @@ class _HybridPredictionMixin:
         return super().predict_light_curves(model_parameters, synthesis=self.hybrid_synthesis, **kwargs)
 
 
-class _HybridLeastSquares(_HybridPredictionMixin):
+class _HybridLeastSquares(_HybridPredictionMixin, ProtocolLeastSquaresMixin):
     """Experimental serial LSQ: original residual/optimizer, fresh hybrid physics.
 
     set_up and fit retain original argument/normalization semantics. The actual
@@ -146,7 +155,7 @@ class _HybridLeastSquares(_HybridPredictionMixin):
         return super().fit(*args, **kwargs)
 
 
-class _HybridMCMC(_HybridPredictionMixin):
+class _HybridMCMC(_HybridPredictionMixin, ProtocolMCMCMixin):
     """Experimental serial MCMC with original likelihood/prior/failure semantics.
 
     Proposals and emcee moves remain on CPU. Each physical callback constructs a
