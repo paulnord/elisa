@@ -61,6 +61,41 @@ def recorded_packet(triangles: Any, geometry: Any, line: Any, rule: Any, foregro
     return result
 
 
+_PARTITION_FACES = 8192
+
+
+def partitioned_packet(triangles: Any, geometry: Any, line: Any, rule: Any, foreground: Any = None) -> dict:
+    """Bound temporary depth-four frontiers and enforce the cap on the combined final packet."""
+    block = _PARTITION_FACES
+    if rule.depth < 4 or len(triangles) <= block:
+        return recorded_packet(triangles, geometry, line, rule, foreground)
+    parts = []
+    total = 0
+    for start in range(0, len(triangles), block):
+        part = recorded_packet(triangles[start : start + block], geometry, line, rule, foreground)
+        total += part["nodes"]
+        if total > rule.max_nodes:
+            msg = "Combined curved-edge quadrature exceeds explicit node cap"
+            raise UnsupportedCurvedGeometryError(msg)
+        part["parents"] += start
+        parts.append(part)
+    result = _Packet()
+    for key in ("mu", "area", "parents"):
+        result[key] = np.concatenate([p[key] for p in parts])
+    result.rays = np.concatenate([p.rays for p in parts])
+    counts = []
+    for depth in range(max(len(p["counts"]) for p in parts)):
+        rows = [p["counts"][depth] for p in parts if len(p["counts"]) > depth]
+        counts.append({k: depth if k == "depth" else sum(r[k] for r in rows) for k in rows[0]})
+    result["counts"] = counts
+    for key in parts[0].keys() - result.keys():
+        values = [p[key] for p in parts]
+        result[key] = max(values) if key == "max_absolute_slice_shift" else sum(values)
+    result["partition_faces"] = block
+    result["largest_partition_nodes"] = max(p["nodes"] for p in parts)
+    return result
+
+
 class ReconstructedObserverLightCurve(FusedObserverLightCurve):
     """Fresh positive C0 moment fields; unchanged thermal/reflection equations.
 
@@ -131,10 +166,7 @@ class ReconstructedObserverLightCurve(FusedObserverLightCurve):
                 results=tuple(
                     replace(
                         r,
-                        curves={
-                            k: replace(v, rule={**v.rule, self.field_rule: 1})
-                            for k, v in r.curves.items()
-                        },
+                        curves={k: replace(v, rule={**v.rule, self.field_rule: 1}) for k, v in r.curves.items()},
                         diagnostics={
                             **r.diagnostics,
                             "field_contract": self.field_contract,

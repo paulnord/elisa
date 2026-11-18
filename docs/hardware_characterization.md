@@ -1,5 +1,31 @@
 # Ada workload and hardware characterization
 
+## m024 — Transfer-inclusive receiver irradiation
+
+The timing pairs compare fresh physical proposals, complete reflected curves at two finite resolutions and the same observational likelihood and accuracy checks. The host computes the stencil geometry, manages the adaptive eclipse frontier, prepares LD data and completes the original density. CUDA performs the thermal reconstruction, resident geometry and other existing device stages. The fine fitting accuracy gate remains active.
+
+| Changing proposals | Warm calls per process | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm CPU/GPU | Complete process CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 10 | 10.25 / 10.20 | Unmeasured | 32.96 / 3.97 | 2.57× | 1.45× |
+| 4 | 1 | 40.77 / 40.83 | 91.28 / 61.59 | 46.11 / 16.84 | 2.43× | 1.26× |
+
+The B1 Nsight Systems warm range spanned 5.64 s. CUDA kernels occupied 0.970 s in union and device copy intervals occupied 0.051 s in union. Original CPU boundary reference work serialized with respect to recorded device activity occupied 32.0% of the range. Doubling that measured CPU segment alone would give a conditional 1.19× whole-range speedup. The trace includes profiling overhead. The throughput table uses independent unprofiled processes. A GPU DRAM bandwidth speedup remains unquantified. The ledger retains individual changed-call timings, sampled link states and memory, transfer counts/bytes and interval overlap. [Machine-readable results](ada_validation/background-m024.json)
+
+## Colab A100 comparison for the m022 four-proposal batch
+
+Paul ran the m022 curved-area thermal model on a Colab NVIDIA A100-SXM4-40GB. Each process evaluated the same four changing proposals twice, including both finite fields, eclipse curves, host outputs and likelihood checks. All eight finite-field checks stopped at the original accuracy threshold. All 24 reported adaptive traces matched their archived counterparts. The console transcription supplies one warm sample per backend. The raw Colab archive was unavailable at transcription.
+
+| Host and backend | First complete batch (s) | Changed warm batch (s) | Process through both outputs (s) |
+| --- | ---: | ---: | ---: |
+| Colab serial CPU reference | 84.06 | 83.88 | 170.56 |
+| Colab JAX CPU | 137.46 | 83.22 | 224.88 |
+| Colab A100 | 80.14 | 30.75 | 123.32 |
+| Ada serial CPU reference | 37.08 | 37.10 | 75.70 |
+| Ada JAX CPU | 87.82 | 61.40 | 151.76 |
+| Ada RTX 3080 Ti | 41.34 | 16.88 | 61.00 |
+
+On Colab, the warm batch ran 2.73× faster on GPU than on the serial CPU reference. The ratio including startup and both outputs was 1.38×. Dependency installation took another 80.25 s outside these process times. The RTX host completed the warm GPU batch in 55% of the A100 host's time. Host CPU, runtime and accelerator all differed. Ada's geometry, clipping and hashing occupied 16.00 s of its 16.88 s warm batch, including nested GPU work. The supplied Colab output has no equivalent stage timeline. This experiment leaves the bandwidth contribution and posterior sampling rate unmeasured. [Matched m022 Ada evidence](ada_validation/background-m022.json)
+
 ## m023 — Face-local spectral fields
 
 Ada's Ryzen 9 5950X and RTX 3080 Ti ran the same changing binaries, two field levels, multi-band curves and original mapped density and accuracy checks. The reference uses original CPU physics on the curved finite geometry. JAX CPU and CUDA use the compiled local thermal and sampling kernels. The CPU LD/atlas preparation, transfers of corner spectra and host packets, synchronization, and returned full curves are inside the timings. The implementation also computes the parent face spectra while preparing the irradiated star. Source moments remain on the selected device across a candidate's phases.

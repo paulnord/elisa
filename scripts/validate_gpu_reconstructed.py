@@ -28,7 +28,7 @@ from elisa import units as astro_units
 from elisa.analytics.models import cost_fns
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule, InferenceBudget
 from elisa.experimental.gpu_fused_observer import FusedObserverLightCurve
-from elisa.experimental.gpu_nodal_source import NodalSourceLightCurve
+from elisa.experimental.gpu_nodal_source import NodalSourceLightCurve, ReceiverSourceLightCurve
 from elisa.experimental.gpu_observer_edges import ObserverDeviceLightCurve
 from elisa.experimental.gpu_protocol import ResolutionNotQualifiedError
 from elisa.experimental.gpu_reconstructed_observer import ReconstructedObserverLightCurve
@@ -146,7 +146,7 @@ def main() -> None:
     parser.add_argument("--backend", choices=["reference", "cpu", "gpu"], required=True)
     parser.add_argument(
         "--engine",
-        choices=["reconstructed", "fused", "observer", "area-thermal", "nodal-source"],
+        choices=["reconstructed", "fused", "observer", "area-thermal", "nodal-source", "receiver-source"],
         default="reconstructed",
     )
     parser.add_argument("--depth", type=int, default=1)
@@ -188,6 +188,7 @@ def main() -> None:
             "fused": FusedObserverLightCurve,
             "area-thermal": FusedObserverLightCurve,
             "nodal-source": NodalSourceLightCurve,
+            "receiver-source": ReceiverSourceLightCurve,
             "observer": ObserverDeviceLightCurve,
         }[args.engine]
         instance = engine(

@@ -1,5 +1,9 @@
 # Experimental GPU likelihood pilot
 
+## m024 — Receiver irradiation
+
+Select `ReceiverSourceLightCurve` in `gpu_nodal_source`, or `--engine receiver-source` with the complete comparison driver. It requires the supported detached circular symmetric field path and preserves per-face post-reflection T⁴. The reconstructed slope uses a finite, positivity-limited gradient from adjacent original deposits. Depth 4 partitions the temporary curved-edge frontier and retains the total packet-node guard. The combined field/depth likelihood error on the irradiated fixture exceeds the nominal limit for fitting. [Validation and reproduction commands](ada_progress.md)
+
 ## m023 — Face-local spectral source
 
 Use `NodalSourceLightCurve` in `gpu_nodal_source` with the usual passbands, curved-edge rule, levels, common integration level and device. It selects curved-area thermal integration and evaluates passband and LD moments separately at three physical corners of each parent. Its rule records `face_local_spectral_nodes=1` and `thermal_area_order=4`. Device mode keeps gravity and blackbody/CK04 spectral computations on the selected device with explicit host LD/table preparation and requested host outputs. The original CPU reference and `radiance="cpu"` bridge use original surface spectral routines. The model checks symmetry, source area, per-cell T⁴ closure, conditioning, spectral-table boundaries and allocation limits. Existing unsupported-case and full-CPU routing semantics continue to apply.

@@ -1,6 +1,62 @@
 # Ada GPU development progress
 
-Updated **2026-11-17T23:30:03.156246+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T00:01:19.714990+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m024 — Irradiation across receiving faces and deeper eclipse integration
+
+The new receiver calculation lowered the local RMS heating error by **6.1–15.4×** against independently refined cells. The complete reflected curve moved farther from numerical qualification on the same 28 synthetic observations. Refining field levels 2 and 3 together with eclipse depths 3 and 4 gave a nominal log-likelihood error bound of **0.82247**, above the **0.01** limit at flux uncertainty 10⁻⁴. The deeper eclipse calculation completed under the original node cap on both CPU and GPU. Physical fitting and MCMC on this fixture remain gated.
+
+### Irradiation on the curved surface
+
+Each candidate runs the two original cooler-first reflection iterations. The experimental observer takes the pre- and post-irradiation T⁴ difference of each face. It fits a tangent-plane gradient to differences from its three edge neighbours on the closed stellar mesh, including across quarter-star symmetry seams. At the three corners it subtracts the curved-area mean of the slope and limits its amplitude if necessary to keep deposited heat nonnegative. This preserves the original face's mean heat. The reconstructed heating and local intrinsic emission feed fresh passband spectra and limb darkening at each corner. The measured steps include host stencil construction, device thermal and spectral work, and the full observer and likelihood. The original CPU observer is still the default.
+
+The local reference independently recomputed the two-iteration reflection on a grid with four children per parent. It evaluated the parent prediction at every child centre and weighted the squared residual by child area. All eight blackbody/CK04 comparisons improved, across both stars and both parent levels. The result measures local deposited T⁴/Teff⁴. The following table measures its effect on observations after the original phase mapping, third light, normalization and band reducers.
+
+| Receiving field | Heating | Depths | Field bound | Depth bound | Combined bound | Combined D (σ) | Signed diagonal Δlog L |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Face-constant deposit (m023) | On | 2–3 | 0.39183 | 0.09042 | 0.48226 | 0.001774 | +0.20314 |
+| Reconstructed deposit | On | 2–3 | 0.81091 | 0.09042 | 0.90133 | 0.004355 | -0.49012 |
+| Reconstructed deposit | On | 3–4 | 0.81091 | 0.01156 | 0.82247 | 0.004198 | -0.42172 |
+| Reconstructed deposit | Off | 3–4 | 0.00825 | 0.01147 | 0.01972 | 0.000072 | -0.01656 |
+
+The proposal has mass ratio 0.696, inclination 85.52°, component temperatures 6,380 and 4,880 K, and third light 0.176. The observer used integration level 3, Duffy order 3 and slice order 8. It evaluated 14 symmetry-reduced positions and restored the 18 requested phase entries before the B, V and bolometric observation reducers. Every row uses the same physical proposal and synthetic data. The combined bound includes the measured interaction at the fourth corner. At depth 3 the signed contribution from refining the irradiation response changed from +0.28818 in m023 to -0.40507, while the intrinsic contribution was -0.00707. With heating disabled, the m023 and m024 serial CPU curves, predictions and posterior at depth 3 match bit for bit. Reducing local heating error alone did not establish convergence of the normalized likelihood.
+
+A separate CPU calculation fixed all 8,640 receiving positions per base quarter at field level 3 and switched the emitting star from level 2 to 3. It reproduced the original deposited T⁴/Teff⁴ at both unmixed resolutions within 1.7×10⁻¹⁵. For the secondary, the RMS change from moving to child receiving points with the coarse donor was 1.70×10⁻⁴. The RMS change from refining the donor at those same points was 5.11×10⁻⁷. Their signed area means were −2.07×10⁻⁷ and −2.83×10⁻⁷, respectively. These pre-spectral finite differences show that both sides contribute to changes in mean heating. The next calculation should integrate deposited heat over receiver area and separately refine the donor sum in the reflection iterations.
+
+### Boundary work, implementation parity and cost
+
+Depth 4 processes at most 8,192 original angular faces per temporary subdivision. Each block retains its actual star and full foreground shadow geometry. The observer restores the original parent indices and checks the total quadrature-node count before assembling the final ray packet. The largest block produced 429,486 nodes. The largest complete component packet used 1,319,694 of the 2,097,152 allowed nodes. An independent split-versus-whole test checked per-parent flux moments and adaptive counts and exercised a failing aggregate cap. The depth contribution fell to 0.01156 with heating and 0.01147 without heating.
+
+All eight new tests passed on CPU. Three additional CPU regressions reproduced the default observer and the archived finite model, and checked that accumulated likelihood failures propagate outside prior penalties. All ten controls selected in hardware units passed, covering the two components, unequal masses/spins, eclipse geometries, CK04 and three limb-darkening laws. The maximum normalized curve or mapped-prediction difference was 6.66e-16 and the maximum posterior difference was 1.42e-09 across the matched profiles. Physical proposals, complete adaptive records and rule metadata matched. The tables distinguish finite-model implementation parity from the field/depth accuracy needed by a fit.
+
+| Changing proposals | Warm calls per process | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm CPU/GPU | Complete process CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 10 | 10.25 / 10.20 | Unmeasured | 32.96 / 3.97 | 2.57× | 1.45× |
+| 4 | 1 | 40.77 / 40.83 | 91.28 / 61.59 | 46.11 / 16.84 | 2.43× | 1.26× |
+
+Each timed call returns two complete finite curves per candidate, their components and the mapped density, with parameter construction, host work, compilation where encountered, transfers, synchronization and accuracy checks included. The throughput cases use field levels 0/1 and depth 1. B1 warm costs are medians of ten changed calls. B4 has one changed warm call per backend. On the scientific field-2/3 comparison at depth 4, the single cold complete call took 291.49 s on the serial CPU reference and 124.37 s on GPU. The depth-4 CPU control used the private CPU-only worker on cores 16–19 and could overlap other validation on the host. At depth 3, matched bounded-unit settings on cores 0–15 gave 138.88 s on the serial reference and 64.36 s on GPU for the first complete call. All BLAS thread counts were one. [Hardware timeline and Paul's m022 Colab A100 comparison](hardware_characterization.md)
+
+### Reproduce
+
+Use the pinned environment and table fixtures for this revision. Run the following commands with `JAX_PLATFORMS=cpu` and `JAX_ENABLE_X64=True`. For GPU parity, select `--backend gpu --verified-bounded-gpu-window` within a registered, hold-aware bounded unit.
+
+```bash
+python scripts/validate_receiver_irradiation.py --output local-heat.json
+for depth in 2 3 4; do
+  for heat in on off; do
+    flags=()
+    if [[ $heat == off ]]; then flags+=(--without-irradiation); fi
+    python scripts/validate_gpu_reconstructed.py --backend reference --engine receiver-source \
+      --levels 2 3 --integration-level 3 --depth "$depth" --slice-order 8 \
+      --batch 1 --repeats 0 "${flags[@]}" --output "d$depth-$heat.json"
+  done
+done
+python scripts/validate_receiver_donor.py --profile d3-on.json --output crossed-donors.json
+python scripts/compare_gpu_rectangle.py --deep d4-on.json --shallow d3-on.json --output rectangle.json
+python scripts/compare_gpu_irradiation.py --heated d4-on.json --intrinsic d4-off.json --output response.json
+```
+
+All 15 bounded units verified the production hold at entry and cleanup. The measured speedups apply to these changing synthetic proposals. The foreground V505 Per, AI Phe and NT Aps observation checks retain the calibration, selection and model limits recorded below. [Scientific evidence](ada_validation/background-m024.json) · [Tested source fingerprints](ada_validation/background-m024-source-hashes.json)
 
 ## m023 — Passband intensity and limb darkening within source cells
 

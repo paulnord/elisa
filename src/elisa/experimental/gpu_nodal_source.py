@@ -16,7 +16,10 @@ from elisa.experimental.boundary_geometry import ConditionedRocheGeometry
 from elisa.experimental.curved_geometry import UnsupportedCurvedGeometryError, duffy_nodes
 from elisa.experimental.gpu_atmosphere import check_ld_boundaries, check_table_transitions
 from elisa.experimental.gpu_reconstructed_field import MomentFieldBackend, PreparedMomentField, shape_rule
-from elisa.experimental.gpu_reconstructed_observer import ReconstructedObserverLightCurve
+from elisa.experimental.gpu_reconstructed_observer import ReconstructedObserverLightCurve, partitioned_packet
+
+
+from elisa.experimental.receiver_irradiation import receiver_slopes, receiver_stencil
 
 
 class _NodalBackend(MomentFieldBackend):
@@ -27,7 +30,7 @@ class _NodalBackend(MomentFieldBackend):
         xp = self.jnp
         barycentric, weights = shape_rule()
 
-        def thermal(parameters: Any, tri: Any, areas: Any, face_t: Any, physics: Any) -> tuple:
+        def thermal(parameters: Any, tri: Any, areas: Any, face_t: Any, physics: Any, heating: tuple) -> tuple:
             teff, beta, gravity_scale = physics
             coords = xp.einsum("qj,fjk->fqk", xp.asarray(barycentric), tri)
             all_rays = xp.concatenate([coords.reshape(-1, 3), tri.reshape(-1, 3)])
@@ -51,14 +54,22 @@ class _NodalBackend(MomentFieldBackend):
             corner = g**beta
             scale = area.sum() / xp.sum(w * norms[:n].reshape(-1, 16) ** beta)
             t4 = (face_t[:, None] / teff) ** 4 + scale * (corner - (shape_mass * corner).sum(axis=1)[:, None])
+            span = limited = 0.0
+            if heating:
+                intrinsic, neighbours, transform = heating
+                heat = (face_t / teff) ** 4 - (intrinsic / teff) ** 4
+                slope, limiter = receiver_slopes(xp, heat, neighbours, transform, shape_mass)
+                t4 = t4 + slope
+                span = xp.max(xp.ptp(slope, axis=1))
+                limited = xp.sum(limiter < 1)
             closure = xp.max(xp.abs((shape_mass * t4).sum(axis=1) / (face_t / teff) ** 4 - 1))
             error = xp.max(xp.abs(area / areas - 1))
             valid = result["proposal_valid"][0] & xp.all(t4 > 0) & xp.all(shape_mass > 0)
-            return teff * t4.ravel() ** 0.25, xp.log10(gravity_scale * g.ravel()), error, closure, valid
+            return teff * t4.ravel() ** 0.25, xp.log10(gravity_scale * g.ravel()), error, closure, valid, span, limited
 
         self._thermal_nodes = self.jax.jit(thermal)
 
-    def thermal_nodes(self, model: Any, star: Any) -> tuple:
+    def thermal_nodes(self, model: Any, star: Any, intrinsic: Any = None) -> tuple:
         base = int(star.base_symmetry_faces_number)
         if base <= 0 or base * 19 > self.max_nodes or len(star.faces) != 4 * base:
             msg = "Nodal thermal source exceeds its symmetric quadrature budget"
@@ -78,6 +89,20 @@ class _NodalBackend(MomentFieldBackend):
         tri = rays[star.faces]
         faces = tri[:base]
         scale = const.G * model.primary.mass / model.semi_major_axis**2
+        heating = ()
+        span = limited = 0.0
+        if intrinsic is not None:
+            intrinsic = np.asarray(intrinsic)
+            if (
+                intrinsic.shape != star.temperatures.shape
+                or not np.isfinite(intrinsic).all()
+                or np.any(intrinsic <= 0)
+                or np.any(intrinsic > star.temperatures)
+                or not np.array_equal(intrinsic, intrinsic[:base][mapping])
+            ):
+                msg = "Receiver reconstruction requires positive symmetric intrinsic temperatures and nonnegative deposits"
+                raise UnsupportedCurvedGeometryError(msg)
+            heating = (intrinsic[:base], *receiver_stencil(star.faces, tri, base))
         if self.mode == "reference":
             geom = ConditionedRocheGeometry(model, self.component)
             points, weights = duffy_nodes(faces, 4)
@@ -98,6 +123,11 @@ class _NodalBackend(MomentFieldBackend):
             polar_scale = area.sum() / np.sum(w * gravity(sample).reshape(base, 16) ** star.gravity_darkening)
             mean = (star.temperatures[:base] / star.t_eff) ** 4
             density = mean[:, None] + polar_scale * (power - np.sum(mass * power, axis=1)[:, None])
+            if heating:
+                heat = mean - (heating[0] / star.t_eff) ** 4
+                slope, limiter = receiver_slopes(np, heat, *heating[1:], mass)
+                density += slope
+                span, limited = np.max(np.ptp(slope, axis=1)), np.sum(limiter < 1)
             valid = np.all(density > 0) and np.all(mass > 0)
             error = np.max(np.abs(area / star.areas[:base] - 1))
             closure = np.max(np.abs(np.sum(mass * density, axis=1) / mean - 1))
@@ -117,8 +147,9 @@ class _NodalBackend(MomentFieldBackend):
                 star.temperatures[:base],
                 [star.t_eff, star.gravity_darkening, scale],
             ]
-            temp, log_g, error, closure, valid = self._thermal_nodes(
+            temp, log_g, error, closure, valid, span, limited = self._thermal_nodes(
                 *(self.jax.device_put(np.asarray(x), self.device) for x in args),
+                tuple(self.jax.device_put(x, self.device) for x in heating),
             )
         if not bool(valid) or not float(error) <= 3e-13 or not float(closure) <= 3e-13:
             msg = "Nodal source failed curved area, positivity or per-cell T^4 closure"
@@ -130,6 +161,8 @@ class _NodalBackend(MomentFieldBackend):
             "source_faces": len(tri),
             "area_order": 4,
         }
+        if heating:
+            control.update(maximum_deposit_T4_span=float(span), positivity_limited_faces=int(limited))
         return tri, temp, np.asarray(log_g), control
 
     def interpolate_field(self, triangles: Any, spectral: Any, bands: tuple, control: dict) -> PreparedMomentField:
@@ -171,6 +204,7 @@ class NodalSourceLightCurve(ReconstructedObserverLightCurve):
     The optical spectrum and LD integral are evaluated afresh at each corner.
     """
 
+    reconstruct_heating = False
     field_backend = _NodalBackend
     field_rule = "face_local_spectral_nodes"
     field_contract = "Face-local passband intensity/LD moments with curved-area conservation of thermal emission"
@@ -184,7 +218,12 @@ class NodalSourceLightCurve(ReconstructedObserverLightCurve):
         geometry, temperatures, controls = {}, {}, {}
         for name, backend in self.moment_backends.items():
             star = getattr(system, name)
-            tri, temp, log_g, control = backend.thermal_nodes(model, star)
+            intrinsic = (
+                self.engines[variant.key].last_diagnostics[name]["intrinsic_temperatures"]
+                if self.reconstruct_heating
+                else None
+            )
+            tri, temp, log_g, control = backend.thermal_nodes(model, star, intrinsic)
             geometry[name], temperatures[name], controls[name] = tri, temp, control
             # Each row denotes one corner of the corresponding base face. All
             # base samples are distinct until the outer, verified mirror map.
@@ -215,3 +254,20 @@ class NodalSourceLightCurve(ReconstructedObserverLightCurve):
         for item in fields.values():
             item.control["both_stars_preparation_seconds"] = perf_counter() - start
         return fields
+
+
+class ReceiverSourceLightCurve(NodalSourceLightCurve):
+    """Recover illumination gradients from each fresh extended-source reflection solution."""
+
+    reconstruct_heating = True
+    field_rule = "face_local_spectral_and_irradiation_nodes"
+    field_contract = "Conservative receiver heating gradients from original iterated face deposits"
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self._packet = partitioned_packet
+
+    def _prepare(self, model: Any, observer: Any) -> tuple:
+        for engine in self.engines.values():
+            engine.keep_states = True
+        return super()._prepare(model, observer)
