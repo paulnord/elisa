@@ -6,7 +6,7 @@ import numpy as np
 from numba import njit
 
 from elisa.experimental import area_reflection
-from elisa.experimental.angular_reflection import AngularReflection
+from elisa.experimental.angular_reflection import AngularReflection, _moments
 from elisa.experimental.area_reflection import _BLOCK, _group_sum
 from elisa.experimental.gpu_reflection import UnsupportedReflectionError
 
@@ -20,6 +20,7 @@ class _Spatial(NamedTuple):
     native_positions: np.ndarray
     horizon_row: np.ndarray
     horizon_face: np.ndarray
+    lit: np.ndarray | None = None
 
 
 @njit(cache=True)
@@ -101,10 +102,12 @@ def _spatial_moments(xp, plan, normal, coeff, light):
 
 
 @njit(cache=True)
-def _cpu_gradient(points, normals, centres, outward, moments):
+def _cpu_gradient(points, normals, centres, outward, moments, angular=None, lit=None):
     total = np.zeros(len(points))
     for i, h in enumerate(normals):
         for j, centre in enumerate(centres):
+            if lit is not None and not (lit[i, j // 8] & (1 << (j % 8))):
+                continue
             dx = points[i, 0] - centre[0]
             dy = points[i, 1] - centre[1]
             dz = points[i, 2] - centre[2]
@@ -128,14 +131,31 @@ def _cpu_gradient(points, normals, centres, outward, moments):
                     + y * z * m[p + 8]
                 )
                 value += (4 * mu * u[k] + h[k]) * linear + (5 * mu * u[k] + h[k]) * quadratic
-            total[i] += value * inv**3
+            term = value * inv**3
+            if angular is not None:
+                a = angular[j]
+                flux = (
+                    x * a[0]
+                    + y * a[1]
+                    + z * a[2]
+                    + x * x * a[3]
+                    + y * y * a[4]
+                    + z * z * a[5]
+                    + x * y * a[6]
+                    + x * z * a[7]
+                    + y * z * a[8]
+                )
+                term += mu * flux * inv**2
+            total[i] += term
     return total
 
 
-def _device_gradient(jax, xp, receiver, plan, moments):
+def _device_gradient(jax, xp, receiver, plan, moments, angular=None):
     size = len(receiver.receiver)
     pad = ((0, (-size) % _BLOCK), (0, 0))
     p, n = (xp.pad(a, pad, mode="edge") for a in (receiver.receiver, receiver.normal))
+
+    packed = None if plan.lit is None else xp.pad(plan.lit, pad, mode="edge")
 
     def tile(i, result):
         start = i * _BLOCK
@@ -153,7 +173,25 @@ def _device_gradient(jax, xp, receiver, plan, moments):
             quad = x * x * v[3] + y * y * v[4] + z * z * v[5] + x * y * v[6] + x * z * v[7] + y * z * v[8]
             value += (4 * mu * u[..., k] + h[..., k]) * linear + (5 * mu * u[..., k] + h[..., k]) * quad
         front = (mu > 0) & (xp.sum(plan.outward * u, axis=-1) > 0)
-        values = xp.sum(xp.where(front, value * inv**3, 0), axis=1)
+        term = value * inv**3
+        if angular is not None:
+            a = angular.T
+            flux = (
+                x * a[0]
+                + y * a[1]
+                + z * a[2]
+                + x * x * a[3]
+                + y * y * a[4]
+                + z * z * a[5]
+                + x * y * a[6]
+                + x * z * a[7]
+                + y * z * a[8]
+            )
+            term += mu * flux * inv**2
+            bits = jax.lax.dynamic_slice_in_dim(packed, start, _BLOCK)
+            idx = xp.arange(len(plan.centres))
+            front = (bits[:, idx // 8] & (1 << (idx % 8))) != 0
+        values = xp.sum(xp.where(front, term, 0), axis=1)
         return jax.lax.dynamic_update_slice_in_dim(result, values, start, axis=0)
 
     return jax.lax.fori_loop(0, len(p) // _BLOCK, tile, xp.zeros(len(p)))[:size]
@@ -174,6 +212,9 @@ def _horizon_kernel(xp, receiver, plan, normals, coeff, row, f):
         return xp.where((mu > 0) & (b > 0), mu * k * inv**2, 0), inv, u, mu, b, k
 
     native = kernel(plan.native_positions[f])[0]
+    if plan.lit is not None:
+        # The packed mask already excluded this entire group from the moment sum.
+        return native
     common, inv, u, mu, b, k = kernel(plan.centres[plan.group[f]])
     prime = 1 - a + 2 * a * b
     derivative = (
@@ -222,10 +263,13 @@ def _correction(jax, xp, receiver, donor, deposited):
     normal, coeff = donor.native_normals[m], donor.prefix_ld[0, m]
     light = (donor.intrinsic + deposited)[donor.visible_base[m]] * donor.visible_area[m]
     moments = _spatial_moments(xp, plan, normal, coeff, light)
+    angular = None if plan.lit is None else _moments(xp, donor, deposited)
     if xp is np:
-        values = _cpu_gradient(receiver.receiver, receiver.normal, plan.centres, plan.outward, moments)
+        values = _cpu_gradient(
+            receiver.receiver, receiver.normal, plan.centres, plan.outward, moments, angular, plan.lit
+        )
     else:
-        values = _device_gradient(jax, xp, receiver, plan, moments)
+        values = _device_gradient(jax, xp, receiver, plan, moments, angular)
     if len(plan.horizon_row):
         values += _resolved_horizons(jax, xp, receiver, plan, normal, coeff, light)
     return receiver.absorption * _group_sum(xp, receiver.parent, len(receiver.intrinsic), values * receiver.fraction)

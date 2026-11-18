@@ -15,7 +15,7 @@ if __package__ in (None, ""):
 
 from elisa import settings
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule
-from elisa.experimental.gpu_nodal_source import SpatialReflectedLightCurve
+from elisa.experimental.gpu_nodal_source import EmittingAreaLightCurve, SpatialReflectedLightCurve
 from elisa.experimental.gpu_reconstructed_observer import _Packet
 from scripts.validate_gpu_atmosphere import table_settings
 from scripts.validate_gpu_fit import make_problem, prepare_fit
@@ -108,7 +108,7 @@ class CommonRays:
 def run(args):
     previous = json.loads(args.profile.read_text())
     if (
-        previous["engine"] != "spatial-reflection"
+        previous["engine"] not in ("spatial-reflection", "emitting-area")
         or not previous["irradiation"]
         or previous["batch"] != 1
         or len(previous["samples"]) != 1
@@ -128,7 +128,9 @@ def run(args):
             np.testing.assert_array_equal(v, previous[key][b])
     setup = perf_counter()
     rule = CurvedEdgeRule(previous["order"], previous["depth"], slice_order=previous["slice_order"])
-    model = SpatialReflectedLightCurve(
+    engine = args.engine or previous["engine"]
+    observer = EmittingAreaLightCurve if engine == "emitting-area" else SpatialReflectedLightCurve
+    model = observer(
         list(fit.y_data),
         rule,
         levels=tuple(previous["levels"]),
@@ -167,6 +169,14 @@ def run(args):
     built = perf_counter()
     sample = evaluate(model, fit, 1, previous["iteration_start"], previous["source_revision"])
     row = sample["rows"][0]
+    if engine != previous["engine"]:
+        suffix = f"_receiver{previous['receiver_points']}_donor_cap{previous['donor_level']}"
+        for metadata in original["finite_metadata"].values():
+            rule = metadata["rule"]
+            old = previous["engine"].replace("-", "_") + suffix
+            if rule.pop(old) != 1:
+                raise ValueError("Unexpected reflection rule in input profile")
+            rule[model.field_rule] = 1
     for k in ["physical", "finite_metadata", "phase_records"]:
         if json.loads(json.dumps(row[k], default=lambda a: a.tolist())) != original[k]:
             raise ValueError("Proposal, finite model or observation schedule changed")
@@ -197,6 +207,7 @@ def run(args):
     for k in ("engine", "observations_irradiated", "batch", "receiver_points", "donor_level"):
         report[k] = previous[k]
     report.update(
+        engine=engine,
         samples=[sample],
         archived_geometry=packets.finish(),
         fixed_input_setup_seconds=setup - started,
@@ -210,6 +221,7 @@ def run(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("profile", type=Path)
+    parser.add_argument("--engine", choices=("spatial-reflection", "emitting-area"))
     parser.add_argument("--packets", type=Path, required=True)
     parser.add_argument("--mode", choices=("record", "replay"), required=True)
     parser.add_argument("--output", type=Path, required=True)

@@ -28,7 +28,7 @@ from elisa import units as astro_units
 from elisa.analytics.models import cost_fns
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule, InferenceBudget
 from elisa.experimental.gpu_fused_observer import FusedObserverLightCurve
-from elisa.experimental.gpu_nodal_source import SpatialReflectedLightCurve, AngularReflectedLightCurve, AreaReflectedLightCurve, NodalSourceLightCurve, ReceiverSourceLightCurve
+from elisa.experimental.gpu_nodal_source import EmittingAreaLightCurve, SpatialReflectedLightCurve, AngularReflectedLightCurve, AreaReflectedLightCurve, NodalSourceLightCurve, ReceiverSourceLightCurve
 from elisa.experimental.gpu_observer_edges import ObserverDeviceLightCurve
 from elisa.experimental.gpu_protocol import ResolutionNotQualifiedError
 from elisa.experimental.gpu_reconstructed_observer import ReconstructedObserverLightCurve
@@ -146,7 +146,7 @@ def main() -> None:
     parser.add_argument("--backend", choices=["reference", "cpu", "gpu"], required=True)
     parser.add_argument(
         "--engine",
-        choices=["reconstructed", "fused", "observer", "area-thermal", "nodal-source", "receiver-source", "area-reflection", "angular-reflection", "spatial-reflection"],
+        choices=["reconstructed", "fused", "observer", "area-thermal", "nodal-source", "receiver-source", "area-reflection", "angular-reflection", "spatial-reflection", "emitting-area"],
         default="reconstructed",
     )
     parser.add_argument("--receiver-points", type=int, choices=[1, 3], default=None)
@@ -170,7 +170,7 @@ def main() -> None:
     if not 1 <= args.batch <= 128 or args.repeats < 0:
         msg = "Use1-128proposals and nonnegative repeat count; zero records only a first complete call"
         raise ValueError(msg)
-    if args.engine not in ("area-reflection", "angular-reflection", "spatial-reflection") and (args.donor_level is not None or args.receiver_points is not None):
+    if args.engine not in ("area-reflection", "angular-reflection", "spatial-reflection", "emitting-area") and (args.donor_level is not None or args.receiver_points is not None):
         parser.error("Reflection quadrature options require an area or angular reflection engine")
     started = perf_counter()
     revision = asset_revision()
@@ -194,6 +194,7 @@ def main() -> None:
             "nodal-source": NodalSourceLightCurve,
             "receiver-source": ReceiverSourceLightCurve,
             "area-reflection": AreaReflectedLightCurve,
+            "emitting-area": EmittingAreaLightCurve,
             "spatial-reflection": SpatialReflectedLightCurve,
             "angular-reflection": AngularReflectedLightCurve,
             "observer": ObserverDeviceLightCurve,
@@ -225,7 +226,7 @@ def main() -> None:
                 "depth": args.depth,
                 **({"receiver_points": args.receiver_points or 3,
                     "donor_level": 2 if args.donor_level is None else args.donor_level}
-                   if args.engine in ("area-reflection", "angular-reflection", "spatial-reflection") else {}),
+                   if args.engine in ("area-reflection", "angular-reflection", "spatial-reflection", "emitting-area") else {}),
                 "slice_order": args.slice_order,
                 "order": args.order,
                 "observations": fit.y_data,

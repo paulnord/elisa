@@ -116,7 +116,7 @@ def compare(profiles: list[dict]) -> list[dict]:
         "uncertainties",
     )
     if (
-        ref["engine"] not in ("area-reflection", "angular-reflection", "spatial-reflection")
+        ref["engine"] not in ("area-reflection", "angular-reflection", "spatial-reflection", "emitting-area")
         or not ref["irradiation"]
         or len(ref["levels"]) != 2
         or any(any(p[k] != ref[k] for k in keys) for p in profiles)

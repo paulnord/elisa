@@ -1,6 +1,74 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T02:29:35.045528+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T03:34:39.473342+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m028 — Irradiation from curved emitting faces
+
+Integrating over the emitting area during both reflection iterations reduced the combined log-likelihood error bound from **0.22859 to 0.06228** at proposal 0 and from **0.09775 to 0.02368** at proposal 38. At the parameters used to generate the observations, the bound was **0.00243**, inside the **0.01** limit for the 28 synthetic fluxes at nominal uncertainty 10⁻⁴. The two other proposals still exceeded the limit. An inference run needs to apply the accuracy check at each proposed physical state.
+
+### Finite-resolution likelihood
+
+| Physical parameters | Field bound | Emitter bound | Eclipse depth bound | Combined bound | Combined distance (σ) | Signed all-low versus all-high Δlog L |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Proposal 0 | 0.01687 | 0.03364 | 0.01156 | **0.06228** | 0.000272 | +0.009993 |
+| Proposal 38 | 0.00736 | 0.01479 | 0.00143 | **0.02368** | 0.000228 | -0.007616 |
+| Generating parameters | 0.00069 | 0.00137 | 0.00037 | **0.00243** | 0.000254 | -0.000283 |
+
+Each row crosses field levels 2 and 3, emitter grouping levels 1 and 2, and eclipse integration depths 3 and 4. At fixed depth the comparison integrates each field on the same observer rays. The GPU regenerated the geometry and replayed 28 stellar packets for each donor comparison. The bound includes measured mixed differences, third light, observation order and repeats, and the original per-band mean normalization. The accuracy test uses the nominal observation errors. The density uses the fitted noise parameter. Both backends passed at the generating parameters and stopped at the other two points under the combined test.
+
+At proposal 0 with donor level 2 and eclipse depth 3, the old and new irradiating fields were integrated on identical CPU observer rays. The largest change in normalized flux was 3.73×10⁻⁸ at field level 2 and 9.32×10⁻⁹ at level 3. The fine mapped V prediction moved by at most 1.10×10⁻⁸, and the log posterior shifted by +0.00608.
+
+The same injected observations were used for all three rows. The original 12° facet observer at the generating parameters, the seeded Gaussian noise and the fitter's mean normalization reproduced all 28 input fluxes and uncertainties. With effective temperatures of 6500 and 5000 K, mass ratio 0.7, inclination 86.4°, third-light fraction 0.2 and ln f = −2, the original 12°, 8° and 6° facet log posteriors were **219.69, 129.68 and 152.13**. The experimental curve with field level 3, donor level 2 and eclipse depth 4 gave **148.73**. At depth 3 its maximum flux difference from the original facets fell from **5.16×10⁻⁴** at 12° to **9.82×10⁻⁵** at 6°. The generating point passes a comparison between the eight tested curved models. Facet sensitivity and the two failed physical proposals limit the inference that can be drawn from that point. Replaying the original fitter on all eight curved models gave a maximum absolute log-posterior shift of **0.000333** from the finest model at the generating point, **0.01946** at proposal 0 and **0.00808** at proposal 38. The replay returns a usable density only when the combined finite check passes. It raises an accuracy exception at both failed points, including proposal 38 where the measured scalar changes alone are smaller than 0.01. The passing point is available to initialize a checkpointable physical comparison. Posterior agreement, mixing and effective samples per second remain open.
+
+### Reflection integral and independent checks
+
+Each visible emitting face now contributes three positive quadrature weights on the Roche surface. The weights use the local surface Jacobian and sum to the original face area. The face supplies its current temperature and original bolometric limb-darkening coefficient at all three points. Every cooler-first update uses the latest deposited flux from the other star. For linear limb darkening, groups fully visible to a receiver use directional moments and a first-order correction for source position. Conservative bounds at both ends of the ray identify groups near either horizon. Those groups are integrated from their individual nodes with exact incidence, emission angle and distance. Nonlinear laws use individual nodes throughout. The solver checks the complete interaction count, including explicit horizon nodes, before allocating the sparse index. The opt-in engine raises for unsupported geometry or an exceeded interaction cap. Regression tests verified full-CPU routing at the established fallback entry point and propagation of accuracy stops outside prior penalties.
+
+At proposal 0, field level 3 and donor level 2, resolving horizons used **27,242,403** extra native-node evaluations per sweep. The total was **197,443,303** interactions under the **268,435,456** cap. Pairing every receiving point with every curved emitting node would require **1,336,222,368** interactions. CPU and GPU agreed to **6.66e-16** in normalized flux or mapped prediction and **8.19e-10** in log posterior over the matched profiles. Six complete light-curve cases cover both stars, unequal masses and spins, a small occultor, CK04 and three limb-darkening laws. A separate test sampled both eclipses through 57 contact phases. Independent CPU and device tests expanded the linear spatial derivative and every clipped native contribution, checked all final temperatures after two sweeps, and exercised the nonlinear and interaction-cap routes.
+
+Emitter grouping contributes the largest single-axis bound at both failed proposals. In a separate CPU diagnostic, each of 96 receiving rays per star saw all native emitter nodes at the final update. At proposal 0 and donor level 2, adding the quadratic positional term reduced RMS error in deposited T⁴/Teff⁴ from **3.68×10⁻⁸ to 1.78×10⁻¹²** on the secondary, and from **2.31×10⁻¹⁰ to 4.09×10⁻¹⁵** on the primary. It reduced RMS error in all eight star, donor-level and proposal combinations. The complete curves in the table use first-order positions. The quadratic result applies only on the sampled rays. [Finite curves, budgets and test evidence](ada_validation/background-m028.json)
+
+### Transfer-inclusive performance
+
+| Changing proposals | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole-process serial CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 4 | 41.68 / 41.66 | 95.40 / 66.19 | 58.30 / 25.20 | 1.65× | 0.98× |
+| 8 | 82.13 / 81.74 | 163.96 / 128.34 | 85.27 / 46.89 | 1.74× | 1.22× |
+
+The serial and JAX CPU implementations and the Ada GPU evaluated identical physical proposals, synthesized two complete reflected curves per proposal and applied the original prediction, prior, density and accuracy checks. The coarse batches used field levels 0/1, donor level 0 and eclipse depth 1 on all backends. The table shows one first and one changed warm batch per process. The complete call includes fresh stellar systems, host work, device transfers and synchronization. The complete-process ratios also include imports, initialization and output. The B8 JAX CPU run used the same cores at a lower scheduling priority. In separate synchronized stage measurements at field level 3, the four irradiation updates for proposal 0 took **1.64 s on GPU and 10.13 s on CPU**. Including curved-surface preparation, grouping, transfers and returning temperatures brought the reflection stage to **4.21 s and 11.05 s**, respectively. At the fine settings (levels 2/3, donor level 2, depth 3), one complete first proposal took **147.23 s on the serial CPU and 67.51 s on GPU**.
+
+Original ELISa at 12° facets took **0.48 s** summed over its eight warm single-density calls on the same changed proposals. Its likelihood returns one facet calculation per proposal. The matched CPU/GPU ratio above applies to the more expensive paired curved calculation with its resolution check. All 25 executed units verified the held Fifth42 checkpoint at entry and cleanup. [Reflection-stage timings and hardware measurements](hardware_characterization.md)
+
+### Reproduction
+
+Use the pinned FP64 environment and table fixtures. These commands reproduce the two proposal grids, the generating point and the local quadratic diagnostic on CPU.
+
+```bash
+export JAX_PLATFORMS=cpu JAX_ENABLE_X64=True
+for p in 0 38 truth; do
+  for c in 1 2; do
+    for d in 3 4; do
+      if [ "$p" = truth ]; then
+        python scripts/validate_reflected_injection.py --backend reference --depth "$d" --donor-level "$c" --output "$p-$c-$d.json"
+      else
+        python scripts/validate_gpu_reconstructed.py --backend reference --engine emitting-area --levels 2 3 \
+          --integration-level 3 --receiver-points 3 --donor-level "$c" --depth "$d" --slice-order 8 \
+          --iteration-start "$p" --batch 1 --repeats 0 --output "$p-$c-$d.json"
+      fi
+    done
+  done
+  python scripts/compare_reflection_resolution.py "$p-1-3.json" "$p-2-3.json" "$p-1-4.json" "$p-2-4.json" --output "bounds-$p.json"
+  python scripts/compare_reflected_posteriors.py "$p-1-3.json" "$p-2-3.json" "$p-1-4.json" "$p-2-4.json" --audit --output "densities-$p.json"
+  for deg in 12 8 6; do
+    python scripts/compare_original_facet_fit.py "$p-2-3.json" --facet-degrees "$deg" --output "facet-$p-$deg.json"
+  done
+done
+python scripts/validate_patch_positions.py 0-2-3.json --output position-0.json
+python scripts/validate_patch_positions.py 38-2-3.json --output position-38.json
+python scripts/profile_emitting_area.py 0-2-3.json 38-2-3.json --backend reference --output reflection-times.json
+```
+
+For GPU synthesis, select the GPU backend and run each call in a registered, hold-aware unit with `--verified-bounded-gpu-window`. For proposals 0 and 38, run `validate_common_donor_rays.py` with the matching previous GPU profile, `--engine emitting-area` and a new per-proposal, per-depth packet directory. Record at donor level 2 and replay at level 1. For the generating parameters, `validate_reflected_injection.py` accepts the same `--mode record|replay` and `--packets` options. Omit the posterior replay’s `--audit` option to require the combined gate before returning any density. Packet serialization and independent geometry regeneration belong to the accuracy checks. The throughput driver uses fresh synthesis without packet I/O. Use `validate_gpu_reconstructed.py --engine emitting-area --levels 0 1 --integration-level 1 --depth 1 --slice-order 4 --donor-level 0 --repeats 1`, select 4 or 8 with `--batch`, and use each of the three backends for the measured batch contract. [Source fingerprints](ada_validation/background-m028-source-hashes.json)
 
 ## m027 — Individual emitter positions in the reflection integral
 

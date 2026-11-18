@@ -15,7 +15,7 @@ def _centres(group, weights, positions):
     return np.column_stack([np.bincount(group, weights=weights * v) / total for v in positions.T])
 
 
-def donor_layout(positions, normals, area, ancestry, receivers):
+def donor_layout(positions, normals, area, ancestry, receivers, *, leaf=None):
     """Split groups unless every child has the same strict sign throughout the receiver box.
 
     Test both the native source position and the group centroid. The extrema of
@@ -39,7 +39,9 @@ def donor_layout(positions, normals, area, ancestry, receivers):
     all_positive = np.bincount(group, weights=positive) == count
     all_negative = np.bincount(group, weights=negative) == count
     split = ~(all_positive | all_negative) & (count > 1)
-    labels = np.where(split[group], len(count) + np.arange(len(group)), group)
+    # A curved leaf retains the quadrature nodes of one original emitting face.
+    leaves = np.arange(len(group)) if leaf is None else leaf
+    labels = np.where(split[group], len(count) + leaves, group)
     _, inverse, size = np.unique(labels, return_inverse=True, return_counts=True)
     centre = _centres(inverse, area, positions)
     outward = _centres(inverse, area, normals)

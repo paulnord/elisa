@@ -1,5 +1,9 @@
 # Experimental GPU likelihood pilot
 
+## m028 — Reflection from curved emitting areas
+
+Select `EmittingAreaLightCurve` in `gpu_nodal_source` or `--engine emitting-area` in the validation driver. Three local Roche points share the original emitting face’s area, temperature and bolometric limb-darkening coefficient. Linear limb darkening uses grouped directional and spatial moments away from both horizons. A group touching either horizon uses its individual points. Nonlinear laws evaluate individual points within the same interaction cap. Select `--receiver-points 3` for the validated three-point receiving rule. The eight-model check at nominal uncertainty 10⁻⁴ passes at the synthetic generating parameters and stops two other physical proposals. [Accuracy, timings and reproduction](ada_progress.md)
+
 ## m027 — Emitter displacements and receiving horizons
 
 Select `SpatialReflectedLightCurve` or the validation engine `spatial-reflection` for the first-order emitting-position rule. The `receiver_points` and `donor_level` options follow `AreaReflectedLightCurve`. The host constructs a proposal-specific index for groups crossing a receiving tangent plane. The solver uses individual native terms there and includes the sparse expansion in the interaction cap. Directional moments and the native correction run on the selected backend. The reflected detached tests still exceed the finite likelihood-error limit at nominal flux uncertainty 10⁻⁴. [Curves, scope and reproduction](ada_progress.md)

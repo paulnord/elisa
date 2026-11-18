@@ -8,12 +8,12 @@ from numpy.testing import assert_allclose
 
 from elisa import settings
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule
-from elisa.experimental.gpu_nodal_source import AngularReflectedLightCurve, SpatialReflectedLightCurve
+from elisa.experimental.gpu_nodal_source import AngularReflectedLightCurve, SpatialReflectedLightCurve, EmittingAreaLightCurve
 from scripts.validate_gpu_atmosphere import table_settings
 from scripts.validate_gpu_binary import contact_phases, fixture
 
 
-@pytest.mark.parametrize("observer", [AngularReflectedLightCurve, SpatialReflectedLightCurve])
+@pytest.mark.parametrize("observer", [AngularReflectedLightCurve, SpatialReflectedLightCurve, EmittingAreaLightCurve])
 def test_angular_reflection_across_both_contacts(observer):
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
         binary = fixture({"inclination": 85, "discretization": 12})

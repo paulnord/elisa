@@ -15,6 +15,7 @@ from elisa.binary_system.curves.utils import prep_surface_params
 from elisa.binary_system.surface.gravity import calculate_potential_gradient
 from elisa.experimental.angular_reflection import AngularReflection
 from elisa.experimental.spatial_reflection import SpatialReflection
+from elisa.experimental.emitting_area import EmittingAreaReflection
 from elisa.experimental.area_reflection import AreaReflection
 from elisa.experimental.boundary_geometry import ConditionedRocheGeometry
 from elisa.experimental.curved_geometry import UnsupportedCurvedGeometryError, duffy_nodes
@@ -312,3 +313,11 @@ class SpatialReflectedLightCurve(AreaReflectedLightCurve):
     solver_type = SpatialReflection
     rule_prefix = "spatial_reflection"
     field_contract = "Area-integrated irradiation with first-order donor positions and resolved receiver horizons"
+
+
+class EmittingAreaLightCurve(AreaReflectedLightCurve):
+    """Integrate curved emitting and receiving areas during every reflection sweep."""
+
+    solver_type = EmittingAreaReflection
+    rule_prefix = "emitting_area"
+    field_contract = "Curved emitting and receiving quadrature with resolved mutual horizons"

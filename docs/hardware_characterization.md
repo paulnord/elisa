@@ -1,5 +1,23 @@
 # Ada workload and hardware characterization
 
+## m028 — Complete curves with curved emitting-face irradiation
+
+| Changing proposals | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole-process serial CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 4 | 41.68 / 41.66 | 95.40 / 66.19 | 58.30 / 25.20 | 1.65× | 0.98× |
+| 8 | 82.13 / 81.74 | 163.96 / 128.34 | 85.27 / 46.89 | 1.74× | 1.22× |
+
+One first and one changed warm batch per backend on the Ryzen 9 5950X and RTX 3080 Ti. The first and warm times include all CPU bridges, transfers, compilation encountered on that call, synchronization, host predictions, priors and accuracy checks for two complete models at each proposal. The whole-process ratios also include setup and output. Both timed serial CPU/GPU pairs and JAX CPU B4 used cores 0–15 at nice 10 with single-thread BLAS. JAX CPU B8 used the same cores at nice 19 with CUDA hidden. Brief auxiliary accuracy audits on sibling hardware threads overlapped parts of the JAX CPU comparisons. On B8 the GPU had 182 active samples, negotiated PCIe generation 4 with width ×8, and reached 608 MiB sampled device-wide.
+
+| Backend and proposal | Curved surfaces (s) | Grouping and horizon index (s) | Four irradiation updates (s) | Remaining stage work (s) | Total reflection (s) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Serial CPU, 0 | 0.106 | 0.789 | 10.133 | 0.019 | 11.047 |
+| Serial CPU, 38 | 0.106 | 0.748 | 10.143 | 0.011 | 11.008 |
+| GPU, 0 | 1.432 | 0.758 | 1.638 | 0.381 | 4.208 |
+| GPU, 38 | 0.708 | 0.773 | 1.497 | 0.149 | 3.127 |
+
+The stage timer starts with a fresh intrinsic surface. It includes both stars, building the sparse index on the host, transfers, two reflection sweeps and returning temperatures. The four device updates synchronize individually in this diagnostic. The remaining time includes device placement, other setup, checking flux and returning the temperatures. Both proposals used field level 3 and donor level 2. The CPU and GPU runs processed the same proposals in the same order with a persistent operator. A changed proposal can still compile new shapes. These host wall times locate work for profiling. Attributing it to PCIe or device memory bandwidth requires measurements of traffic and stalls. [Model comparisons and finite limits](ada_progress.md)
+
 ## m027 — Spatially resolved donor irradiation
 
 | Changing proposals | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole process serial CPU/GPU |
