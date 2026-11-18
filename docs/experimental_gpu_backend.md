@@ -1,5 +1,11 @@
 # Experimental GPU likelihood pilot
 
+## m025 — Area-integrated reflection
+
+Select `AreaReflectedLightCurve` in `gpu_nodal_source`, or `--engine area-reflection` in the complete validation driver. Its defaults are three curved-area samples per receiving face and donor level cap 2. Set `receiver_points=1` to evaluate incident flux at the original face centres. The donor cap accepts levels 0 through 3. A cap at or above the field level retains the original visible emitting faces. Each complete curve records both settings.
+
+This opt-in model supports detached, circular, symmetric stars within the existing Roche, table and quadrature bounds. It preserves the cooler-first update order and separately rebuilds donor luminosities at every update. CPU and GPU use the same tested finite rule. Original observation mapping, host LD preparation and the CPU boundary work are included in complete costs. The explicit resource and accuracy errors propagate outside prior penalties. The default observer and existing whole-CPU fallback retain their established entry points. [Validation and reproduction](ada_progress.md)
+
 ## m024 — Receiver irradiation
 
 Select `ReceiverSourceLightCurve` in `gpu_nodal_source`, or `--engine receiver-source` with the complete comparison driver. It requires the supported detached circular symmetric field path and preserves per-face post-reflection T⁴. The reconstructed slope uses a finite, positivity-limited gradient from adjacent original deposits. Depth 4 partitions the temporary curved-edge frontier and retains the total packet-node guard. The combined field/depth likelihood error on the irradiated fixture exceeds the nominal limit for fitting. [Validation and reproduction commands](ada_progress.md)

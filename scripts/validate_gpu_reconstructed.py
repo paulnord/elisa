@@ -28,7 +28,7 @@ from elisa import units as astro_units
 from elisa.analytics.models import cost_fns
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule, InferenceBudget
 from elisa.experimental.gpu_fused_observer import FusedObserverLightCurve
-from elisa.experimental.gpu_nodal_source import NodalSourceLightCurve, ReceiverSourceLightCurve
+from elisa.experimental.gpu_nodal_source import AreaReflectedLightCurve, NodalSourceLightCurve, ReceiverSourceLightCurve
 from elisa.experimental.gpu_observer_edges import ObserverDeviceLightCurve
 from elisa.experimental.gpu_protocol import ResolutionNotQualifiedError
 from elisa.experimental.gpu_reconstructed_observer import ReconstructedObserverLightCurve
@@ -146,9 +146,11 @@ def main() -> None:
     parser.add_argument("--backend", choices=["reference", "cpu", "gpu"], required=True)
     parser.add_argument(
         "--engine",
-        choices=["reconstructed", "fused", "observer", "area-thermal", "nodal-source", "receiver-source"],
+        choices=["reconstructed", "fused", "observer", "area-thermal", "nodal-source", "receiver-source", "area-reflection"],
         default="reconstructed",
     )
+    parser.add_argument("--receiver-points", type=int, choices=[1, 3], default=None)
+    parser.add_argument("--donor-level", type=int, choices=range(4), default=None)
     parser.add_argument("--depth", type=int, default=1)
     parser.add_argument("--slice-order", type=int, default=4)
     parser.add_argument("--order", type=int, default=3)
@@ -168,6 +170,8 @@ def main() -> None:
     if not 1 <= args.batch <= 128 or args.repeats < 0:
         msg = "Use1-128proposals and nonnegative repeat count; zero records only a first complete call"
         raise ValueError(msg)
+    if args.engine != "area-reflection" and (args.donor_level is not None or args.receiver_points is not None):
+        parser.error("Reflection quadrature options require --engine area-reflection")
     started = perf_counter()
     revision = asset_revision()
     with (
@@ -189,6 +193,7 @@ def main() -> None:
             "area-thermal": FusedObserverLightCurve,
             "nodal-source": NodalSourceLightCurve,
             "receiver-source": ReceiverSourceLightCurve,
+            "area-reflection": AreaReflectedLightCurve,
             "observer": ObserverDeviceLightCurve,
         }[args.engine]
         instance = engine(
@@ -197,6 +202,8 @@ def main() -> None:
             levels=tuple(args.levels),
             integration_level=args.integration_level,
             device=args.backend,
+            **({k: v for k, v in {"receiver_points": args.receiver_points, "donor_level": args.donor_level}.items()
+                if v is not None}),
             **({"area_thermal": True} if args.engine == "area-thermal" else {}),
         )
         constructed = perf_counter()
@@ -214,6 +221,9 @@ def main() -> None:
                 "integration_level": args.integration_level,
                 "engine": args.engine,
                 "depth": args.depth,
+                **({"receiver_points": args.receiver_points or 3,
+                    "donor_level": 2 if args.donor_level is None else args.donor_level}
+                   if args.engine == "area-reflection" else {}),
                 "slice_order": args.slice_order,
                 "order": args.order,
                 "observations": fit.y_data,

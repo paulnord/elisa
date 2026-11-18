@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from copy import copy
+from functools import partial
 from time import perf_counter
 from typing import Any
 
@@ -12,13 +13,12 @@ import numpy as np
 from elisa import const
 from elisa.binary_system.curves.utils import prep_surface_params
 from elisa.binary_system.surface.gravity import calculate_potential_gradient
+from elisa.experimental.area_reflection import AreaReflection
 from elisa.experimental.boundary_geometry import ConditionedRocheGeometry
 from elisa.experimental.curved_geometry import UnsupportedCurvedGeometryError, duffy_nodes
 from elisa.experimental.gpu_atmosphere import check_ld_boundaries, check_table_transitions
 from elisa.experimental.gpu_reconstructed_field import MomentFieldBackend, PreparedMomentField, shape_rule
 from elisa.experimental.gpu_reconstructed_observer import ReconstructedObserverLightCurve, partitioned_packet
-
-
 from elisa.experimental.receiver_irradiation import receiver_slopes, receiver_stencil
 
 
@@ -271,3 +271,23 @@ class ReceiverSourceLightCurve(NodalSourceLightCurve):
         for engine in self.engines.values():
             engine.keep_states = True
         return super()._prepare(model, observer)
+
+class AreaReflectedLightCurve(ReceiverSourceLightCurve):
+    """Integrate a receiver-cell mean within each iteration before rebuilding its spectra."""
+
+    field_contract = "Area-averaged iterated irradiation, conservative local thermal and passband fields"
+
+    def __init__(self, *args: Any, receiver_points: int = 3, donor_level: int = 2, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        solver = AreaReflection(self.law, device=self.device, receiver_points=receiver_points, donor_level=donor_level)
+        self.field_rule = f"area_reflection_receiver{receiver_points}_donor_cap{donor_level}"
+        for variant in self.variants:
+            self.engines[variant.key].area_reflection = partial(solver.evaluate, level=variant.level)
+
+    def _prepare_field(self, model: Any, system: Any, observer: Any, variant: Any) -> dict:
+        fields = super()._prepare_field(model, system, observer, variant)
+        for name, field in fields.items():
+            stats = self.engines[variant.key].last_diagnostics[name]
+            if "reflection_quadrature" in stats:
+                field.control.update(stats["reflection_quadrature"])
+        return fields

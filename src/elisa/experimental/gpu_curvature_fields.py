@@ -199,6 +199,7 @@ class _CurvatureEngine:
     def __init__(self, passbands: list[str], spec: CurvatureFieldSpec, *, device: str, radiance: str) -> None:
         self.spec, self.device, self.radiance = spec, device, radiance
         self.keep_states = False
+        self.area_reflection = None
         self.area_thermal = False
         self.last_diagnostics = {}
         self.gravity = {} if device == "reference" else {n: _PointState(n, device=device) for n in _NAMES}
@@ -231,7 +232,13 @@ class _CurvatureEngine:
                 detail = {"intrinsic_luminosity_ratio": float(state["intrinsic_luminosity_ratio"])}
             intrinsic[name] = {**controls[name], **detail,
                                "intrinsic_temperatures": star.temperatures.copy() if self.keep_states else None}
-        if self.device == "reference":
+        if self.area_reflection is not None:
+            if settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0:
+                temperatures, stats = self.area_reflection(binary, system, iterations=settings.REFLECTION_EFFECT_ITERATIONS)
+                for name, t in temperatures.items():
+                    getattr(system, name).temperatures = np.asarray(t)
+                    intrinsic[name]["reflection_quadrature"] = stats[name]
+        elif self.device == "reference":
             system = cpu_reflect(system, settings.REFLECTION_EFFECT_ITERATIONS)
         elif settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0:
             result = self.reflection.prepare(system, settings.REFLECTION_EFFECT_ITERATIONS,

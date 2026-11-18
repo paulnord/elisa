@@ -1,6 +1,69 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T00:01:19.714990+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T00:44:08.270051+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m025 — Area-integrated stellar irradiation
+
+Three samples across each receiving face lowered the local RMS error in deposited heat by **19–103×** across eight comparisons. At a fixed emitting-star resolution, this reduced the complete curve’s field refinement bound from **0.72381 to 0.02884**. Refining the emitting star independently revealed the larger error. Together, the receiving field, emitter and eclipse-depth changes gave an absolute log-likelihood error bound of **0.93999** on 28 synthetic observations with flux uncertainty 10⁻⁴. The fitting limit is **0.01**. CPU and GPU agree on the finite curves. Physical fitting and MCMC on this fixture remain gated.
+
+### Irradiation at every reflection iteration
+
+The opt-in observer evaluates three positive quadrature weights per receiving triangle. It projects the sample directions onto the two Roche surfaces and evaluates the surface normal, incident direction, projected area and limb-darkened incident flux at each sample. Each weight includes the local curved area. A sample outside the original visibility limit contributes zero to the full-face mean. The original albedo and integrated bolometric limb-darkening factor convert the mean to deposited T⁴. Each cooler-first sweep then uses the updated luminosity when that star irradiates its companion. The calculation retains both iterations, the m024 surface reconstruction, fresh spectra, limb darkening and curved eclipse integration.
+
+The emitting-star resolution can be varied independently. At levels above the selected donor cap, the code groups the original visible descendants of each parent. It sums their current area-weighted luminosities and limb-darkening moments, then evaluates their directional emission at one projected position and normal per group. The luminosity sum is conserved at a common angle. The variation in angle across the group still needs to be resolved.
+
+An independent serial CPU calculation formed a face-to-face coupling matrix using 64 curved-area receiver samples per face, original emitting faces and the ELISa directional law. It repeated both irradiation iterations on blackbody and CK04 systems, at two field levels, for both stars. The three-point rule reduced the area-weighted RMS error in all eight cases. With one receiving point and individual emitting faces, the full depth-3 CPU curves, observation predictions and density reproduced m024 bit for bit. Separate tests checked the original reflection temperatures across zero through three iterations, reversing which star was cooler and covering a temperature tie.
+
+### What controls the likelihood
+
+The test binary has mass ratio 0.696, inclination 85.52°, component temperatures 6,380 and 4,880 K, and third light 0.176. Each model used the same 14 symmetry-reduced observer positions, restored all 18 phase entries, then applied the original B, V and bolometric reducers, third light, normalization and noise model. Models with different emitters shared exactly the same eclipse rays at each depth. The comparison used field levels 2 and 3, emitter caps 1 and 2, integration level 3, Duffy order 3, slice order 8 and eclipse depths 3 and 4.
+
+| Change from the finest tested corner | Absolute log-likelihood bound | Signed Δlog L |
+| --- | ---: | ---: |
+| Receiving and radiating field, level 3 to 2 | 0.02884 | −0.01407 |
+| Emitting-star cap, level 2 to 1 | 0.89230 | +0.05845 |
+| Eclipse depth, 4 to 3 | 0.01156 | −0.00958 |
+| All three changes, direct endpoint comparison | 0.87148 | +0.03308 |
+| All eight measured corners and mixed terms | **0.93999** | — |
+
+The eight-corner calculation accumulates absolute component envelopes on the three axes plus the measured two-way and three-way interactions. It evaluates the residual-weighted likelihood change after observation mapping. The resulting distance is 0.00562σ against a 0.1σ limit. The separate fixed-emitter field/depth bounds are 0.05326 at emitter cap 1 and 0.04040 at cap 2. Of the 0.93999 combined bound, 0.38597 comes from the ten B observations, 0.38394 from the thirteen V observations and 0.17007 from the five bolometric observations. The largest mapped change from the emitter cap alone is 1.42×10⁻⁷ in V. At this proposal the RMS residuals in B, V and bolometric flux are 59.9σ, 57.3σ and 67.8σ. Their size makes the likelihood sensitive to small changes in predicted flux. The signed endpoint difference benefits from cancellation across observations. These tests measure finite changes on this proposal. A continuum estimate and any posterior bias still require further refinement.
+
+With the fine receiving field at depth 3, changing three samples to one at emitter cap 2 gave a signed Δlog L of −0.13589. With one sample per receiving face, resolving all emitters in place of cap 2 gave −0.00840 on the same rays. Three receiving samples with all native field-3 emitters would require **445,407,456** interactions per two-star sweep. The original limit of **268,435,456** stopped that calculation. Cap 2 used **113,220,892** interactions at field level 3.
+
+To locate the emitter error, a separate CPU calculation perturbed emitter positions and normals independently at 128 fixed receiving samples on each star, holding each native emitter’s first-iteration luminosity and limb darkening fixed. At cap 2, the RMS change in deposited T⁴/Teff⁴ on the secondary was 6.88×10⁻⁷ for normals alone and 2.13×10⁻⁷ for positions alone. The primary values were 1.77×10⁻⁸ and 2.71×10⁻⁹. The next step is to retain the angular distribution of emitting normals and resolve groups that cross the donor’s apparent limb. The depth contribution also exceeds the likelihood limit on its own.
+
+### Implementation parity and cost
+
+All ten reflection controls passed in the GPU validation units and again with JAX forced to CPU. Six compared complete curves, three checked original iteration order and one exercised input and resource errors. Seven more CPU controls covered donor luminosity and LD conservation, three-way error cancellation, the default observer, fallback and accuracy stops. The matched profiles agreed within **6.66e-16** in normalized flux or mapped prediction and **1.62e-09** in log posterior. The complete adaptive records matched. The corrected test fixtures supplied an inclination, both logarithmic coefficients and a table-supported case with variable linear limb darkening. All comparisons used the original tolerances. [Machine-readable curves, tests and finite controls](ada_validation/background-m025.json)
+
+| Changing proposals | Warm calls per process | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole process serial CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 3 | 10.27 / 10.17 | 44.40 / 16.14 | 35.58 / 4.51 | 2.25× | 0.81× |
+| 4 | 1 | 40.63 / 40.79 | 90.91 / 61.77 | 48.41 / 16.92 | 2.41× | 1.22× |
+| 8 | 1 | 80.93 / 80.56 | 154.43 / 118.28 | 67.22 / 30.85 | 2.61× | 1.61× |
+
+The table uses field levels 0 and 1, depth 1 and changed physical proposals at every warm call. At these levels cap 2 keeps every visible native emitter. The level-3 scientific run exercises grouped emitters. Each enclosing time includes both finite curves, source construction, compilation when encountered, CPU bridges, device transfers, synchronization, returned predictions and original likelihood checks. The whole-process ratio also includes startup. Serial CPU and GPU timing pairs had identical CPU affinity, thread limits and scheduling priority. The additional JAX CPU runs at batch sizes 1 and 8 used the same cores with lower scheduling priority. At scientific field levels 2 and 3, depth 3, cap 2 and three receiving samples, the matched first complete calls took **137.52 s on serial CPU** and **76.57 s on GPU**. The warm batch rates measure numerical validation workloads. Posterior sampling and effective samples per second still require a qualified case. [Hardware timeline and sample counts](hardware_characterization.md)
+
+### Reproduce
+
+Use the pinned environment and table fixtures, with CPU FP64 enabled. The following produces the four reference profiles containing all eight curves. To reproduce the GPU calculation on Ada, run one profile per registered, hold-aware unit with `--backend gpu --verified-bounded-gpu-window` and GPU FP64 enabled. Use the same input files within each backend for the comparison.
+
+```bash
+export JAX_PLATFORMS=cpu JAX_ENABLE_X64=True
+python scripts/validate_reflection_area.py --output receiver-64.json
+for cap in 1 2; do
+  for depth in 3 4; do
+    python scripts/validate_gpu_reconstructed.py --backend reference --engine area-reflection \
+      --receiver-points 3 --donor-level "$cap" --levels 2 3 --integration-level 3 \
+      --depth "$depth" --slice-order 8 --batch 1 --repeats 0 --output "cap$cap-d$depth.json"
+  done
+done
+python scripts/validate_emitter_groups.py --profile cap2-d3.json --output emitter-geometry.json
+python scripts/compare_reflection_resolution.py cap1-d4.json cap1-d3.json \
+  cap2-d4.json cap2-d3.json --output combined.json
+```
+
+Repeat depth 3 with `--receiver-points 1` and donor caps 2 and 3 for the collocated controls. For transfer-inclusive costs, use `--levels 0 1 --integration-level 1 --depth 1 --slice-order 4`. Set batch and repeats to 1 and 3, 4 and 1, or 8 and 1. Run the same proposals separately with the reference, CPU and GPU backends. The foreground paper reproductions and the m022 Colab run retain their existing scopes. All 19 executed bounded units verified the Fifth42 checkpoint at entry and cleanup. [Tested source fingerprints](ada_validation/background-m025-source-hashes.json)
 
 ## m024 — Irradiation across receiving faces and deeper eclipse integration
 

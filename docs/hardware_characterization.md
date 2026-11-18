@@ -1,5 +1,21 @@
 # Ada workload and hardware characterization
 
+## m025 — Area-integrated reflection on changing physical proposals
+
+Ada’s Ryzen 9 5950X and RTX 3080 Ti evaluated the same changing binaries, two complete multi-band curves per binary, the original observation mapping and the finite-error checks. The throughput cases use three samples per receiving face and field levels 0 and 1, where cap 2 retains every visible emitter. The fine level-3 timing in the progress report includes grouped emitters. All timings include host state assembly, LD-table work, eclipse integration, device transfers, synchronization and returned predictions. The GPU evaluates receiver and emitter geometry and the tiled irradiation sum. Host visibility selection, group construction and parts of the curved observer remain in the timed path.
+
+| Changing proposals | Warm calls per process | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole process serial CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 3 | 10.27 / 10.17 | 44.40 / 16.14 | 35.58 / 4.51 | 2.25× | 0.81× |
+| 4 | 1 | 40.63 / 40.79 | 90.91 / 61.77 | 48.41 / 16.92 | 2.41× | 1.22× |
+| 8 | 1 | 80.93 / 80.56 | 154.43 / 118.28 | 67.22 / 30.85 | 2.61× | 1.61× |
+
+Warm entries are medians. B1 has three physically changed calls per process. B4 and B8 have one each, so their sampling uncertainty is undetermined. The serial CPU/GPU pairs ran on cores 0–15, nice 10, with single-thread BLAS and OpenMP. The B4 JAX CPU run used the same settings. The additional CPU-only B1 and B8 JAX processes used cores 0–15 at nice 19 with CUDA hidden. The ledger includes each enclosing call, process totals, source and input fingerprints and host peak RSS.
+
+The profiled B1 warm call spanned 5.62 s. CUDA kernel intervals occupied 0.975 s in union and device copy intervals occupied 0.051 s. The trace recorded 1,731 host-to-device copies (199.3 MiB) and 3,249 device-to-host copies (374.1 MiB). Making just the explicitly timed, serialized CPU boundary reference segment (31.7% of the range) twice as fast would yield 1.19× for this call under the measured overlap. Eliminating the duration of all recorded copies would yield at most 1.009× at fixed other work. Copy duration includes latency. Estimating the effect of higher GPU DRAM bandwidth still requires memory traffic and kernel stall measurements.
+
+During the B8 GPU run, 188 samples recorded nonzero device utilization. Negotiated PCIe generation was 4 and width was ×8. The largest sampled device-wide memory use was 596 MiB. The profiler runs separately from the unprofiled timing pairs. The earlier Colab A100 measurement below applies to m022. The m025 timing results cover Ada and the tested synthetic proposals. [Machine-readable profiles and timing distributions](ada_validation/background-m025.json)
+
 ## m024 — Transfer-inclusive receiver irradiation
 
 The timing pairs compare fresh physical proposals, complete reflected curves at two finite resolutions and the same observational likelihood and accuracy checks. The host computes the stencil geometry, manages the adaptive eclipse frontier, prepares LD data and completes the original density. CUDA performs the thermal reconstruction, resident geometry and other existing device stages. The fine fitting accuracy gate remains active.

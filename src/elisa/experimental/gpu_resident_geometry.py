@@ -137,6 +137,7 @@ class _ResidentField:
 class _ResidentEngine:
     def __init__(self, passbands: list[str], *, device: str, radiance: str) -> None:
         self.device, self.radiance = device, radiance
+        self.area_reflection = None
         self.keep_states, self.last_diagnostics, self.prepared = False, {}, None
         self.helper = HybridBinaryLightCurve(passbands, device=device, reflection="tiled", coverage="cpu",
                                              fallback="raise", radiance=radiance)
@@ -165,12 +166,18 @@ class _ResidentEngine:
                                "intrinsic_temperatures": star.temperatures.copy() if self.keep_states else None,
                                "geometry_equation": "device Cartesian original Roche potential"}
         if settings.REFLECTION_EFFECT and settings.REFLECTION_EFFECT_ITERATIONS > 0:
-            result = self.reflection.prepare(system, settings.REFLECTION_EFFECT_ITERATIONS,
-                                             device_states=states).evaluate()
-            if not bool(result["proposal_valid"]):
-                msg = "Resident device reflection unsupported; abort outside priors"
-                raise UnsupportedCurvedGeometryError(msg)
-            for name, t in zip(_NAMES, result["temperatures"], strict=True):
+            if self.area_reflection is None:
+                result = self.reflection.prepare(system, settings.REFLECTION_EFFECT_ITERATIONS,
+                                                 device_states=states).evaluate()
+                if not bool(result["proposal_valid"]):
+                    msg = "Resident device reflection unsupported; abort outside priors"
+                    raise UnsupportedCurvedGeometryError(msg)
+                temperatures = dict(zip(_NAMES, result["temperatures"], strict=True))
+            else:
+                temperatures, stats = self.area_reflection(binary, system, iterations=settings.REFLECTION_EFFECT_ITERATIONS)
+                for name in _NAMES:
+                    intrinsic[name]["reflection_quadrature"] = stats[name]
+            for name, t in temperatures.items():
                 states[name]["temperatures"] = t
                 getattr(system, name).temperatures = np.array(t, copy=True)
         system.flat_it()
