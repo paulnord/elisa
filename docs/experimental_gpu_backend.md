@@ -1,5 +1,9 @@
 # Experimental GPU likelihood pilot
 
+## m032 — Original-facet ensemble with a shared GPU
+
+`SharedNativeDetachedMCMCFit` accepts a service created by `shared_surface_owner`. Original CPU walker processes send their fresh selected face arrays to the owner for ordered FP64 reductions. The benchmark covers the reflected, circular detached binary with linear limb darkening. The opt-in fitter requires candidate exceptions to propagate under the original policy. Unsupported integration can be rerun with the complete native CPU fit. [Measured scope, scientific limits and reproduction](ada_mcmc_scaling.md)
+
 ## m031 — Sampled receiving-face irradiation
 
 `ReceiverHeatingLightCurve` resolves the last deposited power at three receiver rays with an area-conserving, positivity-limited linear field. The optical source uses the six-node quadratic reconstruction. The `selective_shadow` option refines parents crossing the foreground shadow. `receiver_phase_parts.py` can evaluate depth-4 phase blocks in bounded units and restores the complete grid before applying third light and normalization. [Scientific scope and reproduction](ada_progress.md)

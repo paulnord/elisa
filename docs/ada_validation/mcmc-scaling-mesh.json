@@ -1,0 +1,5027 @@
+{
+  "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+  "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+  "mesh_degrees": [
+    12.0,
+    8.0,
+    6.0
+  ],
+  "joint_nominal_sigma_limit": 0.1,
+  "attempted": 416,
+  "distinct": 416,
+  "evaluated": 416,
+  "qualified": 0,
+  "distance_min": [
+    12.218804619293635,
+    8.734560105121693
+  ],
+  "distance_max": [
+    12.717208367963929,
+    8.8981302954079
+  ],
+  "absolute_delta_log_likelihood_range": [
+    [
+      0.6340755768009672,
+      0.11330441236817279
+    ],
+    [
+      221.22532489079535,
+      72.0430329313357
+    ]
+  ],
+  "native_predictions_and_densities_reproduced": true,
+  "rows": [
+    {
+      "index": 0,
+      "distances": [
+        12.277983038270039,
+        8.859086576541033
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        47.55031415549763,
+        -22.240936470445973
+      ]
+    },
+    {
+      "index": 1,
+      "distances": [
+        12.275341995617227,
+        8.856080022493842
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        48.4273639062707,
+        -22.933961153503418
+      ]
+    },
+    {
+      "index": 2,
+      "distances": [
+        12.267195074764084,
+        8.844193268342085
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.554688518432926,
+        -23.363648487464815
+      ]
+    },
+    {
+      "index": 3,
+      "distances": [
+        12.267208406119806,
+        8.843980996529128
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.01435763605596,
+        -23.18108762669823
+      ]
+    },
+    {
+      "index": 4,
+      "distances": [
+        12.269708663629535,
+        8.847022424236652
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        54.6832402039519,
+        -22.706380792701566
+      ]
+    },
+    {
+      "index": 5,
+      "distances": [
+        12.267705157501362,
+        8.838628241909783
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        67.6586972521464,
+        -18.55952506675419
+      ]
+    },
+    {
+      "index": 6,
+      "distances": [
+        12.304179938535436,
+        8.818847315099589
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        119.79562600274454,
+        -2.717485549170476
+      ]
+    },
+    {
+      "index": 7,
+      "distances": [
+        12.288942421490075,
+        8.789594767229808
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.53418463926775,
+        -28.791796855670242
+      ]
+    },
+    {
+      "index": 8,
+      "distances": [
+        12.258942119537188,
+        8.777684537452052
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.46833197817472,
+        -49.12433974433078
+      ]
+    },
+    {
+      "index": 9,
+      "distances": [
+        12.292681793647779,
+        8.801092059590149
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.33428643766149,
+        -23.23807555800346
+      ]
+    },
+    {
+      "index": 10,
+      "distances": [
+        12.262846240168042,
+        8.789050550689312
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        69.18640690695509,
+        -35.41152966388081
+      ]
+    },
+    {
+      "index": 11,
+      "distances": [
+        12.246032764617619,
+        8.821867250734982
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        40.057601704284224,
+        -37.35702491842693
+      ]
+    },
+    {
+      "index": 12,
+      "distances": [
+        12.337626980216474,
+        8.862480241780483
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        153.911718771506,
+        31.847010161280345
+      ]
+    },
+    {
+      "index": 13,
+      "distances": [
+        12.25804867127865,
+        8.79440360350249
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.130341049774415,
+        -34.05156700325439
+      ]
+    },
+    {
+      "index": 14,
+      "distances": [
+        12.294431662832945,
+        8.742253708316802
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        87.53636521333794,
+        -57.29098611744218
+      ]
+    },
+    {
+      "index": 15,
+      "distances": [
+        12.256782792653516,
+        8.794251692772493
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.62741535561281,
+        -34.15240019754867
+      ]
+    },
+    {
+      "index": 16,
+      "distances": [
+        12.444494306820038,
+        8.878942938721393
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.82149921430457,
+        14.555193386965556
+      ]
+    },
+    {
+      "index": 17,
+      "distances": [
+        12.264095142694835,
+        8.800111912626395
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        75.01308967732896,
+        -25.78188041682229
+      ]
+    },
+    {
+      "index": 18,
+      "distances": [
+        12.249204951439056,
+        8.782080942338336
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        49.408501656513664,
+        -47.90368664188999
+      ]
+    },
+    {
+      "index": 19,
+      "distances": [
+        12.247704407122136,
+        8.821261438621352
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        43.856950798235346,
+        -35.109475718089215
+      ]
+    },
+    {
+      "index": 20,
+      "distances": [
+        12.334691219163869,
+        8.854742665148498
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        69.24436257643691,
+        2.996713965241952
+      ]
+    },
+    {
+      "index": 21,
+      "distances": [
+        12.2449421616488,
+        8.820283937943747
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        37.63470915160906,
+        -43.80606938155297
+      ]
+    },
+    {
+      "index": 22,
+      "distances": [
+        12.277654849985536,
+        8.81123246764127
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        117.52943419108601,
+        -8.434400260753762
+      ]
+    },
+    {
+      "index": 23,
+      "distances": [
+        12.264107994862156,
+        8.807816387418839
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        80.32864689002054,
+        -20.864456546929517
+      ]
+    },
+    {
+      "index": 24,
+      "distances": [
+        12.419944778065112,
+        8.86243051904718
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        3.093861191427976,
+        -15.68085855773711
+      ]
+    },
+    {
+      "index": 25,
+      "distances": [
+        12.26354164289204,
+        8.760812956736423
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        66.34729073443634,
+        -51.55189451152228
+      ]
+    },
+    {
+      "index": 26,
+      "distances": [
+        12.332597545702741,
+        8.792874127353702
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        196.88002353184953,
+        17.3637840607108
+      ]
+    },
+    {
+      "index": 27,
+      "distances": [
+        12.269295197539728,
+        8.81844152005155
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        106.7104366943068,
+        -7.968854079401652
+      ]
+    },
+    {
+      "index": 28,
+      "distances": [
+        12.270280526103628,
+        8.80086951660011
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        38.05005623404989,
+        -32.06666190503819
+      ]
+    },
+    {
+      "index": 29,
+      "distances": [
+        12.251856142966025,
+        8.810590636637363
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        44.47608952473351,
+        -33.32053830967689
+      ]
+    },
+    {
+      "index": 30,
+      "distances": [
+        12.230415001078281,
+        8.795485109301582
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        -8.846684085936772,
+        -57.869464056477796
+      ]
+    },
+    {
+      "index": 31,
+      "distances": [
+        12.25708304733236,
+        8.823161622968634
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        35.30660277314851,
+        -29.403533665358935
+      ]
+    },
+    {
+      "index": 32,
+      "distances": [
+        12.253715993112111,
+        8.770929521253326
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.61038791512692,
+        -48.49095776511251
+      ]
+    },
+    {
+      "index": 33,
+      "distances": [
+        12.2535043939853,
+        8.771302301038917
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.44778264865599,
+        -48.275196608547944
+      ]
+    },
+    {
+      "index": 34,
+      "distances": [
+        12.253818856518606,
+        8.771594872557856
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        58.398245435406466,
+        -47.8437436331552
+      ]
+    },
+    {
+      "index": 35,
+      "distances": [
+        12.27812335530943,
+        8.773723491692252
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        103.74022112453846,
+        -29.88741558190091
+      ]
+    },
+    {
+      "index": 36,
+      "distances": [
+        12.260040936519177,
+        8.825958567843195
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        48.022746756077794,
+        -24.814153868301872
+      ]
+    },
+    {
+      "index": 37,
+      "distances": [
+        12.24406559161952,
+        8.781976703637083
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.722445752469696,
+        -47.497456103665755
+      ]
+    },
+    {
+      "index": 38,
+      "distances": [
+        12.261061461851781,
+        8.772739086401629
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        77.2183002561647,
+        -42.00877161083386
+      ]
+    },
+    {
+      "index": 39,
+      "distances": [
+        12.243340160363148,
+        8.81342202822753
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        12.628130153725806,
+        -43.356532868952996
+      ]
+    },
+    {
+      "index": 40,
+      "distances": [
+        12.241066892708842,
+        8.79062875710763
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        50.45983956496556,
+        -49.9602752489734
+      ]
+    },
+    {
+      "index": 41,
+      "distances": [
+        12.266878224939477,
+        8.792837455363156
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.99916147623651,
+        -26.010275001509996
+      ]
+    },
+    {
+      "index": 42,
+      "distances": [
+        12.281992327914152,
+        8.808810553894224
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        96.06977107517395,
+        -9.751888885095013
+      ]
+    },
+    {
+      "index": 43,
+      "distances": [
+        12.344974531792557,
+        8.84723284880652
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        19.944684019893742,
+        -16.20848006957246
+      ]
+    },
+    {
+      "index": 44,
+      "distances": [
+        12.272886762479732,
+        8.782295264485358
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        99.562799292534,
+        -26.907244947869728
+      ]
+    },
+    {
+      "index": 45,
+      "distances": [
+        12.249156876391812,
+        8.816939751731612
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        71.01266886044581,
+        -32.10479911238569
+      ]
+    },
+    {
+      "index": 46,
+      "distances": [
+        12.239351120261318,
+        8.797853048395377
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        18.712939228825746,
+        -46.82616730302223
+      ]
+    },
+    {
+      "index": 47,
+      "distances": [
+        12.246123175721694,
+        8.803832392098174
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.75414287817151,
+        -38.54829478121451
+      ]
+    },
+    {
+      "index": 48,
+      "distances": [
+        12.240022636364145,
+        8.797972476992696
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        20.934528676457177,
+        -45.94469309026758
+      ]
+    },
+    {
+      "index": 49,
+      "distances": [
+        12.286235431841684,
+        8.825444101515254
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        135.12057186853056,
+        11.464895936753386
+      ]
+    },
+    {
+      "index": 50,
+      "distances": [
+        12.254321675889214,
+        8.816587217068712
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        45.45990342457958,
+        -28.468428588617
+      ]
+    },
+    {
+      "index": 51,
+      "distances": [
+        12.308527806459153,
+        8.772846130191464
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        123.3393617070403,
+        -12.171647389163283
+      ]
+    },
+    {
+      "index": 52,
+      "distances": [
+        12.253270801916235,
+        8.806263106430166
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        49.56769090734349,
+        -30.9570488226463
+      ]
+    },
+    {
+      "index": 53,
+      "distances": [
+        12.264144783607444,
+        8.817987809541496
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        34.64996501836504,
+        -27.953640249738527
+      ]
+    },
+    {
+      "index": 54,
+      "distances": [
+        12.253400733837776,
+        8.815618201592866
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        46.37113615109615,
+        -28.852266407029845
+      ]
+    },
+    {
+      "index": 55,
+      "distances": [
+        12.268302789680753,
+        8.81503047939365
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        102.04247025636582,
+        -9.876795826928088
+      ]
+    },
+    {
+      "index": 56,
+      "distances": [
+        12.27335083857239,
+        8.834895839394214
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.90348661274456,
+        -15.443361461463724
+      ]
+    },
+    {
+      "index": 57,
+      "distances": [
+        12.267947035012035,
+        8.798963901402631
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.06416332694513,
+        -19.768977218716827
+      ]
+    },
+    {
+      "index": 58,
+      "distances": [
+        12.242271043064315,
+        8.812539887876332
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.800364061542666,
+        -39.00645357406188
+      ]
+    },
+    {
+      "index": 59,
+      "distances": [
+        12.243216315580087,
+        8.797449652932368
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        30.801624526800424,
+        -42.40412443997985
+      ]
+    },
+    {
+      "index": 60,
+      "distances": [
+        12.262450678543598,
+        8.805503754337144
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        50.14273855735692,
+        -26.562565375832094
+      ]
+    },
+    {
+      "index": 61,
+      "distances": [
+        12.249011563412662,
+        8.802857267666143
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.35182041719199,
+        -34.853489848736345
+      ]
+    },
+    {
+      "index": 62,
+      "distances": [
+        12.24653789515799,
+        8.790483258578963
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.00584061261793,
+        -43.02456321695571
+      ]
+    },
+    {
+      "index": 63,
+      "distances": [
+        12.263185498300578,
+        8.799847862876446
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        84.09005617982183,
+        -22.493150484072117
+      ]
+    },
+    {
+      "index": 64,
+      "distances": [
+        12.252143952796814,
+        8.813932725499841
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        48.37747564806341,
+        -29.293353796724887
+      ]
+    },
+    {
+      "index": 65,
+      "distances": [
+        12.267344245650031,
+        8.817047354910857
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        79.32885404985498,
+        -15.44806373246439
+      ]
+    },
+    {
+      "index": 66,
+      "distances": [
+        12.26363459812372,
+        8.817747046489185
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        39.845708163619406,
+        -26.61179944845327
+      ]
+    },
+    {
+      "index": 67,
+      "distances": [
+        12.287912401601591,
+        8.837584005257455
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        115.58170325260437,
+        6.790328208972014
+      ]
+    },
+    {
+      "index": 68,
+      "distances": [
+        12.264232912006735,
+        8.791755575655738
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.01127892930137,
+        -28.343726950730826
+      ]
+    },
+    {
+      "index": 69,
+      "distances": [
+        12.249052258656912,
+        8.803790862225984
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.03224281746992,
+        -34.41145061682363
+      ]
+    },
+    {
+      "index": 70,
+      "distances": [
+        12.251817360425484,
+        8.786095817888958
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        60.9271887501086,
+        -37.61117889879901
+      ]
+    },
+    {
+      "index": 71,
+      "distances": [
+        12.25423904885003,
+        8.806232106170706
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        59.528030944100664,
+        -29.410910551078302
+      ]
+    },
+    {
+      "index": 72,
+      "distances": [
+        12.263692633923116,
+        8.791104532361949
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        70.00244427708819,
+        -28.363981541535708
+      ]
+    },
+    {
+      "index": 73,
+      "distances": [
+        12.24593569581396,
+        8.798002145701826
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        39.46849991118776,
+        -38.93281696413763
+      ]
+    },
+    {
+      "index": 74,
+      "distances": [
+        12.287647676157812,
+        8.83995962037653
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        104.16089954835365,
+        4.685504004305713
+      ]
+    },
+    {
+      "index": 75,
+      "distances": [
+        12.371004752143351,
+        8.861780526795988
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        104.13671009135645,
+        21.140589941912665
+      ]
+    },
+    {
+      "index": 76,
+      "distances": [
+        12.260882059549779,
+        8.804597787270763
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.09726422807225,
+        -22.221325743017317
+      ]
+    },
+    {
+      "index": 77,
+      "distances": [
+        12.273164116761608,
+        8.795857690986168
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        114.59035055917558,
+        -14.251840223298643
+      ]
+    },
+    {
+      "index": 78,
+      "distances": [
+        12.294337014728107,
+        8.836767496403692
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.158028330352494,
+        -9.0345966213591
+      ]
+    },
+    {
+      "index": 79,
+      "distances": [
+        12.2788902209251,
+        8.824653854954574
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        69.75359445322209,
+        -10.536142297207078
+      ]
+    },
+    {
+      "index": 80,
+      "distances": [
+        12.269274038817509,
+        8.776848206373389
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        95.07555120459268,
+        -33.047556196001494
+      ]
+    },
+    {
+      "index": 81,
+      "distances": [
+        12.25829744331429,
+        8.7813534376613
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        71.10389261510741,
+        -35.31896443263247
+      ]
+    },
+    {
+      "index": 82,
+      "distances": [
+        12.259260180993252,
+        8.790696661479437
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        79.49657093043157,
+        -30.191300881580247
+      ]
+    },
+    {
+      "index": 83,
+      "distances": [
+        12.284465453769455,
+        8.826061337253336
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        74.2522419105083,
+        -7.233066508137853
+      ]
+    },
+    {
+      "index": 84,
+      "distances": [
+        12.26150507700635,
+        8.79899450681563
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        67.29170323841618,
+        -25.70819885728595
+      ]
+    },
+    {
+      "index": 85,
+      "distances": [
+        12.286274522056587,
+        8.840105439461432
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        113.93840222926023,
+        6.743304273309178
+      ]
+    },
+    {
+      "index": 86,
+      "distances": [
+        12.260471116770836,
+        8.791598440712626
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        81.97622207857958,
+        -28.493035594121523
+      ]
+    },
+    {
+      "index": 87,
+      "distances": [
+        12.252368809509244,
+        8.809385808732262
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        50.911844770215794,
+        -30.109746391040375
+      ]
+    },
+    {
+      "index": 88,
+      "distances": [
+        12.244312853556604,
+        8.802987519772362
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.362673116025064,
+        -36.221486053404774
+      ]
+    },
+    {
+      "index": 89,
+      "distances": [
+        12.245826555745081,
+        8.804062927114826
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.549595286756386,
+        -34.627200676010844
+      ]
+    },
+    {
+      "index": 90,
+      "distances": [
+        12.26459215155435,
+        8.81589453401952
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        69.70762353829903,
+        -18.07914217816119
+      ]
+    },
+    {
+      "index": 91,
+      "distances": [
+        12.25873674634682,
+        8.769955129588453
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.42146608014838,
+        -43.44162407854466
+      ]
+    },
+    {
+      "index": 92,
+      "distances": [
+        12.244866475961611,
+        8.804367900374677
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.73565585395494,
+        -35.45841927860849
+      ]
+    },
+    {
+      "index": 93,
+      "distances": [
+        12.264681852293862,
+        8.805456481291685
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        67.64508492453484,
+        -21.13162202472924
+      ]
+    },
+    {
+      "index": 94,
+      "distances": [
+        12.271839523843026,
+        8.777146110445297
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        97.09432334853878,
+        -28.243838976788254
+      ]
+    },
+    {
+      "index": 95,
+      "distances": [
+        12.272045921045134,
+        8.828207464237922
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        58.28453720050925,
+        -14.895331109708678
+      ]
+    },
+    {
+      "index": 96,
+      "distances": [
+        12.271277676455561,
+        8.827463223797025
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        58.613948967715345,
+        -15.189454106303998
+      ]
+    },
+    {
+      "index": 97,
+      "distances": [
+        12.306636033097933,
+        8.838107855054256
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        19.16047696421279,
+        -20.349126285382226
+      ]
+    },
+    {
+      "index": 98,
+      "distances": [
+        12.266303353237687,
+        8.800656720974281
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        89.46323969357691,
+        -19.236455584778128
+      ]
+    },
+    {
+      "index": 99,
+      "distances": [
+        12.278723342170201,
+        8.830212413254582
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        102.52093423668133,
+        -0.8535422231670822
+      ]
+    },
+    {
+      "index": 100,
+      "distances": [
+        12.26626172616652,
+        8.80071867045524
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        89.3655848559028,
+        -19.229734968218565
+      ]
+    },
+    {
+      "index": 101,
+      "distances": [
+        12.263305340960674,
+        8.798501895668695
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        89.61156875700516,
+        -22.06286516077506
+      ]
+    },
+    {
+      "index": 102,
+      "distances": [
+        12.256203518731104,
+        8.783809535969336
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.1911060712101,
+        -36.20801915537045
+      ]
+    },
+    {
+      "index": 103,
+      "distances": [
+        12.26220907227558,
+        8.7869195721961
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        82.85399043571965,
+        -28.475209207616814
+      ]
+    },
+    {
+      "index": 104,
+      "distances": [
+        12.249045960379156,
+        8.784480361575572
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.0653005643947,
+        -40.25660572945203
+      ]
+    },
+    {
+      "index": 105,
+      "distances": [
+        12.302081414956026,
+        8.834769352514842
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.501140335768326,
+        -13.04616920576936
+      ]
+    },
+    {
+      "index": 106,
+      "distances": [
+        12.25686821371999,
+        8.800067630379036
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.97787715184043,
+        -27.01327424648838
+      ]
+    },
+    {
+      "index": 107,
+      "distances": [
+        12.261262651489881,
+        8.798503042666777
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        89.14342822967116,
+        -22.68275871255642
+      ]
+    },
+    {
+      "index": 108,
+      "distances": [
+        12.277314914826178,
+        8.776821695636897
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        99.30148915569163,
+        -24.512784180536798
+      ]
+    },
+    {
+      "index": 109,
+      "distances": [
+        12.251511554068145,
+        8.803745830514936
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        60.7624409018035,
+        -29.71042033516173
+      ]
+    },
+    {
+      "index": 110,
+      "distances": [
+        12.256860098405383,
+        8.80098111192827
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        67.94995775396157,
+        -26.699990617779775
+      ]
+    },
+    {
+      "index": 111,
+      "distances": [
+        12.260189922966381,
+        8.810702561097713
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        61.312800766457826,
+        -23.169287815806342
+      ]
+    },
+    {
+      "index": 112,
+      "distances": [
+        12.275971284986444,
+        8.826644283799647
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        49.57452991938885,
+        -16.867824950637413
+      ]
+    },
+    {
+      "index": 113,
+      "distances": [
+        12.271235317345077,
+        8.798806469995851
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        99.63075712743517,
+        -15.723434701771936
+      ]
+    },
+    {
+      "index": 114,
+      "distances": [
+        12.250421451199513,
+        8.78376558062417
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.30820488865601,
+        -38.881490184551396
+      ]
+    },
+    {
+      "index": 115,
+      "distances": [
+        12.26023426056163,
+        8.809019835530343
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        66.29880310653297,
+        -22.028310646851168
+      ]
+    },
+    {
+      "index": 116,
+      "distances": [
+        12.271798330843144,
+        8.827682738886084
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.934559952706906,
+        -15.29806781190544
+      ]
+    },
+    {
+      "index": 117,
+      "distances": [
+        12.260192631824998,
+        8.80904173212764
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        66.26913890772937,
+        -22.024541854306563
+      ]
+    },
+    {
+      "index": 118,
+      "distances": [
+        12.255230858460965,
+        8.777883631178314
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        78.65005872438593,
+        -41.65245040296921
+      ]
+    },
+    {
+      "index": 119,
+      "distances": [
+        12.27392846818831,
+        8.817335811020873
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        84.43623669449872,
+        -10.367013036337354
+      ]
+    },
+    {
+      "index": 120,
+      "distances": [
+        12.251556610533187,
+        8.812214215618589
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        46.18764829941,
+        -30.942957994259245
+      ]
+    },
+    {
+      "index": 121,
+      "distances": [
+        12.273731503465362,
+        8.817276995852867
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        84.09605194754289,
+        -10.535327558636496
+      ]
+    },
+    {
+      "index": 122,
+      "distances": [
+        12.256376543701684,
+        8.813819892884327
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.52848233144258,
+        -23.906997077843272
+      ]
+    },
+    {
+      "index": 123,
+      "distances": [
+        12.266424799590302,
+        8.822185894698364
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.30037827475098,
+        -17.96747765586707
+      ]
+    },
+    {
+      "index": 124,
+      "distances": [
+        12.27481128297407,
+        8.826739610471991
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        85.72966162520501,
+        -6.310445759567983
+      ]
+    },
+    {
+      "index": 125,
+      "distances": [
+        12.244755311705063,
+        8.795482079650997
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.435094629565725,
+        -37.496176389764656
+      ]
+    },
+    {
+      "index": 126,
+      "distances": [
+        12.26228520196202,
+        8.80497433058427
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        91.78973483370612,
+        -18.714856710280273
+      ]
+    },
+    {
+      "index": 127,
+      "distances": [
+        12.267449893883846,
+        8.799790265241336
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        95.75561348071315,
+        -17.54370040869003
+      ]
+    },
+    {
+      "index": 128,
+      "distances": [
+        12.246394930603875,
+        8.80853112082977
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        20.135457139400756,
+        -38.90281749959962
+      ]
+    },
+    {
+      "index": 129,
+      "distances": [
+        12.25424978583405,
+        8.789286033078927
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        71.69554278160089,
+        -32.7831771337288
+      ]
+    },
+    {
+      "index": 130,
+      "distances": [
+        12.270538828906774,
+        8.745153396845852
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        47.68313879463582,
+        -55.115471075360105
+      ]
+    },
+    {
+      "index": 131,
+      "distances": [
+        12.255697827100073,
+        8.797735314671439
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.01687376787348,
+        -27.88590249748904
+      ]
+    },
+    {
+      "index": 132,
+      "distances": [
+        12.249124383322656,
+        8.794037521343533
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        33.59402217979269,
+        -43.90163521203769
+      ]
+    },
+    {
+      "index": 133,
+      "distances": [
+        12.261472439034504,
+        8.775539394836866
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.54101390318604,
+        -36.837530475526535
+      ]
+    },
+    {
+      "index": 134,
+      "distances": [
+        12.253453635985357,
+        8.78480612719678
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        74.30470280636345,
+        -36.18981079444174
+      ]
+    },
+    {
+      "index": 135,
+      "distances": [
+        12.270184410769888,
+        8.824995465002216
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        71.60480894385512,
+        -12.649323442871946
+      ]
+    },
+    {
+      "index": 136,
+      "distances": [
+        12.266073387151764,
+        8.761715043056055
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.30324394753137,
+        -43.662712540212524
+      ]
+    },
+    {
+      "index": 137,
+      "distances": [
+        12.256229302404156,
+        8.815366152351137
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.086403581824214,
+        -28.988541756628337
+      ]
+    },
+    {
+      "index": 138,
+      "distances": [
+        12.27182464724991,
+        8.82506117036014
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        76.90889215058945,
+        -10.662231439430343
+      ]
+    },
+    {
+      "index": 139,
+      "distances": [
+        12.279008744817814,
+        8.743500929262362
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        66.14600035958358,
+        -52.00451776570105
+      ]
+    },
+    {
+      "index": 140,
+      "distances": [
+        12.270590576051367,
+        8.814533571089385
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        80.01971829627146,
+        -13.240982469181176
+      ]
+    },
+    {
+      "index": 141,
+      "distances": [
+        12.268330508109411,
+        8.812960960696296
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        82.77970134821805,
+        -14.00798923616351
+      ]
+    },
+    {
+      "index": 142,
+      "distances": [
+        12.266645182731782,
+        8.815624549912902
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        79.83587966413063,
+        -13.768296978408955
+      ]
+    },
+    {
+      "index": 143,
+      "distances": [
+        12.258263776894038,
+        8.799451089152868
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        70.00221965210179,
+        -25.916239299765763
+      ]
+    },
+    {
+      "index": 144,
+      "distances": [
+        12.276620754853505,
+        8.826370352376792
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        77.21455770868513,
+        -8.984226671224008
+      ]
+    },
+    {
+      "index": 145,
+      "distances": [
+        12.262493185949522,
+        8.806922630079772
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        93.26192955999657,
+        -16.88930896785901
+      ]
+    },
+    {
+      "index": 146,
+      "distances": [
+        12.25003943722609,
+        8.80401659824767
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        70.76397289038533,
+        -28.710675821233508
+      ]
+    },
+    {
+      "index": 147,
+      "distances": [
+        12.25618219747111,
+        8.791420528060875
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.77955245802241,
+        -30.595539229578094
+      ]
+    },
+    {
+      "index": 148,
+      "distances": [
+        12.262779005148273,
+        8.805409988398145
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        96.31000943966094,
+        -16.87605572451858
+      ]
+    },
+    {
+      "index": 149,
+      "distances": [
+        12.252600207445301,
+        8.806156505611726
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        73.83995174233235,
+        -26.24858115585542
+      ]
+    },
+    {
+      "index": 150,
+      "distances": [
+        12.24947251202449,
+        8.786541107536271
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.29977588236309,
+        -39.35894360797374
+      ]
+    },
+    {
+      "index": 151,
+      "distances": [
+        12.26380912019754,
+        8.810131726410495
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        99.85475137260579,
+        -14.083234646734795
+      ]
+    },
+    {
+      "index": 152,
+      "distances": [
+        12.252481394697758,
+        8.788340174591484
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        54.152009339989064,
+        -35.0648533453753
+      ]
+    },
+    {
+      "index": 153,
+      "distances": [
+        12.25267095371603,
+        8.795563116932373
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.52352350898241,
+        -29.93757409034467
+      ]
+    },
+    {
+      "index": 154,
+      "distances": [
+        12.27129977619259,
+        8.823945827068076
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        91.45589240262021,
+        -7.33810744258426
+      ]
+    },
+    {
+      "index": 155,
+      "distances": [
+        12.25791743665001,
+        8.810081143493422
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        79.55663466059642,
+        -21.683750899247798
+      ]
+    },
+    {
+      "index": 156,
+      "distances": [
+        12.258527236951888,
+        8.794203973732804
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.04385384499227,
+        -27.812237729217344
+      ]
+    },
+    {
+      "index": 157,
+      "distances": [
+        12.27678406922253,
+        8.837265475785179
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        113.71079251192569,
+        0.7657077852166623
+      ]
+    },
+    {
+      "index": 158,
+      "distances": [
+        12.257774814543097,
+        8.80221181974106
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.8260252185953,
+        -25.583094366632636
+      ]
+    },
+    {
+      "index": 159,
+      "distances": [
+        12.23510179396642,
+        8.766949376159358
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        -7.099818329645501,
+        -66.69569599102596
+      ]
+    },
+    {
+      "index": 160,
+      "distances": [
+        12.243882106378894,
+        8.793222159276187
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        60.76318216410908,
+        -39.89910146045693
+      ]
+    },
+    {
+      "index": 161,
+      "distances": [
+        12.265523707585304,
+        8.823428126198968
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        73.66611605907872,
+        -15.197511293354836
+      ]
+    },
+    {
+      "index": 162,
+      "distances": [
+        12.252817855138666,
+        8.796776170299607
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.61180344045349,
+        -29.199803011957826
+      ]
+    },
+    {
+      "index": 163,
+      "distances": [
+        12.24996680666448,
+        8.809503239239541
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        38.54911084880308,
+        -32.71308334639352
+      ]
+    },
+    {
+      "index": 164,
+      "distances": [
+        12.25827794205938,
+        8.793508150271474
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.68436374329522,
+        -33.57009337319302
+      ]
+    },
+    {
+      "index": 165,
+      "distances": [
+        12.254203016051761,
+        8.81266364240412
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.084849038355145,
+        -29.22468765160724
+      ]
+    },
+    {
+      "index": 166,
+      "distances": [
+        12.26336575039043,
+        8.767476452221379
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.68116418779442,
+        -40.57348235794902
+      ]
+    },
+    {
+      "index": 167,
+      "distances": [
+        12.2602546755429,
+        8.793997856595707
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        59.697793084209565,
+        -31.214118555772515
+      ]
+    },
+    {
+      "index": 168,
+      "distances": [
+        12.25233998313419,
+        8.810602154086528
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        45.025826796173135,
+        -29.895575710103486
+      ]
+    },
+    {
+      "index": 169,
+      "distances": [
+        12.254068260935973,
+        8.815347081570156
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        19.414747835675314,
+        -34.31550868137583
+      ]
+    },
+    {
+      "index": 170,
+      "distances": [
+        12.25596775221366,
+        8.79863759778389
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.09220052010423,
+        -32.23018454434752
+      ]
+    },
+    {
+      "index": 171,
+      "distances": [
+        12.261848307676711,
+        8.818965705083034
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.31832493341707,
+        -18.352576635962862
+      ]
+    },
+    {
+      "index": 172,
+      "distances": [
+        12.261314240764502,
+        8.79189827869537
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.68237493567764,
+        -33.27837754507594
+      ]
+    },
+    {
+      "index": 173,
+      "distances": [
+        12.253371269489453,
+        8.780654832754195
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        66.09856530968736,
+        -38.28627691589024
+      ]
+    },
+    {
+      "index": 174,
+      "distances": [
+        12.261566439799024,
+        8.79780314515961
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        88.69334207055635,
+        -21.17035870587867
+      ]
+    },
+    {
+      "index": 175,
+      "distances": [
+        12.253943974123468,
+        8.810249598703495
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.672393631648276,
+        -29.744821779629376
+      ]
+    },
+    {
+      "index": 176,
+      "distances": [
+        12.277287569992009,
+        8.829549867032965
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        74.00571011950447,
+        -8.015980112659918
+      ]
+    },
+    {
+      "index": 177,
+      "distances": [
+        12.245958613533817,
+        8.805410374183316
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        33.822269473161214,
+        -36.66693900898568
+      ]
+    },
+    {
+      "index": 178,
+      "distances": [
+        12.268735919020143,
+        8.760507807399255
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        69.15749215807284,
+        -42.27834161930164
+      ]
+    },
+    {
+      "index": 179,
+      "distances": [
+        12.274585654421283,
+        8.806020305259304
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        118.88406544044972,
+        -6.6984737803459495
+      ]
+    },
+    {
+      "index": 180,
+      "distances": [
+        12.289010697378803,
+        8.83263746097184
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        125.43522657459154,
+        9.156071657675653
+      ]
+    },
+    {
+      "index": 181,
+      "distances": [
+        12.25462873285617,
+        8.79974310147416
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.306889537343636,
+        -31.835234075331186
+      ]
+    },
+    {
+      "index": 182,
+      "distances": [
+        12.277830385398666,
+        8.844899469710224
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        101.345113786443,
+        -0.2529475520889122
+      ]
+    },
+    {
+      "index": 183,
+      "distances": [
+        12.320105100050842,
+        8.780105532925202
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        191.41093919284384,
+        7.403170216212445
+      ]
+    },
+    {
+      "index": 184,
+      "distances": [
+        12.30521514890279,
+        8.799096427560968
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        190.75878118084034,
+        13.458022923690962
+      ]
+    },
+    {
+      "index": 185,
+      "distances": [
+        12.260815447371924,
+        8.803670033138156
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.8116299953837,
+        -18.63821106355053
+      ]
+    },
+    {
+      "index": 186,
+      "distances": [
+        12.248431298762208,
+        8.797319592123351
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        66.0591203313972,
+        -32.91501646172786
+      ]
+    },
+    {
+      "index": 187,
+      "distances": [
+        12.255922077695603,
+        8.795034216642554
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        83.08972340390645,
+        -26.64592847188578
+      ]
+    },
+    {
+      "index": 188,
+      "distances": [
+        12.261716393454963,
+        8.767484110360042
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.76904732239984,
+        -41.15397059899675
+      ]
+    },
+    {
+      "index": 189,
+      "distances": [
+        12.255650500135083,
+        8.818692258522866
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        0.6340755768009672,
+        -38.29232044176621
+      ]
+    },
+    {
+      "index": 190,
+      "distances": [
+        12.30980641606068,
+        8.85397730398868
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        148.54755068439033,
+        24.805169836153503
+      ]
+    },
+    {
+      "index": 191,
+      "distances": [
+        12.294097611842156,
+        8.837608208579063
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        141.2876680731651,
+        16.249621154966405
+      ]
+    },
+    {
+      "index": 192,
+      "distances": [
+        12.2527347393504,
+        8.803935686093286
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        49.56612704430029,
+        -30.413648731361036
+      ]
+    },
+    {
+      "index": 193,
+      "distances": [
+        12.268886108812286,
+        8.80413077120736
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        98.42460072995232,
+        -13.621016897169739
+      ]
+    },
+    {
+      "index": 194,
+      "distances": [
+        12.248405672784203,
+        8.78742771077734
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        61.59420954962988,
+        -36.721057169327324
+      ]
+    },
+    {
+      "index": 195,
+      "distances": [
+        12.268275698050088,
+        8.804016318354957
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        97.14091566994219,
+        -14.229682566641998
+      ]
+    },
+    {
+      "index": 196,
+      "distances": [
+        12.263538846680936,
+        8.76382071947738
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        52.147261341754074,
+        -42.3449236604572
+      ]
+    },
+    {
+      "index": 197,
+      "distances": [
+        12.250698396803163,
+        8.802467911505078
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.80936336115079,
+        -32.361793659908585
+      ]
+    },
+    {
+      "index": 198,
+      "distances": [
+        12.241825406036943,
+        8.817920733177074
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        21.879826955396283,
+        -44.47789540574493
+      ]
+    },
+    {
+      "index": 199,
+      "distances": [
+        12.249792157824954,
+        8.787978826907366
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.38491445371903,
+        -35.217258606548256
+      ]
+    },
+    {
+      "index": 200,
+      "distances": [
+        12.258802191561037,
+        8.763666837682925
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        50.67917585883893,
+        -45.56853458907359
+      ]
+    },
+    {
+      "index": 201,
+      "distances": [
+        12.248122940504437,
+        8.79300974549932
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.33008246043528,
+        -35.0934318038118
+      ]
+    },
+    {
+      "index": 202,
+      "distances": [
+        12.282105670492658,
+        8.825283701481185
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        119.70761673029327,
+        3.2118592504990318
+      ]
+    },
+    {
+      "index": 203,
+      "distances": [
+        12.257132467928557,
+        8.775050409451943
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.26556214422578,
+        -38.969262001453785
+      ]
+    },
+    {
+      "index": 204,
+      "distances": [
+        12.240222380201873,
+        8.787428540976912
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        52.956468294919716,
+        -46.10220628453369
+      ]
+    },
+    {
+      "index": 205,
+      "distances": [
+        12.334968549644755,
+        8.847508705577159
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.37240271488997,
+        5.169837247231072
+      ]
+    },
+    {
+      "index": 206,
+      "distances": [
+        12.218804619293635,
+        8.779626880147935
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        -49.23428251906546,
+        -72.0430329313357
+      ]
+    },
+    {
+      "index": 207,
+      "distances": [
+        12.27749965502884,
+        8.823771642983914
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        118.09996668513807,
+        0.8308236784222345
+      ]
+    },
+    {
+      "index": 208,
+      "distances": [
+        12.268815060645455,
+        8.815946683040014
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        66.31098228954414,
+        -15.940730862940853
+      ]
+    },
+    {
+      "index": 209,
+      "distances": [
+        12.267592725187257,
+        8.790470741009312
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        88.21096644474505,
+        -21.36662502186428
+      ]
+    },
+    {
+      "index": 210,
+      "distances": [
+        12.25811683898632,
+        8.777702775868987
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.63911557353413,
+        -36.21346964502115
+      ]
+    },
+    {
+      "index": 211,
+      "distances": [
+        12.270507793881734,
+        8.826094652745338
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.32985606228374,
+        -12.949044993867318
+      ]
+    },
+    {
+      "index": 212,
+      "distances": [
+        12.2503552365153,
+        8.789007010908023
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        67.89758638436953,
+        -33.745415077475116
+      ]
+    },
+    {
+      "index": 213,
+      "distances": [
+        12.249099323847515,
+        8.804633543098367
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.654175593803586,
+        -30.27888373427332
+      ]
+    },
+    {
+      "index": 214,
+      "distances": [
+        12.277006271695743,
+        8.802875603770708
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        112.9668175334144,
+        -7.302180184301406
+      ]
+    },
+    {
+      "index": 215,
+      "distances": [
+        12.25430512092364,
+        8.819104706979642
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.695575406161225,
+        -26.96563188288775
+      ]
+    },
+    {
+      "index": 216,
+      "distances": [
+        12.247415899263157,
+        8.787024025518194
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        46.465959457367944,
+        -38.32050650254425
+      ]
+    },
+    {
+      "index": 217,
+      "distances": [
+        12.294717602797833,
+        8.839049396201899
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        120.41609753144465,
+        10.749245414169934
+      ]
+    },
+    {
+      "index": 218,
+      "distances": [
+        12.27825821545818,
+        8.822931803218898
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        112.25329531150116,
+        -0.3715997461204381
+      ]
+    },
+    {
+      "index": 219,
+      "distances": [
+        12.262187381603608,
+        8.813108495472903
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        49.19657549347403,
+        -22.321297819551376
+      ]
+    },
+    {
+      "index": 220,
+      "distances": [
+        12.276839967468916,
+        8.82919198637673
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.119137001484916,
+        -13.728773641849727
+      ]
+    },
+    {
+      "index": 221,
+      "distances": [
+        12.247959705812145,
+        8.792629151287622
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        71.10513355237714,
+        -35.17782287547624
+      ]
+    },
+    {
+      "index": 222,
+      "distances": [
+        12.258277479196584,
+        8.802106078808805
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        75.54040496406267,
+        -24.47326947605761
+      ]
+    },
+    {
+      "index": 223,
+      "distances": [
+        12.260228854414793,
+        8.804980810273078
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.33961950904026,
+        -22.804526364190764
+      ]
+    },
+    {
+      "index": 224,
+      "distances": [
+        12.295995114350461,
+        8.83987029963337
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        125.11796813692726,
+        12.584357162088452
+      ]
+    },
+    {
+      "index": 225,
+      "distances": [
+        12.308805699998384,
+        8.837198349900696
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        145.2425813450957,
+        23.175921891527196
+      ]
+    },
+    {
+      "index": 226,
+      "distances": [
+        12.253831266504251,
+        8.799616346259642
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        37.699172187257346,
+        -33.94547590257645
+      ]
+    },
+    {
+      "index": 227,
+      "distances": [
+        12.264022219518854,
+        8.814268442386663
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        88.32097581834833,
+        -13.935899038238688
+      ]
+    },
+    {
+      "index": 228,
+      "distances": [
+        12.262998495431614,
+        8.794659055190785
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.17920951459008,
+        -20.716221861579925
+      ]
+    },
+    {
+      "index": 229,
+      "distances": [
+        12.263696978286633,
+        8.79278341347086
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        98.52653174813749,
+        -21.489950483797102
+      ]
+    },
+    {
+      "index": 230,
+      "distances": [
+        12.250093077828181,
+        8.77967264349254
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.068561127747785,
+        -43.85793013211391
+      ]
+    },
+    {
+      "index": 231,
+      "distances": [
+        12.249614205374389,
+        8.779801230832476
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.672819499108414,
+        -40.245062904762335
+      ]
+    },
+    {
+      "index": 232,
+      "distances": [
+        12.249957765189611,
+        8.779286645154158
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        41.332581343210876,
+        -44.23674156959878
+      ]
+    },
+    {
+      "index": 233,
+      "distances": [
+        12.26535233326135,
+        8.799291324806214
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        93.01412492849671,
+        -18.66734433072783
+      ]
+    },
+    {
+      "index": 234,
+      "distances": [
+        12.274972258979616,
+        8.820903079036055
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        105.82354273542393,
+        -3.464138991343802
+      ]
+    },
+    {
+      "index": 235,
+      "distances": [
+        12.254725356607686,
+        8.799080726912985
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        45.34399532668189,
+        -32.11191596732104
+      ]
+    },
+    {
+      "index": 236,
+      "distances": [
+        12.255304200942309,
+        8.764696946556287
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        44.94195591461178,
+        -46.510456641527696
+      ]
+    },
+    {
+      "index": 237,
+      "distances": [
+        12.265923850254898,
+        8.805285628936787
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        88.6287214172732,
+        -15.349418745499335
+      ]
+    },
+    {
+      "index": 238,
+      "distances": [
+        12.248979748403375,
+        8.805984600621994
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.523782140581574,
+        -29.657506341906156
+      ]
+    },
+    {
+      "index": 239,
+      "distances": [
+        12.262412125450645,
+        8.804773022268883
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        82.5733590983223,
+        -18.036997372558545
+      ]
+    },
+    {
+      "index": 240,
+      "distances": [
+        12.258808425819673,
+        8.80358245680191
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.1941228009139,
+        -24.203327438963782
+      ]
+    },
+    {
+      "index": 241,
+      "distances": [
+        12.25519670388282,
+        8.762541357705915
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.352184780248365,
+        -48.09531106940868
+      ]
+    },
+    {
+      "index": 242,
+      "distances": [
+        12.2633320665204,
+        8.791440709161375
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.046848846046,
+        -22.157015647251598
+      ]
+    },
+    {
+      "index": 243,
+      "distances": [
+        12.269893979376283,
+        8.81781681190821
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        98.72022367110823,
+        -8.025077241489669
+      ]
+    },
+    {
+      "index": 244,
+      "distances": [
+        12.243347469769596,
+        8.788474645373906
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        21.242562879784714,
+        -43.94366351350939
+      ]
+    },
+    {
+      "index": 245,
+      "distances": [
+        12.280442489843766,
+        8.789854918925183
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        116.28835857023148,
+        -10.376516623009351
+      ]
+    },
+    {
+      "index": 246,
+      "distances": [
+        12.27651469176117,
+        8.779411173138948
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        116.88705619567666,
+        -20.029378928312454
+      ]
+    },
+    {
+      "index": 247,
+      "distances": [
+        12.256354826745657,
+        8.807717317636607
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.81603305148877,
+        -23.397380478513384
+      ]
+    },
+    {
+      "index": 248,
+      "distances": [
+        12.248544184528283,
+        8.800392205676046
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.20254456466975,
+        -29.24859119078829
+      ]
+    },
+    {
+      "index": 249,
+      "distances": [
+        12.262336297308778,
+        8.786998064997896
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        86.20767944399756,
+        -25.449909749686384
+      ]
+    },
+    {
+      "index": 250,
+      "distances": [
+        12.259966176941269,
+        8.804396681974447
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.041879383726496,
+        -23.587520170411608
+      ]
+    },
+    {
+      "index": 251,
+      "distances": [
+        12.289345157851365,
+        8.822096813998366
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        134.40952961394234,
+        10.476257557465722
+      ]
+    },
+    {
+      "index": 252,
+      "distances": [
+        12.264049132231419,
+        8.814101526867008
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.16825480816475,
+        -13.523233293790057
+      ]
+    },
+    {
+      "index": 253,
+      "distances": [
+        12.266445307944036,
+        8.784014614461606
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        92.58124964761026,
+        -24.200982616008133
+      ]
+    },
+    {
+      "index": 254,
+      "distances": [
+        12.249456026833728,
+        8.790437652087478
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        74.4540117096708,
+        -34.86713705549491
+      ]
+    },
+    {
+      "index": 255,
+      "distances": [
+        12.265240936379614,
+        8.785491889430352
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.97393742488757,
+        -24.065519920028947
+      ]
+    },
+    {
+      "index": 256,
+      "distances": [
+        12.256574032562499,
+        8.77302333845676
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        78.76596501226058,
+        -44.99852508201121
+      ]
+    },
+    {
+      "index": 257,
+      "distances": [
+        12.247632101283864,
+        8.787186261236087
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        71.33873880164853,
+        -39.163249824717724
+      ]
+    },
+    {
+      "index": 258,
+      "distances": [
+        12.247681653676597,
+        8.79363616892053
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.36826040806105,
+        -32.15508352741983
+      ]
+    },
+    {
+      "index": 259,
+      "distances": [
+        12.260841007439105,
+        8.793167758863625
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.63422268827091,
+        -27.78286105172218
+      ]
+    },
+    {
+      "index": 260,
+      "distances": [
+        12.260555259496163,
+        8.81459573793712
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.105830903548025,
+        -20.48484598894038
+      ]
+    },
+    {
+      "index": 261,
+      "distances": [
+        12.256089482276966,
+        8.811957036076418
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        60.43229447234279,
+        -22.940654713521212
+      ]
+    },
+    {
+      "index": 262,
+      "distances": [
+        12.255545141379717,
+        8.810412146435608
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        51.50354472779563,
+        -26.191193788750667
+      ]
+    },
+    {
+      "index": 263,
+      "distances": [
+        12.265584813962704,
+        8.783978884355243
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        81.07734392139616,
+        -27.638028682096902
+      ]
+    },
+    {
+      "index": 264,
+      "distances": [
+        12.24729019773335,
+        8.818836026134914
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        8.332672569696257,
+        -40.314576498264955
+      ]
+    },
+    {
+      "index": 265,
+      "distances": [
+        12.256480971011912,
+        8.807099715688192
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        61.351598423756656,
+        -24.410386958580773
+      ]
+    },
+    {
+      "index": 266,
+      "distances": [
+        12.264442295990156,
+        8.803024678768521
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        87.43808499312186,
+        -17.71073411712125
+      ]
+    },
+    {
+      "index": 267,
+      "distances": [
+        12.262437806865242,
+        8.807206242642579
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        80.33031876528489,
+        -17.435563769617488
+      ]
+    },
+    {
+      "index": 268,
+      "distances": [
+        12.29083022571152,
+        8.791698227207704
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        143.68787855814813,
+        -1.8381825514902275
+      ]
+    },
+    {
+      "index": 269,
+      "distances": [
+        12.277052436114154,
+        8.821100613992993
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        74.32961614336492,
+        -9.105768128327014
+      ]
+    },
+    {
+      "index": 270,
+      "distances": [
+        12.312946886454363,
+        8.836002261021564
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        34.09181166384093,
+        -13.056847474607764
+      ]
+    },
+    {
+      "index": 271,
+      "distances": [
+        12.255503076505557,
+        8.805007885705619
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.26890664757099,
+        -32.78669770940493
+      ]
+    },
+    {
+      "index": 272,
+      "distances": [
+        12.260693742858052,
+        8.805674702144348
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        80.51965845435899,
+        -18.969629192934264
+      ]
+    },
+    {
+      "index": 273,
+      "distances": [
+        12.264468743647798,
+        8.801562561613672
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.68158343693295,
+        -18.223287564149373
+      ]
+    },
+    {
+      "index": 274,
+      "distances": [
+        12.245966213626946,
+        8.795126594900974
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        53.89239621977424,
+        -32.788517164768336
+      ]
+    },
+    {
+      "index": 275,
+      "distances": [
+        12.249126976997184,
+        8.801325812303032
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        23.295677610243416,
+        -37.64539815682389
+      ]
+    },
+    {
+      "index": 276,
+      "distances": [
+        12.246270191780784,
+        8.795502280705914
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        53.88582437248607,
+        -32.59578359670195
+      ]
+    },
+    {
+      "index": 277,
+      "distances": [
+        12.264592820835492,
+        8.788137924110998
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        90.75066424841836,
+        -22.66909696056119
+      ]
+    },
+    {
+      "index": 278,
+      "distances": [
+        12.276872203781739,
+        8.802010573963736
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        114.88171529441158,
+        -6.567856531202537
+      ]
+    },
+    {
+      "index": 279,
+      "distances": [
+        12.289316194672526,
+        8.793065895486368
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        142.7261719117219,
+        -1.6576636843076429
+      ]
+    },
+    {
+      "index": 280,
+      "distances": [
+        12.265514755798387,
+        8.795431551057654
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        97.13901210688826,
+        -19.82757873545789
+      ]
+    },
+    {
+      "index": 281,
+      "distances": [
+        12.244726930303575,
+        8.790627520870672
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        41.28414441512399,
+        -39.069895507067486
+      ]
+    },
+    {
+      "index": 282,
+      "distances": [
+        12.290109200342403,
+        8.792090520038249
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        143.84043010505525,
+        -1.6801186918480866
+      ]
+    },
+    {
+      "index": 283,
+      "distances": [
+        12.265690338327365,
+        8.796777062246782
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        98.47389656338612,
+        -18.915458524673213
+      ]
+    },
+    {
+      "index": 284,
+      "distances": [
+        12.280849400302964,
+        8.799308824895935
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        120.7764043785841,
+        -4.93073677364832
+      ]
+    },
+    {
+      "index": 285,
+      "distances": [
+        12.265609330898975,
+        8.79514727078785
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        97.04075218922193,
+        -19.602875894716888
+      ]
+    },
+    {
+      "index": 286,
+      "distances": [
+        12.24133459114065,
+        8.803266683819622
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        -24.263529046604503,
+        -50.98178047453845
+      ]
+    },
+    {
+      "index": 287,
+      "distances": [
+        12.30943038447514,
+        8.841436254307174
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.9198308633396,
+        -0.6098182512684218
+      ]
+    },
+    {
+      "index": 288,
+      "distances": [
+        12.304340007994082,
+        8.83966129803132
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.38154707509253,
+        -1.7839259857087768
+      ]
+    },
+    {
+      "index": 289,
+      "distances": [
+        12.325446231621724,
+        8.845080721176855
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.3062505145866,
+        1.9948582321504773
+      ]
+    },
+    {
+      "index": 290,
+      "distances": [
+        12.246075594335666,
+        8.792444378267447
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.64922044538565,
+        -33.126060938816096
+      ]
+    },
+    {
+      "index": 291,
+      "distances": [
+        12.252275361121091,
+        8.774544433847163
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        49.03183309592404,
+        -41.38371822732324
+      ]
+    },
+    {
+      "index": 292,
+      "distances": [
+        12.275355640419175,
+        8.802000675106516
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        107.56501832489805,
+        -10.697109264848947
+      ]
+    },
+    {
+      "index": 293,
+      "distances": [
+        12.28205679459402,
+        8.801191275552407
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        124.15487646751029,
+        -2.8615909348163484
+      ]
+    },
+    {
+      "index": 294,
+      "distances": [
+        12.277518208491847,
+        8.822518472609502
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        85.90444426127178,
+        -6.119281007976866
+      ]
+    },
+    {
+      "index": 295,
+      "distances": [
+        12.303835622944943,
+        8.839716201770711
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.8540727373879,
+        -1.7665436415433646
+      ]
+    },
+    {
+      "index": 296,
+      "distances": [
+        12.308886973559057,
+        8.83841135276509
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        44.19125705840108,
+        -9.985346932426381
+      ]
+    },
+    {
+      "index": 297,
+      "distances": [
+        12.260896073364318,
+        8.788020404522461
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        97.61707242408454,
+        -24.901121932269263
+      ]
+    },
+    {
+      "index": 298,
+      "distances": [
+        12.275893008025784,
+        8.78273948584325
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        92.4130616629332,
+        -21.9832286759722
+      ]
+    },
+    {
+      "index": 299,
+      "distances": [
+        12.253822961074318,
+        8.813298029202809
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        58.14910034085469,
+        -24.772889951553367
+      ]
+    },
+    {
+      "index": 300,
+      "distances": [
+        12.42109584472942,
+        8.872639351124937
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        75.0036727593114,
+        16.931586140709783
+      ]
+    },
+    {
+      "index": 301,
+      "distances": [
+        12.244577002440277,
+        8.80367349470276
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        -2.079246760755325,
+        -43.976106910143955
+      ]
+    },
+    {
+      "index": 302,
+      "distances": [
+        12.292358676645502,
+        8.791705406441112
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        148.08133895109512,
+        0.19714103881155154
+      ]
+    },
+    {
+      "index": 303,
+      "distances": [
+        12.282249163775125,
+        8.823050244777306
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        123.45659485462328,
+        4.445523443604884
+      ]
+    },
+    {
+      "index": 304,
+      "distances": [
+        12.350251278069914,
+        8.852903662120701
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        70.32739281721746,
+        7.520240368216037
+      ]
+    },
+    {
+      "index": 305,
+      "distances": [
+        12.24316648484375,
+        8.80290169994909
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        -5.451498197144645,
+        -45.5169394465718
+      ]
+    },
+    {
+      "index": 306,
+      "distances": [
+        12.250273616457367,
+        8.816055735578344
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        43.107832328009096,
+        -29.753403939990903
+      ]
+    },
+    {
+      "index": 307,
+      "distances": [
+        12.366970507751587,
+        8.858197129786182
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.23201748943401,
+        8.980519091770901
+      ]
+    },
+    {
+      "index": 308,
+      "distances": [
+        12.296119558714782,
+        8.799249161918963
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        150.77405510769916,
+        6.581089441265121
+      ]
+    },
+    {
+      "index": 309,
+      "distances": [
+        12.283837358016651,
+        8.803029449556684
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        130.60375967863627,
+        -2.7509965869954556
+      ]
+    },
+    {
+      "index": 310,
+      "distances": [
+        12.258114843683463,
+        8.810184867664441
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        71.85510074882117,
+        -19.826690113433898
+      ]
+    },
+    {
+      "index": 311,
+      "distances": [
+        12.251159054193959,
+        8.800255761315576
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        53.82189389140623,
+        -30.146379604260886
+      ]
+    },
+    {
+      "index": 312,
+      "distances": [
+        12.250551564197155,
+        8.773610806355782
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        45.001611729342926,
+        -42.91504909837087
+      ]
+    },
+    {
+      "index": 313,
+      "distances": [
+        12.25674603117951,
+        8.811147653317262
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.46380997926286,
+        -21.667040783201344
+      ]
+    },
+    {
+      "index": 314,
+      "distances": [
+        12.251748210882173,
+        8.800873747977084
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        59.86282457357504,
+        -27.659999993681765
+      ]
+    },
+    {
+      "index": 315,
+      "distances": [
+        12.250322807441329,
+        8.802340248368026
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        48.43282435881204,
+        -31.015622914942185
+      ]
+    },
+    {
+      "index": 316,
+      "distances": [
+        12.251675556767294,
+        8.810971147676577
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        54.288373147812706,
+        -26.638298523102094
+      ]
+    },
+    {
+      "index": 317,
+      "distances": [
+        12.255870688286208,
+        8.802578801115382
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        26.876383223760513,
+        -33.868375818583985
+      ]
+    },
+    {
+      "index": 318,
+      "distances": [
+        12.303014075624107,
+        8.799373703211778
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        177.4611425447402,
+        13.482308016891757
+      ]
+    },
+    {
+      "index": 319,
+      "distances": [
+        12.25117432802091,
+        8.77533912301226
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        49.71700978479038,
+        -40.98830794450082
+      ]
+    },
+    {
+      "index": 320,
+      "distances": [
+        12.240558308019038,
+        8.813770020363696
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        28.286087433010266,
+        -39.606326566550905
+      ]
+    },
+    {
+      "index": 321,
+      "distances": [
+        12.25698635165886,
+        8.811861611964803
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.896895532125995,
+        -21.36176178239532
+      ]
+    },
+    {
+      "index": 322,
+      "distances": [
+        12.30640693260962,
+        8.801806406156839
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        186.790565218175,
+        17.699074962263275
+      ]
+    },
+    {
+      "index": 323,
+      "distances": [
+        12.385259513454214,
+        8.858104474841298
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.76151196601896,
+        9.51998759996934
+      ]
+    },
+    {
+      "index": 324,
+      "distances": [
+        12.383163562082853,
+        8.8577226645502
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.889029671928284,
+        9.329775292709115
+      ]
+    },
+    {
+      "index": 325,
+      "distances": [
+        12.282805011138263,
+        8.791330721959246
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        145.25599738020964,
+        -7.807880317802905
+      ]
+    },
+    {
+      "index": 326,
+      "distances": [
+        12.264304960526335,
+        8.789796353752381
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        69.35594983392551,
+        -26.36141258393957
+      ]
+    },
+    {
+      "index": 327,
+      "distances": [
+        12.250457342471398,
+        8.773186913062439
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        46.90421807776494,
+        -42.84184089194392
+      ]
+    },
+    {
+      "index": 328,
+      "distances": [
+        12.311032582782255,
+        8.798950274790785
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        196.16113465653058,
+        19.930149507144556
+      ]
+    },
+    {
+      "index": 329,
+      "distances": [
+        12.25361073434862,
+        8.807223831914929
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        62.47067073800369,
+        -24.35440251554124
+      ]
+    },
+    {
+      "index": 330,
+      "distances": [
+        12.274003812807655,
+        8.769852801736892
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        73.67959651542012,
+        -33.1182444603034
+      ]
+    },
+    {
+      "index": 331,
+      "distances": [
+        12.260020810592081,
+        8.793680080302183
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.61723585449172,
+        -25.031986417798024
+      ]
+    },
+    {
+      "index": 332,
+      "distances": [
+        12.256504844515128,
+        8.802443763340912
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        73.47513451901662,
+        -22.12079097605057
+      ]
+    },
+    {
+      "index": 333,
+      "distances": [
+        12.251677632919387,
+        8.73870287720565
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        11.01687184680327,
+        -67.26800093109135
+      ]
+    },
+    {
+      "index": 334,
+      "distances": [
+        12.260423483499897,
+        8.813243506004083
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        67.99976519118835,
+        -18.863827512910035
+      ]
+    },
+    {
+      "index": 335,
+      "distances": [
+        12.269160870053216,
+        8.806372433860906
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        97.52620912191598,
+        -10.607376932719461
+      ]
+    },
+    {
+      "index": 336,
+      "distances": [
+        12.280175600515129,
+        8.773065965839024
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        89.384870206693,
+        -26.17191505322195
+      ]
+    },
+    {
+      "index": 337,
+      "distances": [
+        12.252977019694775,
+        8.809541389753441
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        48.988165231836064,
+        -26.071603750899044
+      ]
+    },
+    {
+      "index": 338,
+      "distances": [
+        12.266551093232852,
+        8.792478861781307
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        96.11535787304075,
+        -17.493265685014293
+      ]
+    },
+    {
+      "index": 339,
+      "distances": [
+        12.277497169991033,
+        8.805003403943907
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        131.6417482236866,
+        -1.1697680805106785
+      ]
+    },
+    {
+      "index": 340,
+      "distances": [
+        12.248567626171587,
+        8.800490336722891
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        40.98894696391906,
+        -33.24170743072855
+      ]
+    },
+    {
+      "index": 341,
+      "distances": [
+        12.271541702941676,
+        8.825032919858906
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        108.68679286385765,
+        -2.5692772740580665
+      ]
+    },
+    {
+      "index": 342,
+      "distances": [
+        12.225654275551292,
+        8.800897243467503
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        -6.938230879953977,
+        -56.16475702946474
+      ]
+    },
+    {
+      "index": 343,
+      "distances": [
+        12.269604823466937,
+        8.800308348835216
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        105.65556912045489,
+        -13.393546264639156
+      ]
+    },
+    {
+      "index": 344,
+      "distances": [
+        12.256531834435522,
+        8.825783103273356
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        23.19334129122049,
+        -31.2093622546644
+      ]
+    },
+    {
+      "index": 345,
+      "distances": [
+        12.267420515634335,
+        8.78449573645061
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        96.72694899098192,
+        -20.94668882447418
+      ]
+    },
+    {
+      "index": 346,
+      "distances": [
+        12.264153223013283,
+        8.807422095943457
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        56.776449013832945,
+        -20.7998936183603
+      ]
+    },
+    {
+      "index": 347,
+      "distances": [
+        12.27880152733051,
+        8.803842552749167
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        135.67093799180878,
+        -0.3837854468664901
+      ]
+    },
+    {
+      "index": 348,
+      "distances": [
+        12.268017719637115,
+        8.7819895290199
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        70.45042818612711,
+        -28.534362569533755
+      ]
+    },
+    {
+      "index": 349,
+      "distances": [
+        12.283143473173105,
+        8.798186308968726
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        145.78005305001673,
+        -0.11330441236817279
+      ]
+    },
+    {
+      "index": 350,
+      "distances": [
+        12.263007253314534,
+        8.81582025396504
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.03609652650428,
+        -17.482289031844203
+      ]
+    },
+    {
+      "index": 351,
+      "distances": [
+        12.2631994133897,
+        8.81594502156075
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.7271063419154,
+        -17.20922456282085
+      ]
+    },
+    {
+      "index": 352,
+      "distances": [
+        12.257680567780717,
+        8.75163545116067
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        42.03251017448102,
+        -50.497007084442615
+      ]
+    },
+    {
+      "index": 353,
+      "distances": [
+        12.262405469161157,
+        8.815228037355004
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.20761386564871,
+        -17.82130887791061
+      ]
+    },
+    {
+      "index": 354,
+      "distances": [
+        12.28744522617999,
+        8.757537141575167
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        84.47307150241579,
+        -34.435865579246325
+      ]
+    },
+    {
+      "index": 355,
+      "distances": [
+        12.285986961036581,
+        8.758505981663962
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        83.42646016341479,
+        -34.33988787791377
+      ]
+    },
+    {
+      "index": 356,
+      "distances": [
+        12.248188314322604,
+        8.800713086498758
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        49.27299729885982,
+        -31.648076981548485
+      ]
+    },
+    {
+      "index": 357,
+      "distances": [
+        12.24791644537785,
+        8.800960702380502
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        48.15202725624448,
+        -31.907344513980092
+      ]
+    },
+    {
+      "index": 358,
+      "distances": [
+        12.267308294270455,
+        8.78595364311661
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        69.08875424852943,
+        -26.545096437989983
+      ]
+    },
+    {
+      "index": 359,
+      "distances": [
+        12.268834257150537,
+        8.820730957743878
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        71.48900601716974,
+        -12.455853041034572
+      ]
+    },
+    {
+      "index": 360,
+      "distances": [
+        12.273496083679895,
+        8.807910987769636
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        112.23443507727097,
+        -5.671370893292476
+      ]
+    },
+    {
+      "index": 361,
+      "distances": [
+        12.283512778853982,
+        8.80462391127643
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        147.15433767138097,
+        3.6890976184058744
+      ]
+    },
+    {
+      "index": 362,
+      "distances": [
+        12.28188075599595,
+        8.805880806697312
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        144.6328258919719,
+        4.298999549470594
+      ]
+    },
+    {
+      "index": 363,
+      "distances": [
+        12.267149761132128,
+        8.819684366515695
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.36635381321332,
+        -14.804969676218974
+      ]
+    },
+    {
+      "index": 364,
+      "distances": [
+        12.275494289368538,
+        8.833771620652215
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        59.540953878028745,
+        -13.634820626580847
+      ]
+    },
+    {
+      "index": 365,
+      "distances": [
+        12.251913126293605,
+        8.809622475642431
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.92749806583731,
+        -24.77321953020578
+      ]
+    },
+    {
+      "index": 366,
+      "distances": [
+        12.268058457796338,
+        8.820684798020789
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.83337855100154,
+        -13.930508215432923
+      ]
+    },
+    {
+      "index": 367,
+      "distances": [
+        12.251695389235163,
+        8.801842119286615
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.16645082411023,
+        -25.298641720229625
+      ]
+    },
+    {
+      "index": 368,
+      "distances": [
+        12.278022463332775,
+        8.784172791031208
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        118.63560906841992,
+        -12.558099505943417
+      ]
+    },
+    {
+      "index": 369,
+      "distances": [
+        12.284699050976709,
+        8.802858080158122
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        149.34532362241723,
+        4.934804768979873
+      ]
+    },
+    {
+      "index": 370,
+      "distances": [
+        12.282761766520023,
+        8.765183140596946
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        117.07731910119016,
+        -25.353060458437554
+      ]
+    },
+    {
+      "index": 371,
+      "distances": [
+        12.272127333879817,
+        8.823353185192778
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        67.19314671734628,
+        -11.978059470425023
+      ]
+    },
+    {
+      "index": 372,
+      "distances": [
+        12.270357178967432,
+        8.734560105121693
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        40.63350155930607,
+        -57.95774263311148
+      ]
+    },
+    {
+      "index": 373,
+      "distances": [
+        12.252724359768148,
+        8.747351543039196
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        33.57207642686524,
+        -61.340811510556634
+      ]
+    },
+    {
+      "index": 374,
+      "distances": [
+        12.247449786519171,
+        8.797902662682782
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        50.46835163328831,
+        -32.137000561085614
+      ]
+    },
+    {
+      "index": 375,
+      "distances": [
+        12.302642791061604,
+        8.843118829308631
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        76.47641255296708,
+        1.0746590957591025
+      ]
+    },
+    {
+      "index": 376,
+      "distances": [
+        12.246942749893659,
+        8.800457993025768
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        57.94419119055371,
+        -32.735778909697856
+      ]
+    },
+    {
+      "index": 377,
+      "distances": [
+        12.287419155731108,
+        8.799060450047904
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        138.16148204734097,
+        2.9606586551462044
+      ]
+    },
+    {
+      "index": 378,
+      "distances": [
+        12.288792194372364,
+        8.802213488231786
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        158.5497362058108,
+        8.512420973360463
+      ]
+    },
+    {
+      "index": 379,
+      "distances": [
+        12.305259162027669,
+        8.825868499208887
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        221.22532489079535,
+        39.35020250648019
+      ]
+    },
+    {
+      "index": 380,
+      "distances": [
+        12.270294104561419,
+        8.756510141585181
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        66.96627263625138,
+        -40.96135428063987
+      ]
+    },
+    {
+      "index": 381,
+      "distances": [
+        12.301660956556299,
+        8.747002751594609
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        94.10016717084171,
+        -36.124464983635264
+      ]
+    },
+    {
+      "index": 382,
+      "distances": [
+        12.276377295589935,
+        8.829143394332746
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        58.010720992535084,
+        -12.02187883558392
+      ]
+    },
+    {
+      "index": 383,
+      "distances": [
+        12.277755136874534,
+        8.829890230839277
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        58.37551732752303,
+        -11.459377928166418
+      ]
+    },
+    {
+      "index": 384,
+      "distances": [
+        12.274601556142253,
+        8.80879659778153
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        53.893565709522306,
+        -14.594310190596303
+      ]
+    },
+    {
+      "index": 385,
+      "distances": [
+        12.287969169030465,
+        8.760188439915801
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        119.23758357892814,
+        -24.409291857394145
+      ]
+    },
+    {
+      "index": 386,
+      "distances": [
+        12.274865908653219,
+        8.80894816172839
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        53.828839837703384,
+        -14.409464179445052
+      ]
+    },
+    {
+      "index": 387,
+      "distances": [
+        12.251125483917155,
+        8.804355241117431
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        54.938992357452065,
+        -23.56480203726653
+      ]
+    },
+    {
+      "index": 388,
+      "distances": [
+        12.269160737303016,
+        8.821241936199966
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        40.36244150305353,
+        -20.233564753761755
+      ]
+    },
+    {
+      "index": 389,
+      "distances": [
+        12.414677661800043,
+        8.871985455726815
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        41.788918281358605,
+        3.0427357341029904
+      ]
+    },
+    {
+      "index": 390,
+      "distances": [
+        12.246220466834751,
+        8.797968343907506
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        59.20587938548877,
+        -30.54867209185474
+      ]
+    },
+    {
+      "index": 391,
+      "distances": [
+        12.39387649323517,
+        8.871699470539644
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        81.81999840241087,
+        16.33150074618834
+      ]
+    },
+    {
+      "index": 392,
+      "distances": [
+        12.435972364687254,
+        8.876244576605037
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        64.03019738548852,
+        14.511848384960047
+      ]
+    },
+    {
+      "index": 393,
+      "distances": [
+        12.276945713344993,
+        8.824713820361751
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        35.058724283929735,
+        -18.975657801936705
+      ]
+    },
+    {
+      "index": 394,
+      "distances": [
+        12.388674438699532,
+        8.866001363874666
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        74.53657559365746,
+        13.977386194664035
+      ]
+    },
+    {
+      "index": 395,
+      "distances": [
+        12.337642705791472,
+        8.850572414693884
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        61.897868150304106,
+        2.240119651969934
+      ]
+    },
+    {
+      "index": 396,
+      "distances": [
+        12.242988385255801,
+        8.798400582451597
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        55.41862509447992,
+        -31.858596969389538
+      ]
+    },
+    {
+      "index": 397,
+      "distances": [
+        12.249292801727508,
+        8.809775922450292
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        53.08753058168284,
+        -30.84930897274282
+      ]
+    },
+    {
+      "index": 398,
+      "distances": [
+        12.24142113740772,
+        8.797767959327416
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        59.697647332621614,
+        -32.630001682362575
+      ]
+    },
+    {
+      "index": 399,
+      "distances": [
+        12.241060357460222,
+        8.798185539279634
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        58.8649462605147,
+        -32.78135806879186
+      ]
+    },
+    {
+      "index": 400,
+      "distances": [
+        12.330531961044384,
+        8.840055494910189
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        83.44655677096276,
+        10.320047566343845
+      ]
+    },
+    {
+      "index": 401,
+      "distances": [
+        12.401591482618256,
+        8.86930512474144
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        59.719702586027836,
+        9.594448024466573
+      ]
+    },
+    {
+      "index": 402,
+      "distances": [
+        12.244685091516883,
+        8.797323609934532
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.84594513925566,
+        -29.45042632540037
+      ]
+    },
+    {
+      "index": 403,
+      "distances": [
+        12.288092302832615,
+        8.8225501362292
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        20.026669011627348,
+        -21.718310510222977
+      ]
+    },
+    {
+      "index": 404,
+      "distances": [
+        12.239315360699253,
+        8.801779362923742
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        43.89404729407167,
+        -42.983748102223416
+      ]
+    },
+    {
+      "index": 405,
+      "distances": [
+        12.242406378721773,
+        8.80248974774192
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        63.433327174354304,
+        -30.77386899530822
+      ]
+    },
+    {
+      "index": 406,
+      "distances": [
+        12.42542685406263,
+        8.869737719527727
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        58.736386765109245,
+        11.635585029546831
+      ]
+    },
+    {
+      "index": 407,
+      "distances": [
+        12.242246046776266,
+        8.794978062006123
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        65.3198881778082,
+        -32.17601193686963
+      ]
+    },
+    {
+      "index": 408,
+      "distances": [
+        12.717208367963929,
+        8.8981302954079
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        54.251617859441154,
+        29.817255855552048
+      ]
+    },
+    {
+      "index": 409,
+      "distances": [
+        12.529159002161895,
+        8.882920604375185
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        41.798652745108654,
+        14.199688830800113
+      ]
+    },
+    {
+      "index": 410,
+      "distances": [
+        12.254516407965218,
+        8.790177942127395
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        78.59202731878639,
+        -32.59137640434082
+      ]
+    },
+    {
+      "index": 411,
+      "distances": [
+        12.253738209978028,
+        8.784302150578386
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        78.93942077472138,
+        -33.603927627347176
+      ]
+    },
+    {
+      "index": 412,
+      "distances": [
+        12.2532102636131,
+        8.788100467280339
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        68.03828848262532,
+        -38.387002318308134
+      ]
+    },
+    {
+      "index": 413,
+      "distances": [
+        12.244465535286215,
+        8.780431629659976
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        48.54140375782163,
+        -45.78765313865952
+      ]
+    },
+    {
+      "index": 414,
+      "distances": [
+        12.258858249840078,
+        8.780706644537068
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        83.4140098915436,
+        -34.307355004563505
+      ]
+    },
+    {
+      "index": 415,
+      "distances": [
+        12.261387518096617,
+        8.818357569443057
+      ],
+      "passes": false,
+      "delta_log_likelihood_to_finest": [
+        72.80371567695997,
+        -16.985187306232433
+      ]
+    }
+  ]
+}

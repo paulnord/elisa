@@ -1,0 +1,5836 @@
+{
+  "protocol": {
+    "requested": "Matched original ELISa MCMC and CPU/GPU hybrid on Ada",
+    "code_base": "82d76c812f5f8270f9fff8cae31b45f0e3410cf3",
+    "model": "Original detached, circular, synchronous, reflected 12-degree facet binary with blackbody spectra and fixed linear limb darkening. Direct original phase mapping; 28 B, V and bolometric observations.",
+    "matrix": {
+      "workers": [
+        1,
+        4,
+        8,
+        12,
+        16
+      ],
+      "repetitions": 3,
+      "walkers": 32,
+      "production_steps": 12,
+      "burn_in": 0,
+      "prediction_dtype": "float64",
+      "nuisance_and_physical_parameters": 6,
+      "ensemble_seed": 20261118,
+      "emcee_seed": 814,
+      "data_seed": 717
+    },
+    "execution": "Original public fit lifecycle. Original walker multiprocessing on both paths. Shared native hybrid evaluates actual original selected stellar faces in one GPU owner on logical CPU 16 (SMT sibling of CPU 0). Each worker count uses logical 0..N-1, one per physical core. All rows run in isolation one after another. Old direct serial hybrid gets a separate same-workload control.",
+    "prespecified_accuracy": {
+      "flux_absolute": 2e-12,
+      "flux_relative": 3e-13,
+      "log_posterior_absolute": 1e-06,
+      "proposal_coordinates": "exact",
+      "chain_and_accepted_moves": "exact",
+      "mesh_check": "original 12/8/6-degree empirical diagnostic, 0.1 sigma at generating point and two initial walkers; withheld densities remain failures"
+    },
+    "timing": "End-to-end original fit includes setup, 32 physical one-phase preflights, pool or GPU service start/shutdown, JIT, transfers, device synchronization, sampling, fit summarization and final R-squared. Compute rates using measured evaluated full light curves. Save additional sampling-only and full process wall. Trace instrumentation is the same across paths.",
+    "publication": "Existing codex/gpu-resident-roche-pipeline branch, coordinated with the regular publisher; full private logs and proposal traces retained."
+  },
+  "hardware": {
+    "host": "Ada",
+    "cpu": "AMD Ryzen 9 5950X",
+    "sockets": 1,
+    "physical_cores": 16,
+    "logical_cpus": 32,
+    "threads_per_core": 2,
+    "sibling_pairs": [
+      [
+        0,
+        16
+      ],
+      [
+        1,
+        17
+      ],
+      [
+        2,
+        18
+      ],
+      [
+        3,
+        19
+      ],
+      [
+        4,
+        20
+      ],
+      [
+        5,
+        21
+      ],
+      [
+        6,
+        22
+      ],
+      [
+        7,
+        23
+      ],
+      [
+        8,
+        24
+      ],
+      [
+        9,
+        25
+      ],
+      [
+        10,
+        26
+      ],
+      [
+        11,
+        27
+      ],
+      [
+        12,
+        28
+      ],
+      [
+        13,
+        29
+      ],
+      [
+        14,
+        30
+      ],
+      [
+        15,
+        31
+      ]
+    ],
+    "gpu": "NVIDIA GeForce RTX 3080 Ti",
+    "gpu_vram_mib": 12288,
+    "nvidia_driver": "595.99.02",
+    "cuda_driver_api": "13.2",
+    "kernel": "Linux 7.0.0-42-generic x86_64 GNU/Linux",
+    "packages": {
+      "python": "3.12.4",
+      "numpy": "2.5.5",
+      "scipy": "1.18.1",
+      "jax": "0.12.0.1",
+      "jaxlib": "0.12.0.1",
+      "jax-cuda13-plugin": "0.12.0.1",
+      "jax-cuda13-pjrt": "0.12.0.1",
+      "emcee": "3.1.6",
+      "elisa": "1.0.0"
+    },
+    "vmemory": "121 GiB system RAM as reported by free -h"
+  },
+  "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+  "source_file_sha256": {
+    "scripts/audit_mcmc_scaling_mesh.py": "960a8b35ccd5fcd60558c7ee868f2e661f16eefc33270445700618b0fcb8eee0",
+    "scripts/benchmark_mcmc_scaling.py": "57dede17e6096905cdbc64d037045f6519cd269fdc328b3ee78cce816eb4ccd9",
+    "src/elisa/experimental/gpu_native.py": "fda9c0bbcd55771e27f4eec163dc3778b92977388e73c270ca4476811019db37",
+    "src/elisa/experimental/gpu_walker_pool.py": "53462c528e66f5895548c199f0349b3623c41fba1e673ac440256f0fdbe8deaa",
+    "tests/tests_experimental/test_gpu_walker_pool.py": "3e89450ed62047f087d452c85575705553fde9bff7feb6bfb1b33daaac491cd5"
+  },
+  "source_manifest_sha256": "045c6c112810104379f24f1b090b682e7e79367e8231a7515d6fa7d653417b70",
+  "source_manifest_scope": "Original thirty matched timings and initial serial control. The second serial control additionally enabled the explicit post-initialization emcee seed. Each row records its benchmark driver hash.",
+  "elisa_config": {
+    "mesh_generator": "trapezoidal",
+    "max_discretization_factor_deg": 12,
+    "number_of_processes": 1,
+    "number_of_mcmc_processes": "selected worker count",
+    "number_of_threads": 1,
+    "suppress_logger": true,
+    "ld_tables": "tests/data/light_curves/limbdarkening",
+    "ck04": "tests/data/ck04",
+    "atmosphere": "blackbody",
+    "numerical_settings": {
+      "REFLECTION_EFFECT": true,
+      "REFLECTION_EFFECT_ITERATIONS": 2,
+      "LIMB_DARKENING_LAW": "linear",
+      "NUMBER_OF_PROCESSES": 1,
+      "NUMBER_OF_THREADS": 1,
+      "PENALIZE_ALL_EXCEPTIONS": false
+    },
+    "thread_environment": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "BLIS_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "VECLIB_MAXIMUM_THREADS": "1",
+      "TF_NUM_INTRAOP_THREADS": "1",
+      "TF_NUM_INTEROP_THREADS": "1",
+      "OMP_DYNAMIC": "FALSE",
+      "MKL_DYNAMIC": "FALSE",
+      "JAX_ENABLE_X64": "True",
+      "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+      "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+    }
+  },
+  "acquisition": {
+    "benchmarks_sequential": true,
+    "worker_nice": 10,
+    "hardware_affinity": "walker CPUs 0..N-1, owner CPU 16",
+    "parent_device_environment": {
+      "cpu": {
+        "JAX_PLATFORMS": "cpu",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "hybrid": {
+        "JAX_PLATFORMS": "cpu",
+        "CUDA_VISIBLE_DEVICES": ""
+      },
+      "serial-hybrid": {
+        "JAX_PLATFORMS": "cuda",
+        "CUDA_VISIBLE_DEVICES": "0"
+      }
+    },
+    "shared_owner_device_environment": {
+      "JAX_PLATFORMS": "cuda",
+      "CUDA_VISIBLE_DEVICES": "0"
+    },
+    "occupancy": "NVIDIA compute-process check and host CPU contention monitor",
+    "dedicated_science_allocation": true
+  },
+  "measured_dependency_base": "82d76c812f5f8270f9fff8cae31b45f0e3410cf3",
+  "host_preflight": {
+    "local_time": "2026-11-18 11:57:53 CST",
+    "load_1_5_15": [
+      4.95,
+      3.07,
+      3.11
+    ],
+    "foreground_gpu": "ELISa milestone 31 window 434, 796 MiB per nvidia-smi",
+    "elisa": "Milestone 31 running; supervisor affinity 16-19 and GPU unit affinity 0-15.",
+    "fifth42": "Ada stopped_checkpoint_preserved; monitor running; Boole and Cabbage reported running. No control actions."
+  },
+  "grant_utc": "2026-11-18T18:17:30.028398+00:00",
+  "run_order": [
+    "r1-cpu-1",
+    "r1-hybrid-1",
+    "r1-hybrid-4",
+    "r1-cpu-4",
+    "r1-cpu-8",
+    "r1-hybrid-8",
+    "r1-hybrid-12",
+    "r1-cpu-12",
+    "r1-cpu-16",
+    "r1-hybrid-16",
+    "r2-hybrid-16",
+    "r2-cpu-16",
+    "r2-cpu-12",
+    "r2-hybrid-12",
+    "r2-hybrid-8",
+    "r2-cpu-8",
+    "r2-cpu-4",
+    "r2-hybrid-4",
+    "r2-hybrid-1",
+    "r2-cpu-1",
+    "r3-cpu-8",
+    "r3-hybrid-8",
+    "r3-hybrid-16",
+    "r3-cpu-16",
+    "r3-cpu-4",
+    "r3-hybrid-4",
+    "r3-hybrid-12",
+    "r3-cpu-12",
+    "r3-cpu-1",
+    "r3-hybrid-1",
+    "r1-serial-hybrid-1",
+    "r2-serial-hybrid-1"
+  ],
+  "convergence": {
+    "steps_per_walker": 12,
+    "target_chain_lengths_per_tau": 50,
+    "raw_tau_steps": [
+      0.8573384029925541,
+      1.0632941678898709,
+      0.9718344691850829,
+      1.1189515920920279,
+      1.2602381378990608,
+      1.1509671994647666
+    ],
+    "length_criterion_met": false,
+    "ess_per_second": null,
+    "elisa_default_length_tolerance": 0
+  },
+  "max_valid_flux_error": 0.0,
+  "max_valid_posterior_error": 0.0,
+  "resolution_diagnostics": {
+    "generating_point": {
+      "status": "budget_failed",
+      "density": null,
+      "limit": 0.1,
+      "comparisons": [
+        {
+          "elements": 28,
+          "max_abs_flux": 0.0005574050069367953,
+          "max_abs_sigma": 5.574260831321131,
+          "rms_sigma": 2.3166769357083177,
+          "distance_sigma": 12.25870207992676,
+          "distance_squared": 150.27577668440068,
+          "expected_delta_log_likelihood": -75.13788834220034,
+          "delta_chi_squared": 150.27577668440068,
+          "delta_log_likelihood": -75.13788834220034,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": false,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        },
+        {
+          "elements": 28,
+          "max_abs_flux": 0.00040480681712273814,
+          "max_abs_sigma": 4.048221233855766,
+          "rms_sigma": 1.6643422849435487,
+          "distance_sigma": 8.80687156489926,
+          "distance_squared": 77.56098676063117,
+          "expected_delta_log_likelihood": -38.78049338031558,
+          "delta_chi_squared": 77.56098676063117,
+          "delta_log_likelihood": -38.78049338031558,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": false,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      ]
+    },
+    "initial_walker_0": {
+      "status": "budget_failed",
+      "density": null,
+      "limit": 0.1,
+      "comparisons": [
+        {
+          "elements": 28,
+          "max_abs_flux": 0.0005575762127818518,
+          "max_abs_sigma": 5.575972954506812,
+          "rms_sigma": 2.3176985576031623,
+          "distance_sigma": 12.264107994862156,
+          "distance_squared": 150.40834490964184,
+          "expected_delta_log_likelihood": -75.20417245482092,
+          "delta_chi_squared": 150.40834490964184,
+          "delta_log_likelihood": -75.20417245482092,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": false,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        },
+        {
+          "elements": 28,
+          "max_abs_flux": 0.0004049077213328367,
+          "max_abs_sigma": 4.049230314109923,
+          "rms_sigma": 1.6645208396163984,
+          "distance_sigma": 8.807816387418839,
+          "distance_squared": 77.57762951448385,
+          "expected_delta_log_likelihood": -38.78881475724192,
+          "delta_chi_squared": 77.57762951448385,
+          "delta_log_likelihood": -38.78881475724192,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": false,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      ]
+    },
+    "initial_walker_31": {
+      "status": "budget_failed",
+      "density": null,
+      "limit": 0.1,
+      "comparisons": [
+        {
+          "elements": 28,
+          "max_abs_flux": 0.0005585076619345486,
+          "max_abs_sigma": 5.585287798226603,
+          "rms_sigma": 2.322748584553468,
+          "distance_sigma": 12.29083022571152,
+          "distance_squared": 151.0645076372639,
+          "expected_delta_log_likelihood": -75.53225381863194,
+          "delta_chi_squared": 151.0645076372639,
+          "delta_log_likelihood": -75.53225381863194,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": false,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        },
+        {
+          "elements": 28,
+          "max_abs_flux": 0.0004050653542735372,
+          "max_abs_sigma": 4.050806703119956,
+          "rms_sigma": 1.6614747936513585,
+          "distance_sigma": 8.791698227207704,
+          "distance_squared": 77.29395771828709,
+          "expected_delta_log_likelihood": -38.646978859143545,
+          "delta_chi_squared": 77.29395771828709,
+          "delta_log_likelihood": -38.646978859143545,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": false,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      ]
+    }
+  },
+  "all_attempted_mesh_summary": {
+    "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+    "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+    "mesh_degrees": [
+      12.0,
+      8.0,
+      6.0
+    ],
+    "joint_nominal_sigma_limit": 0.1,
+    "attempted": 416,
+    "distinct": 416,
+    "evaluated": 416,
+    "qualified": 0,
+    "distance_min": [
+      12.218804619293635,
+      8.734560105121693
+    ],
+    "distance_max": [
+      12.717208367963929,
+      8.8981302954079
+    ],
+    "absolute_delta_log_likelihood_range": [
+      [
+        0.6340755768009672,
+        0.11330441236817279
+      ],
+      [
+        221.22532489079535,
+        72.0430329313357
+      ]
+    ],
+    "native_predictions_and_densities_reproduced": true
+  },
+  "live_16_worker_affinities": {
+    "utc": "2026-11-18T18:22:08.855739+00:00",
+    "repetition": 2,
+    "workers": 16,
+    "backend": "hybrid",
+    "window": 456,
+    "process_groups": [
+      {
+        "thread_affinities": {
+          "0-31": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 4
+        },
+        "thread_states": {
+          "S": 4
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "16": 41
+        },
+        "thread_states": {
+          "S": 40,
+          "R": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "R": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      },
+      {
+        "thread_affinities": {
+          "0-15": 1
+        },
+        "thread_states": {
+          "S": 1
+        }
+      }
+    ]
+  },
+  "runs": [
+    {
+      "repetition": 1,
+      "backend": "cpu",
+      "workers": 1,
+      "valid": true,
+      "window": 446,
+      "utc_begin": "2026-11-18T18:17:48.196366+00:00",
+      "utc_end": "2026-11-18T18:18:17.728459+00:00",
+      "returncode": 0,
+      "full_process_seconds": 29.230900927912444,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.172,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        2.884765625,
+        3.203125,
+        3.47705078125
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "1",
+        "--cpus",
+        "0",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-cpu-1"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 1,
+        "started_utc": "2026-11-18T18:17:49.401036+00:00",
+        "finished_utc": "2026-11-18T18:18:16.649490+00:00",
+        "load_before": [
+          2.55419921875,
+          3.1875,
+          3.48193359375
+        ],
+        "load_after": [
+          2.884765625,
+          3.203125,
+          3.47705078125
+        ],
+        "walker_logical_cpus": [
+          0
+        ],
+        "worker_posterior_calls": [
+          416
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0
+          ],
+          "walker_processes": 1,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 27.228492422029376,
+        "sampling_seconds": 25.299415815155953,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 15.278113586025523,
+        "sampling_likelihoods_per_second": 16.443067422560393,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "hybrid",
+      "workers": 1,
+      "valid": true,
+      "window": 447,
+      "utc_begin": "2026-11-18T18:18:19.030727+00:00",
+      "utc_end": "2026-11-18T18:19:09.628214+00:00",
+      "returncode": 0,
+      "full_process_seconds": 50.30458573088981,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.088,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        3.23193359375,
+        3.248046875,
+        3.47705078125
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "1",
+        "--cpus",
+        "0",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-hybrid-1"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 1,
+        "started_utc": "2026-11-18T18:18:20.230031+00:00",
+        "finished_utc": "2026-11-18T18:19:08.289973+00:00",
+        "load_before": [
+          2.884765625,
+          3.203125,
+          3.47705078125
+        ],
+        "load_after": [
+          3.23193359375,
+          3.248046875,
+          3.47705078125
+        ],
+        "walker_logical_cpus": [
+          0
+        ],
+        "worker_posterior_calls": [
+          416
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0
+          ],
+          "walker_processes": 1,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 25
+        },
+        "seconds": 48.04314672597684,
+        "sampling_seconds": 43.99342638696544,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 8.658883281995132,
+        "sampling_likelihoods_per_second": 9.455958177498406,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "hybrid",
+      "workers": 4,
+      "valid": true,
+      "window": 448,
+      "utc_begin": "2026-11-18T18:19:10.936648+00:00",
+      "utc_end": "2026-11-18T18:19:41.015252+00:00",
+      "returncode": 0,
+      "full_process_seconds": 29.798197009135038,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.195,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.44482421875,
+        3.51806640625,
+        3.55859375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "4",
+        "--cpus",
+        "0,1,2,3",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-hybrid-4"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 4,
+        "started_utc": "2026-11-18T18:19:12.131852+00:00",
+        "finished_utc": "2026-11-18T18:19:40.517102+00:00",
+        "load_before": [
+          3.37353515625,
+          3.27734375,
+          3.4853515625
+        ],
+        "load_after": [
+          4.44482421875,
+          3.51806640625,
+          3.55859375
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "worker_posterior_calls": [
+          104,
+          104,
+          104,
+          104
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "walker_processes": 4,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 26
+        },
+        "seconds": 28.36799554899335,
+        "sampling_seconds": 24.257998117012903,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 14.66441290437815,
+        "sampling_likelihoods_per_second": 17.148983110368288,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "cpu",
+      "workers": 4,
+      "valid": true,
+      "window": 449,
+      "utc_begin": "2026-11-18T18:19:42.323993+00:00",
+      "utc_end": "2026-11-18T18:19:53.939308+00:00",
+      "returncode": 0,
+      "full_process_seconds": 11.307890353957191,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.068,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.7275390625,
+        3.625,
+        3.5927734375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "4",
+        "--cpus",
+        "0,1,2,3",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-cpu-4"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 4,
+        "started_utc": "2026-11-18T18:19:43.546292+00:00",
+        "finished_utc": "2026-11-18T18:19:52.988688+00:00",
+        "load_before": [
+          4.4091796875,
+          3.5263671875,
+          3.56103515625
+        ],
+        "load_after": [
+          4.7275390625,
+          3.625,
+          3.5927734375
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "worker_posterior_calls": [
+          104,
+          104,
+          104,
+          104
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "walker_processes": 4,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 9.425559398019686,
+        "sampling_seconds": 7.444302232004702,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 44.13531149009594,
+        "sampling_likelihoods_per_second": 55.881664531502224,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "cpu",
+      "workers": 8,
+      "valid": true,
+      "window": 450,
+      "utc_begin": "2026-11-18T18:19:55.259872+00:00",
+      "utc_end": "2026-11-18T18:20:03.874308+00:00",
+      "returncode": 0,
+      "full_process_seconds": 8.32049848116003,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.249,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.09619140625,
+        3.7373046875,
+        3.6298828125
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "8",
+        "--cpus",
+        "0,1,2,3,4,5,6,7",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-cpu-8"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 8,
+        "started_utc": "2026-11-18T18:19:56.464941+00:00",
+        "finished_utc": "2026-11-18T18:20:02.967787+00:00",
+        "load_before": [
+          4.6689453125,
+          3.63134765625,
+          3.59521484375
+        ],
+        "load_after": [
+          5.09619140625,
+          3.7373046875,
+          3.6298828125
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "worker_posterior_calls": [
+          51,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          53
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "walker_processes": 8,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 6.486383910989389,
+        "sampling_seconds": 4.541536920005456,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 64.13434753610602,
+        "sampling_likelihoods_per_second": 91.59894708056238,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "hybrid",
+      "workers": 8,
+      "valid": true,
+      "window": 451,
+      "utc_begin": "2026-11-18T18:20:05.190962+00:00",
+      "utc_end": "2026-11-18T18:20:32.271634+00:00",
+      "returncode": 0,
+      "full_process_seconds": 26.78060494689271,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.214,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.67724609375,
+        3.9912109375,
+        3.7177734375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "8",
+        "--cpus",
+        "0,1,2,3,4,5,6,7",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-hybrid-8"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 8,
+        "started_utc": "2026-11-18T18:20:06.403735+00:00",
+        "finished_utc": "2026-11-18T18:20:31.689501+00:00",
+        "load_before": [
+          5.00830078125,
+          3.74169921875,
+          3.63232421875
+        ],
+        "load_after": [
+          5.67724609375,
+          3.9912109375,
+          3.7177734375
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "worker_posterior_calls": [
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "walker_processes": 8,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 24
+        },
+        "seconds": 25.268183475127444,
+        "sampling_seconds": 21.170757711166516,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.46339161695128,
+        "sampling_likelihoods_per_second": 19.649745449619918,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "hybrid",
+      "workers": 12,
+      "valid": true,
+      "window": 452,
+      "utc_begin": "2026-11-18T18:20:33.571305+00:00",
+      "utc_end": "2026-11-18T18:20:59.585189+00:00",
+      "returncode": 0,
+      "full_process_seconds": 25.729561561951414,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.049,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        6.013671875,
+        4.189453125,
+        3.79052734375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "12",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-hybrid-12"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 12,
+        "started_utc": "2026-11-18T18:20:34.774047+00:00",
+        "finished_utc": "2026-11-18T18:20:58.943135+00:00",
+        "load_before": [
+          5.67724609375,
+          3.9912109375,
+          3.7177734375
+        ],
+        "load_after": [
+          6.013671875,
+          4.189453125,
+          3.79052734375
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "worker_posterior_calls": [
+          32,
+          33,
+          34,
+          34,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          36,
+          37
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "walker_processes": 12,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 26
+        },
+        "seconds": 24.1517604670953,
+        "sampling_seconds": 20.058668420184404,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 17.224417266259504,
+        "sampling_likelihoods_per_second": 20.739163302654344,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "cpu",
+      "workers": 12,
+      "valid": true,
+      "window": 453,
+      "utc_begin": "2026-11-18T18:21:00.894108+00:00",
+      "utc_end": "2026-11-18T18:21:09.466194+00:00",
+      "returncode": 0,
+      "full_process_seconds": 8.278286478016526,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.124,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        6.28369140625,
+        4.30029296875,
+        3.83056640625
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "12",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-cpu-12"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 12,
+        "started_utc": "2026-11-18T18:21:02.091862+00:00",
+        "finished_utc": "2026-11-18T18:21:08.212019+00:00",
+        "load_before": [
+          5.61181640625,
+          4.13623046875,
+          3.775390625
+        ],
+        "load_after": [
+          6.28369140625,
+          4.30029296875,
+          3.83056640625
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "worker_posterior_calls": [
+          32,
+          32,
+          34,
+          34,
+          34,
+          35,
+          35,
+          35,
+          35,
+          36,
+          36,
+          38
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "walker_processes": 12,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 6.103631079895422,
+        "sampling_seconds": 4.1663131879176944,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 68.15615074938763,
+        "sampling_likelihoods_per_second": 99.84847063499684,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "cpu",
+      "workers": 16,
+      "valid": true,
+      "window": 454,
+      "utc_begin": "2026-11-18T18:21:10.773785+00:00",
+      "utc_end": "2026-11-18T18:21:18.277195+00:00",
+      "returncode": 0,
+      "full_process_seconds": 7.219472608994693,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.302,
+      "other_compute_app_at_entry": false,
+      "external_science": [
+        [
+          0.263,
+          "python3"
+        ]
+      ],
+      "monitor_load_at_exit": [
+        6.11181640625,
+        4.32421875,
+        3.84326171875
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "16",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-cpu-16"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 16,
+        "started_utc": "2026-11-18T18:21:11.978776+00:00",
+        "finished_utc": "2026-11-18T18:21:17.639593+00:00",
+        "load_before": [
+          5.8603515625,
+          4.2451171875,
+          3.81494140625
+        ],
+        "load_after": [
+          6.11181640625,
+          4.32421875,
+          3.84326171875
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "worker_posterior_calls": [
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "walker_processes": 16,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 5.644020824925974,
+        "sampling_seconds": 3.681022620992735,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 73.70631911257276,
+        "sampling_likelihoods_per_second": 113.01207377199137,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "hybrid",
+      "workers": 16,
+      "valid": true,
+      "window": 455,
+      "utc_begin": "2026-11-18T18:21:19.587501+00:00",
+      "utc_end": "2026-11-18T18:21:46.628808+00:00",
+      "returncode": 0,
+      "full_process_seconds": 26.756747286999598,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.098,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.83447265625,
+        4.42236328125,
+        3.89111328125
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "16",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-hybrid-16"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 16,
+        "started_utc": "2026-11-18T18:21:20.786337+00:00",
+        "finished_utc": "2026-11-18T18:21:45.379929+00:00",
+        "load_before": [
+          6.11181640625,
+          4.32421875,
+          3.84326171875
+        ],
+        "load_after": [
+          6.16845703125,
+          4.46337890625,
+          3.9013671875
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "worker_posterior_calls": [
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "walker_processes": 16,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 27
+        },
+        "seconds": 24.57567209098488,
+        "sampling_seconds": 20.461033764993772,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.927309188528834,
+        "sampling_likelihoods_per_second": 20.331328552505646,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "hybrid",
+      "workers": 16,
+      "valid": true,
+      "window": 456,
+      "utc_begin": "2026-11-18T18:21:47.948229+00:00",
+      "utc_end": "2026-11-18T18:22:15.008614+00:00",
+      "returncode": 0,
+      "full_process_seconds": 26.761102405842394,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.117,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.818359375,
+        4.2919921875,
+        3.8623046875
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "16",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-hybrid-16"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 16,
+        "started_utc": "2026-11-18T18:21:49.161413+00:00",
+        "finished_utc": "2026-11-18T18:22:13.692979+00:00",
+        "load_before": [
+          5.83447265625,
+          4.42236328125,
+          3.89111328125
+        ],
+        "load_after": [
+          4.818359375,
+          4.2919921875,
+          3.8623046875
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "worker_posterior_calls": [
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "walker_processes": 16,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 26
+        },
+        "seconds": 24.513674038928002,
+        "sampling_seconds": 20.402682159096003,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.9701204046112,
+        "sampling_likelihoods_per_second": 20.38947608731616,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "cpu",
+      "workers": 16,
+      "valid": true,
+      "window": 457,
+      "utc_begin": "2026-11-18T18:22:16.311766+00:00",
+      "utc_end": "2026-11-18T18:22:23.863665+00:00",
+      "returncode": 0,
+      "full_process_seconds": 7.260090691037476,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.067,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.49951171875,
+        4.44873046875,
+        3.91748046875
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "16",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-cpu-16"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 16,
+        "started_utc": "2026-11-18T18:22:17.517657+00:00",
+        "finished_utc": "2026-11-18T18:22:22.637122+00:00",
+        "load_before": [
+          4.67236328125,
+          4.2705078125,
+          3.857421875
+        ],
+        "load_after": [
+          5.49951171875,
+          4.44873046875,
+          3.91748046875
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "worker_posterior_calls": [
+          25,
+          25,
+          25,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          27,
+          27,
+          27
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "walker_processes": 16,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 5.102731205988675,
+        "sampling_seconds": 3.1077394608873874,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 81.5249683369121,
+        "sampling_likelihoods_per_second": 133.8593550828791,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "cpu",
+      "workers": 12,
+      "valid": true,
+      "window": 458,
+      "utc_begin": "2026-11-18T18:22:25.168248+00:00",
+      "utc_end": "2026-11-18T18:22:33.736869+00:00",
+      "returncode": 0,
+      "full_process_seconds": 8.283061565132812,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.077,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.19482421875,
+        4.4169921875,
+        3.91259765625
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "12",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-cpu-12"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 12,
+        "started_utc": "2026-11-18T18:22:26.376451+00:00",
+        "finished_utc": "2026-11-18T18:22:32.329518+00:00",
+        "load_before": [
+          5.29931640625,
+          4.42431640625,
+          3.912109375
+        ],
+        "load_after": [
+          5.19482421875,
+          4.4169921875,
+          3.91259765625
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "worker_posterior_calls": [
+          31,
+          33,
+          33,
+          34,
+          34,
+          35,
+          35,
+          35,
+          36,
+          36,
+          37,
+          37
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "walker_processes": 12,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 5.93636852200143,
+        "sampling_seconds": 3.971271064132452,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 70.07651200531377,
+        "sampling_likelihoods_per_second": 104.75235592886372,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "hybrid",
+      "workers": 12,
+      "valid": true,
+      "window": 459,
+      "utc_begin": "2026-11-18T18:22:35.053936+00:00",
+      "utc_end": "2026-11-18T18:23:02.099362+00:00",
+      "returncode": 0,
+      "full_process_seconds": 26.75695239705965,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.107,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.8828125,
+        4.4228515625,
+        3.9306640625
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "12",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-hybrid-12"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 12,
+        "started_utc": "2026-11-18T18:22:36.256674+00:00",
+        "finished_utc": "2026-11-18T18:23:00.805778+00:00",
+        "load_before": [
+          5.09912109375,
+          4.40966796875,
+          3.9130859375
+        ],
+        "load_after": [
+          5.046875,
+          4.447265625,
+          3.93603515625
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "worker_posterior_calls": [
+          32,
+          33,
+          33,
+          34,
+          34,
+          34,
+          35,
+          36,
+          36,
+          36,
+          36,
+          37
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "walker_processes": 12,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 24
+        },
+        "seconds": 24.531666384078562,
+        "sampling_seconds": 20.380270938854665,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.957673950351392,
+        "sampling_likelihoods_per_second": 20.411897430023984,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "hybrid",
+      "workers": 8,
+      "valid": true,
+      "window": 460,
+      "utc_begin": "2026-11-18T18:23:03.417764+00:00",
+      "utc_end": "2026-11-18T18:23:31.537923+00:00",
+      "returncode": 0,
+      "full_process_seconds": 27.829093447886407,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.224,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.96533203125,
+        4.4931640625,
+        3.97021484375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "8",
+        "--cpus",
+        "0,1,2,3,4,5,6,7",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-hybrid-8"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 8,
+        "started_utc": "2026-11-18T18:23:04.614605+00:00",
+        "finished_utc": "2026-11-18T18:23:30.134496+00:00",
+        "load_before": [
+          4.8828125,
+          4.4228515625,
+          3.9306640625
+        ],
+        "load_after": [
+          5.13671875,
+          4.5185546875,
+          3.9755859375
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "worker_posterior_calls": [
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "walker_processes": 8,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 25
+        },
+        "seconds": 25.50279547017999,
+        "sampling_seconds": 21.421062909066677,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.311937273167647,
+        "sampling_likelihoods_per_second": 19.420138102667345,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "cpu",
+      "workers": 8,
+      "valid": true,
+      "window": 461,
+      "utc_begin": "2026-11-18T18:23:32.838255+00:00",
+      "utc_end": "2026-11-18T18:23:41.445314+00:00",
+      "returncode": 0,
+      "full_process_seconds": 8.316281873965636,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.107,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.24609375,
+        4.57421875,
+        4.00244140625
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "8",
+        "--cpus",
+        "0,1,2,3,4,5,6,7",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-cpu-8"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 8,
+        "started_utc": "2026-11-18T18:23:34.040135+00:00",
+        "finished_utc": "2026-11-18T18:23:40.468675+00:00",
+        "load_before": [
+          4.96533203125,
+          4.4931640625,
+          3.97021484375
+        ],
+        "load_after": [
+          5.52880859375,
+          4.6181640625,
+          4.013671875
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "worker_posterior_calls": [
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "walker_processes": 8,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 6.411921957973391,
+        "sampling_seconds": 4.477129806065932,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 64.87914274793897,
+        "sampling_likelihoods_per_second": 92.91667162215708,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "cpu",
+      "workers": 4,
+      "valid": true,
+      "window": 462,
+      "utc_begin": "2026-11-18T18:23:42.757817+00:00",
+      "utc_end": "2026-11-18T18:23:54.407140+00:00",
+      "returncode": 0,
+      "full_process_seconds": 11.345329735195264,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.049,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.3623046875,
+        4.62158203125,
+        4.02392578125
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "4",
+        "--cpus",
+        "0,1,2,3",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-cpu-4"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 4,
+        "started_utc": "2026-11-18T18:23:43.977548+00:00",
+        "finished_utc": "2026-11-18T18:23:53.359514+00:00",
+        "load_before": [
+          5.24609375,
+          4.57421875,
+          4.00244140625
+        ],
+        "load_after": [
+          5.3623046875,
+          4.62158203125,
+          4.02392578125
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "worker_posterior_calls": [
+          101,
+          101,
+          107,
+          107
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "walker_processes": 4,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 9.365558586083353,
+        "sampling_seconds": 7.410165812121704,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 44.41806606368899,
+        "sampling_likelihoods_per_second": 56.139094663644165,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "hybrid",
+      "workers": 4,
+      "valid": true,
+      "window": 463,
+      "utc_begin": "2026-11-18T18:23:55.709955+00:00",
+      "utc_end": "2026-11-18T18:24:25.794641+00:00",
+      "returncode": 0,
+      "full_process_seconds": 29.784586976049468,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.136,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.43798828125,
+        4.70703125,
+        4.0712890625
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "4",
+        "--cpus",
+        "0,1,2,3",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-hybrid-4"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 4,
+        "started_utc": "2026-11-18T18:23:56.921321+00:00",
+        "finished_utc": "2026-11-18T18:24:24.963398+00:00",
+        "load_before": [
+          5.0126953125,
+          4.56103515625,
+          4.00732421875
+        ],
+        "load_after": [
+          5.43798828125,
+          4.70703125,
+          4.0712890625
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "worker_posterior_calls": [
+          104,
+          104,
+          104,
+          104
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "walker_processes": 4,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 24
+        },
+        "seconds": 28.025076018180698,
+        "sampling_seconds": 23.93590324278921,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 14.843849120342384,
+        "sampling_likelihoods_per_second": 17.37974939906735,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "hybrid",
+      "workers": 1,
+      "valid": true,
+      "window": 464,
+      "utc_begin": "2026-11-18T18:24:27.094532+00:00",
+      "utc_end": "2026-11-18T18:25:17.652568+00:00",
+      "returncode": 0,
+      "full_process_seconds": 50.26582256797701,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.195,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.44873046875,
+        4.5419921875,
+        4.05029296875
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "1",
+        "--cpus",
+        "0",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-hybrid-1"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 1,
+        "started_utc": "2026-11-18T18:24:28.295922+00:00",
+        "finished_utc": "2026-11-18T18:25:17.033709+00:00",
+        "load_before": [
+          5.16259765625,
+          4.66162109375,
+          4.06005859375
+        ],
+        "load_after": [
+          4.44873046875,
+          4.5419921875,
+          4.05029296875
+        ],
+        "walker_logical_cpus": [
+          0
+        ],
+        "worker_posterior_calls": [
+          416
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0
+          ],
+          "walker_processes": 1,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 25
+        },
+        "seconds": 48.720990739995614,
+        "sampling_seconds": 44.643773164832965,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 8.538414216985553,
+        "sampling_likelihoods_per_second": 9.318208800677578,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 2,
+      "backend": "cpu",
+      "workers": 1,
+      "valid": true,
+      "window": 465,
+      "utc_begin": "2026-11-18T18:25:18.959329+00:00",
+      "utc_end": "2026-11-18T18:25:47.962647+00:00",
+      "returncode": 0,
+      "full_process_seconds": 28.710709401173517,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.107,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.0869140625,
+        4.44140625,
+        4.03125
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "1",
+        "--cpus",
+        "0",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-cpu-1"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 1,
+        "started_utc": "2026-11-18T18:25:20.164697+00:00",
+        "finished_utc": "2026-11-18T18:25:47.318934+00:00",
+        "load_before": [
+          4.44873046875,
+          4.5419921875,
+          4.05029296875
+        ],
+        "load_after": [
+          4.0869140625,
+          4.44140625,
+          4.03125
+        ],
+        "walker_logical_cpus": [
+          0
+        ],
+        "worker_posterior_calls": [
+          416
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0
+          ],
+          "walker_processes": 1,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 27.138309085043147,
+        "sampling_seconds": 25.23121360805817,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 15.328884297705633,
+        "sampling_likelihoods_per_second": 16.487514491460722,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "cpu",
+      "workers": 8,
+      "valid": true,
+      "window": 466,
+      "utc_begin": "2026-11-18T18:25:49.269202+00:00",
+      "utc_end": "2026-11-18T18:25:57.901330+00:00",
+      "returncode": 0,
+      "full_process_seconds": 8.32990366104059,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.19,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.6337890625,
+        4.54296875,
+        4.068359375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "8",
+        "--cpus",
+        "0,1,2,3,4,5,6,7",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-cpu-8"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 8,
+        "started_utc": "2026-11-18T18:25:50.486393+00:00",
+        "finished_utc": "2026-11-18T18:25:56.892337+00:00",
+        "load_before": [
+          4.0869140625,
+          4.44140625,
+          4.03125
+        ],
+        "load_after": [
+          4.6337890625,
+          4.54296875,
+          4.068359375
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "worker_posterior_calls": [
+          51,
+          51,
+          52,
+          52,
+          52,
+          52,
+          53,
+          53
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "walker_processes": 8,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 6.389334372943267,
+        "sampling_seconds": 4.433622448937967,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 65.10850359649721,
+        "sampling_likelihoods_per_second": 93.82846753215283,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "hybrid",
+      "workers": 8,
+      "valid": true,
+      "window": 467,
+      "utc_begin": "2026-11-18T18:25:59.207976+00:00",
+      "utc_end": "2026-11-18T18:26:27.272862+00:00",
+      "returncode": 0,
+      "full_process_seconds": 27.77013521688059,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.214,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.7392578125,
+        4.572265625,
+        4.0927734375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "8",
+        "--cpus",
+        "0,1,2,3,4,5,6,7",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-hybrid-8"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 8,
+        "started_utc": "2026-11-18T18:26:00.416920+00:00",
+        "finished_utc": "2026-11-18T18:26:25.911022+00:00",
+        "load_before": [
+          4.6337890625,
+          4.54296875,
+          4.068359375
+        ],
+        "load_after": [
+          4.89111328125,
+          4.59912109375,
+          4.09912109375
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "worker_posterior_calls": [
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52,
+          52
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "walker_processes": 8,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 25
+        },
+        "seconds": 25.47601275308989,
+        "sampling_seconds": 21.369295479962602,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.329085875086356,
+        "sampling_likelihoods_per_second": 19.467183669675574,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "hybrid",
+      "workers": 16,
+      "valid": true,
+      "window": 468,
+      "utc_begin": "2026-11-18T18:26:28.577391+00:00",
+      "utc_end": "2026-11-18T18:26:55.619985+00:00",
+      "returncode": 0,
+      "full_process_seconds": 26.75251969601959,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.146,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.01025390625,
+        4.6416015625,
+        4.1279296875
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "16",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-hybrid-16"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 16,
+        "started_utc": "2026-11-18T18:26:29.797099+00:00",
+        "finished_utc": "2026-11-18T18:26:54.348983+00:00",
+        "load_before": [
+          4.7392578125,
+          4.572265625,
+          4.0927734375
+        ],
+        "load_after": [
+          5.01025390625,
+          4.6416015625,
+          4.1279296875
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "worker_posterior_calls": [
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "walker_processes": 16,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 24
+        },
+        "seconds": 24.534226615913212,
+        "sampling_seconds": 20.415738380048424,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.95590435812544,
+        "sampling_likelihoods_per_second": 20.376436661558223,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "cpu",
+      "workers": 16,
+      "valid": true,
+      "window": 469,
+      "utc_begin": "2026-11-18T18:26:56.922993+00:00",
+      "utc_end": "2026-11-18T18:27:04.444640+00:00",
+      "returncode": 0,
+      "full_process_seconds": 7.230319621041417,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.097,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.90234375,
+        4.8369140625,
+        4.1962890625
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "16",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-cpu-16"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 16,
+        "started_utc": "2026-11-18T18:26:58.128126+00:00",
+        "finished_utc": "2026-11-18T18:27:03.321608+00:00",
+        "load_before": [
+          4.84912109375,
+          4.6142578125,
+          4.12158203125
+        ],
+        "load_after": [
+          5.90234375,
+          4.8369140625,
+          4.1962890625
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "worker_posterior_calls": [
+          25,
+          25,
+          25,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          27,
+          27,
+          27
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "walker_processes": 16,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 5.1726657170802355,
+        "sampling_seconds": 3.1669579700101167,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 80.4227496523428,
+        "sampling_likelihoods_per_second": 131.35633751358915,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "cpu",
+      "workers": 4,
+      "valid": true,
+      "window": 470,
+      "utc_begin": "2026-11-18T18:27:05.755302+00:00",
+      "utc_end": "2026-11-18T18:27:17.517268+00:00",
+      "returncode": 0,
+      "full_process_seconds": 11.476591507904232,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.211,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.72119140625,
+        4.845703125,
+        4.20849609375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "4",
+        "--cpus",
+        "0,1,2,3",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-cpu-4"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 4,
+        "started_utc": "2026-11-18T18:27:06.970765+00:00",
+        "finished_utc": "2026-11-18T18:27:16.523369+00:00",
+        "load_before": [
+          5.75,
+          4.82275390625,
+          4.19482421875
+        ],
+        "load_after": [
+          5.72119140625,
+          4.845703125,
+          4.20849609375
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "worker_posterior_calls": [
+          104,
+          104,
+          104,
+          104
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "walker_processes": 4,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 9.536029895069078,
+        "sampling_seconds": 7.58114876318723,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 43.62402431384015,
+        "sampling_likelihoods_per_second": 54.87295039242935,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "hybrid",
+      "workers": 4,
+      "valid": true,
+      "window": 471,
+      "utc_begin": "2026-11-18T18:27:18.835778+00:00",
+      "utc_end": "2026-11-18T18:27:49.964542+00:00",
+      "returncode": 0,
+      "full_process_seconds": 30.83915019617416,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.146,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.58203125,
+        4.880859375,
+        4.2392578125
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "4",
+        "--cpus",
+        "0,1,2,3",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-hybrid-4"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 4,
+        "started_utc": "2026-11-18T18:27:20.042320+00:00",
+        "finished_utc": "2026-11-18T18:27:48.762656+00:00",
+        "load_before": [
+          5.72119140625,
+          4.845703125,
+          4.20849609375
+        ],
+        "load_after": [
+          5.58203125,
+          4.880859375,
+          4.2392578125
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "worker_posterior_calls": [
+          104,
+          104,
+          104,
+          104
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "walker_processes": 4,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 26
+        },
+        "seconds": 28.702875637914985,
+        "sampling_seconds": 24.5712642010767,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 14.4933213399178,
+        "sampling_likelihoods_per_second": 16.930345813536572,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "hybrid",
+      "workers": 12,
+      "valid": true,
+      "window": 472,
+      "utc_begin": "2026-11-18T18:27:51.274424+00:00",
+      "utc_end": "2026-11-18T18:28:18.332940+00:00",
+      "returncode": 0,
+      "full_process_seconds": 26.76620335597545,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.194,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        6.2587890625,
+        5.09033203125,
+        4.32861328125
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "12",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-hybrid-12"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 12,
+        "started_utc": "2026-11-18T18:27:52.471696+00:00",
+        "finished_utc": "2026-11-18T18:28:16.927988+00:00",
+        "load_before": [
+          5.455078125,
+          4.8662109375,
+          4.23779296875
+        ],
+        "load_after": [
+          6.2587890625,
+          5.09033203125,
+          4.32861328125
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "worker_posterior_calls": [
+          32,
+          33,
+          33,
+          34,
+          34,
+          34,
+          35,
+          35,
+          36,
+          36,
+          37,
+          37
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "walker_processes": 12,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 24
+        },
+        "seconds": 24.43863707408309,
+        "sampling_seconds": 20.302131582051516,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 17.022225860588744,
+        "sampling_likelihoods_per_second": 20.49045925639516,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "cpu",
+      "workers": 12,
+      "valid": true,
+      "window": 473,
+      "utc_begin": "2026-11-18T18:28:19.645274+00:00",
+      "utc_end": "2026-11-18T18:28:28.221742+00:00",
+      "returncode": 0,
+      "full_process_seconds": 8.281051777070388,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.156,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        6.71875,
+        5.220703125,
+        4.37890625
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "12",
+        "--cpus",
+        "0,1,2,3,4,5,6,7,8,9,10,11",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-cpu-12"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 12,
+        "started_utc": "2026-11-18T18:28:20.863665+00:00",
+        "finished_utc": "2026-11-18T18:28:26.874452+00:00",
+        "load_before": [
+          6.2587890625,
+          5.09033203125,
+          4.32861328125
+        ],
+        "load_after": [
+          6.71875,
+          5.220703125,
+          4.37890625
+        ],
+        "walker_logical_cpus": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "worker_posterior_calls": [
+          33,
+          34,
+          34,
+          34,
+          34,
+          35,
+          35,
+          35,
+          35,
+          35,
+          36,
+          36
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "walker_processes": 12,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 5.994262216147035,
+        "sampling_seconds": 4.030920857097954,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 69.39970007975303,
+        "sampling_likelihoods_per_second": 103.20222468954591,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "cpu",
+      "workers": 1,
+      "valid": true,
+      "window": 474,
+      "utc_begin": "2026-11-18T18:28:29.531705+00:00",
+      "utc_end": "2026-11-18T18:28:58.536592+00:00",
+      "returncode": 0,
+      "full_process_seconds": 28.71899600303732,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.117,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        5.33251953125,
+        5.02392578125,
+        4.33935546875
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "cpu",
+        "--workers",
+        "1",
+        "--cpus",
+        "0",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-cpu-1"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "cpu",
+        "workers": 1,
+        "started_utc": "2026-11-18T18:28:30.730996+00:00",
+        "finished_utc": "2026-11-18T18:28:57.798691+00:00",
+        "load_before": [
+          6.71875,
+          5.220703125,
+          4.37890625
+        ],
+        "load_after": [
+          5.33251953125,
+          5.02392578125,
+          4.33935546875
+        ],
+        "walker_logical_cpus": [
+          0
+        ],
+        "worker_posterior_calls": [
+          416
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0
+          ],
+          "walker_processes": 1,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": null,
+        "seconds": 27.051925954874605,
+        "sampling_seconds": 25.130552700953558,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 15.377833012478698,
+        "sampling_likelihoods_per_second": 16.55355554453107,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 3,
+      "backend": "hybrid",
+      "workers": 1,
+      "valid": true,
+      "window": 475,
+      "utc_begin": "2026-11-18T18:28:59.853030+00:00",
+      "utc_end": "2026-11-18T18:29:50.494614+00:00",
+      "returncode": 0,
+      "full_process_seconds": 50.351804309058934,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.263,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.716796875,
+        4.89697265625,
+        4.33154296875
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "hybrid",
+        "--workers",
+        "1",
+        "--cpus",
+        "0",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r3-hybrid-1"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 0.0,
+          "posterior": 0.0,
+          "chain_logp": 0.0
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "hybrid",
+        "workers": 1,
+        "started_utc": "2026-11-18T18:29:01.058639+00:00",
+        "finished_utc": "2026-11-18T18:29:49.297451+00:00",
+        "load_before": [
+          5.33251953125,
+          5.02392578125,
+          4.33935546875
+        ],
+        "load_after": [
+          4.716796875,
+          4.89697265625,
+          4.33154296875
+        ],
+        "walker_logical_cpus": [
+          0
+        ],
+        "worker_posterior_calls": [
+          416
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0
+          ],
+          "walker_processes": 1,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          1
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 5838,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            16
+          ],
+          "os_threads": 24
+        },
+        "seconds": 48.222081216052175,
+        "sampling_seconds": 44.138822003034875,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 8.626753336011591,
+        "sampling_likelihoods_per_second": 9.424809750731383,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "c272a26d4d6c45a44468bc599cd6ca13a75400a2cac1ce4d8f65a43fab631cbd",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0"
+    },
+    {
+      "repetition": 1,
+      "backend": "serial-hybrid",
+      "workers": 1,
+      "valid": false,
+      "window": 476,
+      "utc_begin": "2026-11-18T18:29:51.801555+00:00",
+      "utc_end": "2026-11-18T18:30:19.858395+00:00",
+      "returncode": 0,
+      "full_process_seconds": 27.770510294009,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.253,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        4.04931640625,
+        4.71533203125,
+        4.2880859375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "serial-hybrid",
+        "--workers",
+        "1",
+        "--cpus",
+        "0",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r1-serial-hybrid-1"
+      ],
+      "parity": null,
+      "fit": {
+        "backend": "serial-hybrid",
+        "workers": 1,
+        "started_utc": "2026-11-18T18:29:53.005092+00:00",
+        "finished_utc": "2026-11-18T18:30:18.227485+00:00",
+        "load_before": [
+          4.4189453125,
+          4.83203125,
+          4.3134765625
+        ],
+        "load_after": [
+          4.04931640625,
+          4.71533203125,
+          4.2880859375
+        ],
+        "walker_logical_cpus": [
+          0
+        ],
+        "worker_posterior_calls": [
+          416
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0
+          ],
+          "walker_processes": 1,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          25
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 417,
+          "fallback_calls": 0,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            0
+          ]
+        },
+        "seconds": 25.206408496014774,
+        "sampling_seconds": 22.76581696793437,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.50373951789963,
+        "sampling_likelihoods_per_second": 18.273009951100615,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 191,
+        "proposed_moves": 384,
+        "chain_sha256": "b1edbb786f0060a505685b01d51703aab20f40bbac1d154c3ffbdd12b083eb65",
+        "evaluated_coordinates_sha256": "2a94cb80424fab44e2e3d78809530b058db80526c9d5c2375958ac5283a40dd6",
+        "trace_sha256": "f87bf98f27e680e3dd1792141cf75e18448eb9c8b68b278fea018a645f904ad3",
+        "autocorrelation_steps": [
+          1.1210468853716886,
+          1.0202382743383658,
+          0.8192514418169914,
+          0.9260396513343738,
+          0.995624765644969,
+          1.2034319984730146
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        }
+      },
+      "timed_driver_sha256": "b8de9304ce8f5a96673f218c8fac9de07ba91a5e65ffb993d5042f8b5c4233c0",
+      "same_coordinate_diagnostics": {
+        "common": {
+          "count": 32,
+          "max_flux_abs": 8.881784197001252e-16,
+          "max_log_posterior_abs": 4.214939508528914e-11
+        },
+        "initial": {
+          "count": 32,
+          "max_flux_abs": 8.881784197001252e-16,
+          "max_log_posterior_abs": 4.214939508528914e-11
+        },
+        "divergent_walkers_by_step": [
+          22,
+          27,
+          31,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32,
+          32
+        ],
+        "original_accepted": 196,
+        "control_accepted": 191
+      }
+    },
+    {
+      "repetition": 2,
+      "backend": "serial-hybrid",
+      "workers": 1,
+      "valid": true,
+      "window": 477,
+      "utc_begin": "2026-11-18T18:32:05.777843+00:00",
+      "utc_end": "2026-11-18T18:32:33.775413+00:00",
+      "returncode": 0,
+      "full_process_seconds": 27.70926037314348,
+      "interruption": null,
+      "external_cpu_peak_cores": 0.195,
+      "other_compute_app_at_entry": false,
+      "external_science": [],
+      "monitor_load_at_exit": [
+        3.78564453125,
+        4.45556640625,
+        4.25927734375
+      ],
+      "checkpoint_verified": true,
+      "command": [
+        "python",
+        "-m",
+        "scripts.benchmark_mcmc_scaling",
+        "run",
+        "--backend",
+        "serial-hybrid",
+        "--workers",
+        "1",
+        "--cpus",
+        "0",
+        "--owner-cpu",
+        "16",
+        "--fixture",
+        "docs/ada_validation/mcmc-scaling-fixture.json",
+        "--output",
+        "results/r2-serial-hybrid-1",
+        "--pin-proposal-seed"
+      ],
+      "parity": {
+        "max_abs": {
+          "flux": 8.881784197001252e-16,
+          "posterior": 8.677147889102343e-11,
+          "chain_logp": 4.177991286269389e-11
+        },
+        "attempted_positions_equal": true,
+        "chain_equal": true,
+        "accepted_equal": true
+      },
+      "fit": {
+        "backend": "serial-hybrid",
+        "workers": 1,
+        "started_utc": "2026-11-18T18:32:06.980106+00:00",
+        "finished_utc": "2026-11-18T18:32:32.325091+00:00",
+        "load_before": [
+          3.2158203125,
+          4.42431640625,
+          4.244140625
+        ],
+        "load_after": [
+          3.78564453125,
+          4.45556640625,
+          4.25927734375
+        ],
+        "walker_logical_cpus": [
+          0
+        ],
+        "worker_posterior_calls": [
+          416
+        ],
+        "observed_worker_settings": {
+          "affinity": [
+            0
+          ],
+          "walker_processes": 1,
+          "curve_processes": 1,
+          "elisa_threads": 1
+        },
+        "os_threads_per_walker_process": [
+          29
+        ],
+        "thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "BLIS_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1",
+          "VECLIB_MAXIMUM_THREADS": "1",
+          "TF_NUM_INTRAOP_THREADS": "1",
+          "TF_NUM_INTEROP_THREADS": "1",
+          "OMP_DYNAMIC": "FALSE",
+          "MKL_DYNAMIC": "FALSE",
+          "JAX_ENABLE_X64": "True",
+          "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+          "XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false"
+        },
+        "fixture_sha256": "793cd01138201ac84b9015373063e9bb4dcf138477c2d81102a13dd97063a6eb",
+        "device": {
+          "calls": 417,
+          "fallback_calls": 0,
+          "platform": "gpu",
+          "device": "NVIDIA GeForce RTX 3080 Ti",
+          "x64": true,
+          "affinity": [
+            0
+          ]
+        },
+        "seconds": 25.328877551015466,
+        "sampling_seconds": 22.886263421038166,
+        "posterior_calls": 416,
+        "physical_likelihoods": 416,
+        "nonfinite_posteriors": 0,
+        "likelihoods_per_second": 16.423941375298806,
+        "sampling_likelihoods_per_second": 18.17684225453739,
+        "initial_preflight": {
+          "attempted": 32,
+          "accepted": 32,
+          "rejected": 0,
+          "failures": {}
+        },
+        "accepted": 196,
+        "proposed_moves": 384,
+        "chain_sha256": "6c88edaaacebbcbc1c3bf17927b488d8e02db61354f992c8fe46963762004c3d",
+        "evaluated_coordinates_sha256": "2ff721d576111d6d75bf8b47768a59a7674dc3b0daf6b64d694af46538093db1",
+        "trace_sha256": "de4b787457b386b6c602b5857f261225db9298c143acef95ea8cc322f129ba04",
+        "autocorrelation_steps": [
+          0.8573384029925541,
+          1.0632941678898709,
+          0.9718344691850829,
+          1.1189515920920279,
+          1.2602381378990608,
+          1.1509671994647666
+        ],
+        "tolerances": {
+          "flux_atol": 2e-12,
+          "flux_rtol": 3e-13,
+          "posterior_atol": 1e-06
+        },
+        "emcee_proposal_seed": 814,
+        "proposal_rng_before_replay_sha256": "dc46dc84c83274109e50f2e89a89a64f27a9d1b6e50e5363f0a542416a8875ce"
+      },
+      "timed_driver_sha256": "57dede17e6096905cdbc64d037045f6519cd269fdc328b3ee78cce816eb4ccd9",
+      "same_coordinate_diagnostics": {
+        "common": {
+          "count": 416,
+          "max_flux_abs": 8.881784197001252e-16,
+          "max_log_posterior_abs": 8.677147889102343e-11
+        },
+        "initial": {
+          "count": 32,
+          "max_flux_abs": 8.881784197001252e-16,
+          "max_log_posterior_abs": 4.214939508528914e-11
+        },
+        "divergent_walkers_by_step": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "original_accepted": 196,
+        "control_accepted": 196
+      }
+    }
+  ]
+}

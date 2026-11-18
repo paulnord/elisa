@@ -1,5 +1,9 @@
 # Ada workload and hardware characterization
 
+## m032 — Native ensemble worker scaling
+
+For 416 fresh densities, the best three-run median was 5.17 s with 16 original CPU workers, and 24.44 s with 12 worker processes sharing one FP64 GPU owner. The owner used the SMT sibling of CPU 0. The measurements include surface-array IPC, device transfers, synchronized totals and pool startup and shutdown. The experiment did not measure a per-call timing decomposition or memory bandwidth. [Worker counts, hardware, run order and individual results](ada_mcmc_scaling.md)
+
 ## m031 — Sampled irradiation at ordinary eclipse depths
 
 | Backend | Depth 3 (s) | Depth 4 (s) | Likelihood check (s) | Total (s) |

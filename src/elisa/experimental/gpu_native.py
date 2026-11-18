@@ -22,6 +22,8 @@ from elisa.conf.enums import CurveType
 from elisa.experimental.gpu_ordered import OrderedSurfaceFluxIntegrator
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from elisa.experimental.gpu_surface import PreparedSurfaceBatch
 
 _MAX_BANDS, _MAX_FACES, _MAX_CALLBACKS = 8, 8192, 256
@@ -89,12 +91,28 @@ class NativePhysicsIntegrator:
     def __init__(self, law: str, *, device: str = "gpu") -> None:
         self.kernel = OrderedSurfaceFluxIntegrator(law, device=device)
 
-    def __call__(  # noqa: C901, PLR0915 - explicit fresh CPU snapshot, bounds, timing and restoration
+    def __call__(
         self, observer: Any, phases: np.ndarray, *, normalize: bool, diagnostics: bool = False,
     ) -> dict[str, Any]:
         if not self.kernel._jax.config.x64_enabled:  # noqa: SLF001
             msg = "JAX FP64 must remain enabled"
             raise RuntimeError(msg)
+        return self.integrate_with(
+            observer, phases, normalize=normalize, diagnostics=diagnostics,
+            ncoeff=self.kernel._ncoeff, prepare=self.kernel.prepare,
+        )
+
+    @staticmethod
+    def integrate_with(
+        observer: Any, phases: np.ndarray, *, normalize: bool, ncoeff: int,
+        prepare: Callable, diagnostics: bool = False,
+    ) -> dict[str, Any]:
+        """Route original CPU physics through an explicit surface packet evaluator.
+
+        The evaluator must perform the ordered FP64 reduction and validate the
+        supplied faces. Keeping it outside the router lets ensemble workers send
+        their fresh surfaces to a single device owner without inheriting CUDA.
+        """
         binary = observer._system  # noqa: SLF001 - per-call Observer owned by hybrid adapter
         if type(binary) is not BinarySystem or binary.has_pulsations():
             msg = "Native integration bridge requires original nonpulsating BinarySystem physics; use complete CPU"
@@ -123,7 +141,6 @@ class NativePhysicsIntegrator:
                 msg = "Native integration mesh exceeds 8192 faces per star; use whole CPU curve"
                 raise UnsupportedNativeIntegrationError(msg)
             width = 2**(width-1).bit_length()
-            ncoeff = self.kernel._ncoeff  # noqa: SLF001
             radiance, mu, coverage = (np.zeros((2*len(bands), width)) for _ in range(3))
             coefficients = np.zeros((2*len(bands), width, ncoeff))
             for b, band in enumerate(bands):
@@ -134,7 +151,7 @@ class NativePhysicsIntegrator:
                     mu[row, :count], coverage[row, :count] = star.los_cosines[ix], star.coverage[ix]
                     coefficients[row, :count] = star.ld_cfs[band][ix]
             try:
-                packet = self.kernel.prepare(radiance, mu, coverage, coefficients, counts*len(bands))
+                packet = prepare(radiance, mu, coverage, coefficients, counts*len(bands))
             except ValueError as exc:
                 raise UnsupportedNativeIntegrationError(str(exc)) from exc
             preparation += perf_counter()-start

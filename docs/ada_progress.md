@@ -1,6 +1,34 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T18:15:38.049654+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T18:42:52.813869+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m032 — Parallel walkers in the original ELISa fit
+
+The fastest median on Ada was **80.42 complete likelihoods/s with 16 original CPU workers**. The shared GPU path peaked at **17.02 likelihoods/s with 12 worker processes**. Each fit used 32 walkers for 12 steps, rebuilt the physical model for every proposal and evaluated 28 synthetic observations in B, V and bolometric light. The clock includes starting the fitter and worker processes, initial physical checks, encountered compilation, host/device transfers and shutdown.
+
+| CPU workers | Original fit (s) | Shared GPU fit (s) | Original eval/s | Shared GPU eval/s |
+| ---: | ---: | ---: | ---: | ---: |
+| 1 | 27.14 | 48.22 | 15.33 | 8.63 |
+| 4 | 9.43 | 28.37 | 44.14 | 14.66 |
+| 8 | 6.41 | 25.48 | 64.88 | 16.33 |
+| 12 | 5.99 | 24.44 | 69.40 | 17.02 |
+| 16 | 5.17 | 24.53 | 80.42 | 16.96 |
+
+The table gives medians from three sequential runs of each configuration. The GPU owner runs on the SMT sibling of walker CPU 0. Each walker computes the original orbit, stellar geometry, reflection, emission and eclipse coverage on CPU, then sends the selected faces to the owner for the FP64 surface sum. The native CPU performed that sum locally. These rates apply to the original 12° facet model. [Run distributions, implementation, hardware and reproduction](ada_mcmc_scaling.md)
+
+Every matched run reproduced all 416 proposed parameter vectors, all 384 retained walker positions and the reference’s 196 accepted moves. The mapped fluxes and log posteriors matched exactly. The original 12°/8°/6° mesh check, with a joint limit of 0.1 nominal-noise units, withheld the guarded density at the generating point and both tested initial walkers. It then failed at all 416 distinct proposal coordinates. The 12°–6° distances ranged from 12.22 to 12.72 nominal-noise units, and changing the mesh shifted the original log likelihood by 0.634 to 221.225 in absolute value. [Per-proposal mesh comparisons](ada_validation/mcmc-scaling-mesh.json)
+
+The older serial hybrid used a different emcee proposal stream on its first run. The 32 initial walkers were the only shared coordinates, and all reproduced CPU densities within tolerance. Setting the seed directly on emcee after device setup reproduced the entire CPU trace. All six parameters failed the 50-autocorrelation-time length check. Effective samples per second remain unmeasured.
+
+### Continuing the resolution-checked physical chain
+
+The sampled-heating CPU and GPU chains resumed from their published m031 model and seed 20261117. Both used the same proposal coordinates and uniform random draw. The second proposal’s eight-resolution log-likelihood bound was **0.000790** at nominal flux uncertainty 10⁻⁴, against the limit of 0.01. Both backends accepted the second proposal. Its log-posterior change was +23.40775. The log acceptance threshold was +0.00000 and the random log draw was -1.05843. The numerical model and noise settings stayed fixed throughout these two trials. At the same proposal and preceding position, the original 12°, 8° and 6° facets gave log-posterior changes of -3.157, +28.235, +22.589, respectively. The two distances to the 6° prediction were 12.28 and 8.83 on the same processed observations. [Per-depth CPU/GPU differences, bounds, checkpoint hashes and allocation checks](ada_validation/background-m032.json)
+
+The ensemble adapter refactors the native surface integration entry point, a file included in the sampled-heating chain’s software fingerprint. Continue that chain from commit `60dbb2cde371f0e8feee5f594f477fa46e08388a` with the m031 environment. With its matching checkout active, run `python scripts/sample_receiver_heating.py evaluate --checkpoint sampled/state.json --step 2 --depth 3`, repeat at depth 4, then run `python scripts/sample_receiver_heating.py advance --checkpoint sampled/state.json --step 2`. Start from the matching backend’s step-one state. Execute GPU forward evaluations in registered bounded units with `--verified-bounded-gpu-window`.
+
+The matrix ran in an isolated checkout based on m030. The integrated development checkout independently replayed the eight-worker original and shared-GPU ensembles against the frozen reference. All 31 integrated regression test executions passed, including native whole-CPU fallback, component reductions and the shared-owner replay. The shared adapter propagates unsupported device integration outside the physical prior. Fifth42’s original stopped checkpoint verified at each recorded unit boundary. [Integrated source fingerprints](ada_validation/background-m032-source-hashes.json)
+
+Proposal 38’s retained ordinary-depth primary packet at phase 0.005 used 1,687,131 nodes. Of these, 1,272,087 evaluated ordinary triangles and 415,044 evaluated curved edge triangles. The deeper shadow calculation at that phase exceeded the 2,097,152-node cap. At proposal 0, the measured field contribution on shared rays was 0.01743 against the 0.01 total likelihood budget. The next comparison will vary interior quadrature and the irradiation field independently, retaining the curved boundary and all eight resolution checks.
 
 ## m031 — Irradiation sampled within each receiving face
 
