@@ -1,5 +1,9 @@
 # Experimental GPU likelihood pilot
 
+## m027 — Emitter displacements and receiving horizons
+
+Select `SpatialReflectedLightCurve` or the validation engine `spatial-reflection` for the first-order emitting-position rule. The `receiver_points` and `donor_level` options follow `AreaReflectedLightCurve`. The host constructs a proposal-specific index for groups crossing a receiving tangent plane. The solver uses individual native terms there and includes the sparse expansion in the interaction cap. Directional moments and the native correction run on the selected backend. The reflected detached tests still exceed the finite likelihood-error limit at nominal flux uncertainty 10⁻⁴. [Curves, scope and reproduction](ada_progress.md)
+
 ## m026 — Directional donor emission
 
 Select `AngularReflectedLightCurve` or the validation engine `angular-reflection`. The receiver count and donor cap have the same meaning as in `AreaReflectedLightCurve`. Signs that can change across the receiver box trigger native positions and normals for all children of that group. For linear and cosine limb darkening, sign-stable groups use the luminosity-weighted first and second moments of child normals on a shared centroid ray. Logarithmic and square-root laws evaluate their native faces under the same pair limit. The calculation retains the documented symmetric detached scope and strict resource, phase and likelihood checks.

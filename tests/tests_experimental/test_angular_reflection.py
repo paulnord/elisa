@@ -11,7 +11,7 @@ from elisa.binary_system.surface.faces import faces_visibility_x_limits
 from elisa.experimental import area_reflection
 from elisa.experimental.angular_reflection import AngularReflection, donor_layout
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule
-from elisa.experimental.gpu_nodal_source import AngularReflectedLightCurve
+from elisa.experimental.gpu_nodal_source import AngularReflectedLightCurve, SpatialReflectedLightCurve
 from elisa.experimental.gpu_reflection import UnsupportedReflectionError
 from scripts.validate_emitter_groups import incident
 from scripts.validate_gpu_atmosphere import fixture as table_fixture, table_settings
@@ -76,7 +76,8 @@ def test_native_direction_sum_and_changing_luminosities(monkeypatch):
 
 
 @pytest.mark.parametrize("case", CASES)
-def test_complete_angular_curve(case):
+@pytest.mark.parametrize("model", [AngularReflectedLightCurve, SpatialReflectedLightCurve])
+def test_complete_angular_curve(case, model):
     with (
         table_settings(),
         settings.override(
@@ -90,7 +91,7 @@ def test_complete_angular_curve(case):
         kw = dict(levels=(0, 1), integration_level=1, donor_level=0)
         data = []
         for device in ("reference", DEVICE):
-            observer = AngularReflectedLightCurve(
+            observer = model(
                 ["Generic.Bessell.V", "bolometric"], CurvedEdgeRule(3, 1), device=device, **kw
             )
             data.append(observer(binary, [0.017, 0.027, 0.25, 0.517, 0.533, 1.027], source_revision="fixture"))

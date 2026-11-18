@@ -34,6 +34,7 @@ class _Surface(NamedTuple):
     intrinsic: Any
     absorption: Any
     native_normals: Any = None
+    spatial: Any = None
 
 
 def _group_sum(xp: Any, index: Any, count: int, values: Any) -> Any:
@@ -224,6 +225,7 @@ class AreaReflection:
         surfaces = [self._surface(binary, system, n, level, limits[n]) for n in _NAMES]
         surfaces, details = self._prepare_pair(surfaces, system, limits, level)
         pairs = sum(len(a.parent) * len(b.emitter) for a, b in (surfaces, surfaces[::-1]))
+        pairs += sum(d.get("extra_native_pairs", 0) for d in details)
         if pairs > _MAX_PAIRS:
             raise UnsupportedReflectionError("Integrated receiver/emitter quadrature exceeds the reflection pair cap")
         stats = {

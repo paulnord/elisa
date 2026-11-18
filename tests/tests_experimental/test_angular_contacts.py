@@ -2,16 +2,19 @@
 
 import os
 
+import pytest
+
 from numpy.testing import assert_allclose
 
 from elisa import settings
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule
-from elisa.experimental.gpu_nodal_source import AngularReflectedLightCurve
+from elisa.experimental.gpu_nodal_source import AngularReflectedLightCurve, SpatialReflectedLightCurve
 from scripts.validate_gpu_atmosphere import table_settings
 from scripts.validate_gpu_binary import contact_phases, fixture
 
 
-def test_angular_reflection_across_both_contacts():
+@pytest.mark.parametrize("observer", [AngularReflectedLightCurve, SpatialReflectedLightCurve])
+def test_angular_reflection_across_both_contacts(observer):
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
         binary = fixture({"inclination": 85, "discretization": 12})
         phases = contact_phases(binary)
@@ -19,7 +22,7 @@ def test_angular_reflection_across_both_contacts():
         bands = ["Generic.Bessell.V", "bolometric"]
         kwargs = dict(levels=(1, 2), integration_level=2, donor_level=1)
         results = [
-            AngularReflectedLightCurve(bands, CurvedEdgeRule(4, 1), device=device, **kwargs)(
+            observer(bands, CurvedEdgeRule(4, 1), device=device, **kwargs)(
                 binary, phases, source_revision="contact-fixture"
             )
             for device in ("reference", os.getenv("ELISA_GEOMETRY_TEST_DEVICE", "cpu"))

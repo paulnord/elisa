@@ -1,5 +1,14 @@
 # Ada workload and hardware characterization
 
+## m027 — Spatially resolved donor irradiation
+
+| Changing proposals | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole process serial CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 4 | 40.88 / 41.05 | 94.63 / 65.72 | 52.63 / 21.18 | 1.94× | 1.09× |
+| 8 | 81.29 / 81.16 | 158.93 / 124.11 | 74.70 / 39.48 | 2.06× | 1.40× |
+
+One first and one changed warm batch per process on the Ryzen 9 5950X and RTX 3080 Ti. The finite reference, JAX CPU and GPU return the same two complete field resolutions and their mapped likelihood. The serial CPU and GPU timing pairs used cores 0–15 at nice 10 with single-thread BLAS. JAX CPU B4 used those settings. Its B8 timing used nice 19 with CUDA hidden. On B8 the GPU had 184 active samples. PCIe generation 4 and width ×8 were observed during activity, with a device-wide sampled peak of 602 MiB. Sampling measures GPU utilization and clocks over time. The effect of a faster interconnect requires stage-level traffic and stall measurements. [Source, model and accuracy limits](ada_progress.md)
+
 ## m026 — Directional donor moments and resolved horizons
 
 The Ada Ryzen 9 5950X and RTX 3080 Ti synthesized two fresh, complete reflected curves per changing candidate at field levels 0 and 1 with donor cap 0. This cap exercises grouping at level 1. Timings include host selection and field setup, JIT compilation when encountered, CUDA transfers, synchronization and the returned predictions, log density and nominal accuracy checks.
