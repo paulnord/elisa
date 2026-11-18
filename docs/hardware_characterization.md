@@ -1,5 +1,19 @@
 # Ada workload and hardware characterization
 
+## m036 — Native blackbody integration at 1.5° primary spacing
+
+Each pair uses the same 32-walker physical ensemble and two red–blue steps. Times below include interpreter startup, the entire fit, interprocess transfer and output. The unit monitor polled the child once per second. The application and sampler clocks give finer timing boundaries in the [cuBLAS report](ada_cublas_native_spectra.md). The denominator for likelihood throughput is 96 sampler evaluations. Each implementation also computed 32 preflight curves and one final summary curve.
+
+| Walker workers | CPU matrix product, process s | cuBLAS, process s | CPU / cuBLAS | Repetitions, CPU / GPU |
+| ---: | ---: | ---: | ---: | ---: |
+| 1 | 147.84 | 131.26 | 1.13 | 1 / 1 |
+| 4 | 89.44 | 80.83 | 1.11 | 1 / 1 |
+| 8 | 88.23 | 78.58 | 1.12 | 2 / 2 |
+| 12 | 85.71 | 76.47 | 1.12 | 1 / 1 |
+| 16 | 87.10 | 78.10 | 1.12 | 2 / 2 |
+
+The CPU implementation uses one numerical thread per walker. The GPU method uses the same CPU allocation and adds a single CUDA owner on logical CPU 16, which shares a physical core with logical CPU 0. Both use full-precision temperatures and the same quadrature. The three reverse-order groups of four independent likelihoods took 21.74 s on CPU and 18.66 s with cuBLAS over the outer process boundary. CUDA compilation preceded all timings. [Timing records and tests](ada_validation/background-m036.json)
+
 ## m035 — Primary irradiation curvature and complete depth-three likelihoods
 
 On proposal 0, each process built four fresh reflected fields, integrated the same six-point-interior light curves at 18 supplied phases and returned two diagnostic fitted densities. Each uses FP64, CPU affinity 16–19, nice 19 and single-thread numerical libraries. Process times include encountered compilation, transfers, synchronization, host geometry and output. Stage clocks can nest. The sixteen-model accuracy assessment additionally requires depth four and the Duffy interior rule.

@@ -1,6 +1,34 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T21:40:54.025723+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T22:11:41.846256+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m036 — Direct cuBLAS spectra in the native physical sampler
+
+On the 1.5° native mesh, the fastest configuration for both methods used 12 walker workers. The complete fit took **83.67 s with the CPU matrix product and 74.78 s with cuBLAS**, one run each. At 16 workers the two-run medians were 85.52 s and 75.81 s, respectively. All 16 short fits reproduced the same 96 six-parameter evaluations and all 64 move decisions, including 36 acceptances. The largest absolute differences from the original CPU fitter were 6.66e-16 in normalized flux and 9.85e-11 in log posterior. [Native spectral study and reproduction](ada_cublas_native_spectra.md)
+
+The opt-in callback changes blackbody integration for B, V and bolometric light. ELISa still constructs the Roche surfaces, computes both reflection iterations, integrates eclipses, and applies the original phase mapping, normalization, third light, prior and noise law. Each complete fit clock includes the serial preflight of 32 initial walkers, emcee, the final summary curve, interprocess traffic, device transfers and synchronization. On the repeat sweep of twelve changing proposals on a single CPU core, the CPU matrix product took 14.95 s and cuBLAS took 14.08 s. The timings across walker counts and process boundaries are in the [hardware report](hardware_characterization.md).
+
+Independent CPU and CUDA regression tests crossed the 256-temperature tile boundary, changed a passband response in place, and checked repeated and closely spaced temperatures against the original per-face radiance. Both implementations raised an error for unsupported wavelength units and invalid temperatures. All 38 bounded units verified the original Fifth42 checkpoint at entry and cleanup. [Regression tests](../tests/tests_experimental/test_native_cublas_spectra.py)
+
+### Mesh sensitivity at every sampler evaluation
+
+We compared each of the 96 positions on the 1.5° trajectory against original CPU predictions at 2.5° and 2°, using the same 28 observations. 48 positions had previously archived native predictions. The remaining 48 were evaluated at both coarser spacings. We reconstructed the original likelihood from the saved fine fluxes and replayed each stretch move from its actual parent at 1.5°, using the original stretch factor and random draw. Each coarser-mesh margin in this comparison is conditional on that fine-mesh history.
+
+| Primary spacing vs 1.5° | Joint nominal-noise distance, min / median / max | Positions within 0.1 | Median absolute fitted log-posterior change | Changed decisions out of 64 |
+| --- | ---: | ---: | ---: | ---: |
+| 2.5° | 5.409 / 5.511 / 5.642 | 0 / 96 | 42.297 | 6 |
+| 2° | 1.203 / 1.225 / 1.257 | 0 / 96 | 2.919 | 1 |
+
+**0 of 96** met both finite-mesh distance checks. At step two, walker 28 accepted its proposal at 1.5° with a margin of +1.251 above its random threshold. The same proposal at 2° fell below the threshold by 1.256. The first 16 decisions matched the independently archived native replay at each resolution. The original native sampler used the selected finite mesh for its timing experiment. These two steps establish implementation and trajectory agreement for that workload. Mesh accuracy at the observational uncertainties and effective samples per second remain unqualified. The curved model retains its separate sixteen-model accuracy check. The next physical test will isolate the contributions of mean heating and within-face variation across the projected primary disk. [Per-position distances and move margins](ada_validation/background-m036-chain-mesh.json) · [Independent validation and clocks](ada_validation/background-m036.json)
+
+Reproduce the mesh comparison from the branch root in the configured CPU environment.
+
+```bash
+python -m scripts.check_native_spectral_chain_mesh \
+  docs/ada_validation/mcmc-scaling-fixture.json \
+  docs/ada_validation/native-mesh-refinement.json \
+  docs/ada_validation/cublas-native-spectra.json chain-mesh.json
+```
 
 ## m035 — Deposited heat across primary eclipse faces
 
