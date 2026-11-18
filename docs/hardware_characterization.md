@@ -1,5 +1,18 @@
 # Ada workload and hardware characterization
 
+## m037 — Complete disk heating comparisons at two thermal and donor resolutions
+
+Each measurement rebuilt four reflected fields and evaluated three primary spectra over the two phase blocks of proposal 0. Each block started a fresh process. Both blocks rebuilt the fields and evaluated repeated orbital phases independently. The last CPU process joined the full curves, calculated the fit predictions and attributed the observed likelihood changes. The table sums these process clocks, including compilation encountered, host/device transfers, synchronization, file I/O and process startup. Stage clocks exclude the final CPU join. The table uses the isolated serial CPU repeat. The first CPU block overlapped the last qualification join for 1.61 s and is recorded separately in the ledger. Each backend used logical CPUs 16–19, nice 19 and one thread for BLAS and OpenMP. JAX could use its own CPU worker threads.
+
+| Backend | Total process s | Blocks 1 / 2, s | Join and fit, s | Field and common geometry preparation, s | Observer geometry and clipping, s | Optical integration, s |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Serial CPU | 645.58 | 322.48 / 321.58 | 1.52 | 334.76 | 234.35 | 71.86 |
+| JAX CPU | 839.80 | 418.79 / 419.49 | 1.53 | 121.18 | 653.73 | 56.84 |
+| RTX 3080 Ti | 291.03 | 140.59 / 148.90 | 1.55 | 90.62 | 181.80 | 10.32 |
+| RTX 3080 Ti repeat | 291.00 | 140.59 / 148.86 | 1.55 | 90.75 | 181.62 | 10.32 |
+
+During the two GPU blocks of the first comparison, peak sampled device memory was 864 MiB. The GPU completed this diagnostic workload 2.22× as fast as the serial reference. The full sixteen-model accuracy check also requires depth four and the second interior rule. The eight- and sixteen-worker native ensemble uses a different finite model. [Timings and device samples](ada_validation/background-m037.json) · [Native sampler baselines](ada_cublas_native_spectra.md)
+
 ## m036 — Native blackbody integration at 1.5° primary spacing
 
 Each pair uses the same 32-walker physical ensemble and two red–blue steps. Times below include interpreter startup, the entire fit, interprocess transfer and output. The unit monitor polled the child once per second. The application and sampler clocks give finer timing boundaries in the [cuBLAS report](ada_cublas_native_spectra.md). The denominator for likelihood throughput is 96 sampler evaluations. Each implementation also computed 32 preflight curves and one final summary curve.

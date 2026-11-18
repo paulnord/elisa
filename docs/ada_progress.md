@@ -1,6 +1,46 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T22:11:41.846256+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T23:23:45.295319+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m037 — Where primary heating changes the eclipse likelihood
+
+At proposal 0, using each primary face’s mean heating gave a **-0.703731** contribution to the change in nominal log likelihood between the two thermal meshes. Restoring the variation within each face contributed **+0.691539**. Together with intrinsic emission, the net primary contribution was **-0.012190**. In the sixteen-model comparison the likelihood error bound was **0.018055** against a limit of 0.01. The fitter withheld the density. [Validation data](ada_validation/background-m037.json)
+
+The test binary has a 6,380 K primary, a 4,880 K secondary, an inclination of 85.52°, and a third-light fraction of 0.176. It has ten B, thirteen V and five bolometric observations with normalized uncertainties near 1e-4. We ran both reflection iterations, then integrated three primary spectra on each identical visible disk. The first used intrinsic gravity-darkened temperatures. The second added the deposited heat averaged over each current face. The third used the full quadratic heating field. The secondary retained its physical reflected spectrum throughout. Every mixed curve went through the original phase reduction, third light and normalization. Averaging the two orders of replacing the stellar meshes allocates their interaction. The table gives fine minus coarse changes across all 28 B, V and bolometric observations at the finer donor resolution, eclipse depth four and six-point interior rule.
+
+| Source of change | Joint flux distance in nominal-noise units | Signed change in nominal log likelihood |
+| --- | ---: | ---: |
+| Primary intrinsic emission | 6.892e-09 | +0.000002 |
+| Add heat averaged on each mesh’s faces | 2.889e-03 | -0.703731 |
+| Restore variation within each face | 2.837e-03 | +0.691539 |
+| Primary subtotal | 5.516e-05 | -0.012190 |
+| Secondary | 1.342e-05 | +0.002701 |
+| Both stars | 4.906e-05 | -0.009489 |
+
+The flux distances are norms. The signed likelihood contributions add across sources and observations. Applying the fixture’s fitted noise inflation to the total recovers the coarse-to-fine change in fitted log posterior to within 1e-6 at every donor level, depth and interior rule. The largest net two-star contribution was in B at input phase 0.024. The largest primary contribution was in V at input phase 0.027. Changing the sizes of the faces also changes the piecewise-constant approximation used in the mean-heating control.
+
+### Heat on the same physical faces
+
+A separate serial CPU calculation integrated both reconstructed heat fields over the same 8,640 coarse primary faces, using their 34,560 children for curved-area quadrature. Subtracting each parent’s area mean leaves a variation with zero mean on that parent. Over the primary surface the RMS heat difference was **5.351e-08** in units of primary effective temperature to the fourth power. Its parent-mean and within-parent RMS components were **2.397e-09** and **5.346e-08**. Increasing the quadrature from 16 to 36 nodes per child changed any parent mean by at most 1.54e-19.
+
+We then used the actual uneclipsed projected-area weights on the observed disks. The entries below are signed disk means of the fine-minus-coarse deposited heat in the same units. The observer subtracts the original 0.017 phase shift and folds the orbit by symmetry.
+
+| Input phase | Reduced orbital phase | Parent-mean contribution | Within-parent contribution | Both |
+| ---: | ---: | ---: | ---: | ---: |
+| 0.024 | 0.007 | +2.283e-09 | +2.524e-10 | +2.535e-09 |
+| 0.027 | 0.010 | +2.355e-09 | +2.434e-10 | +2.599e-09 |
+| 0.267 | 0.250 | +6.796e-10 | +2.779e-12 | +6.824e-10 |
+| 0.517 | 0.500 | +2.821e-13 | -2.055e-12 | -1.773e-12 |
+
+Within-parent differences accounted for 99.80% of the surface mean-square heat difference. The positive area-weighted mean heat shift at contact had a different distribution. The parent means supplied about 90% at input phases 0.024 and 0.027. Disk-mean heat alone does not determine the observed flux because the spectrum and limb darkening weight the disk differently.
+
+The independent disk calculation reproduced the complete serial curves’ primary passband fluxes exactly at the stored precision. A zero-primary-albedo binary reproduced the same primary flux for all three prescriptions through eclipse while its secondary received positive irradiation. [Calculation and reproduction](experimental_gpu_backend.md)
+
+Across both eclipse depths, both interior rules, both donor resolutions and both thermal meshes, the largest CPU/GPU differences were 6.66e-16 in normalized physical flux and 7.28e-10 in diagnostic fitted log posterior. The two diagnostic primary fluxes agreed to 8.32e-16 relative. The maximum difference in the signed likelihood attribution was 1.43e-09. Rebuilding all sixteen physical curves reproduced the published m035 normalized fluxes to 4.44e-16 absolute across the two backends. The largest measured change among the sixteen models was 0.009499. The combined joint flux distance was 7.077e-05 nominal-noise units.
+
+Two fresh phase blocks covering all 18 phase slots, followed by observation mapping, four physical curve assemblies and two diagnostic densities, took 645.58 s on serial CPU, 839.80 s on JAX CPU and 291.03 s on GPU. The GPU repeat took 291.00 s. These clocks include the additional primary spectra, transfers, synchronization, intermediate files and reduction. All 14 registered units verified the original held Fifth42 checkpoint at entry and cleanup. The initial GPU output assembly and two CPU blocks failed because the new caller omitted the model’s phase shift. After the fix, the affected blocks ran from fresh inputs and a regression test checked shifted, reordered phases. [Hardware timings](hardware_characterization.md)
+
+The next comparison will weight the common-parent heat differences by the local passband response and limb darkening at contact, then test a refinement of the receiving-face mean against the full sixteen-model check. Proposal 0 still exceeds the likelihood limit for extending the physical chains.
 
 ## m036 — Direct cuBLAS spectra in the native physical sampler
 

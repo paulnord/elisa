@@ -56,9 +56,13 @@ def evaluate_block(base, identity, backend, depth, part, *, symmetric_interior=N
     solver = solver_type(list(fit.y_data), rule, device=backend, selective_shadow=True)
     batch = solver.batch([model], [phases[indices]], observer=fit.observer, source_revision=base["source_revision"])
     result = batch.results[0]
+    return pack_block(identity, backend, depth, part, indices, phases, props, model.phase_shift, result, batch)
+
+
+def pack_block(identity, backend, depth, part, indices, phases, props, phase_shift, result, batch):
     arrays = {}
     for key, c in result.curves.items():
-        np.testing.assert_array_equal(c.phases, (phases[indices] - model.phase_shift) + model.phase_shift)
+        np.testing.assert_array_equal(c.phases, (phases[indices] - phase_shift) + phase_shift)
         arrays[key] = dict(
             components=c.component_fluxes,
             rule=c.rule,

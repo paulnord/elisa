@@ -1,5 +1,35 @@
 # Experimental GPU likelihood pilot
 
+## m037 — Projected primary heating at proposal 0
+
+The calculation compares three primary spectra on the same eclipse quadrature points. Both reflection sweeps run to completion before the code constructs the intrinsic, face-mean and fully reflected spectra. Each uses the same gravity-darkened primary and the same fully reflected secondary. The supported case is the circular detached blackbody binary with linear limb darkening in the fixture. The physical likelihood uses the fully reflected spectrum and the existing resolution check. The other spectra measure sensitivity to deposited heat.
+
+Reproduce the serial CPU comparison in the FP64 validation environment from the repository root. Each block covers nine input phase slots. The join checks their order and applies the original observation mapping, third light, normalization and fitted noise.
+
+```bash
+fixture=docs/ada_validation/background-m033-proposal-0.json
+out=$(mktemp -d)
+for rule in six duffy; do
+  options=()
+  if [[ "$rule" == six ]]; then options+=(--six-point); fi
+  for depth in 3 4; do
+    for part in 0 1; do
+      python -m scripts.measure_primary_heating "$fixture" --backend reference \
+        --depth "$depth" --part "$part" "${options[@]}" --output "$out/$rule-$depth-$part.json"
+    done
+    python -m scripts.compare_primary_heating "$fixture" "$out/$rule-$depth-0.json" \
+      "$out/$rule-$depth-1.json" "${options[@]}" --output "$out/$rule-$depth.json"
+  done
+done
+python -m scripts.check_interior_resolution --six "$out/six-3.json" "$out/six-4.json" \
+  --alternative "$out/duffy-3.json" "$out/duffy-4.json" --alternative-rule duffy \
+  --curved-heating --output "$out/resolution.json"
+python -m scripts.compare_common_parent_heat "$fixture" --output "$out/common-parents.json"
+python -m pytest -q tests/tests_experimental/test_projected_heating.py
+```
+
+For JAX CPU use `--backend cpu`. On Ada, each GPU block runs inside its own registered, checkpoint-verified unit with `--backend gpu --verified-bounded-gpu-window`. The block join and common-parent integration run on CPU. The latter uses the same coarse parents for both thermal meshes and weights the projected heat by visible area. This gives a heat difference in units of the primary effective temperature to the fourth power. The optical comparison above uses each mesh’s own faces and gives changes in observed passband flux and nominal log likelihood. [Results](ada_validation/background-m037.json)
+
 ## m035 — Quadratic deposited heat on the primary
 
 Select `CurvedHeatingLightCurve` for the circular detached blackbody and linear limb-darkening configuration. It uses the existing irradiation interaction cap, positive optical controls and curved-area energy check. The new field requires a nonsingular angular chart and three paired neighbors on every full-surface triangle. Ill-conditioned stencils raise the experimental unsupported-geometry error. Each of the primary’s ten spectral nodes receives its own reconstructed deposited heat. The secondary retains the sampled six-node calculation.

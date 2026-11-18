@@ -243,13 +243,16 @@ class QuadraticSourceLightCurve(PairedQuadraticLightCurve):
 
     def _prepare_field(self, model, system, observer, variant):
         engine = self.engines[variant.key]
-        data, spectra, reflection = {}, {}, {}
+        data, reflection = {}, {}
         for name, b in self.moment_backends.items():
             star = getattr(system, name)
             if star.atmosphere != "bb":
                 raise UnsupportedCurvedGeometryError("Quadratic source validation requires a blackbody atmosphere")
             data[name], reflection[name] = self._source_data(b, model, star, engine.last_diagnostics[name])
-            spectra[name] = []
+        return self._optical_fields(system, observer, engine, data, reflection)
+
+    def _optical_fields(self, system, observer, engine, data, reflection):
+        spectra = {name: [] for name in data}
         # Use every source node once, with at most three spectra per face in each Planck batch.
         batches = (max(data[n][1].shape[1] for n in data) + 2) // 3
         slots = {n: np.array_split(np.arange(data[n][1].shape[1]), batches) for n in data}
