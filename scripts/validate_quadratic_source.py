@@ -23,7 +23,7 @@ from scripts.validate_gpu_fit import physical
 from scripts.validate_gpu_surface_error import asset_revision
 
 
-def evaluate(args, baseline):
+def evaluate(args, baseline, *, source_type=QuadraticSourceLightCurve, source_options=None):
     if args.backend == "gpu" and not args.verified_bounded_gpu_window:
         raise ValueError("GPU synthesis requires a verified bounded unit")
     if baseline["source_revision"] != asset_revision() or baseline["engine"] != "emitting-area":
@@ -37,7 +37,7 @@ def evaluate(args, baseline):
         np.testing.assert_array_equal(fit.x_data_reducer[band], baseline["reducers"][band])
     measured = {}
 
-    class ProfiledSource(QuadraticSourceLightCurve):
+    class ProfiledSource(source_type):
         def batch(self, *args, **kwargs):
             batch = super().batch(*args, **kwargs)
             result = batch.results[0]
@@ -52,7 +52,7 @@ def evaluate(args, baseline):
     def observer(bands, rule, *, device):
         if args.boundary == "refined":
             rule = replace(rule, slice_order=12, junction_depth=4)
-        return ProfiledSource(bands, rule, device=device)
+        return ProfiledSource(bands, rule, device=device, **(source_options or {}))
 
     result = evaluate_depth(fit, vector, args.depth, args.backend, observer_type=observer)
     for p in result["profiles"]:
@@ -65,7 +65,7 @@ def evaluate(args, baseline):
     return result
 
 
-def assess(parts):
+def assess(parts, *, engine="quadratic-spectral-source"):
     fit, _ = fixture()
     profiles = [p for part in parts for p in part["profiles"]]
     first = profiles[0]
@@ -100,7 +100,7 @@ def assess(parts):
             if p[k] != first[k]:
                 raise ValueError(f"Unmatched {k} in refinement grid")
         if (
-            p["engine"] != "quadratic-spectral-source"
+            p["engine"] != engine
             or p["source_revision"] != asset_revision()
             or not p["irradiation"]
             or not p["observations_irradiated"]
@@ -130,7 +130,7 @@ def assess(parts):
             rule = dict(c.rule)
             if (
                 c.field_levels not in (2, 3)
-                or rule.pop(f"quadratic_spectral_source_receiver3_donor_cap{cap}", 0) != 1
+                or rule.pop(f"{engine.replace('-', '_')}_receiver3_donor_cap{cap}", 0) != 1
                 or rule.pop("depth") != d
                 or rule["slice_order"] != p["slice_order"]
                 or rule["junction_depth"] != p["junction_depth"]

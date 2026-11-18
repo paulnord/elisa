@@ -1,5 +1,21 @@
 # Ada workload and hardware characterization
 
+## m031 — Sampled irradiation at ordinary eclipse depths
+
+| Backend | Depth 3 (s) | Depth 4 (s) | Likelihood check (s) | Total (s) |
+| --- | ---: | ---: | ---: | ---: |
+| Serial CPU | 234.78 | 378.77 | 1.56 | 615.10 |
+| JAX CPU | 445.43 | 813.38 | 1.57 | 1260.39 |
+| RTX 3080 Ti | 101.38 | 170.07 | 1.59 | 273.04 |
+
+| Backend | Stellar fields and common partition (s) | Eclipse packets and hashing (s) | Variant integration (s) |
+| --- | ---: | ---: | ---: |
+| Serial CPU | 156.73 | 377.93 | 75.71 |
+| JAX CPU | 96.27 | 1100.01 | 50.24 |
+| RTX 3080 Ti | 67.55 | 178.02 | 10.85 |
+
+Stage times sum the curve stages from both synthesis processes. The three process-wall measurements additionally include construction, transfers, synchronization, outputs and likelihood assessment. All used cores 16–19, nice 19, FP64, single-thread BLAS and existing compiler and filesystem caches. CPU timings include their private environment wrapper. GPU timings begin after the unit’s device and checkpoint checks. The negotiated PCIe generation was 4 at width 8 during nonzero GPU-utilization samples. Sampled device-wide memory reached 858 MiB. Memory traffic and stalls would be needed to quantify a bandwidth upgrade. [Proposal and accuracy boundary](ada_progress.md)
+
 ## m030 — Eight-model reflected trial with six spectra per face
 
 | Backend | Depth 3 (s) | Depth 4 (s) | Original fitter and gate (s) | Total (s) |

@@ -1,5 +1,9 @@
 # Experimental GPU likelihood pilot
 
+## m031 — Sampled receiving-face irradiation
+
+`ReceiverHeatingLightCurve` resolves the last deposited power at three receiver rays with an area-conserving, positivity-limited linear field. The optical source uses the six-node quadratic reconstruction. The `selective_shadow` option refines parents crossing the foreground shadow. `receiver_phase_parts.py` can evaluate depth-4 phase blocks in bounded units and restores the complete grid before applying third light and normalization. [Scientific scope and reproduction](ada_progress.md)
+
 ## m030 — Quadratic source fields and shadow-crossing checks
 
 `QuadraticSourceLightCurve` evaluates six physical blackbody and linear-LD samples per original face. It preserves the area mean of its irradiated T⁴ field and rejects a spectral polynomial that fails the positivity check. `DeeperShadowLightCurve` adds one bounded subdivision on sampled shadow crossings. `validate_quadratic_source.py assess` returns a usable density only for a passing eight-model grid. The independent physical chains use the original m029 sampled model. [Scope, measured errors and reproduction](ada_progress.md)

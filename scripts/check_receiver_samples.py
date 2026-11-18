@@ -13,6 +13,11 @@ if __package__ in (None, ""):
 
 from elisa import settings
 from elisa.experimental.area_reflection import _BARY, _MAX_PAIRS
+from elisa.experimental.boundary_geometry import ConditionedRocheGeometry
+from elisa.experimental.curved_geometry import duffy_nodes
+from elisa.experimental.gpu_reconstructed_field import shape_rule
+from elisa.experimental.quadratic_source import receiver_slope
+from elisa.experimental.receiver_heating import SampledReceiverReflection
 from elisa.experimental.gpu_nodal_source import _NodalBackend
 from elisa.experimental.quadratic_reflection import QuadraticReflection
 from scripts.reflected_trial import fixture
@@ -28,13 +33,13 @@ class _CaptureSweep(QuadraticReflection):
         return avg
 
 
-def measure(binary, system, name, temps, update):
+def measure(binary, system, name, temps, update, sampled=None):
     receiver, donor, donor_heat, mean = update
     star = copy(getattr(system, name))
     intrinsic = star.temperatures
     star.temperatures = temps
     backend = _NodalBackend(name, "linear", device="reference")
-    _, varying, _, _ = backend.thermal_nodes(binary, star, intrinsic)
+    triangles, varying, _, _ = backend.thermal_nodes(binary, star, intrinsic)
     _, flat, _, _ = backend.thermal_nodes(binary, star)
     teff4 = star.t_eff**4
     slope = ((varying / star.t_eff) ** 4 - (flat / star.t_eff) ** 4).reshape(-1, 3)
@@ -69,7 +74,7 @@ def measure(binary, system, name, temps, update):
     def stats(diff):
         return dict(rms=float(np.sqrt(np.sum(w * diff**2) / len(pick))), maximum=float(np.max(np.abs(diff))))
 
-    return dict(
+    result = dict(
         total_fully_sampled_faces=len(all_faces),
         tested_faces=len(pick),
         native_pairs=pairs,
@@ -79,11 +84,27 @@ def measure(binary, system, name, temps, update):
         within_face_shape_error=stats(shape_error),
     )
 
+    if sampled is not None:
+        nodes, mean_heat = sampled
+        rays, solid = duffy_nodes(triangles[pick], 4)
+        jac = ConditionedRocheGeometry(binary, name).sample(rays)[2]
+        areas = (solid * jac).reshape(len(pick), -1)
+        mass = (areas @ shape_rule()[0]) / areas.sum(axis=1)[:, None]
+        shape, scale = receiver_slope(np, nodes[pick], mean_heat[pick], mass)
+        recovered = mean_heat[pick, None] + shape @ _BARY.T
+        result.update(
+            sampled_node_error=stats(nodes[pick] - native),
+            limited_reconstruction_error=stats(recovered - native),
+            selected_faces_limited=int(np.sum(scale < 1)),
+        )
+    return result
+
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("baseline", type=Path)
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument("--sampled", action="store_true", help="Compare the conservative sampled receiver field")
     args = p.parse_args()
     props = json.loads(args.baseline.read_bytes())["samples"][0]["rows"][0]["physical"]
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
@@ -95,12 +116,19 @@ if __name__ == "__main__":
             solver = _CaptureSweep("linear", device="reference", receiver_points=3, donor_level=2)
             solver.updates = []
             ts, _ = solver.evaluate(binary, system, level, 2)
+            local = {}
+            if args.sampled:
+                sampled = SampledReceiverReflection("linear", device="reference", receiver_points=3, donor_level=2)
+                ts_local, records = sampled.evaluate(binary, system, level, 2)
+                for name in records:
+                    np.testing.assert_allclose(ts_local[name], ts[name], rtol=3e-13, atol=0)
+                    local[name] = records[name]["receiver_deposits"]
             order = (
                 ("primary", "secondary") if system.primary.t_eff <= system.secondary.t_eff else ("secondary", "primary")
             )
             assert len(solver.updates) == 4
             results[level] = {
-                name: measure(binary, system, name, ts[name], u)
+                name: measure(binary, system, name, ts[name], u, local.get(name))
                 for name, u in zip(order, solver.updates[-2:], strict=True)
             }
     args.output.write_text(json.dumps(dict(physical=props, levels=results), allow_nan=False, indent=2) + "\n")

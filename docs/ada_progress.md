@@ -1,6 +1,105 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T16:38:29.907712+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T18:15:38.049654+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m031 — Irradiation sampled within each receiving face
+
+The reflected light-curve calculation now retains the heat deposited at each illuminated point of the three-point receiving-face rule. On the standalone level-3 illumination check, reconstructing the field from those samples gave an RMS difference of **1.86e-07** on the secondary, compared with **2.04e-06** using adjacent face means. Both are measured in deposited T⁴/T_eff⁴ against direct summation over the curved emitting surface.
+
+With sampled heating and an extra eclipse subdivision at shadow crossings, the combined finite log-likelihood bound was **0.01798** at proposal 0. At proposal 38 the same selective calculation stopped at the packet limit. Its separate ordinary-depth calculation gave **0.00943**. The acceptance limit is 0.01 at nominal flux uncertainty 10⁻⁴. The sampled-heating sampler completed its generating-point check. Posterior convergence and effective samples per second remain open.
+
+### Heating and eclipse errors
+
+| Proposal and model | Field | Emitter | Depth | Combined bound | Gate |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 0 · m030 heat, ordinary depth | 0.022007 | 0.000008 | 0.011558 | 0.033573 | Stop |
+| 0 · sampled heat, ordinary depth | 0.017425 | 0.000008 | 0.011558 | 0.028992 | Stop |
+| 0 · sampled heat, deeper shadow crossings | 0.017425 | 0.000008 | 0.000547 | 0.017981 | Stop |
+| 38 · m030 heat, ordinary depth | 0.011068 | 0.000004 | 0.001439 | 0.012511 | Stop |
+| 38 · sampled heat, ordinary depth | 0.007990 | 0.000004 | 0.001439 | 0.009434 | Pass |
+| 38 · sampled heat, deeper shadow crossings | — | — | — | — | Node limit |
+| Generating point | 0.000718 | 0.000000 | 0.000366 | 0.001085 | Pass |
+| First physical trial | 0.000802 | 0.000000 | 0.000248 | 0.001050 | Pass |
+
+Each bound compares eight calculations spanning field levels 2/3, emitting-group levels 1/2 and eclipse depths 3/4. The bound includes their interactions, third light, phase mapping, repeated observations and per-band normalization. The nominal noise sets the resolution limit independently of the sampled noise parameter. A failed comparison withholds the density. At proposal 0, changing only the heating on byte-identical serial observer rays changed the combined bound by -0.004581. Refining the shadow crossings then changed it by -0.011011. These are measured resolution differences in this model and fixture. The continuum error remains unmeasured.
+
+The largest contributions at proposal 0 came from the following observations. The repeated rows keep their measured fluxes and original weights.
+
+| Band | Observation index | Observation phase | Residual / nominal error | Contribution |
+| --- | ---: | ---: | ---: | ---: |
+| V | 3 | 0.027 | -118.0 | 0.001625 |
+| B | 1 | 0.024 | -106.3 | 0.001538 |
+| B | 9 | 0.024 | -105.2 | 0.001523 |
+| bolometric | 1 | 0.027 | -123.4 | 0.001508 |
+
+The two cooler-first reflection sweeps retain their original donor grouping, horizon treatment, emitting-face luminosities and interaction cap. On each half-sweep the solver evaluates the absorbed power at each selected receiver ray and forms its curved-area-weighted face mean for the next star. The final update for each star also supplies its three local samples for the optical field. Each sample is matched to its physical Roche ray. Excluded receiver nodes retain zero deposited power. The visibility mask and its original area fractions apply on partially illuminated faces.
+
+For the symmetric three-node rule, the linear slope between two angular corners is twice the difference between their sampled powers. The reconstruction subtracts its mean under the order-four curved-area weights and adds the iterated face mean. If extrapolation reaches negative heating at a corner, a common factor limits the three slopes while preserving the mean. The six thermal and spectral nodes then use the existing quadratic intrinsic gravity field, blackbody spectra and linear limb darkening.
+
+| Receiver | 0 selected nodes | 1 node | 2 nodes | 3 nodes | Slope limited |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| primary | 4641 | 23 | 20 | 3956 | 150 |
+| secondary | 3955 | 18 | 20 | 4647 | 143 |
+
+These counts are for the symmetric base quarter of the level-3 surface at proposal 0 with the finer donor grouping. Across the measured complete profiles the largest per-face relative T⁴ closure error was 1.33e-15. The largest reflection sweep used 197,947,666 of the allowed 268,435,456 interactions. The largest eclipse packet used 2,019,582 of 2,097,152 nodes. The experiment retains the tested circular detached scope. The original CPU synthesis and its fallback remain available.
+
+| Star | Face mean RMS | Neighbor slope RMS | Individual sample RMS | Conservative field RMS |
+| --- | ---: | ---: | ---: | ---: |
+| primary | 4.441e-06 | 8.393e-08 | 4.365e-15 | 1.472e-11 |
+| secondary | 1.334e-04 | 2.038e-06 | 1.745e-12 | 1.858e-07 |
+
+The local comparison uses the last donor temperatures in each star’s cooler-first update and direct ungrouped emission onto 128 fully sampled faces per star. The physical regression tests also checked the selected slots and face means against a separate second-order emitter expansion for both temperature orderings. A deliberately insufficient pair cap raised the unsupported-model exception. All 24 regression test executions passed. Across complete matched curves, the maximum normalized flux or mapped prediction difference was 7.77e-16. The largest checked log-posterior difference was 1.33e-09. [Finite grids, native receiver checks and curves](ada_validation/background-m031.json)
+
+### Fitting and sampler checks
+
+The generating point's combined bound was 0.001085. The first Gaussian draw on seed 20261117 also passed, with a bound of 0.001050. CPU and GPU both rejected it. Each new-model checkpoint reproduced byte for byte after a missing or corrupted depth result was restored. The change in log posterior was -20.27111 and log(u) was -0.06851. The Metropolis threshold margins ranged from -20.20290 to -20.20226. The decision agreed at every tested resolution. Including checkpoint I/O, its two evaluations and advance took 630.5 process seconds on serial CPU and 264.8 on GPU. These runs used separate affinities. The matched-affinity measurements appear below.
+
+The two established checkpointed chains each evaluated a fifth physical proposal.
+
+| Seed | Completed trials | Fifth-trial bound | Fifth-trial decision | Accepted trials | Final log posterior |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 20261117 | 5 | 0.002008 | Accept | 2, 5 | 172.35706 |
+| 20261118 | 5 | 0.001883 | Reject | 2, 3, 4 | 196.29178 |
+
+These are the m029 and m030 physical chains using their established three-node source and first-order emitter model. Each resumed from its own four-trial checkpoint, with the original random state, prior and six proposal widths. Every in-prior proposal rebuilt all eight finite curves. The paired CPU and GPU restart replays compared the saved checkpoint bytes. The deeper shadow packet also exceeded the node cap at the generating point. The separate local comparison above used sampled heating with ordinary eclipse depths 3 and 4 throughout. The same model and all eight resolutions were used for the start and every eligible physical draw.
+
+| Seed | Facet angle | Accepted on own path | Fifth decision on curved-chain coordinates | Native proposal calls (s) |
+| --- | ---: | ---: | ---: | ---: |
+| 20261117 | 12° | 5 | Accept | 0.337 |
+| 20261117 | 8° | 2, 4, 5 | Accept | 0.426 |
+| 20261117 | 6° | 2, 5 | Accept | 0.610 |
+| 20261118 | 12° | none | Reject | 0.364 |
+| 20261118 | 8° | 2, 3, 4 | Reject | 0.437 |
+| 20261118 | 6° | 2, 3, 4 | Reject | 0.578 |
+
+Each native ELISa facet call evaluates one resolution. The fixture contains 28 synthetic B, V and bolometric observations from the 12° model. Under a separate correlated-noise sensitivity check, the accepted draws conditional on the curved-chain coordinates were 2, 5 for seed 20261117 and 2, 3, 4 for seed 20261118. The within-band exponential covariance used fraction 0.25 and a correlation length of 0.01 in unwrapped phase. These data and the circular blackbody model have different passband and limb-darkening assumptions from the published TESS fits.
+
+### Matched cost
+
+| Backend | Depth 3 (s) | Depth 4 (s) | Likelihood check (s) | Total (s) |
+| --- | ---: | ---: | ---: | ---: |
+| Serial CPU | 234.78 | 378.77 | 1.56 | 615.10 |
+| JAX CPU | 445.43 | 813.38 | 1.57 | 1260.39 |
+| RTX 3080 Ti | 101.38 | 170.07 | 1.59 | 273.04 |
+
+At proposal 38 the timed runs used the ordinary eclipse rule with the updated heating at both depths. Each process rebuilt the stars and all four field/donor combinations, then summed both stellar components and applied third light, distance and full-grid normalization. The original fitter then mapped all 28 measurements and checked all eight resolutions. Setup, encountered compilation, CPU work, transfers, synchronization, output and likelihood replay are included. Each total is one sequential observation with the same host affinity and nice level. The serial curved CPU/GPU ratio was **2.25** for the eight-model check. Original ELISa’s 12° CPU facet model evaluated one density at this same proposal in 0.086 s in m028. Its likelihood uses one fixed mesh. At proposal 0, the deeper eclipse calculation used two GPU phase blocks. Their mean-heating reductions differed by one FP64 ULP. The join checks these means at the existing field-solver tolerance, both blocks’ closure errors, exact topology and component fluxes on all four repeated folded phases. The complete reassembled curves matched unsplit serial depth-4 synthesis. At proposal 38 the selective calculation returned no depth-4 curve. Serial CPU independently encountered the packet limit on the primary at orbital phase 0.005. The validation ledger retains this stop and the successful selective depth-3 measurement. All 18 executed bounded GPU units verified the held Fifth42 checkpoint at entry and cleanup. [Hardware and stage costs](hardware_characterization.md)
+
+### Reproduction
+
+Use the m028 reflected fixtures below. For a proposal fixture stored as `0-2-3.json`, the selective serial comparison uses the following commands. Use distinct files per backend and the registered bounded-unit flag for GPU synthesis.
+
+```bash
+export JAX_PLATFORMS=cpu JAX_ENABLE_X64=True
+python scripts/validate_receiver_heating.py evaluate 0-2-3.json --depth 3 --selective-shadow --output depth3.json
+for p in 0 1; do
+  python scripts/receiver_phase_parts.py evaluate 0-2-3.json --depth 4 --part "$p" --output "phase-$p.json"
+done
+python scripts/receiver_phase_parts.py join 0-2-3.json phase-0.json phase-1.json --output depth4.json
+python scripts/validate_receiver_heating.py assess depth3.json depth4.json --selective-shadow --output budget.json
+python scripts/check_receiver_samples.py 0-2-3.json --sampled --output receivers.json
+```
+
+For the timed proposal 38 comparison, use `38-2-3.json` with the ordinary rule in both evaluations and the assessment. For an unsplit control, use `validate_receiver_heating.py evaluate` at both depths. Supply `--selective-shadow` to both evaluations and the assessment when testing the extra subdivision. Omitting the option uses the m030 eclipse rule with the new heating. For the generating point, use `truth-2-3.json` in the same two unsplit ordinary-depth evaluations, saving `truth-depth3.json` and `truth-depth4.json`. For the sampled-heating chain, initialize with `python scripts/sample_receiver_heating.py init --backend reference --initial truth-depth3.json truth-depth4.json --checkpoint sampled/state.json` from the two ordinary-depth profiles. Run `evaluate --checkpoint sampled/state.json --step 1 --depth 3` and repeat at depth 4, then `advance --checkpoint sampled/state.json --step 1` with the same script. For GPU use a separate checkpoint with its own generating profiles and bound each forward evaluation. Each depth and the chain state are individually checksummed. The script verifies the model, prior, observations, source fingerprint, proposal and complete finite grid before committing an in-prior decision and the new random-number state. To extend the earlier physical chains, use m029’s `evaluate` and `advance` commands with step 5 on the saved seed-specific states. [Tested source fingerprints](ada_validation/background-m031-source-hashes.json)
 
 ## m030 — Quadratic emission across each face and independent physical chains
 

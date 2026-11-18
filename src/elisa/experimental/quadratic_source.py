@@ -26,16 +26,41 @@ def bernstein_edges(values):
     return 2 * values[:, 3:] - 0.5 * (corners + np.roll(corners, -1, axis=1))
 
 
+def receiver_slope(xp, samples, heat_mean, mass):
+    """Invert the symmetric three-point triangle rule and preserve the curved-area mean.
+
+    The inverse has twice the sample differences. Limit their amplitude when extrapolation
+    to an angular corner would make deposited power negative.
+    """
+    span = 2 * samples
+    slope = span - (mass * span).sum(axis=1)[:, None]
+    lower = xp.maximum(0, -xp.min(slope, axis=1))
+    scale = xp.minimum(1.0, heat_mean / xp.where(lower > 0, lower, 1.0))
+    scale = xp.where(lower > 0, scale, 1.0)
+    return slope * scale[:, None], scale
+
+
 def correct_midpoints(xp, corner_density, gcorner, gmid, gquad, weights, beta):
+    density, mean, _ = _correct_midpoints(xp, corner_density, gcorner, gmid, gquad, weights, beta, None)
+    return density, mean
+
+
+def _correct_midpoints(xp, corner_density, gcorner, gmid, gquad, weights, beta, deposits):
     basis = xp.asarray(shape_values(np, shape_rule()[0]))
     mass = (weights @ basis) / weights.sum(axis=1)[:, None]
     scale = weights.sum() / (weights * gquad**beta).sum()
+    limited = 0
+    if deposits is not None:
+        linear_mass = (weights @ xp.asarray(shape_rule()[0])) / weights.sum(axis=1)[:, None]
+        slope, limiter = receiver_slope(xp, *deposits, linear_mass)
+        corner_density = corner_density + slope
+        limited = xp.sum(limiter < 1)
     vertex = gcorner**beta
     delta = scale * (gmid**beta - 0.5 * (vertex + xp.roll(vertex, -1, axis=1)))
     midpoint = 0.5 * (corner_density + xp.roll(corner_density, -1, axis=1))
     density = xp.concatenate((corner_density, midpoint + delta), axis=1)
     density -= (mass[:, 3:] * delta).sum(axis=1)[:, None]
-    return density, (mass * density).sum(axis=1)
+    return density, (mass * density).sum(axis=1), limited
 
 
 class _QuadraticField(PreparedMomentField):
@@ -58,7 +83,7 @@ class QuadraticSourceBackend(_NodalBackend):
         xp = self.jnp
         bary, qw = shape_rule()
 
-        def correct(parameters, tri, corner_density, gvertex, beta):
+        def correct(parameters, tri, corner_density, gvertex, beta, deposits):
             mid = 0.5 * (tri + xp.roll(tri, -1, axis=1))
             points = xp.einsum("qj,fjk->fqk", xp.asarray(bary), tri)
             rays = xp.concatenate((mid, points), axis=1).reshape(-1, 3)
@@ -67,10 +92,10 @@ class QuadraticSourceBackend(_NodalBackend):
             jac = sample["area_per_solid_angle"][0].reshape(-1, 19)[:, 3:]
             det = xp.abs(xp.sum(tri[:, 0] * xp.cross(tri[:, 1], tri[:, 2]), axis=1))
             weights = jac * det[:, None] * xp.asarray(qw) / xp.linalg.norm(points, axis=-1) ** 3
-            density, mean = correct_midpoints(
-                xp, corner_density, gvertex, gravity[:, :3], gravity[:, 3:], weights, beta
+            density, mean, limited = _correct_midpoints(
+                xp, corner_density, gvertex, gravity[:, :3], gravity[:, 3:], weights, beta, deposits
             )
-            return density, mean, gravity[:, :3], sample["proposal_valid"][0]
+            return density, mean, gravity[:, :3], sample["proposal_valid"][0], limited
 
         def nodes(inverse, condition, faces, controls, parent, rays):
             c = xp.einsum("nij,nj->ni", inverse[parent], rays)
@@ -95,9 +120,23 @@ class QuadraticSourceBackend(_NodalBackend):
         self._nodes = self.jax.jit(nodes)
         self._flux = self.jax.jit(flux)
 
-    def six_nodes(self, model, star, intrinsic):
-        tri, corner, log_g, control = super().thermal_nodes(model, star, intrinsic)
+    def six_nodes(self, model, star, intrinsic, *, deposits=None):
+        tri, corner, log_g, control = super().thermal_nodes(model, star, intrinsic if deposits is None else None)
         base = star.base_symmetry_faces_number
+        if deposits is not None:
+            raw, deposited_mean = (np.asarray(v) for v in deposits)
+            if (
+                raw.shape != (base, 3)
+                or deposited_mean.shape != (base,)
+                or not np.isfinite(raw).all()
+                or not np.isfinite(deposited_mean).all()
+                or np.any(raw < 0)
+                or np.any(deposited_mean < 0)
+            ):
+                raise UnsupportedCurvedGeometryError("Invalid three-node heating")
+            closed = (np.asarray(intrinsic[:base]) / star.t_eff) ** 4 + deposited_mean
+            if not np.allclose(closed, (star.temperatures[:base] / star.t_eff) ** 4, rtol=3e-13, atol=0):
+                raise UnsupportedCurvedGeometryError("Receiver samples belong to a different thermal field")
         faces = tri[:base]
         corner_density = (np.asarray(corner).reshape(-1, 3) / star.t_eff) ** 4
         scale = const.G * model.primary.mass / model.semi_major_axis**2
@@ -115,7 +154,7 @@ class QuadraticSourceBackend(_NodalBackend):
                 )
 
             gmid = magnitude(geom.sample(mid.reshape(-1, 3))[0]).reshape(-1, 3)
-            density, mean = correct_midpoints(
+            density, mean, limited = _correct_midpoints(
                 np,
                 corner_density,
                 gvertex,
@@ -123,14 +162,16 @@ class QuadraticSourceBackend(_NodalBackend):
                 magnitude(points).reshape(-1, 16),
                 (weights * jac).reshape(-1, 16),
                 star.gravity_darkening,
+                deposits,
             )
         else:
             parameters = [model.mass_ratio, star.synchronicity, star.surface_potential]
-            density, mean, gmid, valid = self._correct(
+            density, mean, gmid, valid, limited = self._correct(
                 *(
                     self.jax.device_put(np.asarray(v), self.device)
                     for v in (parameters, faces, corner_density, gvertex, star.gravity_darkening)
-                )
+                ),
+                None if deposits is None else self.jax.device_put(deposits, self.device),
             )
             if not bool(valid):
                 raise UnsupportedCurvedGeometryError("Unsupported quadratic source midpoint geometry")
@@ -138,6 +179,8 @@ class QuadraticSourceBackend(_NodalBackend):
         closure = float(np.max(np.abs(mean / (star.temperatures[:base] / star.t_eff) ** 4 - 1)))
         if not closure <= 3e-13 or not np.all(density > 0) or not np.all(bernstein_edges(density) > 0):
             raise UnsupportedCurvedGeometryError("Quadratic thermal field failed T^4 closure or positivity")
+        if deposits is not None:
+            control["receiver_limited_faces"] = int(limited)
         control.update(quadratic_T4_relative_error=closure, quarter_spectral_samples=int(6 * base))
         return (
             tri,
@@ -182,14 +225,19 @@ class QuadraticSourceLightCurve(PairedQuadraticLightCurve):
     rule_prefix = "quadratic_spectral_source"
     field_contract = "Six-node conservative thermal and optical fields with two iterations of curved donor irradiation"
 
+    def _source_data(self, backend, model, star, diagnostics):
+        return backend.six_nodes(model, star, diagnostics["intrinsic_temperatures"]), diagnostics.get(
+            "reflection_quadrature", {}
+        )
+
     def _prepare_field(self, model, system, observer, variant):
         engine = self.engines[variant.key]
-        data, spectra = {}, {}
+        data, spectra, reflection = {}, {}, {}
         for name, b in self.moment_backends.items():
             star = getattr(system, name)
             if star.atmosphere != "bb":
                 raise UnsupportedCurvedGeometryError("Quadratic source validation requires a blackbody atmosphere")
-            data[name] = b.six_nodes(model, star, engine.last_diagnostics[name]["intrinsic_temperatures"])
+            data[name], reflection[name] = self._source_data(b, model, star, engine.last_diagnostics[name])
             spectra[name] = []
         # Two three-node spectral batches respect the existing per-component Planck workspace bound.
         for start in (0, 3):
@@ -227,7 +275,7 @@ class QuadraticSourceLightCurve(PairedQuadraticLightCurve):
                 data[name][0],
                 np.concatenate(spectra[name], axis=1),
                 self.passbands,
-                {**data[name][-1], **engine.last_diagnostics[name].get("reflection_quadrature", {})},
+                {**data[name][-1], **reflection[name]},
             )
             for name, b in self.moment_backends.items()
         }
