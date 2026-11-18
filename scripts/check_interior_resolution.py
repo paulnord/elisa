@@ -19,8 +19,10 @@ from scripts.validate_gpu_atmosphere import table_settings
 from scripts.validate_quadratic_source import assess
 
 
-def grid(parts, degree):
+def grid(parts, degree, primary_cubic=False):
     engine = ("symmetric-" if degree is not None else "") + "shadow-sampled-receiver-heat"
+    if primary_cubic:
+        engine += "-primary-cubic"
     result = assess(parts, engine=engine, interior_degree=degree)
     profiles = [profile for part in parts for profile in part["profiles"]]
     finest = [p for p in profiles if (p["depth"], p["donor_level"]) == (4, 2)]
@@ -103,12 +105,12 @@ def stellar_changes(coarse, fine, reducers, sigma, observed):
     )
 
 
-def compare(target, alternative, alternative_degree):
+def compare(target, alternative, alternative_degree, *, primary_cubic=False):
     """Enclose all 16 computed corners relative to the six-point finest curve."""
     if alternative_degree not in (None, 5):
         raise ValueError("Choose a distinct seven-point or Duffy interior comparison")
-    a, pa, ra = grid(target, 4)
-    b, pb, rb = grid(alternative, alternative_degree)
+    a, pa, ra = grid(target, 4, primary_cubic)
+    b, pb, rb = grid(alternative, alternative_degree, primary_cubic)
     for key in ("backend", "source_revision", "physical_constants", "observations", "uncertainties", "reducers"):
         if pa[key] != pb[key]:
             raise ValueError(f"Interior comparison changed {key}")
@@ -183,10 +185,11 @@ if __name__ == "__main__":
     p.add_argument("--six", type=Path, nargs=2, required=True)
     p.add_argument("--alternative", type=Path, nargs=2, required=True)
     p.add_argument("--alternative-rule", choices=("duffy", "seven"), required=True)
+    p.add_argument("--primary-cubic", action="store_true")
     p.add_argument("--output", type=Path, required=True)
     args = p.parse_args()
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
         target = [json.loads(path.read_bytes()) for path in args.six]
         alternative = [json.loads(path.read_bytes()) for path in args.alternative]
-        result = compare(target, alternative, 5 if args.alternative_rule == "seven" else None)
+        result = compare(target, alternative, 5 if args.alternative_rule == "seven" else None, primary_cubic=args.primary_cubic)
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")

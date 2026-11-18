@@ -1,6 +1,35 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T19:45:59.981492+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T20:44:32.840670+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m034 — Primary temperature and passband intensity through eclipse
+
+At proposal 0, the primary’s ten-node cubic field reduced the fine-grid V-band intensity error at phase 0.027 from 2.671e-09 to 1.822e-11 RMS relative to a direct spectrum on the same rays. The complete three-band comparison exceeded the 0.01 nominal log-likelihood limit with a bound of **0.019064**. The previous quadratic primary gave 0.018026. The fit returns an accuracy stop at this proposal. [Validation data](ada_validation/background-m034.json)
+
+The new opt-in calculation samples gravity on the curved Roche face at three vertices, six edge points and the centroid. It preserves the area-integrated intrinsic power and uses the three final irradiation samples to reconstruct deposited heat. Limiting the slope to keep heating nonnegative preserves its curved-area mean. Each optical node uses its own temperature, blackbody passband radiance and linear limb darkening. The secondary uses the existing six-node field. The reference evaluates Lagrange polynomials and the GPU evaluates Bernstein polynomials. Checks on the Bernstein coefficients enforce positive temperature and nonnegative emergent intensity throughout the face.
+
+### Independent spectra near contact
+
+For each phase and field level, the direct CPU calculation evaluated gravity and passband intensities on 192 visible primary rays, including the 96 nearest the secondary’s shadow among the tested rays. It held the sampled irradiation field fixed. The two columns give the relative RMS V-band intensity error.
+
+| Field level | Eclipse phase | Six-node primary | Ten-node primary |
+| ---: | ---: | ---: | ---: |
+| 2 | 0.024 | 2.515e-08 | 3.104e-10 |
+| 2 | 0.027 | 2.305e-08 | 2.884e-10 |
+| 3 | 0.024 | 3.138e-09 | 2.069e-11 |
+| 3 | 0.027 | 2.671e-09 | 1.822e-11 |
+
+We then compared both thermal levels on the same fine-grid rays. At phase 0.027, exchanging the intrinsic field changed the direct V-band intensity by 8.738e-16 RMS, while exchanging deposited heat changed it by 9.802e-08. The exchanges average both orders of substitution through the nonlinear spectrum. On those same rays, direct summation over the opposing star’s individual emitting nodes changed the deposited power by 2.451e-09 RMS in units of primary effective temperature to the fourth power. The change in the reconstructed heating residual relative to direct summation was 9.369e-08. That residual includes the receiver interpolation and the donor grouping used in the forward model. These ray errors measure the primary emission locally. [Validation data](ada_validation/background-m034.json)
+
+### Full curves and physical sampling
+
+The two stellar-field resolutions, two donor resolutions, two eclipse depths and two interior rules produced sixteen complete models. All use the same primary and secondary geometry, two reflection iterations, third light, original normalization and mapping to the 28 B, V and bolometric observations at nominal uncertainty 10⁻⁴. The six-point and Duffy interior rules gave within-rule bounds of 0.019019 and 0.019019. The largest directly measured nominal log-likelihood change across all corners was 0.010461. The isolated thermal-field bound at the finest donor and eclipse resolutions was 0.018463. At those same resolutions the quadratic-to-cubic change alone had a likelihood bound of 9.219e-05. Across backends, the maximum normalized-flux difference was 7.77e-16 and the maximum fitted log-posterior difference was 1.92e-09. [Validation data](ada_validation/background-m034.json)
+
+The CPU comparison used matching archived packet hashes. For the depth-four Duffy rule, a whole-orbit CPU repeat matched the archived whole-orbit hash and reproduced the two-block cubic calculation within its original tolerance. On the GPU, 2 of four archived depth/rule pairs had matching topology but different packet hashes. For each such pair, both optical fields were integrated again in one traversal on identical rays, projected areas and cosines. Both source models’ component fluxes reproduced their standalone GPU calculations within the original FP64 tolerance. [Validation data](ada_validation/background-m034.json)
+
+The paired chain advanced on its pinned m031 sampled-heating model. Serial CPU and GPU both rejected its fourth in-prior draw after the eight-model check returned a bound of 0.000803. The log-posterior change was -10.292661 against a random log draw of -1.878737. Four transitions leave mixing and effective samples per second open.
+
+A complete fresh-process calculation of four depth-three field/donor variants and two fitted densities took 296.93 s on serial CPU, 564.36 s on JAX CPU and 166.98 s on the RTX 3080 Ti. The clocks include compilation encountered, transfers, synchronization, host eclipse construction and serialization. The first JAX CPU integration test caught a host conversion of the primary temperature array before radiance evaluation. Preserving the device array fixed the handoff. One combined hardware test run reached its 245-second internal deadline. Both test files passed in separate bounded units. All 15 registered units verified the stopped Fifth42 checkpoint at both boundaries. [Matched timings](hardware_characterization.md) · [Reproduction](experimental_gpu_backend.md)
 
 ## m033 — Eclipse integration below the node cap
 

@@ -70,10 +70,20 @@ class _QuadraticField(PreparedMomentField):
             return super().sample(parent, rays)
         # The reference solves the cone per ray and uses signed Lagrange shape functions.
         c, _ = reference_barycentric(self.triangles, self.arrays[1], p, r)
-        return np.einsum("nk,nkbc->nbc", shape_values(np, c), self.vertex[self.faces[p]])
+        return np.einsum("nk,nkbc->nbc", self.backend.reference_basis(np, c), self.vertex[self.faces[p]])
 
 
 class QuadraticSourceBackend(_NodalBackend):
+    reference_basis = staticmethod(shape_values)
+
+    @staticmethod
+    def device_basis(xp, bary):
+        return xp.concatenate((bary * bary, 2 * bary * xp.roll(bary, -1, axis=-1)), axis=-1)
+
+    @staticmethod
+    def control_values(values):
+        return np.concatenate((values[:, :3], bernstein_edges(values)), axis=1)
+
     def __init__(self, component, law, **kwargs):
         if law != "linear":
             raise UnsupportedCurvedGeometryError("Quadratic optical reconstruction requires linear limb darkening")
@@ -103,7 +113,7 @@ class QuadraticSourceBackend(_NodalBackend):
             valid = xp.all(xp.isfinite(c)) & xp.all(c >= -guard[:, None]) & xp.all(c.sum(axis=1) > 0)
             c = xp.maximum(c, 0)
             c = c / c.sum(axis=1)[:, None]
-            basis = xp.concatenate((c * c, 2 * c * xp.roll(c, -1, axis=1)), axis=1)
+            basis = self.device_basis(xp, c)
             m = xp.einsum("nk,nkbc->nbc", basis, controls[faces[parent]])
             return {"moments": m, "valid": valid}
 
@@ -189,23 +199,24 @@ class QuadraticSourceBackend(_NodalBackend):
             control,
         )
 
+    emission_nodes = six_nodes
+
     def optical_field(self, tri, values, bands, control):
         # Each moment is (normal radiance, normal radiance * linear LD coefficient).
-        edges = bernstein_edges(values)
-        controls = np.concatenate((values[:, :3], edges), axis=1)
+        controls = self.control_values(values)
         if (
             not np.isfinite(controls).all()
             or not np.all(controls[..., 0] > 0)
             or np.any(controls[..., 0] - controls[..., 1] < 0)
         ):
             raise UnsupportedCurvedGeometryError(
-                "Quadratic spectrum cannot certify nonnegative intensity across the face"
+                "Interpolated spectrum cannot certify nonnegative intensity across the face"
             )
         condition = np.linalg.cond(tri)
         if not np.isfinite(condition).all() or np.any(condition > 1e5):
-            raise UnsupportedCurvedGeometryError("Ill-conditioned quadratic optical face")
+            raise UnsupportedCurvedGeometryError("Ill-conditioned optical face")
         array = values if self.mode == "reference" else controls
-        faces = np.tile(np.arange(6 * len(array)).reshape(-1, 6), (4, 1))
+        faces = np.tile(np.arange(len(array) * array.shape[1]).reshape(len(array), array.shape[1]), (4, 1))
         return _QuadraticField(
             self,
             tri,
@@ -239,17 +250,21 @@ class QuadraticSourceLightCurve(PairedQuadraticLightCurve):
                 raise UnsupportedCurvedGeometryError("Quadratic source validation requires a blackbody atmosphere")
             data[name], reflection[name] = self._source_data(b, model, star, engine.last_diagnostics[name])
             spectra[name] = []
-        # Two three-node spectral batches respect the existing per-component Planck workspace bound.
-        for start in (0, 3):
+        # Use every source node once, with at most three spectra per face in each Planck batch.
+        batches = (max(data[n][1].shape[1] for n in data) + 2) // 3
+        slots = {n: np.array_split(np.arange(data[n][1].shape[1]), batches) for n in data}
+        for batch in range(batches):
             sampled = copy(system)
             temperatures = {}
             for name, (_, temp, log_g, _) in data.items():
                 star = getattr(system, name)
                 view = copy(star)
-                temperatures[name] = temp[:, start : start + 3].ravel()
+                indices = slots[name][batch]
+                columns = slice(int(indices[0]), int(indices[-1]) + 1)
+                temperatures[name] = temp[:, columns].ravel()
                 view.temperatures = np.asarray(temperatures[name])
-                view.log_g = log_g[:, start : start + 3].ravel()
-                view.faces = np.repeat(star.faces[: star.base_symmetry_faces_number], 3, axis=0)
+                view.log_g = log_g[:, columns].ravel()
+                view.faces = np.repeat(star.faces[: star.base_symmetry_faces_number], len(indices), axis=0)
                 view.base_symmetry_faces_number = len(view.faces)
                 view.face_symmetry_vector = np.arange(len(view.faces))
                 setattr(sampled, name, view)
@@ -269,7 +284,7 @@ class QuadraticSourceLightCurve(PairedQuadraticLightCurve):
                 view = getattr(sampled, name)
                 r = np.stack([view.normal_radiance[b] for b in self.passbands], axis=1)
                 a = np.stack([view.ld_cfs[b][:, 0] for b in self.passbands], axis=1)
-                spectra[name].append(np.stack((r, r * a), axis=-1).reshape(-1, 3, len(self.passbands), 2))
+                spectra[name].append(np.stack((r, r * a), axis=-1).reshape(-1, len(slots[name][batch]), len(self.passbands), 2))
         return {
             name: b.optical_field(
                 data[name][0],

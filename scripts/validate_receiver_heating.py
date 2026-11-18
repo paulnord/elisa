@@ -11,6 +11,7 @@ if __package__ in (None, ""):
 
 from elisa import settings
 from elisa.experimental.gpu_curved_edges import SymmetricInteriorRule
+from elisa.experimental.primary_cubic import PrimaryCubicLightCurve
 from elisa.experimental.receiver_heating import ReceiverHeatingLightCurve
 from scripts.validate_gpu_atmosphere import table_settings
 from scripts.validate_quadratic_source import assess, evaluate
@@ -26,6 +27,7 @@ def main():
         "--symmetric-interior", nargs="?", const=4, type=int, choices=(4, 5), metavar="DEGREE",
         help="Use six (degree 4) or seven (degree 5) positive interior nodes per triangle. Default is Duffy quadrature.",
     )
+    parser.add_argument("--primary-cubic", action="store_true")
     parser.add_argument("--selective-shadow", action="store_true")
     parser.add_argument("--verified-bounded-gpu-window", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
@@ -39,7 +41,7 @@ def main():
             result = evaluate(
                 args,
                 inputs[0],
-                source_type=ReceiverHeatingLightCurve,
+                source_type=PrimaryCubicLightCurve if args.primary_cubic else ReceiverHeatingLightCurve,
                 rule_type=partial(SymmetricInteriorRule, interior_degree=args.symmetric_interior) if args.symmetric_interior else None,
                 source_options=dict(selective_shadow=args.selective_shadow),
             )
@@ -47,7 +49,8 @@ def main():
             prefix = "shadow-" if args.selective_shadow else ""
             if args.symmetric_interior:
                 prefix = "symmetric-" + prefix
-            result = assess(inputs, engine=prefix + "sampled-receiver-heat", interior_degree=args.symmetric_interior)
+            engine = prefix + "sampled-receiver-heat" + ("-primary-cubic" if args.primary_cubic else "")
+            result = assess(inputs, engine=engine, interior_degree=args.symmetric_interior)
     args.output.write_text(json.dumps(result, allow_nan=False, default=lambda a: a.tolist()) + "\n")
 
 

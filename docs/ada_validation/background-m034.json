@@ -1,0 +1,3853 @@
+{
+  "milestone": "m034",
+  "parent": "09c4f3902f51b238ef8326ee84d7e308718b8d5a",
+  "source_manifest_sha256": "4e9d24faa45c5b6af985febc412e446e4919e5f9d8ac37c8cef5627cee50da2c",
+  "scope": "Synthetic reflected detached proposal 0, three passbands, original observation mapping",
+  "archived_packet_checks": [
+    {
+      "n": 6,
+      "d": 3,
+      "archived_match": true
+    },
+    {
+      "n": 9,
+      "d": 3,
+      "archived_match": false
+    },
+    {
+      "n": 6,
+      "d": 4,
+      "archived_match": false
+    },
+    {
+      "n": 9,
+      "d": 4,
+      "archived_match": true
+    }
+  ],
+  "cpu_gpu_parity": {
+    "n6_d3": {
+      "normalized": 5.551115123125783e-16,
+      "raw_relative": 8.307793458652948e-16,
+      "component_relative": 9.487145845137508e-16,
+      "density": 9.167706593871117e-10
+    },
+    "n6_d4": {
+      "normalized": 4.440892098500626e-16,
+      "raw_relative": 8.949095787695754e-16,
+      "component_relative": 8.0924403064864835e-16,
+      "density": 4.220055416226387e-10
+    },
+    "n9_d3": {
+      "normalized": 7.771561172376096e-16,
+      "raw_relative": 7.383572412830758e-16,
+      "component_relative": 8.680972678604923e-16,
+      "density": 7.785274647176266e-10
+    },
+    "n9_d4": {
+      "normalized": 5.551115123125783e-16,
+      "raw_relative": 9.147875285627503e-16,
+      "component_relative": 8.691813370440895e-16,
+      "density": 7.639755494892597e-10
+    },
+    "jax_cpu_n6_d3": {
+      "normalized": 6.661338147750939e-16,
+      "raw_relative": 7.084159870510356e-16,
+      "component_relative": 9.763208020817368e-16,
+      "density": 1.9208528101444244e-09
+    }
+  },
+  "combined": {
+    "reference": {
+      "alternative": "Duffy 3x3",
+      "distance_sigma": 7.356963078153084e-05,
+      "log_likelihood_bound": 0.019063517777414857,
+      "limit_distance": 0.1,
+      "limit_log_likelihood": 0.01,
+      "pass_finite_check": false,
+      "continuum_certified": false,
+      "max_measured_nominal_log_likelihood_change": 0.010460593014054704,
+      "within_rule_bounds": [
+        0.019018970883164184,
+        0.019018966742391594
+      ],
+      "interior_pair_bound": 4.455101730804119e-05,
+      "interior_pair_distance_sigma": 1.773667315235304e-07,
+      "observed_field_changes": {
+        "mapped_distance_sigma": {
+          "primary": 5.7881924836760204e-05,
+          "secondary": 1.3421373531660009e-05,
+          "total": 5.161082685850775e-05
+        },
+        "component_flux_changes": {
+          "Generic.Bessell.B": {
+            "primary": {
+              "mean_fractional_change": 1.7816090824851472e-09,
+              "peak_scaled_shape_residual": 1.851272970874364e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 8.928477956970937e-10,
+              "peak_scaled_shape_residual": 1.137929128581574e-08
+            }
+          },
+          "Generic.Bessell.V": {
+            "primary": {
+              "mean_fractional_change": 1.4337919740370353e-09,
+              "peak_scaled_shape_residual": 1.4903158464557495e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 7.281770741940363e-10,
+              "peak_scaled_shape_residual": 9.119080086581854e-09
+            }
+          },
+          "bolometric": {
+            "primary": {
+              "mean_fractional_change": 1.3693066680531274e-09,
+              "peak_scaled_shape_residual": 1.4233359986906088e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 5.445810469240087e-10,
+              "peak_scaled_shape_residual": 6.78675566918981e-09
+            }
+          }
+        },
+        "nominal_log_likelihood_changes": {
+          "primary": {
+            "signed_change": -0.01315194743955125,
+            "largest_observation": {
+              "band": "Generic.Bessell.V",
+              "band_index": 3,
+              "phase": 0.027000000000000003,
+              "signed_change": -0.0013763189930159204
+            }
+          },
+          "secondary": {
+            "signed_change": 0.0027014077498488695,
+            "largest_observation": {
+              "band": "bolometric",
+              "band_index": 1,
+              "phase": 0.027000000000000003,
+              "signed_change": 0.0003227882250164949
+            }
+          },
+          "total": {
+            "signed_change": -0.01045053968970238,
+            "largest_observation": {
+              "band": "Generic.Bessell.B",
+              "band_index": 1,
+              "phase": 0.024,
+              "signed_change": -0.0011690468020907872
+            }
+          }
+        }
+      },
+      "usable_log_posterior": null
+    },
+    "gpu": {
+      "alternative": "Duffy 3x3",
+      "distance_sigma": 7.356964885724536e-05,
+      "log_likelihood_bound": 0.019063522976892407,
+      "limit_distance": 0.1,
+      "limit_log_likelihood": 0.01,
+      "pass_finite_check": false,
+      "continuum_certified": false,
+      "max_measured_nominal_log_likelihood_change": 0.010460592916991869,
+      "within_rule_bounds": [
+        0.01901897030038943,
+        0.019018971451254845
+      ],
+      "interior_pair_bound": 4.4551507922241105e-05,
+      "interior_pair_distance_sigma": 1.7736800428864923e-07,
+      "observed_field_changes": {
+        "mapped_distance_sigma": {
+          "primary": 5.7881922884692824e-05,
+          "secondary": 1.342137529538664e-05,
+          "total": 5.1610826557202256e-05
+        },
+        "component_flux_changes": {
+          "Generic.Bessell.B": {
+            "primary": {
+              "mean_fractional_change": 1.7816088604405422e-09,
+              "peak_scaled_shape_residual": 1.8512733094020123e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 8.928482397863036e-10,
+              "peak_scaled_shape_residual": 1.1379291598896596e-08
+            }
+          },
+          "Generic.Bessell.V": {
+            "primary": {
+              "mean_fractional_change": 1.4337915299478254e-09,
+              "peak_scaled_shape_residual": 1.49031584645575e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 7.281772962386412e-10,
+              "peak_scaled_shape_residual": 9.119080281846012e-09
+            }
+          },
+          "bolometric": {
+            "primary": {
+              "mean_fractional_change": 1.3693057798747077e-09,
+              "peak_scaled_shape_residual": 1.4233355978124913e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 5.445812689686136e-10,
+              "peak_scaled_shape_residual": 6.786755669189807e-09
+            }
+          }
+        },
+        "nominal_log_likelihood_changes": {
+          "primary": {
+            "signed_change": -0.01315194674950108,
+            "largest_observation": {
+              "band": "Generic.Bessell.V",
+              "band_index": 3,
+              "phase": 0.027000000000000003,
+              "signed_change": -0.0013763193206167458
+            }
+          },
+          "secondary": {
+            "signed_change": 0.0027014079380011575,
+            "largest_observation": {
+              "band": "bolometric",
+              "band_index": 1,
+              "phase": 0.027000000000000003,
+              "signed_change": 0.00032278808805313506
+            }
+          },
+          "total": {
+            "signed_change": -0.010450538811499922,
+            "largest_observation": {
+              "band": "Generic.Bessell.B",
+              "band_index": 1,
+              "phase": 0.024,
+              "signed_change": -0.0011690469201140273
+            }
+          }
+        }
+      },
+      "usable_log_posterior": null
+    }
+  },
+  "previous_finite_check": {
+    "alternative": "Duffy 3x3",
+    "distance_sigma": 7.092566520716338e-05,
+    "log_likelihood_bound": 0.018025766407364217,
+    "limit_distance": 0.1,
+    "limit_log_likelihood": 0.01,
+    "pass_finite_check": false,
+    "continuum_certified": false,
+    "max_measured_nominal_log_likelihood_change": 0.00951230163386698,
+    "within_rule_bounds": [
+      0.017981136504923282,
+      0.017981143103571764
+    ],
+    "interior_pair_bound": 4.4623286111789726e-05,
+    "interior_pair_distance_sigma": 1.7767142195129145e-07,
+    "observed_field_changes": {
+      "mapped_distance_sigma": {
+        "primary": 5.598904382007555e-05,
+        "secondary": 1.3421374421391905e-05,
+        "total": 5.066867151661445e-05
+      },
+      "component_flux_changes": {
+        "Generic.Bessell.B": {
+          "primary": {
+            "mean_fractional_change": 1.459723453223205e-09,
+            "peak_scaled_shape_residual": 1.8648357425411985e-09
+          },
+          "secondary": {
+            "mean_fractional_change": 8.928477956970937e-10,
+            "peak_scaled_shape_residual": 1.137929128581574e-08
+          }
+        },
+        "Generic.Bessell.V": {
+          "primary": {
+            "mean_fractional_change": 1.1749381467751618e-09,
+            "peak_scaled_shape_residual": 1.5011973219669069e-09
+          },
+          "secondary": {
+            "mean_fractional_change": 7.281770741940363e-10,
+            "peak_scaled_shape_residual": 9.119080086581854e-09
+          }
+        },
+        "bolometric": {
+          "primary": {
+            "mean_fractional_change": 1.1219605244860986e-09,
+            "peak_scaled_shape_residual": 1.4337273608274515e-09
+          },
+          "secondary": {
+            "mean_fractional_change": 5.445810469240087e-10,
+            "peak_scaled_shape_residual": 6.78675566918981e-09
+          }
+        }
+      },
+      "nominal_log_likelihood_changes": {
+        "primary": {
+          "signed_change": -0.01220359117797162,
+          "largest_observation": {
+            "band": "Generic.Bessell.V",
+            "band_index": 3,
+            "phase": 0.027000000000000003,
+            "signed_change": -0.0013202177484964793
+          }
+        },
+        "secondary": {
+          "signed_change": 0.002701408040040915,
+          "largest_observation": {
+            "band": "bolometric",
+            "band_index": 1,
+            "phase": 0.027000000000000003,
+            "signed_change": 0.0003227883632844743
+          }
+        },
+        "total": {
+          "signed_change": -0.009502183137930704,
+          "largest_observation": {
+            "band": "Generic.Bessell.B",
+            "band_index": 1,
+            "phase": 0.024,
+            "signed_change": -0.0011269705817469173
+          }
+        }
+      }
+    },
+    "usable_log_posterior": null
+  },
+  "field_comparisons": {
+    "reference_n6_d3": [
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "56457223333d63ff37c7efc5adbebb00d3322d2c3ee82cc43ac3eaf3caa14d89"
+        ],
+        "field": 2,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.094023605174741e-10,
+          "Generic.Bessell.V": 3.292537214698939e-10,
+          "bolometric": 3.146522417940465e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982302515132236,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.27593055512898e-10,
+          "max_abs_sigma": 2.27593174258035e-06,
+          "rms_sigma": 1.0126641859093496e-06,
+          "distance_sigma": 5.3585151950756364e-06,
+          "distance_squared": 2.8713685095856486e-11,
+          "expected_delta_log_likelihood": -1.4356842547928243e-11,
+          "delta_chi_squared": 0.0020166610283187583,
+          "delta_log_likelihood": -0.0010083305141593791,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "56457223333d63ff37c7efc5adbebb00d3322d2c3ee82cc43ac3eaf3caa14d89"
+        ],
+        "field": 3,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.518837530676324e-11,
+          "Generic.Bessell.V": 2.025721960196458e-11,
+          "bolometric": 1.9358805206847563e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.219089449587629e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086287691839061e-11,
+          "max_abs_sigma": 1.4086295041264368e-07,
+          "rms_sigma": 6.223465102434827e-08,
+          "distance_sigma": 3.2931481908263345e-07,
+          "distance_squared": 1.0844825006742758e-13,
+          "expected_delta_log_likelihood": -5.422412503371379e-14,
+          "delta_chi_squared": 0.00011994672355953307,
+          "delta_log_likelihood": -5.9973361779766535e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "56457223333d63ff37c7efc5adbebb00d3322d2c3ee82cc43ac3eaf3caa14d89"
+        ],
+        "field": 2,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.094024733600341e-10,
+          "Generic.Bessell.V": 3.2925372146990093e-10,
+          "bolometric": 3.146522417940529e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.001498227806601088,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759283346829307e-10,
+          "max_abs_sigma": 2.2759295221331424e-06,
+          "rms_sigma": 1.0126641660034066e-06,
+          "distance_sigma": 5.358515089743287e-06,
+          "distance_squared": 2.871368396700651e-11,
+          "expected_delta_log_likelihood": -1.4356841983503255e-11,
+          "delta_chi_squared": 0.002016661079951211,
+          "delta_log_likelihood": -0.0010083305399756055,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "56457223333d63ff37c7efc5adbebb00d3322d2c3ee82cc43ac3eaf3caa14d89"
+        ],
+        "field": 3,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.518826246421456e-11,
+          "Generic.Bessell.V": 2.0256835192613308e-11,
+          "bolometric": 1.9358805206847863e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.219000203775524e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086287691839061e-11,
+          "max_abs_sigma": 1.4086295041264368e-07,
+          "rms_sigma": 6.223448363851464e-08,
+          "distance_sigma": 3.2931393336005587e-07,
+          "distance_squared": 1.0844766670507133e-13,
+          "expected_delta_log_likelihood": -5.4223833352535665e-14,
+          "delta_chi_squared": 0.0001199453899833178,
+          "delta_log_likelihood": -5.99726949916589e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      }
+    ],
+    "gpu_n6_d3": [
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "0447c9ed7a1c6ee378d3d5fb1ddfa741610e0e71d92bde4aed0b492ffc10f7b7"
+        ],
+        "field": 2,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.09402360517474e-10,
+          "Generic.Bessell.V": 3.29253529265218e-10,
+          "bolometric": 3.1465224179404643e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982326420383335,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.27593055512898e-10,
+          "max_abs_sigma": 2.27593174258035e-06,
+          "rms_sigma": 1.0126643475338434e-06,
+          "distance_sigma": 5.358516050312068e-06,
+          "distance_squared": 2.871369426145205e-11,
+          "expected_delta_log_likelihood": -1.4356847130726025e-11,
+          "delta_chi_squared": 0.0020166590829844098,
+          "delta_log_likelihood": -0.0010083295414922049,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "0447c9ed7a1c6ee378d3d5fb1ddfa741610e0e71d92bde4aed0b492ffc10f7b7"
+        ],
+        "field": 3,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.518837530676325e-11,
+          "Generic.Bessell.V": 2.0256835192612978e-11,
+          "bolometric": 1.9358805206847563e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 7.827021627432234e-16,
+        "nominal_pair_bound": 9.219123653411677e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086287691839061e-11,
+          "max_abs_sigma": 1.4086295041264368e-07,
+          "rms_sigma": 6.223444477392173e-08,
+          "distance_sigma": 3.2931372770796056e-07,
+          "distance_squared": 1.0844753125691279e-13,
+          "expected_delta_log_likelihood": -5.4223765628456395e-14,
+          "delta_chi_squared": 0.00011994670371084564,
+          "delta_log_likelihood": -5.997335185542282e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "0447c9ed7a1c6ee378d3d5fb1ddfa741610e0e71d92bde4aed0b492ffc10f7b7"
+        ],
+        "field": 2,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.0940258620258334e-10,
+          "Generic.Bessell.V": 3.292535292652249e-10,
+          "bolometric": 3.14652442233112e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982310181894743,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759283346829307e-10,
+          "max_abs_sigma": 2.2759295221331424e-06,
+          "rms_sigma": 1.0126637669831453e-06,
+          "distance_sigma": 5.358512978326528e-06,
+          "distance_squared": 2.8713661338893836e-11,
+          "expected_delta_log_likelihood": -1.4356830669446918e-11,
+          "delta_chi_squared": 0.002016658906568847,
+          "delta_log_likelihood": -0.0010083294532844235,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "0447c9ed7a1c6ee378d3d5fb1ddfa741610e0e71d92bde4aed0b492ffc10f7b7"
+        ],
+        "field": 3,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5188600991862184e-11,
+          "Generic.Bessell.V": 2.0257027397289125e-11,
+          "bolometric": 1.935880520684787e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 9.392425953078214e-16,
+        "nominal_pair_bound": 9.21904925449246e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086731781048911e-11,
+          "max_abs_sigma": 1.4086739130705919e-07,
+          "rms_sigma": 6.22357266373463e-08,
+          "distance_sigma": 3.293205106916329e-07,
+          "distance_squared": 1.0845199876219789e-13,
+          "expected_delta_log_likelihood": -5.4225999381098944e-14,
+          "delta_chi_squared": 0.00011994800636875223,
+          "delta_log_likelihood": -5.9974003184376115e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      }
+    ],
+    "reference_n6_d4": [
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "a25286330b1e86ed4a39753da6a20250178ddbdc0daf5b3a015be520dae30559"
+        ],
+        "field": 2,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.094023605174741e-10,
+          "Generic.Bessell.V": 3.2925352926521793e-10,
+          "bolometric": 3.146520413549872e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982290228068673,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.27593055512898e-10,
+          "max_abs_sigma": 2.27593174258035e-06,
+          "rms_sigma": 1.012664796287703e-06,
+          "distance_sigma": 5.3585184248942935e-06,
+          "distance_squared": 2.871371970993162e-11,
+          "expected_delta_log_likelihood": -1.435685985496581e-11,
+          "delta_chi_squared": 0.0020166608821225343,
+          "delta_log_likelihood": -0.0010083304410612671,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "a25286330b1e86ed4a39753da6a20250178ddbdc0daf5b3a015be520dae30559"
+        ],
+        "field": 3,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.518837530676324e-11,
+          "Generic.Bessell.V": 2.025683519261297e-11,
+          "bolometric": 1.935880520684756e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.218945851846433e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086509736443986e-11,
+          "max_abs_sigma": 1.4086517085985143e-07,
+          "rms_sigma": 6.223542613873665e-08,
+          "distance_sigma": 3.2931892060245196e-07,
+          "distance_squared": 1.0845095146676404e-13,
+          "expected_delta_log_likelihood": -5.422547573338202e-14,
+          "delta_chi_squared": 0.00011994777857918515,
+          "delta_log_likelihood": -5.997388928959258e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "a25286330b1e86ed4a39753da6a20250178ddbdc0daf5b3a015be520dae30559"
+        ],
+        "field": 2,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.0940258620258344e-10,
+          "Generic.Bessell.V": 3.2925333706054893e-10,
+          "bolometric": 3.1465224179405284e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982282020002302,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759283346829307e-10,
+          "max_abs_sigma": 2.2759295221331424e-06,
+          "rms_sigma": 1.012664043225138e-06,
+          "distance_sigma": 5.358514440061756e-06,
+          "distance_squared": 2.871367700435035e-11,
+          "expected_delta_log_likelihood": -1.4356838502175175e-11,
+          "delta_chi_squared": 0.002016658750822957,
+          "delta_log_likelihood": -0.0010083293754114785,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "a25286330b1e86ed4a39753da6a20250178ddbdc0daf5b3a015be520dae30559"
+        ],
+        "field": 3,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5188488149312972e-11,
+          "Generic.Bessell.V": 2.0256835192613308e-11,
+          "bolometric": 1.935860476778876e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.219001174348249e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086287691839061e-11,
+          "max_abs_sigma": 1.4086295041264368e-07,
+          "rms_sigma": 6.223510828650074e-08,
+          "distance_sigma": 3.2931723868651224e-07,
+          "distance_squared": 1.0844984369610926e-13,
+          "expected_delta_log_likelihood": -5.422492184805463e-14,
+          "delta_chi_squared": 0.00011994489045968493,
+          "delta_log_likelihood": -5.997244522984246e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      }
+    ],
+    "gpu_n6_d4": [
+      {
+        "archived_packet_hash_match": false,
+        "shared_packet_sha256": [
+          "579ee3a05e7725687372d3dae76dc52a04599af1be599140476c76f0a511eee4",
+          "148c902a4d313b84a01e32beda47936dd2579281ea2c8ce27ab2e2e71482e32f"
+        ],
+        "field": 2,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.0940247336002326e-10,
+          "Generic.Bessell.V": 3.2925352926521793e-10,
+          "bolometric": 3.1465224179404643e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982272849761978,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.27593055512898e-10,
+          "max_abs_sigma": 2.27593174258035e-06,
+          "rms_sigma": 1.012663741238411e-06,
+          "distance_sigma": 5.358512842098198e-06,
+          "distance_squared": 2.8713659878931302e-11,
+          "expected_delta_log_likelihood": -1.4356829939465651e-11,
+          "delta_chi_squared": 0.002016656815069772,
+          "delta_log_likelihood": -0.001008328407534886,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": false,
+        "shared_packet_sha256": [
+          "579ee3a05e7725687372d3dae76dc52a04599af1be599140476c76f0a511eee4",
+          "148c902a4d313b84a01e32beda47936dd2579281ea2c8ce27ab2e2e71482e32f"
+        ],
+        "field": 3,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5188262464214038e-11,
+          "Generic.Bessell.V": 2.0257027397288783e-11,
+          "bolometric": 1.9358805206847563e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.219059529114392e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086731781048911e-11,
+          "max_abs_sigma": 1.4086739130705919e-07,
+          "rms_sigma": 6.22350126402454e-08,
+          "distance_sigma": 3.2931673257410124e-07,
+          "distance_squared": 1.084495103532821e-13,
+          "expected_delta_log_likelihood": -5.422475517664105e-14,
+          "delta_chi_squared": 0.0001199466433219533,
+          "delta_log_likelihood": -5.997332166097665e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": false,
+        "shared_packet_sha256": [
+          "579ee3a05e7725687372d3dae76dc52a04599af1be599140476c76f0a511eee4",
+          "148c902a4d313b84a01e32beda47936dd2579281ea2c8ce27ab2e2e71482e32f"
+        ],
+        "field": 2,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.0940247336003406e-10,
+          "Generic.Bessell.V": 3.2925372146990093e-10,
+          "bolometric": 3.1465224179405274e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982284159675448,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759283346829307e-10,
+          "max_abs_sigma": 2.2759295221331424e-06,
+          "rms_sigma": 1.0126639954555246e-06,
+          "distance_sigma": 5.358514187288721e-06,
+          "distance_squared": 2.8713674295374505e-11,
+          "expected_delta_log_likelihood": -1.4356837147687252e-11,
+          "delta_chi_squared": 0.0020166578082540577,
+          "delta_log_likelihood": -0.0010083289041270288,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": false,
+        "shared_packet_sha256": [
+          "579ee3a05e7725687372d3dae76dc52a04599af1be599140476c76f0a511eee4",
+          "148c902a4d313b84a01e32beda47936dd2579281ea2c8ce27ab2e2e71482e32f"
+        ],
+        "field": 3,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5188600991862184e-11,
+          "Generic.Bessell.V": 2.0257219601964926e-11,
+          "bolometric": 1.9358805206847873e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.219001567221484e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086287691839061e-11,
+          "max_abs_sigma": 1.4086295041264368e-07,
+          "rms_sigma": 6.223512588052976e-08,
+          "distance_sigma": 3.2931733178536285e-07,
+          "distance_squared": 1.0844990501423077e-13,
+          "expected_delta_log_likelihood": -5.422495250711538e-14,
+          "delta_chi_squared": 0.00011994651463005742,
+          "delta_log_likelihood": -5.997325731502871e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      }
+    ],
+    "reference_n9_d3": [
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "45b98c06263172a7c39e68b9a340bf725e4750e9133f66bf596c671615b41140"
+        ],
+        "field": 2,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.094004421947515e-10,
+          "Generic.Bessell.V": 3.2925179942363025e-10,
+          "bolometric": 3.146506382820464e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.00149821511419235,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759261142368814e-10,
+          "max_abs_sigma": 2.2759273016859344e-06,
+          "rms_sigma": 1.0126563906099089e-06,
+          "distance_sigma": 5.358473946228205e-06,
+          "distance_squared": 2.8713243032406472e-11,
+          "expected_delta_log_likelihood": -1.4356621516203236e-11,
+          "delta_chi_squared": 0.0020165294599390725,
+          "delta_log_likelihood": -0.0010082647299695362,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "45b98c06263172a7c39e68b9a340bf725e4750e9133f66bf596c671615b41140"
+        ],
+        "field": 3,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.518589277071852e-11,
+          "Generic.Bessell.V": 2.0254913145885405e-11,
+          "bolometric": 1.9357201694403844e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.217406753539778e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086065647234136e-11,
+          "max_abs_sigma": 1.4086072996543593e-07,
+          "rms_sigma": 6.222863488818928e-08,
+          "distance_sigma": 3.29282984682373e-07,
+          "distance_squared": 1.0842728400133188e-13,
+          "expected_delta_log_likelihood": -5.421364200066594e-14,
+          "delta_chi_squared": 0.00011981688560257103,
+          "delta_log_likelihood": -5.9908442801285516e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "45b98c06263172a7c39e68b9a340bf725e4750e9133f66bf596c671615b41140"
+        ],
+        "field": 2,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.0940032935221297e-10,
+          "Generic.Bessell.V": 3.2925199162831315e-10,
+          "bolometric": 3.1465043784299357e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982144804351052,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759261142368814e-10,
+          "max_abs_sigma": 2.2759273016859344e-06,
+          "rms_sigma": 1.012655964012739e-06,
+          "distance_sigma": 5.358471688888162e-06,
+          "distance_squared": 2.871321884061595e-11,
+          "expected_delta_log_likelihood": -1.4356609420307976e-11,
+          "delta_chi_squared": 0.0020165292875083283,
+          "delta_log_likelihood": -0.0010082646437541642,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "45b98c06263172a7c39e68b9a340bf725e4750e9133f66bf596c671615b41140"
+        ],
+        "field": 3,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5186118455817464e-11,
+          "Generic.Bessell.V": 2.0254913145885738e-11,
+          "bolometric": 1.9357001255345048e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.217453160759651e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086287691839061e-11,
+          "max_abs_sigma": 1.4086295041264368e-07,
+          "rms_sigma": 6.222894264689187e-08,
+          "distance_sigma": 3.292846131883548e-07,
+          "distance_squared": 1.0842835648260444e-13,
+          "expected_delta_log_likelihood": -5.421417824130222e-14,
+          "delta_chi_squared": 0.00011981587352714189,
+          "delta_log_likelihood": -5.990793676357094e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      }
+    ],
+    "gpu_n9_d3": [
+      {
+        "archived_packet_hash_match": false,
+        "shared_packet_sha256": [
+          "a18b7ef090bb99c8f51af0c2dd69b84a8d97eff62450dbae0568db677847e59b"
+        ],
+        "field": 2,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.094003293522021e-10,
+          "Generic.Bessell.V": 3.292519916283063e-10,
+          "bolometric": 3.146504378429872e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982140033233458,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759238937908322e-10,
+          "max_abs_sigma": 2.275925081238727e-06,
+          "rms_sigma": 1.0126562851911292e-06,
+          "distance_sigma": 5.358473388404457e-06,
+          "distance_squared": 2.8713237054238738e-11,
+          "expected_delta_log_likelihood": -1.4356618527119369e-11,
+          "delta_chi_squared": 0.002016529640876486,
+          "delta_log_likelihood": -0.001008264820438243,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": false,
+        "shared_packet_sha256": [
+          "a18b7ef090bb99c8f51af0c2dd69b84a8d97eff62450dbae0568db677847e59b"
+        ],
+        "field": 3,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5186005613267745e-11,
+          "Generic.Bessell.V": 2.0255105350561223e-11,
+          "bolometric": 1.935700125534474e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.217381923339929e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4085843602629211e-11,
+          "max_abs_sigma": 1.4085850951822817e-07,
+          "rms_sigma": 6.222858685777939e-08,
+          "distance_sigma": 3.292827305293331e-07,
+          "distance_squared": 1.084271166248534e-13,
+          "expected_delta_log_likelihood": -5.42135583124267e-14,
+          "delta_chi_squared": 0.00011981605960301306,
+          "delta_log_likelihood": -5.990802980150653e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": false,
+        "shared_packet_sha256": [
+          "a18b7ef090bb99c8f51af0c2dd69b84a8d97eff62450dbae0568db677847e59b"
+        ],
+        "field": 2,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.094003293522129e-10,
+          "Generic.Bessell.V": 3.292519916283132e-10,
+          "bolometric": 3.1465063828205283e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982131444095902,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759283346829307e-10,
+          "max_abs_sigma": 2.2759295221331424e-06,
+          "rms_sigma": 1.0126568627100492e-06,
+          "distance_sigma": 5.358476444347335e-06,
+          "distance_squared": 2.871326980462526e-11,
+          "expected_delta_log_likelihood": -1.435663490231263e-11,
+          "delta_chi_squared": 0.0020165298241601143,
+          "delta_log_likelihood": -0.0010082649120800571,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": false,
+        "shared_packet_sha256": [
+          "a18b7ef090bb99c8f51af0c2dd69b84a8d97eff62450dbae0568db677847e59b"
+        ],
+        "field": 3,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5186005613268262e-11,
+          "Generic.Bessell.V": 2.0255105350561565e-11,
+          "bolometric": 1.935700125534505e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.217527841894777e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4085843602629211e-11,
+          "max_abs_sigma": 1.4085850951822817e-07,
+          "rms_sigma": 6.2228970152968e-08,
+          "distance_sigma": 3.2928475873682877e-07,
+          "distance_squared": 1.0842845233637151e-13,
+          "expected_delta_log_likelihood": -5.421422616818576e-14,
+          "delta_chi_squared": 0.0001198175117854975,
+          "delta_log_likelihood": -5.990875589274875e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      }
+    ],
+    "reference_n9_d4": [
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "08f7972670627c6b4b3cfb2c090f89176d470409df4dc5b4d2733fbba1ce7f43"
+        ],
+        "field": 2,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.094003293522022e-10,
+          "Generic.Bessell.V": 3.2925160721895427e-10,
+          "bolometric": 3.1465023740392795e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.001498215639856464,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759238937908322e-10,
+          "max_abs_sigma": 2.275925081238727e-06,
+          "rms_sigma": 1.0126561990660757e-06,
+          "distance_sigma": 5.35847293267351e-06,
+          "distance_squared": 2.8713232170194642e-11,
+          "expected_delta_log_likelihood": -1.4356616085097321e-11,
+          "delta_chi_squared": 0.002016530538954639,
+          "delta_log_likelihood": -0.0010082652694773195,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "08f7972670627c6b4b3cfb2c090f89176d470409df4dc5b4d2733fbba1ce7f43"
+        ],
+        "field": 3,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5185892770718523e-11,
+          "Generic.Bessell.V": 2.025491314588541e-11,
+          "bolometric": 1.935700125534474e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.21746786567779e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086065647234136e-11,
+          "max_abs_sigma": 1.4086072996543593e-07,
+          "rms_sigma": 6.222895141676892e-08,
+          "distance_sigma": 3.292846595941822e-07,
+          "distance_squared": 1.0842838704405643e-13,
+          "expected_delta_log_likelihood": -5.421419352202822e-14,
+          "delta_chi_squared": 0.00011981676162117851,
+          "delta_log_likelihood": -5.9908380810589256e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "08f7972670627c6b4b3cfb2c090f89176d470409df4dc5b4d2733fbba1ce7f43"
+        ],
+        "field": 2,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.0940021650966364e-10,
+          "Generic.Bessell.V": 3.292519916283132e-10,
+          "bolometric": 3.1465043784299357e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.0014982142102509326,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759261142368814e-10,
+          "max_abs_sigma": 2.2759273016859344e-06,
+          "rms_sigma": 1.0126570526445469e-06,
+          "distance_sigma": 5.358477449386229e-06,
+          "distance_squared": 2.871328057558074e-11,
+          "expected_delta_log_likelihood": -1.435664028779037e-11,
+          "delta_chi_squared": 0.002016531158915694,
+          "delta_log_likelihood": -0.001008265579457847,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "08f7972670627c6b4b3cfb2c090f89176d470409df4dc5b4d2733fbba1ce7f43"
+        ],
+        "field": 3,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5186005613268255e-11,
+          "Generic.Bessell.V": 2.025472094120994e-11,
+          "bolometric": 1.9356800816285932e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.217716042807818e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086509736443986e-11,
+          "max_abs_sigma": 1.4086517085985143e-07,
+          "rms_sigma": 6.222924171701971e-08,
+          "distance_sigma": 3.292861957187204e-07,
+          "distance_squared": 1.0842939869090745e-13,
+          "expected_delta_log_likelihood": -5.4214699345453723e-14,
+          "delta_chi_squared": 0.00011981736891558402,
+          "delta_log_likelihood": -5.990868445779201e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      }
+    ],
+    "gpu_n9_d4": [
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "42bd0d7706ce6e4de8dee35e33116e3d541bf9eb73d819ee6d72acc28e36c6e7"
+        ],
+        "field": 2,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.094003293522021e-10,
+          "Generic.Bessell.V": 3.292519916283063e-10,
+          "bolometric": 3.146506382820464e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.001498214694329742,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759238937908322e-10,
+          "max_abs_sigma": 2.275925081238727e-06,
+          "rms_sigma": 1.0126561361151556e-06,
+          "distance_sigma": 5.358472599568551e-06,
+          "distance_squared": 2.8713228600326943e-11,
+          "expected_delta_log_likelihood": -1.4356614300163471e-11,
+          "delta_chi_squared": 0.002016529489289475,
+          "delta_log_likelihood": -0.0010082647446447374,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "42bd0d7706ce6e4de8dee35e33116e3d541bf9eb73d819ee6d72acc28e36c6e7"
+        ],
+        "field": 3,
+        "donor": 2,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5185892770718533e-11,
+          "Generic.Bessell.V": 2.0254913145885415e-11,
+          "bolometric": 1.9356800816285632e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.21752234808634e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086065647234136e-11,
+          "max_abs_sigma": 1.4086072996543593e-07,
+          "rms_sigma": 6.222868556887448e-08,
+          "distance_sigma": 3.292832528593516e-07,
+          "distance_squared": 1.0842746061363569e-13,
+          "expected_delta_log_likelihood": -5.4213730306817845e-14,
+          "delta_chi_squared": 0.0001198163455340969,
+          "delta_log_likelihood": -5.990817276704845e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "42bd0d7706ce6e4de8dee35e33116e3d541bf9eb73d819ee6d72acc28e36c6e7"
+        ],
+        "field": 2,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 4.0940021650966353e-10,
+          "Generic.Bessell.V": 3.292519916283132e-10,
+          "bolometric": 3.14650838721112e-10
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 0.001498214790047103,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 2.2759238937908322e-10,
+          "max_abs_sigma": 2.275925081238727e-06,
+          "rms_sigma": 1.0126558236949764e-06,
+          "distance_sigma": 5.358470946396354e-06,
+          "distance_squared": 2.871321088337383e-11,
+          "expected_delta_log_likelihood": -1.4356605441686915e-11,
+          "delta_chi_squared": 0.0020165279151409376,
+          "delta_log_likelihood": -0.0010082639575704688,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      },
+      {
+        "archived_packet_hash_match": true,
+        "shared_packet_sha256": [
+          "42bd0d7706ce6e4de8dee35e33116e3d541bf9eb73d819ee6d72acc28e36c6e7"
+        ],
+        "field": 3,
+        "donor": 1,
+        "peak_primary_change_relative_to_band_peak": {
+          "Generic.Bessell.B": 2.5186005613268262e-11,
+          "Generic.Bessell.V": 2.0255105350561562e-11,
+          "bolometric": 1.935700125534505e-11
+        },
+        "peak_secondary_change_relative_to_band_peak": 0.0,
+        "nominal_pair_bound": 9.217498890754858e-05,
+        "actual": {
+          "elements": 28,
+          "max_abs_flux": 1.4086065647234136e-11,
+          "max_abs_sigma": 1.4086072996543593e-07,
+          "rms_sigma": 6.222923533579752e-08,
+          "distance_sigma": 3.292861619524665e-07,
+          "distance_squared": 1.0842937645338599e-13,
+          "expected_delta_log_likelihood": -5.4214688226692994e-14,
+          "delta_chi_squared": 0.00011981694834837954,
+          "delta_log_likelihood": -5.990847417418977e-05,
+          "max_distance_sigma": 0.1,
+          "within_diagnostic_budget": true,
+          "reference_status": "finite-resolution comparison; no continuum certification"
+        }
+      }
+    ]
+  },
+  "finest_and_corners": {
+    "reference_n6": {
+      "physical": {
+        "primary@surface_potential": 7.991999999999999,
+        "primary@t_eff": 6380.0,
+        "system@inclination": 85.52,
+        "system@mass_ratio": 0.696,
+        "system@additional_light": 0.17600000000000002,
+        "nuisance@ln_f": -2.5999999999999996,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@synchronicity": 1.0,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "system@eccentricity": 0.0,
+        "system@argument_of_periastron": 90.0,
+        "system@period": 3.0,
+        "system@semi_major_axis": 10.0,
+        "system@phase_shift": 0.017,
+        "secondary@t_eff": 4880.0
+      },
+      "prediction": {
+        "Generic.Bessell.B": [
+          0.8901185538337602,
+          0.9085420107692566,
+          1.0604430734271733,
+          1.0854509763983828,
+          1.0683779519359662,
+          1.0429338472875962,
+          1.0600220453464642,
+          1.0854509763983828,
+          0.8901185538337602,
+          0.9085420107692566
+        ],
+        "Generic.Bessell.V": [
+          1.0215839562721305,
+          0.8858763211829276,
+          0.8947670135103272,
+          0.923294339467921,
+          1.0125529597565956,
+          1.0730984828413677,
+          1.0766310513028199,
+          1.067661629964685,
+          1.029968268343816,
+          1.0215839562721305,
+          0.8947670135103272,
+          1.0215839562721305,
+          1.0766310513028199
+        ],
+        "bolometric": [
+          0.8922543416761672,
+          0.9293739462129561,
+          1.0814320292418198,
+          1.0155366433395863,
+          1.0814030395294705
+        ]
+      },
+      "diagnostic_log_posterior": -50244.426005537905,
+      "corner_log_posteriors": {
+        "5": -50244.41595781471,
+        "4": -50244.42635102009,
+        "7": -50244.41596091217,
+        "6": -50244.42635404865,
+        "1": -50244.415612332996,
+        "0": -50244.426005537905,
+        "3": -50244.41561543082,
+        "2": -50244.42600856683
+      },
+      "finite_control": {
+        "combined_distance_sigma": 7.339513164111836e-05,
+        "combined_log_likelihood_bound": 0.019018970883164184,
+        "within_finite_budget": false,
+        "bands": {
+          "Generic.Bessell.B": {
+            "envelope": [
+              1.5139119329241067e-09,
+              1.504363223460659e-09,
+              1.7370015111237344e-09,
+              1.2329956301969988e-09,
+              1.8081131570138076e-09,
+              1.605319912124812e-09,
+              1.8264229244287477e-09,
+              1.2329956301969988e-09,
+              1.5139119329241067e-09,
+              1.504363223460659e-09
+            ],
+            "signed_terms": {
+              "1": [
+                -9.1782692557274e-10,
+                -1.0997011079538765e-09,
+                -1.3320853309295444e-09,
+                3.709281770625239e-10,
+                1.3808252319336134e-09,
+                1.4553798166616616e-09,
+                1.7890808834408745e-09,
+                3.709281770625239e-10,
+                -9.1782692557274e-10,
+                -1.0997011079538765e-09
+              ],
+              "2": [
+                2.539080057317733e-13,
+                2.5768276401549883e-13,
+                2.9665159217984183e-13,
+                -2.8377300509419e-13,
+                -7.986944439153376e-13,
+                3.6259883984257613e-13,
+                -3.1663560662309465e-13,
+                -2.8377300509419e-13,
+                2.539080057317733e-13,
+                2.5768276401549883e-13
+              ],
+              "3": [
+                6.217248937900877e-15,
+                6.5503158452884236e-15,
+                7.771561172376096e-15,
+                -4.440892098500626e-15,
+                -3.552713678800501e-14,
+                2.398081733190338e-14,
+                -1.0880185641326534e-14,
+                -4.440892098500626e-15,
+                6.217248937900877e-15,
+                6.5503158452884236e-15
+              ],
+              "4": [
+                1.1928869003696718e-10,
+                -1.0807243988608661e-11,
+                -3.6237457479160184e-11,
+                -3.710742824125646e-11,
+                -3.6411762494026334e-11,
+                -3.537437009981659e-11,
+                -3.472311327357147e-11,
+                -3.710742824125646e-11,
+                1.1928869003696718e-10,
+                -1.0807243988608661e-11
+              ],
+              "5": [
+                -1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                -1.1102230246251565e-16
+              ],
+              "6": [
+                1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                4.440892098500626e-16,
+                0.0,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                0.0,
+                1.1102230246251565e-16,
+                -1.1102230246251565e-16
+              ],
+              "7": [
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                -6.661338147750939e-16,
+                0.0,
+                0.0,
+                0.0,
+                -2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16
+              ]
+            }
+          },
+          "Generic.Bessell.V": {
+            "envelope": [
+              1.2250940374975145e-09,
+              1.3486885783086625e-09,
+              1.3558628048461542e-09,
+              1.4499198564399574e-09,
+              1.4315924750496343e-09,
+              1.4496163923731688e-09,
+              1.0377362674964489e-09,
+              1.4900519532117926e-09,
+              1.5198374467051248e-09,
+              1.2250940374975145e-09,
+              1.3558628048461542e-09,
+              1.2250940374975145e-09,
+              1.0377362674964489e-09
+            ],
+            "signed_terms": {
+              "1": [
+                1.041995600914447e-09,
+                -7.286750092205807e-10,
+                -8.645356652792202e-10,
+                -9.766732977922743e-10,
+                -9.988905258495606e-10,
+                -1.0480982748362067e-09,
+                8.370504289700875e-11,
+                1.4252841129547278e-09,
+                7.627287690326057e-10,
+                1.041995600914447e-09,
+                -8.645356652792202e-10,
+                1.041995600914447e-09,
+                8.370504289700875e-11
+              ],
+              "2": [
+                2.877698079828406e-13,
+                2.0827783941967937e-13,
+                2.099431739566171e-13,
+                2.1538326677728037e-13,
+                2.347011474057581e-13,
+                2.384759056894836e-13,
+                -3.963496197911809e-13,
+                -1.4981349494291862e-12,
+                1.1257661469699087e-13,
+                2.877698079828406e-13,
+                2.099431739566171e-13,
+                2.877698079828406e-13,
+                -3.963496197911809e-13
+              ],
+              "3": [
+                1.865174681370263e-14,
+                4.440892098500626e-15,
+                4.440892098500626e-15,
+                4.551914400963142e-15,
+                4.884981308350689e-15,
+                4.884981308350689e-15,
+                -1.0436096431476471e-14,
+                -7.638334409421077e-14,
+                1.021405182655144e-14,
+                1.865174681370263e-14,
+                4.440892098500626e-15,
+                1.865174681370263e-14,
+                -1.0436096431476471e-14
+              ],
+              "4": [
+                -3.3191893678008455e-11,
+                1.1722756099175058e-10,
+                8.026623810053479e-11,
+                -2.932953879764e-11,
+                2.5609958598238336e-11,
+                -3.5217606608739516e-11,
+                -3.5356606531422585e-11,
+                -3.500821854629521e-11,
+                -3.352274013934675e-11,
+                -3.3191893678008455e-11,
+                8.026623810053479e-11,
+                -3.3191893678008455e-11,
+                -3.5356606531422585e-11
+              ],
+              "5": [
+                4.440892098500626e-16,
+                -1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                4.440892098500626e-16,
+                -1.1102230246251565e-16,
+                4.440892098500626e-16,
+                0.0
+              ],
+              "6": [
+                -4.440892098500626e-16,
+                -3.3306690738754696e-16,
+                -4.440892098500626e-16,
+                -3.3306690738754696e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -6.661338147750939e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16
+              ],
+              "7": [
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                3.3306690738754696e-16,
+                4.440892098500626e-16,
+                6.661338147750939e-16,
+                6.661338147750939e-16,
+                4.440892098500626e-16,
+                2.220446049250313e-16,
+                4.440892098500626e-16,
+                2.220446049250313e-16,
+                3.3306690738754696e-16,
+                2.220446049250313e-16,
+                4.440892098500626e-16
+              ]
+            }
+          },
+          "bolometric": {
+            "envelope": [
+              1.2344256390615275e-09,
+              1.319395485029775e-09,
+              1.0028952853450016e-09,
+              1.2197049562185736e-09,
+              9.072724407457247e-10
+            ],
+            "signed_terms": {
+              "1": [
+                -6.051719125821364e-10,
+                -8.357052827534517e-10,
+                2.1142332329304736e-10,
+                1.0792626792266447e-09,
+                1.5019163690510595e-10
+              ],
+              "2": [
+                1.9129142714291447e-13,
+                1.9728663147589032e-13,
+                -3.5216274341109965e-13,
+                2.6134649999676185e-13,
+                -2.9820590441431705e-13
+              ],
+              "3": [
+                2.3314683517128287e-15,
+                2.7755575615628914e-15,
+                -1.1102230246251565e-14,
+                1.509903313490213e-14,
+                -8.659739592076221e-15
+              ],
+              "4": [
+                1.1899559115846614e-10,
+                -2.6266544495001654e-11,
+                -3.169464690699897e-11,
+                -2.934097409479364e-11,
+                -3.169375872857927e-11
+              ],
+              "5": [
+                0.0,
+                -1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                0.0,
+                0.0
+              ],
+              "6": [
+                1.1102230246251565e-16,
+                0.0,
+                0.0,
+                2.220446049250313e-16,
+                2.220446049250313e-16
+              ],
+              "7": [
+                -2.220446049250313e-16,
+                1.1102230246251565e-16,
+                2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16
+              ]
+            }
+          }
+        },
+        "pair_bounds": {
+          "1": 0.018463297601426554,
+          "2": 8.369435747765543e-06,
+          "3": 0.018466053036438283,
+          "4": 0.0005467456002461458,
+          "5": 0.018146616538365447,
+          "6": 0.0005471038551992189,
+          "7": 0.018149369274253802
+        },
+        "signed_delta_log_likelihood": {
+          "1": 0.010450539689702382,
+          "2": -3.0456430245332745e-06,
+          "3": 0.010447424763788283,
+          "4": -0.0003473880576624179,
+          "5": 0.010103152099151427,
+          "6": -0.00035043333285095685,
+          "7": 0.010100037547659497
+        },
+        "rectangle_bounds": {
+          "0": 0.01901031241483628,
+          "2": 0.019010444061753003
+        },
+        "axis_bits": {
+          "field": 1,
+          "donor": 2,
+          "depth": 4
+        },
+        "limit_D": 0.1,
+        "limit_log_likelihood": 0.01,
+        "continuum_certified": false
+      }
+    },
+    "reference_n9": {
+      "physical": {
+        "primary@surface_potential": 7.991999999999999,
+        "primary@t_eff": 6380.0,
+        "system@inclination": 85.52,
+        "system@mass_ratio": 0.696,
+        "system@additional_light": 0.17600000000000002,
+        "nuisance@ln_f": -2.5999999999999996,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@synchronicity": 1.0,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "system@eccentricity": 0.0,
+        "system@argument_of_periastron": 90.0,
+        "system@period": 3.0,
+        "system@semi_major_axis": 10.0,
+        "system@phase_shift": 0.017,
+        "secondary@t_eff": 4880.0
+      },
+      "prediction": {
+        "Generic.Bessell.B": [
+          0.8901185538325844,
+          0.9085420107677381,
+          1.0604430734249708,
+          1.0854509763947533,
+          1.0683779519409042,
+          1.0429338472925092,
+          1.0600220453514637,
+          1.0854509763947533,
+          0.8901185538325844,
+          0.9085420107677381
+        ],
+        "Generic.Bessell.V": [
+          1.0215839562763873,
+          0.8858763211813502,
+          0.8947670135087232,
+          0.9232943394654978,
+          1.012552959753839,
+          1.0730984828386299,
+          1.0766310512985562,
+          1.0676616299688568,
+          1.0299682683481042,
+          1.0215839562763873,
+          0.8947670135087232,
+          1.0215839562763873,
+          1.0766310512985562
+        ],
+        "bolometric": [
+          0.8922543416760848,
+          0.9293739462120949,
+          1.0814320292392265,
+          1.0155366433454562,
+          1.0814030395271375
+        ]
+      },
+      "diagnostic_log_posterior": -50244.42599553975,
+      "corner_log_posteriors": {
+        "5": -50244.41594781669,
+        "4": -50244.42634102168,
+        "7": -50244.41595091385,
+        "6": -50244.42634405069,
+        "1": -50244.41560233483,
+        "0": -50244.42599553975,
+        "3": -50244.41560543242,
+        "2": -50244.425998568084
+      },
+      "finite_control": {
+        "combined_distance_sigma": 7.339511626367313e-05,
+        "combined_log_likelihood_bound": 0.019018966742391594,
+        "within_finite_budget": false,
+        "bands": {
+          "Generic.Bessell.B": {
+            "envelope": [
+              1.5139120439464092e-09,
+              1.504362938966009e-09,
+              1.737000060894908e-09,
+              1.2329957273415133e-09,
+              1.8081136496752747e-09,
+              1.6053195235467535e-09,
+              1.8264233789262984e-09,
+              1.2329957273415133e-09,
+              1.5139120439464092e-09,
+              1.504362938966009e-09
+            ],
+            "signed_terms": {
+              "1": [
+                -9.178268145504376e-10,
+                -1.0997013299984815e-09,
+                -1.3320855529741493e-09,
+                3.70927955017919e-10,
+                1.3808250098890085e-09,
+                1.4553798166616616e-09,
+                1.7890808834408745e-09,
+                3.70927955017919e-10,
+                -9.178268145504376e-10,
+                -1.0997013299984815e-09
+              ],
+              "2": [
+                2.5413005033669833e-13,
+                2.5779378631796135e-13,
+                2.9687363678476686e-13,
+                -2.83550960489265e-13,
+                -7.984723993104126e-13,
+                3.6282088444750116e-13,
+                -3.168576512280197e-13,
+                -2.83550960489265e-13,
+                2.5413005033669833e-13,
+                2.5779378631796135e-13
+              ],
+              "3": [
+                5.88418203051333e-15,
+                6.328271240363392e-15,
+                7.327471962526033e-15,
+                -4.6629367034256575e-15,
+                -3.574918139293004e-14,
+                2.3314683517128287e-14,
+                -1.0880185641326534e-14,
+                -4.6629367034256575e-15,
+                5.88418203051333e-15,
+                6.328271240363392e-15
+              ],
+              "4": [
+                1.1928880105926964e-10,
+                -1.0807355010911124e-11,
+                -3.6237457479160184e-11,
+                -3.710765028586138e-11,
+                -3.6412206583236184e-11,
+                -3.537437009981659e-11,
+                -3.472355736278132e-11,
+                -3.710765028586138e-11,
+                1.1928880105926964e-10,
+                -1.0807355010911124e-11
+              ],
+              "5": [
+                1.1102230246251565e-16,
+                3.3306690738754696e-16,
+                0.0,
+                2.220446049250313e-16,
+                4.440892098500626e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                1.1102230246251565e-16,
+                3.3306690738754696e-16
+              ],
+              "6": [
+                -2.220446049250313e-16,
+                1.1102230246251565e-16,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                0.0,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                -2.220446049250313e-16,
+                1.1102230246251565e-16
+              ],
+              "7": [
+                1.1102230246251565e-16,
+                -3.3306690738754696e-16,
+                2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16,
+                4.440892098500626e-16,
+                -4.440892098500626e-16,
+                0.0,
+                1.1102230246251565e-16,
+                -3.3306690738754696e-16
+              ]
+            }
+          },
+          "Generic.Bessell.V": {
+            "envelope": [
+              1.2250933153104474e-09,
+              1.348688529736405e-09,
+              1.355862090140082e-09,
+              1.4499190515282646e-09,
+              1.4315914203377607e-09,
+              1.4496156152170514e-09,
+              1.0377352474790446e-09,
+              1.4900509401332827e-09,
+              1.5198360970902609e-09,
+              1.2250933153104474e-09,
+              1.355862090140082e-09,
+              1.2250933153104474e-09,
+              1.0377352474790446e-09
+            ],
+            "signed_terms": {
+              "1": [
+                1.041995822959052e-09,
+                -7.286751202428832e-10,
+                -8.645355542569177e-10,
+                -9.766735198368792e-10,
+                -9.988907478941655e-10,
+                -1.0480984968808116e-09,
+                8.370504289700875e-11,
+                1.4252841129547278e-09,
+                7.627287690326057e-10,
+                1.041995822959052e-09,
+                -8.645355542569177e-10,
+                1.041995822959052e-09,
+                8.370504289700875e-11
+              ],
+              "2": [
+                2.879918525877656e-13,
+                2.0827783941967937e-13,
+                2.0972112935169207e-13,
+                2.1527224447481785e-13,
+                2.3447910280083306e-13,
+                2.384759056894836e-13,
+                -3.9612757518625585e-13,
+                -1.4983569940341113e-12,
+                1.1257661469699087e-13,
+                2.879918525877656e-13,
+                2.0972112935169207e-13,
+                2.879918525877656e-13,
+                -3.9612757518625585e-13
+              ],
+              "3": [
+                1.8207657603852567e-14,
+                4.551914400963142e-15,
+                4.440892098500626e-15,
+                4.9960036108132044e-15,
+                5.329070518200751e-15,
+                5.551115123125783e-15,
+                -1.0436096431476471e-14,
+                -7.638334409421077e-14,
+                1.0436096431476471e-14,
+                1.8207657603852567e-14,
+                4.440892098500626e-15,
+                1.8207657603852567e-14,
+                -1.0436096431476471e-14
+              ],
+              "4": [
+                -3.3191893678008455e-11,
+                1.1722700588023827e-10,
+                8.026568298902248e-11,
+                -2.932976084224492e-11,
+                2.5609514509028486e-11,
+                -3.521782865334444e-11,
+                -3.5356606531422585e-11,
+                -3.5008884680109986e-11,
+                -3.352274013934675e-11,
+                -3.3191893678008455e-11,
+                8.026568298902248e-11,
+                -3.3191893678008455e-11,
+                -3.5356606531422585e-11
+              ],
+              "5": [
+                0.0,
+                1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                0.0,
+                0.0,
+                -2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16
+              ],
+              "6": [
+                -4.440892098500626e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                1.1102230246251565e-16,
+                0.0,
+                2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                0.0,
+                -4.440892098500626e-16,
+                2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16
+              ],
+              "7": [
+                6.661338147750939e-16,
+                -4.440892098500626e-16,
+                1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                0.0,
+                4.440892098500626e-16,
+                -2.220446049250313e-16,
+                6.661338147750939e-16,
+                1.1102230246251565e-16,
+                6.661338147750939e-16,
+                0.0
+              ]
+            }
+          },
+          "bolometric": {
+            "envelope": [
+              1.2344273460294278e-09,
+              1.3193955266631383e-09,
+              1.002896131890058e-09,
+              1.2197055102458842e-09,
+              9.072733983130834e-10
+            ],
+            "signed_terms": {
+              "1": [
+                -6.051720236044389e-10,
+                -8.357050607088468e-10,
+                2.1142332329304736e-10,
+                1.0792626792266447e-09,
+                1.5019141486050103e-10
+              ],
+              "2": [
+                1.9118040484045196e-13,
+                1.9750867608081535e-13,
+                -3.523847880160247e-13,
+                2.6134649999676185e-13,
+                -2.984279490192421e-13
+              ],
+              "3": [
+                2.6645352591003757e-15,
+                2.220446049250313e-15,
+                -1.1102230246251565e-14,
+                1.4876988529977098e-14,
+                -8.659739592076221e-15
+              ],
+              "4": [
+                1.1899548013616368e-10,
+                -2.626632245039673e-11,
+                -3.169464690699897e-11,
+                -2.934119613939856e-11,
+                -3.169375872857927e-11
+              ],
+              "5": [
+                1.1102230246251565e-16,
+                -3.3306690738754696e-16,
+                -2.220446049250313e-16,
+                0.0,
+                2.220446049250313e-16
+              ],
+              "6": [
+                4.440892098500626e-16,
+                2.220446049250313e-16,
+                4.440892098500626e-16,
+                4.440892098500626e-16,
+                4.440892098500626e-16
+              ],
+              "7": [
+                -5.551115123125783e-16,
+                3.3306690738754696e-16,
+                0.0,
+                0.0,
+                -2.220446049250313e-16
+              ]
+            }
+          }
+        },
+        "pair_bounds": {
+          "1": 0.018463298203800774,
+          "2": 8.369356171411862e-06,
+          "3": 0.01846605358713169,
+          "4": 0.0005467410571483619,
+          "5": 0.018146615473336573,
+          "6": 0.000547103667893293,
+          "7": 0.01814936744184327
+        },
+        "signed_delta_log_likelihood": {
+          "1": 0.010450539715541454,
+          "2": -3.045023301596447e-06,
+          "3": 0.01044742502163138,
+          "4": -0.0003473878047752364,
+          "5": 0.010103151992562093,
+          "6": -0.00035043351124805445,
+          "7": 0.010100037738511043
+        },
+        "rectangle_bounds": {
+          "0": 0.01901030930104514,
+          "2": 0.019010442585228993
+        },
+        "axis_bits": {
+          "field": 1,
+          "donor": 2,
+          "depth": 4
+        },
+        "limit_D": 0.1,
+        "limit_log_likelihood": 0.01,
+        "continuum_certified": false
+      }
+    },
+    "gpu_n6": {
+      "physical": {
+        "primary@surface_potential": 7.991999999999999,
+        "primary@t_eff": 6380.0,
+        "system@inclination": 85.52,
+        "system@mass_ratio": 0.696,
+        "system@additional_light": 0.17600000000000002,
+        "nuisance@ln_f": -2.5999999999999996,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@synchronicity": 1.0,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "system@eccentricity": 0.0,
+        "system@argument_of_periastron": 90.0,
+        "system@period": 3.0,
+        "system@semi_major_axis": 10.0,
+        "system@phase_shift": 0.017,
+        "secondary@t_eff": 4880.0
+      },
+      "prediction": {
+        "Generic.Bessell.B": [
+          0.8901185538337604,
+          0.9085420107692568,
+          1.0604430734271733,
+          1.085450976398383,
+          1.0683779519359664,
+          1.0429338472875962,
+          1.0600220453464646,
+          1.085450976398383,
+          0.8901185538337604,
+          0.9085420107692568
+        ],
+        "Generic.Bessell.V": [
+          1.0215839562721303,
+          0.8858763211829277,
+          0.8947670135103274,
+          0.923294339467921,
+          1.0125529597565956,
+          1.0730984828413674,
+          1.0766310513028199,
+          1.067661629964685,
+          1.0299682683438158,
+          1.0215839562721303,
+          0.8947670135103274,
+          1.0215839562721303,
+          1.0766310513028199
+        ],
+        "bolometric": [
+          0.8922543416761671,
+          0.929373946212956,
+          1.08143202924182,
+          1.0155366433395863,
+          1.0814030395294705
+        ]
+      },
+      "diagnostic_log_posterior": -50244.42600553833,
+      "corner_log_posteriors": {
+        "5": -50244.415957815094,
+        "4": -50244.42635101982,
+        "7": -50244.415960912454,
+        "6": -50244.42635404773,
+        "1": -50244.41561233429,
+        "0": -50244.42600553833,
+        "3": -50244.41561543095,
+        "2": -50244.42600856671
+      },
+      "finite_control": {
+        "combined_distance_sigma": 7.339513342035972e-05,
+        "combined_log_likelihood_bound": 0.01901897030038943,
+        "within_finite_budget": false,
+        "bands": {
+          "Generic.Bessell.B": {
+            "envelope": [
+              1.513911558223836e-09,
+              1.5043618911930295e-09,
+              1.73700024130615e-09,
+              1.2329960673473148e-09,
+              1.8081133027305795e-09,
+              1.60532019065635e-09,
+              1.8264227370786123e-09,
+              1.2329960673473148e-09,
+              1.513911558223836e-09,
+              1.5043618911930295e-09
+            ],
+            "signed_terms": {
+              "1": [
+                -9.17827147617345e-10,
+                -1.099701218976179e-09,
+                -1.3320851088849395e-09,
+                3.70927955017919e-10,
+                1.3808250098890085e-09,
+                1.4553798166616616e-09,
+                1.7890804393516646e-09,
+                3.70927955017919e-10,
+                -9.17827147617345e-10,
+                -1.099701218976179e-09
+              ],
+              "2": [
+                2.539080057317733e-13,
+                2.575717417130363e-13,
+                2.9687363678476686e-13,
+                -2.8399504969911504e-13,
+                -7.989164885202626e-13,
+                3.6259883984257613e-13,
+                -3.170796958329447e-13,
+                -2.8399504969911504e-13,
+                2.539080057317733e-13,
+                2.575717417130363e-13
+              ],
+              "3": [
+                6.328271240363392e-15,
+                6.439293542825908e-15,
+                7.327471962526033e-15,
+                -4.218847493575595e-15,
+                -3.552713678800501e-14,
+                2.375877272697835e-14,
+                -1.0436096431476471e-14,
+                -4.218847493575595e-15,
+                6.328271240363392e-15,
+                6.439293542825908e-15
+              ],
+              "4": [
+                1.1928857901466472e-10,
+                -1.0807355010911124e-11,
+                -3.6237457479160184e-11,
+                -3.710765028586138e-11,
+                -3.6411762494026334e-11,
+                -3.537414805521166e-11,
+                -3.472355736278132e-11,
+                -3.710765028586138e-11,
+                1.1928857901466472e-10,
+                -1.0807355010911124e-11
+              ],
+              "5": [
+                0.0,
+                -1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                0.0,
+                0.0,
+                -1.1102230246251565e-16
+              ],
+              "6": [
+                0.0,
+                -1.1102230246251565e-16,
+                0.0,
+                4.440892098500626e-16,
+                0.0,
+                -2.220446049250313e-16,
+                0.0,
+                4.440892098500626e-16,
+                0.0,
+                -1.1102230246251565e-16
+              ],
+              "7": [
+                0.0,
+                0.0,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                2.220446049250313e-16,
+                0.0,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "Generic.Bessell.V": {
+            "envelope": [
+              1.225095259935464e-09,
+              1.34868919587022e-09,
+              1.3558626383127005e-09,
+              1.4499203768570002e-09,
+              1.431591850549183e-09,
+              1.4496182173022656e-09,
+              1.0377358789183902e-09,
+              1.4900526956734404e-09,
+              1.5198384493752939e-09,
+              1.225095259935464e-09,
+              1.3558626383127005e-09,
+              1.225095259935464e-09,
+              1.0377358789183902e-09
+            ],
+            "signed_terms": {
+              "1": [
+                1.041995822959052e-09,
+                -7.286752312651856e-10,
+                -8.645356652792202e-10,
+                -9.766734088145768e-10,
+                -9.988907478941655e-10,
+                -1.0480982748362067e-09,
+                8.37045988077989e-11,
+                1.4252841129547278e-09,
+                7.627289910772106e-10,
+                1.041995822959052e-09,
+                -8.645356652792202e-10,
+                1.041995822959052e-09,
+                8.37045988077989e-11
+              ],
+              "2": [
+                2.879918525877656e-13,
+                2.0816681711721685e-13,
+                2.0949908474676704e-13,
+                2.1527224447481785e-13,
+                2.3447910280083306e-13,
+                2.3869795029440866e-13,
+                -3.963496197911809e-13,
+                -1.4981349494291862e-12,
+                1.1257661469699087e-13,
+                2.879918525877656e-13,
+                2.0949908474676704e-13,
+                2.879918525877656e-13,
+                -3.963496197911809e-13
+              ],
+              "3": [
+                1.84297022087776e-14,
+                4.551914400963142e-15,
+                4.773959005888173e-15,
+                4.884981308350689e-15,
+                5.329070518200751e-15,
+                5.10702591327572e-15,
+                -9.992007221626409e-15,
+                -7.638334409421077e-14,
+                1.021405182655144e-14,
+                1.84297022087776e-14,
+                4.773959005888173e-15,
+                1.84297022087776e-14,
+                -9.992007221626409e-15
+              ],
+              "4": [
+                -3.3191449588798605e-11,
+                1.1722756099175058e-10,
+                8.026612707823233e-11,
+                -2.9329427775337535e-11,
+                2.5609958598238336e-11,
+                -3.5217162519529666e-11,
+                -3.535638448681766e-11,
+                -3.5008440590900136e-11,
+                -3.352274013934675e-11,
+                -3.3191449588798605e-11,
+                8.026612707823233e-11,
+                -3.3191449588798605e-11,
+                -3.535638448681766e-11
+              ],
+              "5": [
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                0.0,
+                -6.661338147750939e-16,
+                2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16
+              ],
+              "6": [
+                -6.661338147750939e-16,
+                -4.440892098500626e-16,
+                -3.3306690738754696e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                -8.881784197001252e-16,
+                -4.440892098500626e-16,
+                -6.661338147750939e-16,
+                -4.440892098500626e-16,
+                -6.661338147750939e-16,
+                -3.3306690738754696e-16,
+                -6.661338147750939e-16,
+                -4.440892098500626e-16
+              ],
+              "7": [
+                6.661338147750939e-16,
+                5.551115123125783e-16,
+                4.440892098500626e-16,
+                3.3306690738754696e-16,
+                4.440892098500626e-16,
+                8.881784197001252e-16,
+                0.0,
+                4.440892098500626e-16,
+                4.440892098500626e-16,
+                6.661338147750939e-16,
+                4.440892098500626e-16,
+                6.661338147750939e-16,
+                0.0
+              ]
+            }
+          },
+          "bolometric": {
+            "envelope": [
+              1.2344255141614372e-09,
+              1.3193960262634996e-09,
+              1.0028940085885233e-09,
+              1.2197044574855743e-09,
+              9.072717052229709e-10
+            ],
+            "signed_terms": {
+              "1": [
+                -6.05171801559834e-10,
+                -8.357051717311492e-10,
+                2.114228792038375e-10,
+                1.0792624571820397e-09,
+                1.5019141486050103e-10
+              ],
+              "2": [
+                1.91402449445377e-13,
+                1.9750867608081535e-13,
+                -3.523847880160247e-13,
+                2.6134649999676185e-13,
+                -2.9820590441431705e-13
+              ],
+              "3": [
+                1.9984014443252818e-15,
+                2.4424906541753444e-15,
+                -1.0880185641326534e-14,
+                1.509903313490213e-14,
+                -8.43769498715119e-15
+              ],
+              "4": [
+                1.1899559115846614e-10,
+                -2.6266211428094266e-11,
+                -3.169464690699897e-11,
+                -2.934075205018871e-11,
+                -3.1693536683974344e-11
+              ],
+              "5": [
+                -1.1102230246251565e-16,
+                -4.440892098500626e-16,
+                0.0,
+                -2.220446049250313e-16,
+                0.0
+              ],
+              "6": [
+                1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                0.0
+              ],
+              "7": [
+                3.3306690738754696e-16,
+                4.440892098500626e-16,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          }
+        },
+        "pair_bounds": {
+          "1": 0.018463296332203012,
+          "2": 8.368790414445331e-06,
+          "3": 0.018466050627109255,
+          "4": 0.0005467453760394474,
+          "5": 0.018146614747949263,
+          "6": 0.0005471019620765659,
+          "7": 0.01814936609360448
+        },
+        "signed_delta_log_likelihood": {
+          "1": 0.010450538811499922,
+          "2": -3.045095718812034e-06,
+          "3": 0.010447425067459748,
+          "4": -0.0003473873789181028,
+          "5": 0.010103152145730758,
+          "6": -0.0003504319978864996,
+          "7": 0.010100037701915166
+        },
+        "rectangle_bounds": {
+          "0": 0.019010311389427586,
+          "2": 0.019010441896584684
+        },
+        "axis_bits": {
+          "field": 1,
+          "donor": 2,
+          "depth": 4
+        },
+        "limit_D": 0.1,
+        "limit_log_likelihood": 0.01,
+        "continuum_certified": false
+      }
+    },
+    "gpu_n9": {
+      "physical": {
+        "primary@surface_potential": 7.991999999999999,
+        "primary@t_eff": 6380.0,
+        "system@inclination": 85.52,
+        "system@mass_ratio": 0.696,
+        "system@additional_light": 0.17600000000000002,
+        "nuisance@ln_f": -2.5999999999999996,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@synchronicity": 1.0,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "system@eccentricity": 0.0,
+        "system@argument_of_periastron": 90.0,
+        "system@period": 3.0,
+        "system@semi_major_axis": 10.0,
+        "system@phase_shift": 0.017,
+        "secondary@t_eff": 4880.0
+      },
+      "prediction": {
+        "Generic.Bessell.B": [
+          0.8901185538325845,
+          0.9085420107677382,
+          1.0604430734249706,
+          1.0854509763947533,
+          1.0683779519409042,
+          1.042933847292509,
+          1.0600220453514635,
+          1.0854509763947533,
+          0.8901185538325845,
+          0.9085420107677382
+        ],
+        "Generic.Bessell.V": [
+          1.0215839562763873,
+          0.8858763211813502,
+          0.8947670135087235,
+          0.923294339465498,
+          1.0125529597538387,
+          1.07309848283863,
+          1.0766310512985562,
+          1.067661629968857,
+          1.0299682683481044,
+          1.0215839562763873,
+          0.8947670135087235,
+          1.0215839562763873,
+          1.0766310512985562
+        ],
+        "bolometric": [
+          0.8922543416760848,
+          0.929373946212095,
+          1.0814320292392265,
+          1.0155366433454562,
+          1.0814030395271375
+        ]
+      },
+      "diagnostic_log_posterior": -50244.425995540514,
+      "corner_log_posteriors": {
+        "5": -50244.415947816684,
+        "4": -50244.42634102157,
+        "7": -50244.41595091355,
+        "6": -50244.42634404991,
+        "1": -50244.41560233534,
+        "0": -50244.425995540514,
+        "3": -50244.415605432725,
+        "2": -50244.42599856797
+      },
+      "finite_control": {
+        "combined_distance_sigma": 7.339513200523877e-05,
+        "combined_log_likelihood_bound": 0.019018971451254845,
+        "within_finite_budget": false,
+        "bands": {
+          "Generic.Bessell.B": {
+            "envelope": [
+              1.5139115165904725e-09,
+              1.5043635773442481e-09,
+              1.737000858867707e-09,
+              1.2329959493861182e-09,
+              1.8081141700923175e-09,
+              1.6053210785095093e-09,
+              1.826423909751682e-09,
+              1.2329959493861182e-09,
+              1.5139115165904725e-09,
+              1.5043635773442481e-09
+            ],
+            "signed_terms": {
+              "1": [
+                -9.178268145504376e-10,
+                -1.0997013299984815e-09,
+                -1.3320853309295444e-09,
+                3.70927955017919e-10,
+                1.3808247878444035e-09,
+                1.4553798166616616e-09,
+                1.7890811054854794e-09,
+                3.70927955017919e-10,
+                -9.178268145504376e-10,
+                -1.0997013299984815e-09
+              ],
+              "2": [
+                2.537969834293108e-13,
+                2.574607194105738e-13,
+                2.9687363678476686e-13,
+                -2.83550960489265e-13,
+                -7.984723993104126e-13,
+                3.6259883984257613e-13,
+                -3.168576512280197e-13,
+                -2.83550960489265e-13,
+                2.537969834293108e-13,
+                2.574607194105738e-13
+              ],
+              "3": [
+                6.328271240363392e-15,
+                6.772360450213455e-15,
+                7.549516567451064e-15,
+                -4.440892098500626e-15,
+                -3.530509218307998e-14,
+                2.398081733190338e-14,
+                -1.0880185641326534e-14,
+                -4.440892098500626e-15,
+                6.328271240363392e-15,
+                6.772360450213455e-15
+              ],
+              "4": [
+                1.1928846799236226e-10,
+                -1.0807466033213586e-11,
+                -3.6237457479160184e-11,
+                -3.710765028586138e-11,
+                -3.6412206583236184e-11,
+                -3.537459214442151e-11,
+                -3.472355736278132e-11,
+                -3.710765028586138e-11,
+                1.1928846799236226e-10,
+                -1.0807466033213586e-11
+              ],
+              "5": [
+                0.0,
+                3.3306690738754696e-16,
+                0.0,
+                2.220446049250313e-16,
+                6.661338147750939e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                0.0,
+                3.3306690738754696e-16
+              ],
+              "6": [
+                1.1102230246251565e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                0.0,
+                0.0,
+                4.440892098500626e-16,
+                4.440892098500626e-16,
+                0.0,
+                1.1102230246251565e-16,
+                2.220446049250313e-16
+              ],
+              "7": [
+                -2.220446049250313e-16,
+                -7.771561172376096e-16,
+                -2.220446049250313e-16,
+                0.0,
+                -6.661338147750939e-16,
+                -6.661338147750939e-16,
+                -6.661338147750939e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -7.771561172376096e-16
+              ]
+            }
+          },
+          "Generic.Bessell.V": {
+            "envelope": [
+              1.225093981877943e-09,
+              1.3486882591195427e-09,
+              1.3558610631837841e-09,
+              1.4499200090956233e-09,
+              1.4315919268770157e-09,
+              1.4496152405167806e-09,
+              1.037736302190918e-09,
+              1.4900517172894e-09,
+              1.5198367129170948e-09,
+              1.225093981877943e-09,
+              1.3558610631837841e-09,
+              1.225093981877943e-09,
+              1.037736302190918e-09
+            ],
+            "signed_terms": {
+              "1": [
+                1.041995822959052e-09,
+                -7.286750092205807e-10,
+                -8.645356652792202e-10,
+                -9.766737418814841e-10,
+                -9.988907478941655e-10,
+                -1.0480984968808116e-09,
+                8.370504289700875e-11,
+                1.425283668865518e-09,
+                7.627287690326057e-10,
+                1.041995822959052e-09,
+                -8.645356652792202e-10,
+                1.041995822959052e-09,
+                8.370504289700875e-11
+              ],
+              "2": [
+                2.877698079828406e-13,
+                2.0838886172214188e-13,
+                2.0961010704922955e-13,
+                2.1516122217235534e-13,
+                2.3447910280083306e-13,
+                2.3869795029440866e-13,
+                -3.9612757518625585e-13,
+                -1.4983569940341113e-12,
+                1.1257661469699087e-13,
+                2.877698079828406e-13,
+                2.0961010704922955e-13,
+                2.877698079828406e-13,
+                -3.9612757518625585e-13
+              ],
+              "3": [
+                1.84297022087776e-14,
+                4.218847493575595e-15,
+                4.3298697960381105e-15,
+                4.9960036108132044e-15,
+                5.10702591327572e-15,
+                4.6629367034256575e-15,
+                -1.0436096431476471e-14,
+                -7.638334409421077e-14,
+                1.021405182655144e-14,
+                1.84297022087776e-14,
+                4.3298697960381105e-15,
+                1.84297022087776e-14,
+                -1.0436096431476471e-14
+              ],
+              "4": [
+                -3.3191893678008455e-11,
+                1.172272279248432e-10,
+                8.026568298902248e-11,
+                -2.932964981994246e-11,
+                2.5609958598238336e-11,
+                -3.5217606608739516e-11,
+                -3.5356162442212735e-11,
+                -3.5008884680109986e-11,
+                -3.352274013934675e-11,
+                -3.3191893678008455e-11,
+                8.026568298902248e-11,
+                -3.3191893678008455e-11,
+                -3.5356162442212735e-11
+              ],
+              "5": [
+                2.220446049250313e-16,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                2.220446049250313e-16,
+                -2.220446049250313e-16
+              ],
+              "6": [
+                -4.440892098500626e-16,
+                -3.3306690738754696e-16,
+                0.0,
+                -3.3306690738754696e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                -6.661338147750939e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                0.0,
+                -4.440892098500626e-16,
+                -6.661338147750939e-16
+              ],
+              "7": [
+                4.440892098500626e-16,
+                4.440892098500626e-16,
+                2.220446049250313e-16,
+                5.551115123125783e-16,
+                6.661338147750939e-16,
+                6.661338147750939e-16,
+                4.440892098500626e-16,
+                4.440892098500626e-16,
+                4.440892098500626e-16,
+                4.440892098500626e-16,
+                2.220446049250313e-16,
+                4.440892098500626e-16,
+                4.440892098500626e-16
+              ]
+            }
+          },
+          "bolometric": {
+            "envelope": [
+              1.2344259304950714e-09,
+              1.319395540540926e-09,
+              1.0028958543343018e-09,
+              1.2197067327922539e-09,
+              9.072736758688395e-10
+            ],
+            "signed_terms": {
+              "1": [
+                -6.051720236044389e-10,
+                -8.357051717311492e-10,
+                2.1142332329304736e-10,
+                1.0792624571820397e-09,
+                1.5019141486050103e-10
+              ],
+              "2": [
+                1.915134717478395e-13,
+                1.9773072068574038e-13,
+                -3.519406988061746e-13,
+                2.6134649999676185e-13,
+                -2.9820590441431705e-13
+              ],
+              "3": [
+                2.3314683517128287e-15,
+                2.3314683517128287e-15,
+                -1.1546319456101628e-14,
+                1.509903313490213e-14,
+                -8.881784197001252e-15
+              ],
+              "4": [
+                1.1899559115846614e-10,
+                -2.6266544495001654e-11,
+                -3.1694424862394044e-11,
+                -2.934119613939856e-11,
+                -3.169375872857927e-11
+              ],
+              "5": [
+                1.1102230246251565e-16,
+                2.220446049250313e-16,
+                -4.440892098500626e-16,
+                4.440892098500626e-16,
+                2.220446049250313e-16
+              ],
+              "6": [
+                -1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                0.0,
+                2.220446049250313e-16,
+                2.220446049250313e-16
+              ],
+              "7": [
+                1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                4.440892098500626e-16,
+                -4.440892098500626e-16,
+                0.0
+              ]
+            }
+          }
+        },
+        "pair_bounds": {
+          "1": 0.01846329894986544,
+          "2": 8.369867877737935e-06,
+          "3": 0.018466052586039308,
+          "4": 0.000546740585236123,
+          "5": 0.018146612481040963,
+          "6": 0.0005471021181305349,
+          "7": 0.01814936778056975
+        },
+        "signed_delta_log_likelihood": {
+          "1": 0.010450539958371015,
+          "2": -3.0441453721037675e-06,
+          "3": 0.010447425500521313,
+          "4": -0.0003473869234994524,
+          "5": 0.010103152749285619,
+          "6": -0.0003504319520575798,
+          "7": 0.01010003880361256
+        },
+        "rectangle_bounds": {
+          "0": 0.019010309567202656,
+          "2": 0.019010445621568447
+        },
+        "axis_bits": {
+          "field": 1,
+          "donor": 2,
+          "depth": 4
+        },
+        "limit_D": 0.1,
+        "limit_log_likelihood": 0.01,
+        "continuum_certified": false
+      }
+    }
+  },
+  "phase_nodes": {
+    "reference_n6": {
+      "phases": 14,
+      "observations": 28,
+      "phase_peaks": [
+        {
+          "phase": 0.0,
+          "nodes": {
+            "primary": 1525548,
+            "secondary": 755724
+          }
+        },
+        {
+          "phase": 0.005,
+          "nodes": {
+            "primary": 1406424,
+            "secondary": 756786
+          }
+        },
+        {
+          "phase": 0.007,
+          "nodes": {
+            "primary": 1347288,
+            "secondary": 756396
+          }
+        },
+        {
+          "phase": 0.01,
+          "nodes": {
+            "primary": 1281210,
+            "secondary": 755268
+          }
+        },
+        {
+          "phase": 0.02,
+          "nodes": {
+            "primary": 1113354,
+            "secondary": 751620
+          }
+        },
+        {
+          "phase": 0.025,
+          "nodes": {
+            "primary": 1030914,
+            "secondary": 750468
+          }
+        },
+        {
+          "phase": 0.04,
+          "nodes": {
+            "primary": 748716,
+            "secondary": 745746
+          }
+        },
+        {
+          "phase": 0.24,
+          "nodes": {
+            "primary": 704850,
+            "secondary": 705120
+          }
+        },
+        {
+          "phase": 0.25,
+          "nodes": {
+            "primary": 697305,
+            "secondary": 697485
+          }
+        },
+        {
+          "phase": 0.475,
+          "nodes": {
+            "primary": 751782,
+            "secondary": 1110756
+          }
+        },
+        {
+          "phase": 0.48,
+          "nodes": {
+            "primary": 753168,
+            "secondary": 1111548
+          }
+        },
+        {
+          "phase": 0.484,
+          "nodes": {
+            "primary": 751878,
+            "secondary": 1082700
+          }
+        },
+        {
+          "phase": 0.49,
+          "nodes": {
+            "primary": 756090,
+            "secondary": 945114
+          }
+        },
+        {
+          "phase": 0.5,
+          "nodes": {
+            "primary": 755856,
+            "secondary": 703584
+          }
+        }
+      ]
+    },
+    "reference_n9": {
+      "phases": 14,
+      "observations": 28,
+      "phase_peaks": [
+        {
+          "phase": 0.0,
+          "nodes": {
+            "primary": 2019582,
+            "secondary": 1000674
+          }
+        },
+        {
+          "phase": 0.005,
+          "nodes": {
+            "primary": 1850868,
+            "secondary": 1002159
+          }
+        },
+        {
+          "phase": 0.007,
+          "nodes": {
+            "primary": 1766610,
+            "secondary": 1001898
+          }
+        },
+        {
+          "phase": 0.01,
+          "nodes": {
+            "primary": 1673559,
+            "secondary": 1000818
+          }
+        },
+        {
+          "phase": 0.02,
+          "nodes": {
+            "primary": 1458531,
+            "secondary": 997182
+          }
+        },
+        {
+          "phase": 0.025,
+          "nodes": {
+            "primary": 1361349,
+            "secondary": 995274
+          }
+        },
+        {
+          "phase": 0.04,
+          "nodes": {
+            "primary": 991494,
+            "secondary": 987075
+          }
+        },
+        {
+          "phase": 0.24,
+          "nodes": {
+            "primary": 933831,
+            "secondary": 934236
+          }
+        },
+        {
+          "phase": 0.25,
+          "nodes": {
+            "primary": 925524,
+            "secondary": 925794
+          }
+        },
+        {
+          "phase": 0.475,
+          "nodes": {
+            "primary": 997317,
+            "secondary": 1457298
+          }
+        },
+        {
+          "phase": 0.48,
+          "nodes": {
+            "primary": 999576,
+            "secondary": 1449450
+          }
+        },
+        {
+          "phase": 0.484,
+          "nodes": {
+            "primary": 997209,
+            "secondary": 1403658
+          }
+        },
+        {
+          "phase": 0.49,
+          "nodes": {
+            "primary": 1002015,
+            "secondary": 1239201
+          }
+        },
+        {
+          "phase": 0.5,
+          "nodes": {
+            "primary": 1001016,
+            "secondary": 954522
+          }
+        }
+      ]
+    },
+    "gpu_n6": {
+      "phases": 14,
+      "observations": 28,
+      "phase_peaks": [
+        {
+          "phase": 0.0,
+          "nodes": {
+            "primary": 1525548,
+            "secondary": 755724
+          }
+        },
+        {
+          "phase": 0.005,
+          "nodes": {
+            "primary": 1406424,
+            "secondary": 756786
+          }
+        },
+        {
+          "phase": 0.007,
+          "nodes": {
+            "primary": 1347288,
+            "secondary": 756396
+          }
+        },
+        {
+          "phase": 0.01,
+          "nodes": {
+            "primary": 1281210,
+            "secondary": 755268
+          }
+        },
+        {
+          "phase": 0.02,
+          "nodes": {
+            "primary": 1113354,
+            "secondary": 751620
+          }
+        },
+        {
+          "phase": 0.025,
+          "nodes": {
+            "primary": 1030914,
+            "secondary": 750468
+          }
+        },
+        {
+          "phase": 0.04,
+          "nodes": {
+            "primary": 748716,
+            "secondary": 745746
+          }
+        },
+        {
+          "phase": 0.24,
+          "nodes": {
+            "primary": 704850,
+            "secondary": 705120
+          }
+        },
+        {
+          "phase": 0.25,
+          "nodes": {
+            "primary": 697305,
+            "secondary": 697485
+          }
+        },
+        {
+          "phase": 0.475,
+          "nodes": {
+            "primary": 751782,
+            "secondary": 1110756
+          }
+        },
+        {
+          "phase": 0.48,
+          "nodes": {
+            "primary": 753168,
+            "secondary": 1111548
+          }
+        },
+        {
+          "phase": 0.484,
+          "nodes": {
+            "primary": 751878,
+            "secondary": 1082700
+          }
+        },
+        {
+          "phase": 0.49,
+          "nodes": {
+            "primary": 756090,
+            "secondary": 945114
+          }
+        },
+        {
+          "phase": 0.5,
+          "nodes": {
+            "primary": 755856,
+            "secondary": 703584
+          }
+        }
+      ]
+    },
+    "gpu_n9": {
+      "phases": 14,
+      "observations": 28,
+      "phase_peaks": [
+        {
+          "phase": 0.0,
+          "nodes": {
+            "primary": 2019582,
+            "secondary": 1000674
+          }
+        },
+        {
+          "phase": 0.005,
+          "nodes": {
+            "primary": 1850868,
+            "secondary": 1002159
+          }
+        },
+        {
+          "phase": 0.007,
+          "nodes": {
+            "primary": 1766610,
+            "secondary": 1001898
+          }
+        },
+        {
+          "phase": 0.01,
+          "nodes": {
+            "primary": 1673559,
+            "secondary": 1000818
+          }
+        },
+        {
+          "phase": 0.02,
+          "nodes": {
+            "primary": 1458531,
+            "secondary": 997182
+          }
+        },
+        {
+          "phase": 0.025,
+          "nodes": {
+            "primary": 1361349,
+            "secondary": 995274
+          }
+        },
+        {
+          "phase": 0.04,
+          "nodes": {
+            "primary": 991494,
+            "secondary": 987075
+          }
+        },
+        {
+          "phase": 0.24,
+          "nodes": {
+            "primary": 933831,
+            "secondary": 934236
+          }
+        },
+        {
+          "phase": 0.25,
+          "nodes": {
+            "primary": 925524,
+            "secondary": 925794
+          }
+        },
+        {
+          "phase": 0.475,
+          "nodes": {
+            "primary": 997317,
+            "secondary": 1457298
+          }
+        },
+        {
+          "phase": 0.48,
+          "nodes": {
+            "primary": 999576,
+            "secondary": 1449450
+          }
+        },
+        {
+          "phase": 0.484,
+          "nodes": {
+            "primary": 997209,
+            "secondary": 1403658
+          }
+        },
+        {
+          "phase": 0.49,
+          "nodes": {
+            "primary": 1002015,
+            "secondary": 1239201
+          }
+        },
+        {
+          "phase": 0.5,
+          "nodes": {
+            "primary": 1001016,
+            "secondary": 954522
+          }
+        }
+      ]
+    }
+  },
+  "held_out_spectra": {
+    "2": {
+      "0.024": {
+        "rays": 192,
+        "nearest_shadow_rays": 96,
+        "errors": {
+          "quadratic": {
+            "Generic.Bessell.B": {
+              "rms_relative": 3.1243809239030316e-08,
+              "max_relative": 1.3244280383517548e-07
+            },
+            "Generic.Bessell.V": {
+              "rms_relative": 2.5147585461130985e-08,
+              "max_relative": 1.0664077865207844e-07
+            },
+            "bolometric": {
+              "rms_relative": 2.4017247937059356e-08,
+              "max_relative": 1.0178495424284506e-07
+            }
+          },
+          "cubic": {
+            "Generic.Bessell.B": {
+              "rms_relative": 3.855537171006743e-10,
+              "max_relative": 1.5287310306533186e-09
+            },
+            "Generic.Bessell.V": {
+              "rms_relative": 3.103620548595271e-10,
+              "max_relative": 1.2319737452415325e-09
+            },
+            "bolometric": {
+              "rms_relative": 2.9634960483272646e-10,
+              "max_relative": 1.174749741927883e-09
+            }
+          }
+        }
+      },
+      "0.027": {
+        "rays": 192,
+        "nearest_shadow_rays": 96,
+        "errors": {
+          "quadratic": {
+            "Generic.Bessell.B": {
+              "rms_relative": 2.8643447060007087e-08,
+              "max_relative": 9.52617641436504e-08
+            },
+            "Generic.Bessell.V": {
+              "rms_relative": 2.3053644273458957e-08,
+              "max_relative": 7.666199552947006e-08
+            },
+            "bolometric": {
+              "rms_relative": 2.2018504644521823e-08,
+              "max_relative": 7.32291686178499e-08
+            }
+          },
+          "cubic": {
+            "Generic.Bessell.B": {
+              "rms_relative": 3.582907801606634e-10,
+              "max_relative": 1.1122016640996435e-09
+            },
+            "Generic.Bessell.V": {
+              "rms_relative": 2.884116473640383e-10,
+              "max_relative": 8.95299390180071e-10
+            },
+            "bolometric": {
+              "rms_relative": 2.7543981953826386e-10,
+              "max_relative": 8.546852114932335e-10
+            }
+          }
+        }
+      }
+    },
+    "3": {
+      "0.024": {
+        "rays": 192,
+        "nearest_shadow_rays": 96,
+        "errors": {
+          "quadratic": {
+            "Generic.Bessell.B": {
+              "rms_relative": 3.898004160799098e-09,
+              "max_relative": 1.6013966375183486e-08
+            },
+            "Generic.Bessell.V": {
+              "rms_relative": 3.137693977447234e-09,
+              "max_relative": 1.2890544187627029e-08
+            },
+            "bolometric": {
+              "rms_relative": 2.9962938699198618e-09,
+              "max_relative": 1.2308756014434152e-08
+            }
+          },
+          "cubic": {
+            "Generic.Bessell.B": {
+              "rms_relative": 2.5708031351885284e-11,
+              "max_relative": 1.651745407116323e-10
+            },
+            "Generic.Bessell.V": {
+              "rms_relative": 2.069474463653339e-11,
+              "max_relative": 1.3296563849962695e-10
+            },
+            "bolometric": {
+              "rms_relative": 1.9757850854040606e-11,
+              "max_relative": 1.2689449491176674e-10
+            }
+          }
+        }
+      },
+      "0.027": {
+        "rays": 192,
+        "nearest_shadow_rays": 96,
+        "errors": {
+          "quadratic": {
+            "Generic.Bessell.B": {
+              "rms_relative": 3.3181755640299965e-09,
+              "max_relative": 1.405568084145159e-08
+            },
+            "Generic.Bessell.V": {
+              "rms_relative": 2.6708823678050392e-09,
+              "max_relative": 1.1320165360650947e-08
+            },
+            "bolometric": {
+              "rms_relative": 2.5506626718493083e-09,
+              "max_relative": 1.080113987139697e-08
+            }
+          },
+          "cubic": {
+            "Generic.Bessell.B": {
+              "rms_relative": 2.2642178242051432e-11,
+              "max_relative": 8.90403306641474e-11
+            },
+            "Generic.Bessell.V": {
+              "rms_relative": 1.8223606035919785e-11,
+              "max_relative": 7.167044735467698e-11
+            },
+            "bolometric": {
+              "rms_relative": 1.74032337414489e-11,
+              "max_relative": 6.840861210832827e-11
+            }
+          }
+        }
+      }
+    }
+  },
+  "shared_ray_thermal_changes": {
+    "0.024": {
+      "rays": 192,
+      "rms_heat_over_Teff4": {
+        "coarse_reconstructed_minus_native": 1.286408204679888e-07,
+        "fine_reconstructed_minus_native": 2.8369057896569805e-08,
+        "native_change": 2.324023432458186e-09,
+        "change_in_reconstruction_residual": 1.2623538597478377e-07
+      },
+      "rms_delta_T4_over_Teff4": {
+        "intrinsic": 7.338187872020388e-16,
+        "deposited": 1.2623111725209417e-07
+      },
+      "rms_relative_intensity": {
+        "Generic.Bessell.B": {
+          "intrinsic": 1.0282613201199246e-15,
+          "deposited": 1.6410652146808426e-07,
+          "total": 1.6410652150003924e-07
+        },
+        "Generic.Bessell.V": {
+          "intrinsic": 8.79338967123159e-16,
+          "deposited": 1.320656057420942e-07,
+          "total": 1.3206560580018738e-07
+        },
+        "bolometric": {
+          "intrinsic": 8.014979850611381e-16,
+          "deposited": 1.2615864269729606e-07,
+          "total": 1.2615864272239288e-07
+        }
+      }
+    },
+    "0.027": {
+      "rays": 192,
+      "rms_heat_over_Teff4": {
+        "coarse_reconstructed_minus_native": 8.834525613157494e-08,
+        "fine_reconstructed_minus_native": 2.874057843251373e-08,
+        "native_change": 2.4506446995511205e-09,
+        "change_in_reconstruction_residual": 9.369002405424568e-08
+      },
+      "rms_delta_T4_over_Teff4": {
+        "intrinsic": 7.599065699098188e-16,
+        "deposited": 9.362079729444091e-08
+      },
+      "rms_relative_intensity": {
+        "Generic.Bessell.B": {
+          "intrinsic": 1.0677312272132067e-15,
+          "deposited": 1.217956067796822e-07,
+          "total": 1.2179560678125066e-07
+        },
+        "Generic.Bessell.V": {
+          "intrinsic": 8.738185947762184e-16,
+          "deposited": 9.801529603839067e-08,
+          "total": 9.801529604767595e-08
+        },
+        "bolometric": {
+          "intrinsic": 8.220672714052528e-16,
+          "deposited": 9.361935756846955e-08,
+          "total": 9.36193575717357e-08
+        }
+      }
+    }
+  },
+  "pinned_sampler": {
+    "reference": {
+      "step": 4,
+      "trial": 4,
+      "model_commit": "60dbb2cde371f0e8feee5f594f477fa46e08388a",
+      "seed": 20261117,
+      "target": "d677702f6ce94b8301cf0cd0897a9a85f0a95304be1ed7e4c3481ca97e25c4ec",
+      "old_sha256": "2232ac357ac32804ac80ce42f887189962658fb3a90587e94e0bcfc32fa00bad",
+      "new_sha256": "22477d7f70376e3b3a9bafef651c8c3a63f45474f8b0582cb9174b72c891523a",
+      "draw": [
+        0.5008338325237431,
+        0.5010693093126386,
+        0.5648253099493054,
+        0.4995060598942309,
+        0.24912657805997762,
+        0.5015415944913862
+      ],
+      "log_u": -1.878736945980561,
+      "physical": {
+        "nuisance@ln_f": -1.9907504330516828,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@surface_potential": 8.000333533009497,
+        "primary@synchronicity": 1.0,
+        "primary@t_eff": 6501.069309312638,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "secondary@t_eff": 5001.069309312638,
+        "system@additional_light": 0.1993012624479821,
+        "system@argument_of_periastron": 90.0,
+        "system@eccentricity": 0.0,
+        "system@inclination": 86.38895185969584,
+        "system@mass_ratio": 0.6999012119788461,
+        "system@period": 3.0,
+        "system@phase_shift": 0.017,
+        "system@semi_major_axis": 10.0
+      },
+      "delta": -10.292660713127702,
+      "accepted": false,
+      "finite_bound": 0.0008033415441877165,
+      "distance": 8.055401039759301e-05,
+      "resolution_margins": [
+        -8.41415450172943,
+        -8.413751758340881
+      ]
+    },
+    "gpu": {
+      "step": 4,
+      "trial": 4,
+      "model_commit": "60dbb2cde371f0e8feee5f594f477fa46e08388a",
+      "seed": 20261117,
+      "target": "d677702f6ce94b8301cf0cd0897a9a85f0a95304be1ed7e4c3481ca97e25c4ec",
+      "old_sha256": "7511432a25664258488cdf1c4d41ccff2ce9a119e17611d36b106963bf47bb47",
+      "new_sha256": "d75aebe9a1e5730b8d1c85bd61879ee2ef06c6ed3bbadafd6ea58ffb61069d99",
+      "draw": [
+        0.5008338325237431,
+        0.5010693093126386,
+        0.5648253099493054,
+        0.4995060598942309,
+        0.24912657805997762,
+        0.5015415944913862
+      ],
+      "log_u": -1.878736945980561,
+      "physical": {
+        "nuisance@ln_f": -1.9907504330516828,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@surface_potential": 8.000333533009497,
+        "primary@synchronicity": 1.0,
+        "primary@t_eff": 6501.069309312638,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "secondary@t_eff": 5001.069309312638,
+        "system@additional_light": 0.1993012624479821,
+        "system@argument_of_periastron": 90.0,
+        "system@eccentricity": 0.0,
+        "system@inclination": 86.38895185969584,
+        "system@mass_ratio": 0.6999012119788461,
+        "system@period": 3.0,
+        "system@phase_shift": 0.017,
+        "system@semi_major_axis": 10.0
+      },
+      "delta": -10.292660713099139,
+      "accepted": false,
+      "finite_bound": 0.0008033414603389327,
+      "distance": 8.055400710658956e-05,
+      "resolution_margins": [
+        -8.41415450171843,
+        -8.413751758323771
+      ]
+    },
+    "parity": [
+      {
+        "normalized": 6.661338147750939e-16,
+        "raw_relative": 7.426665296582516e-16,
+        "component_relative": 8.934750435602363e-16,
+        "density": 1.1567635738174431e-11
+      },
+      {
+        "normalized": 4.440892098500626e-16,
+        "raw_relative": 7.811709016808402e-16,
+        "component_relative": 9.306373899434262e-16,
+        "density": 3.979039320256561e-12
+      }
+    ]
+  },
+  "timings": {
+    "reference": {
+      "process_seconds": 296.9314114989247,
+      "curve": {
+        "all_fresh_fields_and_common_partition": 87.03331183618866,
+        "cpu_common_geometry_clipping_hash": 183.54726046067663,
+        "all_variant_integration_transfers_compile": 24.813150455243886,
+        "total": 295.395675688982
+      },
+      "batch": {
+        "field_preparation": 0.0,
+        "total": 295.3957075891085,
+        "row_timers_exclude_shared_preparation": false
+      },
+      "hardware": null
+    },
+    "cpu": {
+      "process_seconds": 564.3624779148959,
+      "curve": {
+        "all_fresh_fields_and_common_partition": 49.206808638060465,
+        "cpu_common_geometry_clipping_hash": 488.8991389935836,
+        "all_variant_integration_transfers_compile": 19.63717848318629,
+        "total": 557.7593626398593
+      },
+      "batch": {
+        "field_preparation": 3.2467359001748264,
+        "total": 561.0071941979695,
+        "row_timers_exclude_shared_preparation": true
+      },
+      "hardware": null
+    },
+    "gpu": {
+      "process_seconds": 166.98378407699056,
+      "curve": {
+        "all_fresh_fields_and_common_partition": 37.037805263185874,
+        "cpu_common_geometry_clipping_hash": 117.37774418480694,
+        "all_variant_integration_transfers_compile": 4.831509342882782,
+        "total": 159.24915074999444
+      },
+      "batch": {
+        "field_preparation": 4.335585250053555,
+        "total": 163.58570411801338,
+        "row_timers_exclude_shared_preparation": true
+      },
+      "hardware": {
+        "active_samples": 191,
+        "total_samples": 389,
+        "link": [
+          [
+            4.0,
+            8.0
+          ]
+        ],
+        "peak_used_MiB": 864.0,
+        "median_active_watts": 112.45
+      }
+    }
+  },
+  "tests": {
+    "initial_cpu": {
+      "tests": 4,
+      "failures": 1,
+      "skipped": 0,
+      "errors": 0
+    },
+    "cpu_after_device_fix": {
+      "tests": 4,
+      "failures": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "cpu_direct_pair": {
+      "tests": 1,
+      "failures": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "cpu_regressions": {
+      "tests": 11,
+      "failures": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "final_cpu": {
+      "tests": 6,
+      "failures": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "test_primary_cubic": {
+      "tests": 5,
+      "failures": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "test_receiver_heating": {
+      "tests": 6,
+      "failures": 0,
+      "skipped": 0,
+      "errors": 0
+    },
+    "final-source-regressions": {
+      "tests": 7,
+      "failures": 0,
+      "skipped": 0,
+      "errors": 0
+    }
+  },
+  "windows": [
+    {
+      "number": 497,
+      "purpose": "pinned-draw-four",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 103.14101519691758,
+      "success": true,
+      "tested_manifest_sha256": "4fa5cdcaf2d799dd0020681588ba873f5e85328b6b8f43cf0cf85ce2b8e6033c",
+      "expected_head": "60dbb2cde371f0e8feee5f594f477fa46e08388a"
+    },
+    {
+      "number": 498,
+      "purpose": "pinned-draw-four",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 180.44933717465028,
+      "success": true,
+      "tested_manifest_sha256": "4fa5cdcaf2d799dd0020681588ba873f5e85328b6b8f43cf0cf85ce2b8e6033c",
+      "expected_head": "60dbb2cde371f0e8feee5f594f477fa46e08388a"
+    },
+    {
+      "number": 499,
+      "purpose": "primary-source-regressions",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 246.59797210618854,
+      "success": false,
+      "tested_manifest_sha256": "81da302c7e3a2bc29afbc47a803a719a8dc2ab14c1012c51c6d66b49edaf3978",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a",
+      "outcome": "ELISa test group reached its internal deadline. Both suites reran individually."
+    },
+    {
+      "number": 500,
+      "purpose": "test_primary_cubic",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 73.80365351191722,
+      "success": true,
+      "tested_manifest_sha256": "edf1021bbbec66c2a2f602aeb172354c3a512b6614448d0887333104cd212958",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 501,
+      "purpose": "test_receiver_heating",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 185.7185453590937,
+      "success": true,
+      "tested_manifest_sha256": "edf1021bbbec66c2a2f602aeb172354c3a512b6614448d0887333104cd212958",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 502,
+      "purpose": "cubic-primary-eclipse",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 178.56915922905318,
+      "success": true,
+      "tested_manifest_sha256": "e93427176ed165004241a1de0c8ba5d0a35b3325a731df95dc58a1b0de91f791",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 503,
+      "purpose": "cubic-primary-eclipse",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 179.16852293675765,
+      "success": true,
+      "tested_manifest_sha256": "e93427176ed165004241a1de0c8ba5d0a35b3325a731df95dc58a1b0de91f791",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 504,
+      "purpose": "cubic-primary-eclipse",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 169.57740570185706,
+      "success": true,
+      "tested_manifest_sha256": "e93427176ed165004241a1de0c8ba5d0a35b3325a731df95dc58a1b0de91f791",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 505,
+      "purpose": "cubic-primary-eclipse",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 162.9729047131259,
+      "success": true,
+      "tested_manifest_sha256": "38c2053b939d6d3d90059cd2ffa27d4adb7daac6f43ff91ec4f731e2054fbdb8",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 506,
+      "purpose": "cubic-primary-eclipse",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 165.85150326020084,
+      "success": true,
+      "tested_manifest_sha256": "727ab10c3205928bd99ec0b21f23d6ca4d531476d1a9394c139f7af1a8e25a19",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 507,
+      "purpose": "matched-complete-curve",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 168.04471862106584,
+      "success": true,
+      "tested_manifest_sha256": "4e9d24faa45c5b6af985febc412e446e4919e5f9d8ac37c8cef5627cee50da2c",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 508,
+      "purpose": "final-source-regressions",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 119.27221494796686,
+      "success": true,
+      "tested_manifest_sha256": "4e9d24faa45c5b6af985febc412e446e4919e5f9d8ac37c8cef5627cee50da2c",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 509,
+      "purpose": "same-packet-source-comparison",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 170.1549834390171,
+      "success": true,
+      "tested_manifest_sha256": "4e9d24faa45c5b6af985febc412e446e4919e5f9d8ac37c8cef5627cee50da2c",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 510,
+      "purpose": "same-packet-source-comparison",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 171.45017808489501,
+      "success": true,
+      "tested_manifest_sha256": "4e9d24faa45c5b6af985febc412e446e4919e5f9d8ac37c8cef5627cee50da2c",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    },
+    {
+      "number": 511,
+      "purpose": "same-packet-source-comparison",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 176.49535833112895,
+      "success": true,
+      "tested_manifest_sha256": "4e9d24faa45c5b6af985febc412e446e4919e5f9d8ac37c8cef5627cee50da2c",
+      "expected_head": "09c4f3902f51b238ef8326ee84d7e308718b8d5a"
+    }
+  ]
+}

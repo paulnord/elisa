@@ -1,5 +1,17 @@
 # Ada workload and hardware characterization
 
+## m034 — Matched cubic-primary eclipse curves and fitted densities
+
+Each fresh process evaluated the same physical proposal 0 at depth three. Each built the four combinations of thermal-field and donor resolution, integrated 18 supplied phases (14 distinct orbital phases) and returned the original fitted density for the finer field at both donor resolutions. All ran with affinity 16–19, nice 19, FP64 and single-thread numerical libraries. The GPU process clock includes every host bridge, transfer and synchronization. The table gives seconds for one run per backend. The full sixteen-model check also needs the alternate interior rule and the deeper eclipse calculation.
+
+| Backend | Process | Shared field preparation | Fresh fields and partition | Observer geometry and clipping | Optical integration |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Serial CPU | 296.93 | 0.00 | 87.03 | 183.55 | 24.81 |
+| JAX CPU | 564.36 | 3.25 | 49.21 | 488.90 | 19.64 |
+| RTX 3080 Ti | 166.98 | 4.34 | 37.04 | 117.38 | 4.83 |
+
+Serial CPU took 1.78 times the GPU process time. Device samples during utilization showed PCIe Gen 4 ×8, a median 112.5 W and a sampled peak of 864 MiB. The result covers this single proposal and output contract. [Validation data](ada_validation/background-m034.json)
+
 ## m033 — Positive interior quadrature, complete reflected curves
 
 Proposal 38 uses the selective shadow boundary at depth three and the original fitted observations. The table gives one matched fresh-process run per cell, including imports, field and curve construction, original likelihood mapping and output serialization. All cases used affinity 16–19, nice 19, one numerical-library thread and FP64. The GPU rows include every transfer and synchronization. Processes share the private filesystem and compiler-cache policy. All three backends place and weight the new interior rays on the host. The hybrid evaluates the existing device geometry and optical kernels on those rays. A slash in the curve-stage column separates fresh fields and partition, observer geometry/clipping, and integration of the four field variants. Stage timers use the instrumentation in the curve implementation.

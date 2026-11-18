@@ -72,9 +72,9 @@ class _NodalBackend(MomentFieldBackend):
 
         self._thermal_nodes = self.jax.jit(thermal)
 
-    def thermal_nodes(self, model: Any, star: Any, intrinsic: Any = None) -> tuple:
+    def thermal_triangles(self, star: Any, samples_per_face: int) -> np.ndarray:
         base = int(star.base_symmetry_faces_number)
-        if base <= 0 or base * 19 > self.max_nodes or len(star.faces) != 4 * base:
+        if base <= 0 or base * samples_per_face > self.max_nodes or len(star.faces) != 4 * base:
             msg = "Nodal thermal source exceeds its symmetric quadrature budget"
             raise UnsupportedCurvedGeometryError(msg)
         # Face-local corner order matters when a mirrored face is integrated.
@@ -89,7 +89,11 @@ class _NodalBackend(MomentFieldBackend):
             raise UnsupportedCurvedGeometryError(msg)
         rays = star.points - np.array([0.0 if self.component == "primary" else 1.0, 0.0, 0.0])
         rays /= np.linalg.norm(rays, axis=1)[:, None]
-        tri = rays[star.faces]
+        return rays[star.faces]
+
+    def thermal_nodes(self, model: Any, star: Any, intrinsic: Any = None) -> tuple:
+        tri = self.thermal_triangles(star, 19)
+        base = star.base_symmetry_faces_number
         faces = tri[:base]
         scale = const.G * model.primary.mass / model.semi_major_axis**2
         heating = ()

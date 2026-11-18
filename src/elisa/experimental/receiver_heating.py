@@ -97,7 +97,7 @@ class ReceiverHeatingLightCurve(QuadraticSourceLightCurve):
 
     def __init__(self, passbands, rule, *, selective_shadow=False, **kwargs):
         if selective_shadow:
-            self.rule_prefix = "shadow_sampled_receiver_heat"
+            self.rule_prefix = "shadow_" + self.rule_prefix
         if isinstance(rule, SymmetricInteriorRule):
             self.rule_prefix = "symmetric_" + self.rule_prefix
         super().__init__(passbands, rule, **kwargs)
@@ -109,4 +109,4 @@ class ReceiverHeatingLightCurve(QuadraticSourceLightCurve):
         deposits = stats.pop("receiver_deposits", None)
         if deposits is None and stats.get("pairs_per_sweep_both_stars", 0):
             raise UnsupportedReflectionError("Missing final receiver heat samples")
-        return backend.six_nodes(model, star, diagnostics["intrinsic_temperatures"], deposits=deposits), stats
+        return backend.emission_nodes(model, star, diagnostics["intrinsic_temperatures"], deposits=deposits), stats

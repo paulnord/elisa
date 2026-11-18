@@ -1,5 +1,34 @@
 # Experimental GPU likelihood pilot
 
+## m034 — Cubic primary temperature and optical moments
+
+`PrimaryCubicLightCurve` uses ten nodes on each primary face and the established six-node secondary. It supports the same detached reflected blackbody and linear limb-darkening scope as the sampled-heating comparison. It enforces the primary symmetry, root, cutoff, positivity, curved-area and per-face T⁴ conservation checks. Checks on the cubic Bernstein coefficients bound temperature and intensity between interpolation nodes. Optical batches use at most three nodes per face per star. The original CPU observer and the default experimental quadratic field retain their existing entry points.
+
+Run the following on the pinned fixture in the validated FP64 environment. On Ada, each GPU forward evaluation requires its own registered, checkpoint-verified unit. `reference` selects the serial CPU and `cpu` selects JAX CPU.
+
+```bash
+fixture=docs/ada_validation/background-m033-proposal-0.json
+out=$(mktemp -d)
+for rule in six duffy; do
+  options=(--primary-cubic)
+  if [[ "$rule" == six ]]; then options+=(--symmetric-interior 4); fi
+  python scripts/validate_receiver_heating.py evaluate "$fixture" --backend reference --depth 3 --selective-shadow "${options[@]}" --output "$out/$rule-3.json"
+  for part in 0 1; do
+    python scripts/receiver_phase_parts.py evaluate "$fixture" --backend reference --depth 4 --part "$part" "${options[@]}" --output "$out/$rule-part-$part.json"
+  done
+  python scripts/receiver_phase_parts.py join "$fixture" "$out/$rule-part-0.json" "$out/$rule-part-1.json" "${options[@]}" --output "$out/$rule-4.json"
+done
+python scripts/check_interior_resolution.py --primary-cubic --six "$out/six-3.json" "$out/six-4.json" --alternative "$out/duffy-3.json" "$out/duffy-4.json" --alternative-rule duffy --output "$out/combined.json"
+for level in 2 3; do
+  python scripts/check_primary_spectrum.py "$fixture" --level "$level" --output "$out/spectrum-$level.json"
+done
+python scripts/check_primary_spectrum.py "$fixture" --shared-levels --output "$out/shared.json"
+```
+
+To reproduce a same-packet comparison, run `python scripts/check_primary_curve_pair.py "$fixture" --backend reference --depth 3 --interior duffy --output "$out/pair.json"`. Choose `six` for the other interior rule. At depth four, run both phase blocks with `--part 0` and `--part 1`.
+
+The sixteen-model check withholds the usable density on either accuracy limit. The chain remains bound to its own target and verifies its checkpoint and source identity. [Source hashes](ada_validation/background-m034-source-hashes.json) · [Results](ada_validation/background-m034.json)
+
 ## m033 — Positive symmetric triangle cubature in reflected eclipse curves
 
 `SymmetricInteriorRule` retains the curved limb/shadow slices, topology checks, singular fallback and original per-phase node cap. The six- and seven-point formulas integrate planar barycentric polynomials through degrees four and five. The symmetric rules subdivide planar panels with a unit-direction chord longer than 1/8 and charge every child node against the cap. The stellar integrand also contains the solid-angle Jacobian, Roche geometry and radiance. Its finite resolution is measured from complete curves. The default curved-edge rule still uses the Duffy nodes. Rule metadata distinguishes the optical integration from the three quadrature nodes on each irradiated face.
