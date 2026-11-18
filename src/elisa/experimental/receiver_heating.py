@@ -6,6 +6,7 @@ from copy import copy
 import numpy as np
 
 from elisa.experimental.area_reflection import _BARY, _group_sum
+from elisa.experimental.gpu_curved_edges import SymmetricInteriorRule
 from elisa.experimental.gpu_reflection import UnsupportedReflectionError
 from elisa.experimental.quadratic_reflection import QuadraticReflection
 from elisa.experimental.quadratic_source import QuadraticSourceLightCurve
@@ -94,10 +95,12 @@ class ReceiverHeatingLightCurve(QuadraticSourceLightCurve):
     rule_prefix = "sampled_receiver_heat"
     field_contract = "Conservative six-node thermal emission using the final three deposited heat samples"
 
-    def __init__(self, *args, selective_shadow=False, **kwargs):
+    def __init__(self, passbands, rule, *, selective_shadow=False, **kwargs):
         if selective_shadow:
             self.rule_prefix = "shadow_sampled_receiver_heat"
-        super().__init__(*args, **kwargs)
+        if isinstance(rule, SymmetricInteriorRule):
+            self.rule_prefix = "symmetric_" + self.rule_prefix
+        super().__init__(passbands, rule, **kwargs)
         if selective_shadow:
             self._packet = deeper_shadow_packet
 

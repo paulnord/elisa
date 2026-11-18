@@ -8,14 +8,15 @@ import pytest
 from elisa.experimental.boundary_geometry import ConditionedRocheGeometry
 from elisa.experimental.curved_geometry import UnsupportedCurvedGeometryError
 from elisa.experimental.gpu_curvature_fields import curvature_geometry
-from elisa.experimental.gpu_curved_edges import CurvedEdgeRule
+from elisa.experimental.gpu_curved_edges import CurvedEdgeRule, SymmetricInteriorRule
 from elisa.experimental.gpu_reconstructed_observer import recorded_packet
 from elisa.experimental.shadow_refinement import deeper_shadow_packet, shadow_parents
 from scripts.validate_gpu_atmosphere import table_settings
 from scripts.validate_gpu_binary import fixture
 
 
-def test_parent_selection_conservation_and_aggregate_cap():
+@pytest.mark.parametrize("rule_type", [CurvedEdgeRule, SymmetricInteriorRule])
+def test_parent_selection_conservation_and_aggregate_cap(rule_type):
     with table_settings():
         binary = fixture(dict(inclination=85, discretization=14))
         _, cells, _ = curvature_geometry(binary, 0)
@@ -30,7 +31,7 @@ def test_parent_selection_conservation_and_aggregate_cap():
             np.stack([np.flatnonzero(visible & crossing)[:5], np.flatnonzero(visible & ~crossing)[:5]], axis=1)
         )
         tri, crossing = tri[indices], crossing[indices]
-        base = CurvedEdgeRule(3, 1, junction_depth=4, slice_order=12)
+        base = rule_type(3, 1, junction_depth=4, slice_order=12)
         packet = deeper_shadow_packet(tri, geom, line, base, front)
         original = [
             recorded_packet(t[None], geom, line, replace(base, depth=base.depth + int(c)), front)

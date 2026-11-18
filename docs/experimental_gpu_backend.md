@@ -1,5 +1,27 @@
 # Experimental GPU likelihood pilot
 
+## m033 — Positive symmetric triangle cubature in reflected eclipse curves
+
+`SymmetricInteriorRule` retains the curved limb/shadow slices, topology checks, singular fallback and original per-phase node cap. The six- and seven-point formulas integrate planar barycentric polynomials through degrees four and five. The symmetric rules subdivide planar panels with a unit-direction chord longer than 1/8 and charge every child node against the cap. The stellar integrand also contains the solid-angle Jacobian, Roche geometry and radiance. Its finite resolution is measured from complete curves. The default curved-edge rule still uses the Duffy nodes. Rule metadata distinguishes the optical integration from the three quadrature nodes on each irradiated face.
+
+Run from the tested checkout with the private ELISa configuration or the matching test data, FP64 enabled and single numerical-library threads. Specify `--backend reference` for serial CPU or `--backend cpu` for JAX CPU. GPU evaluation on Ada uses `--backend gpu --verified-bounded-gpu-window` inside registered held-checkpoint units. For each proposal the following shell commands write three-band results in a fresh directory. Use separate bounded GPU units for each forward command.
+
+```bash
+out=$(mktemp -d)
+fixture=docs/ada_validation/background-m033-proposal-38.json
+for degree in 4 5; do
+  python scripts/validate_receiver_heating.py evaluate "$fixture" --backend reference --depth 3 --selective-shadow --symmetric-interior "$degree" --output "$out/d3-$degree.json"
+  for part in 0 1; do
+    python scripts/receiver_phase_parts.py evaluate "$fixture" --backend reference --depth 4 --part "$part" --symmetric-interior "$degree" --output "$out/part-$degree-$part.json"
+  done
+  python scripts/receiver_phase_parts.py join "$fixture" "$out/part-$degree-0.json" "$out/part-$degree-1.json" --symmetric-interior "$degree" --output "$out/d4-$degree.json"
+done
+python scripts/check_interior_resolution.py --six "$out/d3-4.json" "$out/d4-4.json" --alternative "$out/d3-5.json" "$out/d4-5.json" --alternative-rule seven --output "$out/combined.json"
+python scripts/compare_irradiating_sources.py docs/ada_validation/background-m033-proposal-0.json --output "$out/illumination.json"
+```
+
+For proposal 0 use its fixture with the six-point calculation. Reproduce the independent Duffy calculation by omitting `--symmetric-interior` on its evaluate and join commands, then choose `--alternative-rule duffy`. `usable_log_posterior` is null on an accuracy stop. Operational caps and unsupported physics continue to require an explicit stop or complete original CPU model. [Proposal 0](ada_validation/background-m033-proposal-0.json) · [Proposal 38](ada_validation/background-m033-proposal-38.json) · [Validation source hashes](ada_validation/background-m033-source-hashes.json)
+
 ## m032 — Original-facet ensemble with a shared GPU
 
 `SharedNativeDetachedMCMCFit` accepts a service created by `shared_surface_owner`. Original CPU walker processes send their fresh selected face arrays to the owner for ordered FP64 reductions. The benchmark covers the reflected, circular detached binary with linear limb darkening. The opt-in fitter requires candidate exceptions to propagate under the original policy. Unsupported integration can be rerun with the complete native CPU fit. [Measured scope, scientific limits and reproduction](ada_mcmc_scaling.md)

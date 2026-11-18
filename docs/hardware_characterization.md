@@ -1,5 +1,19 @@
 # Ada workload and hardware characterization
 
+## m033 — Positive interior quadrature, complete reflected curves
+
+Proposal 38 uses the selective shadow boundary at depth three and the original fitted observations. The table gives one matched fresh-process run per cell, including imports, field and curve construction, original likelihood mapping and output serialization. All cases used affinity 16–19, nice 19, one numerical-library thread and FP64. The GPU rows include every transfer and synchronization. Processes share the private filesystem and compiler-cache policy. All three backends place and weight the new interior rays on the host. The hybrid evaluates the existing device geometry and optical kernels on those rays. A slash in the curve-stage column separates fresh fields and partition, observer geometry/clipping, and integration of the four field variants. Stage timers use the instrumentation in the curve implementation.
+
+| Interior rule | Backend | Process (s) | Shared field preparation (s) | Curve stages (s) |
+| --- | --- | ---: | ---: | --- |
+| 6 nodes | Serial CPU | 280.69 | 0.00 | 78.17 / 179.56 / 21.33 |
+| 6 nodes | RTX 3080 Ti | 158.49 | 4.31 | 33.57 / 112.82 / 4.38 |
+| 6 nodes | JAX CPU | 548.46 | 3.20 | 48.30 / 477.99 / 15.72 |
+| 9 nodes | Serial CPU | 292.62 | 0.00 | 77.68 / 184.26 / 29.15 |
+| 9 nodes | RTX 3080 Ti | 161.61 | 4.45 | 33.42 / 114.53 / 5.86 |
+
+The serial CPU/GPU process-time ratio with six nodes was 1.77×. Changing from nine to six nodes changed the serial CPU time from 292.62 to 280.69 s and the GPU time from 161.61 to 158.49 s. The fine-field curve and fitted density were recomputed for each donor resolution. Timing variability, memory bandwidth and ESS/s require separate measurements. The six-point GPU run supplied 194 samples with nonzero utilization, with PCIe Gen 4 ×8, median device power 112.3 W and peak sampled used device memory 862 MiB. [Curves, numerical checks and timings](ada_validation/background-m033.json)
+
 ## m032 — Native ensemble worker scaling
 
 For 416 fresh densities, the best three-run median was 5.17 s with 16 original CPU workers, and 24.44 s with 12 worker processes sharing one FP64 GPU owner. The owner used the SMT sibling of CPU 0. The measurements include surface-array IPC, device transfers, synchronized totals and pool startup and shutdown. The experiment did not measure a per-call timing decomposition or memory bandwidth. [Worker counts, hardware, run order and individual results](ada_mcmc_scaling.md)

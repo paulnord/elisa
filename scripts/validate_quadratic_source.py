@@ -1,7 +1,7 @@
 """Compare the six-node optical field and enhanced junction/slice rule on complete reflected curves."""
 
 import argparse
-from dataclasses import replace
+from dataclasses import asdict, replace
 import json
 from pathlib import Path
 import sys
@@ -23,7 +23,7 @@ from scripts.validate_gpu_fit import physical
 from scripts.validate_gpu_surface_error import asset_revision
 
 
-def evaluate(args, baseline, *, source_type=QuadraticSourceLightCurve, source_options=None):
+def evaluate(args, baseline, *, source_type=QuadraticSourceLightCurve, source_options=None, rule_type=None):
     if args.backend == "gpu" and not args.verified_bounded_gpu_window:
         raise ValueError("GPU synthesis requires a verified bounded unit")
     if baseline["source_revision"] != asset_revision() or baseline["engine"] != "emitting-area":
@@ -52,6 +52,8 @@ def evaluate(args, baseline, *, source_type=QuadraticSourceLightCurve, source_op
     def observer(bands, rule, *, device):
         if args.boundary == "refined":
             rule = replace(rule, slice_order=12, junction_depth=4)
+        if rule_type is not None:
+            rule = rule_type(**asdict(rule))
         return ProfiledSource(bands, rule, device=device, **(source_options or {}))
 
     result = evaluate_depth(fit, vector, args.depth, args.backend, observer_type=observer)
@@ -65,7 +67,9 @@ def evaluate(args, baseline, *, source_type=QuadraticSourceLightCurve, source_op
     return result
 
 
-def assess(parts, *, engine="quadratic-spectral-source"):
+def assess(parts, *, engine="quadratic-spectral-source", interior_degree=None):
+    if engine.startswith("symmetric-") != (interior_degree in (4, 5)):
+        raise ValueError("Select the matching finite interior rule")
     fit, _ = fixture()
     profiles = [p for part in parts for p in part["profiles"]]
     first = profiles[0]
@@ -129,7 +133,8 @@ def assess(parts, *, engine="quadratic-spectral-source"):
             c = curve(row, key)
             rule = dict(c.rule)
             if (
-                c.field_levels not in (2, 3)
+                rule.get("interior_degree") != interior_degree
+                or c.field_levels not in (2, 3)
                 or rule.pop(f"{engine.replace('-', '_')}_receiver3_donor_cap{cap}", 0) != 1
                 or rule.pop("depth") != d
                 or rule["slice_order"] != p["slice_order"]

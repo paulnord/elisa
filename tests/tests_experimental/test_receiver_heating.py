@@ -8,7 +8,7 @@ import pytest
 from elisa import settings
 from elisa.binary_system.surface import faces
 from elisa.experimental import area_reflection
-from elisa.experimental.gpu_curved_edges import CurvedEdgeRule
+from elisa.experimental.gpu_curved_edges import CurvedEdgeRule, SymmetricInteriorRule
 from elisa.experimental.gpu_reflection import UnsupportedReflectionError
 from elisa.experimental.quadratic_reflection import QuadraticReflection
 from elisa.experimental.quadratic_source import receiver_slope
@@ -86,7 +86,12 @@ def test_native_slots_at_last_cooler_first_update(temperatures, monkeypatch):
             solver.evaluate(binary, system, 1, 2)
 
 
-def test_eclipse_with_sampled_heating_and_refined_shadow():
+@pytest.mark.parametrize("rule", [
+    CurvedEdgeRule(3, 1, slice_order=12, junction_depth=4),
+    SymmetricInteriorRule(3, 1, slice_order=12, junction_depth=4),
+    SymmetricInteriorRule(3, 1, slice_order=12, junction_depth=4, interior_degree=5),
+], ids=["duffy", "six", "seven"])
+def test_eclipse_with_sampled_heating_and_refined_shadow(rule):
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
         binary = fixture(dict(discretization=14, inclination=89, temperatures=[5000, 6400]))
         bands = ["Generic.Bessell.B", "bolometric"]
@@ -94,7 +99,7 @@ def test_eclipse_with_sampled_heating_and_refined_shadow():
         reference, device = [
             ReceiverHeatingLightCurve(
                 bands,
-                CurvedEdgeRule(3, 1, slice_order=12, junction_depth=4),
+                rule,
                 device=b,
                 levels=(0, 1),
                 integration_level=1,

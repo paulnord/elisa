@@ -1,6 +1,40 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T18:42:52.813869+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T19:45:59.981492+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m033 — Eclipse integration below the node cap
+
+The primary eclipse at phase 0.005 on proposal 38 now fits within the existing 2,097,152-node limit. Its six-point interior rule used **1,683,774 nodes** and its independent seven-point rule used **1,870,197**. Both traced the same limb, shadow and 529 crossing parents. The previous nine-point calculation reached the cap. Its full node count on this topology would be 2,243,043. The six-point reduction is 24.9%. The curved slices retained their 12-by-3 rule.
+
+The first seven-point rule exceeded the analytic disk-area tolerance in two coarse-grid cases. The worst error was 1.225e-07 of the unobscured disk. Subdividing planar triangles whose longest unit-direction chord exceeds 1/8 brought the worst error across both rules and all six contact configurations to 7.939e-09, within the original 1e-7 tolerance. In the two physical proposals, the largest parent chord on either star was 0.040012. Clipping and midpoint subdivision take positive barycentric combinations inside those same acute cones, so the width check preserves every physical integration panel used here.
+
+### Finite-resolution likelihoods
+
+Each point has 16 complete synthetic models spanning two thermal fields, two emitter resolutions, two eclipse depths and two interior rules. All models include both reflections, passband emission, limb darkening, both component fluxes, third light and the original observation mapping. The likelihood check uses all 28 B, V and bolometric observations at nominal uncertainty 10⁻⁴. It retains the 0.1 joint-distance limit and 0.01 absolute log-likelihood limit. The table reports nominal log-likelihood error bounds. A density is available only where both eight-model checks, the finest-curve comparison and the combined sixteen-model check passed.
+
+| Proposal | Comparison rule | Six-point bound | Comparison bound | Finest curves alone | Combined bound | Density |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| 0 | Duffy 3x3 | 0.017981 | 0.017981 | 4.462e-05 | 0.018026 | withheld |
+| 38 | symmetric seven-point | 0.008637 | 0.008637 | 3.999e-07 | 0.008637 | passed |
+
+The combined bounds enclose the directly evaluated nominal log-likelihood changes at every measured corner. The largest measured changes were 0.009512 and 0.004372 at proposals 0 and 38. Continuum accuracy and the rest of the parameter space remain open. Across the independent serial, JAX CPU and GPU checks, the largest normalized-flux difference was 7.77e-16 and the largest checked log-posterior difference was 7.35e-10. [Curves, numerical checks and timings](ada_validation/background-m033.json)
+
+### Where the thermal field changes
+
+On proposal 0 we held 96 incoming rays on each star fixed through the final cooler-first reflection sweep. Direct summation over individual emitter nodes separates changes in the sampled emitting surface (geometry, area, visibility and bolometric limb darkening), intrinsic power and re-emitted heat. The RMS differences below use deposited flux in units of the receiving star’s effective temperature to the fourth power. The individual terms add on each ray before taking the RMS.
+
+| Receiving star | Emitting surface | Intrinsic power | Re-emitted heat | Total |
+| --- | ---: | ---: | ---: | ---: |
+| Primary | 1.733e-09 | 6.607e-11 | 2.119e-09 | 2.518e-09 |
+| Secondary | 6.787e-08 | 1.441e-08 | 2.563e-09 | 6.799e-08 |
+
+We also exchanged one star’s passband flux at a time between the two thermal resolutions on identical observer rays. Each exchange reapplied third light and normalization. Averaging the two exchange orders gives primary and secondary changes of 5.599e-05 and 1.342e-05 joint nominal-noise units. Their vector sum has norm 5.067e-05. At nominal noise, the signed log-likelihood shifts were -0.012204 from the primary and +0.002701 from the secondary. The primary’s largest single observation was Generic.Bessell.V at phase 0.02700. The finite likelihood check retains its conservative component-wise bound. [Curves, numerical checks and timings](ada_validation/background-m033.json)
+
+### Complete-curve costs and physical sampling
+
+At proposal 38 and selective eclipse depth three, a fresh process built four field/donor variants, synthesized 18 supplied phases (14 after symmetry reduction) in three passbands, and mapped the fine-field predictions to both donor-level fit densities. The six-point calculation took **280.69 s on serial CPU, 548.46 s on JAX CPU and 158.49 s on GPU**. Each clock includes startup, encountered compilation, CPU geometry and clipping, transfers, synchronization, fitting and output. These single runs used identical CPU affinity and priority. Computing both depths for a proposal, or auditing sixteen models, costs additional time. [Stage timings and matched nine-point controls](hardware_characterization.md)
+
+The paired sampled-heating chain remained on its published m031 model. Serial CPU and GPU both rejected its third proposal. The eight-model bound was 0.001374, the log-posterior change was -105.74023 and the random log draw was -0.44883. Three transitions cannot establish mixing or effective samples per second. The passing suites recorded 151 test executions, including the corrected disk areas, parent identities, aggregate node cap and complete two-band eclipses with both interior rules. The phase-block join, rule identity and original prior checks stayed active. All 15 registered units verified the held Fifth42 checkpoint at entry and cleanup. [Reproduction and supported scope](experimental_gpu_backend.md)
 
 ## m032 — Parallel walkers in the original ELISa fit
 

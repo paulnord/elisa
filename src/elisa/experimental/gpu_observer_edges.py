@@ -195,7 +195,7 @@ def observer_packet(
                 "junction_refined": int(junction_refine.sum()),
             },
         )
-        if (sum(len(a) for a in accepted) + 4 * int(refine.sum())) * rule.order**2 > rule.max_nodes:
+        if (sum(len(a) for a in accepted) + 4 * int(refine.sum())) * rule.interior_size > rule.max_nodes:
             msg = "Curved-edge quadrature exceeds explicit node cap; abort protocol"
             raise UnsupportedCurvedGeometryError(msg)
         if not refine.any():
@@ -221,7 +221,7 @@ def observer_packet(
     duplicate = np.any(np.all(fragments == np.roll(fragments, -1, axis=1), axis=2), axis=1)
     nonzero = (determinant != 0) & ~duplicate
     fragments, source, tags = fragments[nonzero], source[nonzero], tags[nonzero]
-    nodes = len(fragments) * rule.order**2
+    nodes = len(fragments) * rule.interior_size
     if nodes > rule.max_nodes:
         msg = "Clipped curved-edge quadrature exceeds explicit node cap; abort protocol"
         raise UnsupportedCurvedGeometryError(msg)
@@ -232,16 +232,17 @@ def observer_packet(
         msg = "Curved-edge fragment has multiple unresolved contours outside its junction protocol"
         raise UnsupportedCurvedGeometryError(msg)
     curved = (edges.sum(axis=1) == 1) & ~chord
-    allocation_nodes = int(curved.sum()) * rule.order * rule.slice_order + int((~curved).sum()) * rule.order**2
+    allocation_nodes = int(curved.sum()) * rule.order * rule.slice_order + int((~curved).sum()) * rule.interior_size
     if allocation_nodes > rule.max_nodes:
         msg = "Curved-edge slice order exceeds explicit node cap before allocation; abort protocol"
         raise UnsupportedCurvedGeometryError(msg)
     vectors, weights, ids = [], [], []
     if np.any(~curved):
-        v, w = duffy_nodes(fragments[~curved], rule.order)
+        budget = rule.max_nodes - int(curved.sum()) * rule.order * rule.slice_order
+        v, w, flat_source = rule.planar_packet(fragments[~curved], source[~curved], budget)
         vectors.append(v)
         weights.append(w)
-        ids.append(np.repeat(source[~curved], rule.order**2))
+        ids.append(flat_source)
     max_shift, singular = 0.0, set()
     for edge in range(3):
         take = curved & edges[:, edge]

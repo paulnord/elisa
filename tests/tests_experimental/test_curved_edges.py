@@ -1,6 +1,7 @@
 """Independent eclipse areas, complete CPU parity and accumulated density stops."""
 
 from dataclasses import replace
+from math import factorial
 
 import numpy as np
 import pytest
@@ -14,6 +15,7 @@ from elisa.experimental.gpu_curved_edges import (
     CurvedEdgeLightCurve,
     CurvedEdgeRule,
     InferenceBudget,
+    SymmetricInteriorRule,
     curved_edge_packet,
 )
 from elisa.experimental.gpu_protocol import ResolutionNotQualifiedError
@@ -64,11 +66,47 @@ def overlap(radius: float, distance: float) -> float:
                          *(distance-1+radius)*(distance+1+radius)))
 
 
+@pytest.mark.parametrize(("degree", "size"), [(4, 6), (5, 7)])
+def test_positive_interior_rule_reproduces_simplex_moments(degree, size):
+    rule = SymmetricInteriorRule(3, 1, interior_degree=degree)
+    coords, solid_angle = rule.interior_nodes(np.eye(3)[None])
+    planar = solid_angle * np.linalg.norm(coords, axis=1)**3
+    assert len(planar) == rule.interior_size == size and np.all(planar > 0) and np.all(coords > 0)
+    for i in range(degree + 1):
+        for j in range(degree + 1 - i):
+            for k in range(degree + 1 - i - j):
+                exact = factorial(i) * factorial(j) * factorial(k) / factorial(i + j + k + 2)
+                actual = planar @ np.prod(coords**[i, j, k], axis=1)
+                assert_allclose(actual, exact, rtol=5e-15, atol=2e-16)
+    with pytest.raises(ValueError, match="order three"):
+        replace(rule, order=2)
+
+
+@pytest.mark.parametrize("degree", [4, 5])
+def test_wide_planar_panels_preserve_parent_and_charge_children_to_cap(degree):
+    wide = np.array([[1., 0., 0.], [1., .14, 0.], [1., 0., .14]])
+    narrow = wide * np.array([1., .25, .25])
+    rule = SymmetricInteriorRule(3, 1, interior_degree=degree)
+    budget = 5 * rule.interior_size
+    rays, weights, parents = rule.planar_packet(np.stack([wide, narrow]), np.array([9, 7]), budget)
+    for parent, panels in ((7, narrow[None]), (9, split_triangles(wide[None]))):
+        reference_rays, reference_weights = rule.interior_nodes(panels)
+        assert_allclose(rays[parents == parent], reference_rays, rtol=0, atol=0)
+        assert_allclose(weights[parents == parent], reference_weights, rtol=0, atol=0)
+    with pytest.raises(UnsupportedCurvedGeometryError, match="node cap"):
+        rule.planar_packet(np.stack([wide, narrow]), np.array([9, 7]), budget - 1)
+
+
 @pytest.mark.parametrize(("radius", "distance"), [(.6, 0.), (.6, .8), (.6, 1.59),
                                                  (.6, 1.61), (1.4, .1), (.01, .4)])
-def test_projected_uniform_sphere_matches_independent_circle_intersection(radius: float, distance: float) -> None:
+@pytest.mark.parametrize(
+    "rule",
+    [CurvedEdgeRule(4, 5), SymmetricInteriorRule(3, 5), SymmetricInteriorRule(3, 5, interior_degree=5)],
+    ids=("duffy", "six", "seven"),
+)
+def test_projected_uniform_sphere_matches_independent_circle_intersection(radius, distance, rule) -> None:
     packet = curved_edge_packet(sphere_triangles(), Sphere(), np.array([0., 0., 1.]),
-                                CurvedEdgeRule(4, 5), Sphere(radius, distance))
+                                rule, Sphere(radius, distance))
     actual = np.sum(packet["mu"]*packet["area"])/np.pi
     expected = 1-overlap(radius, distance)/np.pi
     # 1e-7 of the unobscured disk is .001 sigma at the retained1e-4 scale.

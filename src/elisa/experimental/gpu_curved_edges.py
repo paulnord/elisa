@@ -41,6 +41,74 @@ class CurvedEdgeRule(BoundaryRule):
             msg = "Curved edges require junction/singular depth0-4, bisections36-48 and slice order4-12"
             raise ValueError(msg)
 
+    @property
+    def interior_size(self) -> int:
+        return self.order**2
+
+    def interior_nodes(self, triangles: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        return duffy_nodes(triangles, self.order)
+
+    def planar_packet(self, triangles: np.ndarray, source: np.ndarray, budget: int) -> tuple:
+        if len(triangles) * self.interior_size > budget:
+            raise UnsupportedCurvedGeometryError("Planar quadrature exceeds the remaining node cap")
+        rays, weights = self.interior_nodes(triangles)
+        return rays, weights, np.repeat(source, self.interior_size)
+
+
+@dataclass(frozen=True)
+class SymmetricInteriorRule(CurvedEdgeRule):
+    """Positive symmetric cubature on planar fragments of an order-three curved-edge packet."""
+
+    # Include the rule in serialized curve identities and phase-block checks.
+    interior_degree: int = 4
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+        if self.order != 3 or type(self.interior_degree) is not int or self.interior_degree not in (4, 5):
+            raise ValueError("Symmetric interior cubature requires order three and degree four or five")
+
+    @property
+    def interior_size(self) -> int:
+        return 6 if self.interior_degree == 4 else 7
+
+    def interior_nodes(self, triangles: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        # Two threefold symmetric orbits. The reference triangle has area one half.
+        if self.interior_degree == 4:
+            a, b = 0.445948490915965, 0.091576213509771
+            masses = [0.1116907948390055, 0.054975871827661]
+        else:
+            root = np.sqrt(15.0)
+            a, b = (6 + root) / 21, (6 - root) / 21
+            masses = [(155 + root) / 2400, (155 - root) / 2400]
+        orbits = np.array([[t, t, 1 - 2 * t] for t in (a, b)])
+        bary = np.concatenate([np.roll(orbits, i, axis=1) for i in range(3)])
+        weights = np.tile(masses, 3)
+        if self.interior_degree == 5:
+            bary = np.vstack((bary, np.full(3, 1 / 3)))
+            weights = np.append(weights, 9 / 80)
+        vectors = np.einsum("qj,njk->nqk", bary, triangles)
+        det = np.abs(np.einsum("ij,ij->i", triangles[:, 0], np.cross(triangles[:, 1], triangles[:, 2])))
+        solid_angle = det[:, None] * weights / np.linalg.norm(vectors, axis=2)**3
+        return vectors.reshape(-1, 3), solid_angle.ravel()
+
+    def planar_packet(self, triangles: np.ndarray, source: np.ndarray, budget: int) -> tuple:
+        # Polynomial exactness is on the reference simplex. Bound the angular size
+        # of planar panels before applying the solid-angle Jacobian and stellar fields.
+        while True:
+            lengths = np.linalg.norm(triangles, axis=2)
+            if not np.all(np.isfinite(lengths) & (lengths > 0)):
+                raise UnsupportedCurvedGeometryError("Invalid angular direction in planar panel")
+            unit = triangles / lengths[..., None]
+            edges = unit - np.roll(unit, 1, axis=1)
+            wide = np.any(np.einsum("ijk,ijk->ij", edges, edges) > (1 / 8)**2, axis=1)
+            if not wide.any():
+                return super().planar_packet(triangles, source, budget)
+            new_count = len(triangles) + 3 * int(wide.sum())
+            if new_count * self.interior_size > budget:
+                raise UnsupportedCurvedGeometryError("Planar subdivision exceeds the remaining node cap")
+            triangles = np.concatenate((triangles[~wide], split_triangles(triangles[wide])))
+            source = np.concatenate((source[~wide], np.repeat(source[wide], 4)))
+
 
 class _SingularSliceError(RuntimeError):
     """A fan lacks a supported local boundary graph; use declared fine chords."""
@@ -202,7 +270,7 @@ def curved_edge_packet(triangles: np.ndarray, geometry: Any, line: np.ndarray, r
                        "accepted": int(take.sum()), "boundary_leaves": int(boundary.sum()),
                        "topology_refined": int(topology_refine.sum()),
                        "junction_refined": int(junction_refine.sum())})
-        if (sum(len(a) for a in accepted)+4*int(refine.sum()))*rule.order**2 > rule.max_nodes:
+        if (sum(len(a) for a in accepted)+4*int(refine.sum()))*rule.interior_size > rule.max_nodes:
             msg = "Curved-edge quadrature exceeds explicit node cap; abort protocol"
             raise UnsupportedCurvedGeometryError(msg)
         if not refine.any():
@@ -228,7 +296,7 @@ def curved_edge_packet(triangles: np.ndarray, geometry: Any, line: np.ndarray, r
     duplicate = np.any(np.all(fragments == np.roll(fragments, -1, axis=1), axis=2), axis=1)
     nonzero = (determinant != 0) & ~duplicate
     fragments, source, tags = fragments[nonzero], source[nonzero], tags[nonzero]
-    nodes = len(fragments)*rule.order**2
+    nodes = len(fragments)*rule.interior_size
     if nodes > rule.max_nodes:
         msg = "Clipped curved-edge quadrature exceeds explicit node cap; abort protocol"
         raise UnsupportedCurvedGeometryError(msg)
@@ -239,16 +307,17 @@ def curved_edge_packet(triangles: np.ndarray, geometry: Any, line: np.ndarray, r
         msg = "Curved-edge fragment has multiple unresolved contours outside its junction protocol"
         raise UnsupportedCurvedGeometryError(msg)
     curved = (edges.sum(axis=1) == 1) & ~chord
-    allocation_nodes = int(curved.sum())*rule.order*rule.slice_order+int((~curved).sum())*rule.order**2
+    allocation_nodes = int(curved.sum())*rule.order*rule.slice_order+int((~curved).sum())*rule.interior_size
     if allocation_nodes > rule.max_nodes:
         msg = "Curved-edge slice order exceeds explicit node cap before allocation; abort protocol"
         raise UnsupportedCurvedGeometryError(msg)
     vectors, weights, ids = [], [], []
     if np.any(~curved):
-        v, w = duffy_nodes(fragments[~curved], rule.order)
+        budget = rule.max_nodes - int(curved.sum()) * rule.order * rule.slice_order
+        v, w, flat_source = rule.planar_packet(fragments[~curved], source[~curved], budget)
         vectors.append(v)
         weights.append(w)
-        ids.append(np.repeat(source[~curved], rule.order**2))
+        ids.append(flat_source)
     max_shift, singular = 0., set()
     for edge in range(3):
         take = curved & edges[:, edge]
