@@ -1,6 +1,90 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T03:34:39.473342+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T04:47:14.474439+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m029 — Checkpointable physical Metropolis comparison
+
+Serial CPU and GPU completed **four physical Metropolis trials with identical decisions**, accepting trial 2 after starting at the synthetic generating parameters. Each trial rebuilt the binary and evaluated all eight field, emitter and eclipse-depth combinations before the chain could advance. The combined log-likelihood bounds ranged from **0.00200 to 0.00328** at nominal flux uncertainty 10⁻⁴, inside the 0.01 limit. The separate in-prior trial with a 0.06 proposal width gave a combined bound of **0.04344**. The accuracy exception preserved the checkpoint and its next random draw byte for byte on both backends. The wider proposal contributed zero chain steps. Four trials establish transition and restart parity. Mixing, posterior agreement and effective samples per second require longer chains.
+
+### Physical trials and resolution sensitivity
+
+| Trial | Primary T (K) | Inclination (°) | Mass ratio | Combined bound | Δ log posterior | log u | Decision |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 6499.451 | 86.40286 | 0.6999525 | 0.002511 | -20.2711 | -0.0685 | Reject |
+| 2 | 6501.027 | 86.39103 | 0.6999530 | 0.001997 | +23.4078 | -1.0584 | Accept |
+| 3 | 6500.556 | 86.39743 | 0.6999918 | 0.003276 | -105.7404 | -0.4488 | Reject |
+| 4 | 6501.069 | 86.38895 | 0.6999012 | 0.002118 | -10.2927 | -1.8787 | Reject |
+
+The trial kernel draws a symmetric Gaussian step with standard deviation 0.0006 in each of the six original normalized fitting coordinates. The seed is 20261117. Primary temperature and potential, inclination, mass ratio, third light and the noise parameter all change. The secondary temperature follows the original constraint. These widths define a reproducible local comparison. The data were generated using the original 12° facet calculation with reflection enabled. They comprise 28 synthetic B, V and bolometric observations with the original ordering and repeats, per-band mean normalization, prior and noise law. The finest density uses field level 3, donor level 2 and eclipse depth 4. The measured error bound includes mixed changes across field levels 2/3, donor groupings 1/2 and depths 3/4. Convergence beyond these tested resolutions is open. The finite accuracy test uses the nominal errors independently of the sampled noise parameter.
+
+All four decisions were stable even when the proposed and current densities were independently taken from any of the eight measured resolutions. The smallest distance from the log acceptance threshold over these comparisons was **1.05843**. An independent replay recovered the proposed coordinates, uniforms, decisions and final random-number state. Across the matched full-curve checks, the largest absolute difference in normalized flux or mapped prediction was **6.66e-16**, and the largest log-posterior difference was **1.17e-09**.
+
+At each depth the observer now constructs one set of eclipse packets for all four field and donor combinations. Each field builds its own irradiated stellar surfaces. At the generating point the paired calculation reproduced the independently computed single-donor results from m028 at both depths. The two depth files and the chain have separate checksums. A step commits its position, density and random-number state together after both files pass the combined test. For both backends, restoring with a missing part, corrupting a part, repairing it and retrying a committed step reproduced the uninterrupted final checkpoint byte for byte. The original prior retains its outside-bounds rejection. Unsupported synthesis and accuracy exceptions propagate before a chain write.
+
+### Sensitivity to the physical model and noise
+
+| Original ELISa facets | Accepted trials in independent run | Accepted if evaluated on curved path | Four proposal calls (s) |
+| --- | ---: | ---: | ---: |
+| 12° | none | 4 | 0.301 |
+| 8° | 2, 4 | 2, 4 | 0.316 |
+| 6° | 2 | 2 | 0.447 |
+
+The independent original facet runs started at the same position with the same random stream, priors, observations and proposal widths. The conditional column compares each facet density at the exact trial and current coordinates of the curved run. Each original call returns one facet density. Each facet timing sums four proposal calls after setup. The 6° facet run made the same four decisions as the curved run. Changing to 8° added an accepted fourth trial, and 12° accepted none on its independent path. These model differences exceed the measured CPU/GPU differences on this fixture.
+
+For a separate sensitivity check, the same curved predictions and marginal observational variances were evaluated with a within-band exponential covariance. A fraction 0.25 of each marginal variance has correlation length 0.01 in unwrapped orbital phase, or 0.03 days at this fixture's period. The remaining fraction is independent. A zero-correlation check reproduced the original densities. At these four visited transitions the conditional correlated calculation accepted trials **2** and the original noise model accepted **2**. The covariance parameters were chosen for this sensitivity calculation. The data were generated with independent noise before mean normalization. Estimating a correlation time from astronomical data and fitting the published systems require their own observations and model options. In particular the V505 Per pixel-based reproduction uses TESS and quadratic limb darkening. The present blackbody fixture uses a fixed linear coefficient of 0.4. [Transitions, finite curves and residuals](ada_validation/background-m029.json)
+
+### Quadratic correction at the two failed proposals
+
+| Proposal | Previous emitter bound | Quadratic emitter bound | Field bound | Eclipse depth bound | Previous combined | Quadratic combined | Gate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0 | 0.03364 | 0.00000837 | 0.01683 | 0.01156 | 0.06228 | 0.02840 | Stop |
+| 38 | 0.01479 | 0.00000368 | 0.00735 | 0.00143 | 0.02368 | 0.00878 | Pass |
+
+For groups strictly inside both horizons the new opt-in solver retains terms through second order in each emitting node's displacement from its group centre. It forms the directional polynomial coefficients from the native Roche positions, normals and linear limb-darkening coefficients, then weights them with the current emitter luminosities on every cooler-first update. Near either horizon it integrates every native node as before. The interaction cap and the individual-node nonlinear limb-darkening path still apply. A separate face-by-face expansion checked the two-sweep heating on both stars with the primary hotter and cooler. The quadratic runs have their own model identity. All four sampler transitions above used the established first-order model.
+
+At proposal 0 the four largest contributions to the quadratic bound account for 44.1% of the total. The two B observations at folded phase 0.024 each contribute more than 0.004. The next two are V observations at phases 0.037 and 0.027. The ledger lists all 28 contributions, including repeated observations. These phases provide a direct test of further field and eclipse refinement.
+
+### Complete cost of one guarded trial
+
+| Backend | Depth 3 (s) | Depth 4 (s) | Guard and original fitter (s) | Sum of process times (s) |
+| --- | ---: | ---: | ---: | ---: |
+| Serial CPU | 183.44 | 304.23 | 1.60 | 489.27 |
+| JAX CPU | 321.51 | 643.86 | 1.59 | 966.95 |
+| RTX 3080 Ti | 83.91 | 146.33 | 1.61 | 231.85 |
+
+These timings use the first six-parameter trial with identical two-depth output and the original fitter replay. Each depth ran in a fresh process. The timed processes include setup, encountered compilation, CPU work, transfers, synchronization, returned curves and output. The final process verifies the eight-model gate and evaluates the original density. The totals sum the three sequential wall times on cores 16–19 at nice 19. The matched serial CPU time divided by GPU time was **2.11**. Each backend ran the timed trial once. Processes were fresh and used the existing filesystem and compiler caches. The ledger also records the checkpointed run, including saving intermediate depth results and committing the chain decision. Every one of the 19 registered, executed units verified the exact held Fifth42 checkpoint at entry and cleanup. [Hardware and timing boundaries](hardware_characterization.md)
+
+### Reproduction
+
+Start with the original generating-point profiles from the m028 reproduction. Supply four individual profiles or both paired depth results, all from the selected backend. Use a separate checkpoint directory per chain. These commands reproduce the serial CPU path.
+
+```bash
+export JAX_PLATFORMS=cpu JAX_ENABLE_X64=True
+python scripts/sample_reflected_binary.py init --backend reference --seed 20261117 --scale 0.0006 \
+  --checkpoint reference/state.json --initial truth-1-3.json truth-1-4.json truth-2-3.json truth-2-4.json
+for step in 1 2 3 4; do
+  for depth in 3 4; do
+    python scripts/sample_reflected_binary.py evaluate --checkpoint reference/state.json --step "$step" --depth "$depth"
+  done
+  python scripts/sample_reflected_binary.py advance --checkpoint reference/state.json --step "$step"
+done
+python scripts/verify_reflected_restart.py reference/state.json --initial truth-1-3.json truth-1-4.json truth-2-3.json truth-2-4.json
+python scripts/audit_reflected_noise.py reference/state.json truth-2-4.json --output noise.json
+```
+
+Initialize the GPU chain from its own generating-point profiles. Run each GPU `evaluate` inside a registered, hold-aware bounded unit with `--verified-bounded-gpu-window`. Use `compare_reflected_transitions.py reference/state.json gpu/state.json --output transitions.json` to check decisions and rerun the original facet fits. To repeat the wide trial, initialize a separate chain with `--scale 0.06` and the same seed. For matched timings, run this example once per backend with its own output directory. The GPU evaluation requires the bounded-unit flag and allocation.
+
+```bash
+backend=reference
+for depth in 3 4; do
+  python scripts/benchmark_reflected_transition.py evaluate --backend "$backend" --step 1 --depth "$depth" \
+    --checkpoint reference/state.json --output "bench-$backend-$depth.json"
+done
+python scripts/benchmark_reflected_transition.py finish --backend "$backend" --step 1 \
+  --checkpoint reference/state.json --parts "bench-$backend-3.json" "bench-$backend-4.json" --output "bench-$backend-fit.json"
+```
+
+For the independent quadratic comparison, use `validate_quadratic_binary.py evaluate BASELINE --backend reference --depth 3 --output q3.json` with the proposal's m028 file, then repeat at depth 4 into `q4.json`. Run `validate_quadratic_binary.py assess q3.json q4.json --output resolution.json` for its finite likelihood bound. GPU synthesis uses the same bounded units. [Tested source fingerprints](ada_validation/background-m029-source-hashes.json)
 
 ## m028 — Irradiation from curved emitting faces
 

@@ -1,5 +1,9 @@
 # Experimental GPU likelihood pilot
 
+## m029 — Shared-packet irradiation and checkpointed physical trials
+
+`PairedEmittingAreaLightCurve` rebuilds both emitting resolutions and both thermal fields and integrates all four on each eclipse packet. `sample_reflected_binary.py` runs one serialized, checksummed Metropolis chain on the reflected synthetic fixture. Use its `init`, `evaluate` and `advance` commands. A resolution exception retains the current point and RNG state for the pending trial. `PairedQuadraticLightCurve` is an independent experiment with a different emitting-position expansion and its own finite-error assessment. [Validated scope, measured costs and reproduction](ada_progress.md)
+
 ## m028 — Reflection from curved emitting areas
 
 Select `EmittingAreaLightCurve` in `gpu_nodal_source` or `--engine emitting-area` in the validation driver. Three local Roche points share the original emitting face’s area, temperature and bolometric limb-darkening coefficient. Linear limb darkening uses grouped directional and spatial moments away from both horizons. A group touching either horizon uses its individual points. Nonlinear laws evaluate individual points within the same interaction cap. Select `--receiver-points 3` for the validated three-point receiving rule. The eight-model check at nominal uncertainty 10⁻⁴ passes at the synthetic generating parameters and stops two other physical proposals. [Accuracy, timings and reproduction](ada_progress.md)

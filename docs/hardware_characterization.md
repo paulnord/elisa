@@ -1,5 +1,15 @@
 # Ada workload and hardware characterization
 
+## m029 — Guarded physical trial
+
+| Backend | Depth 3 (s) | Depth 4 (s) | Guard and original fitter (s) | Sum of process times (s) |
+| --- | ---: | ---: | ---: | ---: |
+| Serial CPU | 183.44 | 304.23 | 1.60 | 489.27 |
+| JAX CPU | 321.51 | 643.86 | 1.59 | 966.95 |
+| RTX 3080 Ti | 83.91 | 146.33 | 1.61 | 231.85 |
+
+Each backend synthesized the identical first physical proposal with two depths in separate fresh processes. Four field/donor variants share each depth’s eclipse packets. Each process wall includes imports, fixed fixture setup, fresh stellar states and any compilation, host/device transfers and synchronization, and output. The third process reads the files, checks all eight corners and replays the original fitted density. All three backends used the same cores 16–19 and nice 19 with the single-thread BLAS/OMP settings. Each table entry is one measurement. Pre-existing filesystem and compiler caches were available. The wrapper used to enforce CPU settings is included in the CPU process measurements. Sampled active PCIe generations were [4] at widths [8], with device-wide sampled memory up to 858 MiB. Sampling establishes active link state. Bandwidth attribution requires measured traffic and stalls. The operational CPU chain evaluated its two depths concurrently while the GPU used sequential bounded units. Those separate wall times include contention and scheduling. [Scientific comparison](ada_progress.md)
+
 ## m028 — Complete curves with curved emitting-face irradiation
 
 | Changing proposals | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole-process serial CPU/GPU |

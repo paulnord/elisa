@@ -151,6 +151,9 @@ class ReconstructedObserverLightCurve(FusedObserverLightCurve):
             )
         return {band: np.array([v[i] for v in values]) for i, band in enumerate(self.passbands)}
 
+    def _rule_for_field(self, key: str) -> str:
+        return self.field_rule
+
     def batch(self, *args: Any, **kwargs: Any) -> Any:
         # A rejected overlapping call must leave the active candidate's arrays intact.
         if not self._batch_lock.acquire(blocking=False):
@@ -166,7 +169,7 @@ class ReconstructedObserverLightCurve(FusedObserverLightCurve):
                 results=tuple(
                     replace(
                         r,
-                        curves={k: replace(v, rule={**v.rule, self.field_rule: 1}) for k, v in r.curves.items()},
+                        curves={k: replace(v, rule={**v.rule, self._rule_for_field(k): 1}) for k, v in r.curves.items()},
                         diagnostics={
                             **r.diagnostics,
                             "field_contract": self.field_contract,
