@@ -1,5 +1,24 @@
 # Ada workload and hardware characterization
 
+## m030 — Eight-model reflected trial with six spectra per face
+
+| Backend | Depth 3 (s) | Depth 4 (s) | Original fitter and gate (s) | Total (s) |
+| --- | ---: | ---: | ---: | ---: |
+| Serial CPU | 236.95 | 381.02 | 1.53 | 619.50 |
+| JAX CPU | 496.60 | 821.93 | 1.54 | 1320.08 |
+| RTX 3080 Ti | 104.85 | 170.46 | 1.55 | 276.86 |
+
+| Backend | Fresh fields and common partition (s) | Observer packets and hashes (s) | Variant flux integration (s) |
+| --- | ---: | ---: | ---: |
+| Serial CPU | 155.74 | 383.25 | 75.91 |
+| JAX CPU | 95.77 | 1156.65 | 54.03 |
+| RTX 3080 Ti | 68.33 | 180.48 | 11.67 |
+
+Each stage time sums the measurements from the two depth processes. The observer column covers the line-of-sight transform, geometry evaluation, adaptive eclipse clipping and packet hashing. On GPU this stage accounted for 65.2% of the complete measured trial. CPU work and transfers remain inside these timings. The stage table omits setup outside the curve call and the final replay of the likelihood.
+
+Fresh processes for each depth and the final original-density assessment used the same physical parameters, model and output. The compiler and filesystem caches were available to all three backends. The CPU wall times include its environment wrapper. GPU timings start with the science process after the unit’s checkpoint and hardware checks and end when it exits after writing the returned curves. Each total covers one complete evaluation. The chain runs recorded separately in the ledger used concurrent depth processes on serial CPU and sequential bounded units on GPU. The device's sampled active PCIe generation was [4] at width [8]. Sampled device-wide memory reached 860 MiB. The finite rule keeps host topology and clipping and performs both host-to-device and device-to-host transfers. The ledger includes the separately timed observer stages and integrated-field stages. Link speed alone cannot attribute a bottleneck to bandwidth. [Matched physics and resolution](ada_progress.md)
+
+
 ## m029 — Guarded physical trial
 
 | Backend | Depth 3 (s) | Depth 4 (s) | Guard and original fitter (s) | Sum of process times (s) |

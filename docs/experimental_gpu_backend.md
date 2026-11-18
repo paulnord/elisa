@@ -1,5 +1,9 @@
 # Experimental GPU likelihood pilot
 
+## m030 — Quadratic source fields and shadow-crossing checks
+
+`QuadraticSourceLightCurve` evaluates six physical blackbody and linear-LD samples per original face. It preserves the area mean of its irradiated T⁴ field and rejects a spectral polynomial that fails the positivity check. `DeeperShadowLightCurve` adds one bounded subdivision on sampled shadow crossings. `validate_quadratic_source.py assess` returns a usable density only for a passing eight-model grid. The independent physical chains use the original m029 sampled model. [Scope, measured errors and reproduction](ada_progress.md)
+
 ## m029 — Shared-packet irradiation and checkpointed physical trials
 
 `PairedEmittingAreaLightCurve` rebuilds both emitting resolutions and both thermal fields and integrates all four on each eclipse packet. `sample_reflected_binary.py` runs one serialized, checksummed Metropolis chain on the reflected synthetic fixture. Use its `init`, `evaluate` and `advance` commands. A resolution exception retains the current point and RNG state for the pending trial. `PairedQuadraticLightCurve` is an independent experiment with a different emitting-position expansion and its own finite-error assessment. [Validated scope, measured costs and reproduction](ada_progress.md)
