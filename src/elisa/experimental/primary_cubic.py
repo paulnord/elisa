@@ -8,6 +8,7 @@ from elisa.experimental.boundary_geometry import ConditionedRocheGeometry
 from elisa.experimental.curved_geometry import UnsupportedCurvedGeometryError, duffy_nodes
 from elisa.experimental.gpu_reconstructed_field import shape_rule
 from elisa.experimental.quadratic_source import QuadraticSourceBackend, receiver_slope
+from elisa.experimental.receiver_curvature import curvature_stencil, heat_basis, heat_controls
 from elisa.experimental.receiver_heating import ReceiverHeatingLightCurve
 
 
@@ -41,7 +42,7 @@ def bernstein(xp, bary):
 _TO_CONTROLS = np.linalg.inv(bernstein(np, CUBIC_NODES))
 
 
-def cubic_density(xp, weights, gravity, node_gravity, beta, intrinsic, deposits):
+def cubic_density(xp, weights, gravity, node_gravity, beta, intrinsic, deposits, stencil=None):
     """Preserve the intrinsic and deposited curved-area means on each parent independently."""
     rule = xp.asarray(shape_rule()[0])
     fraction = weights / weights.sum(axis=1, keepdims=True)
@@ -50,7 +51,11 @@ def cubic_density(xp, weights, gravity, node_gravity, beta, intrinsic, deposits)
     density = scale * node_gravity**beta
     density += (intrinsic - (mass * density).sum(axis=1))[:, None]
     limited = 0
-    if deposits is not None:
+    if stencil is not None:
+        controls, limited_faces = heat_controls(xp, *deposits, stencil, fraction @ heat_basis(xp, rule))
+        density += controls @ heat_basis(xp, xp.asarray(CUBIC_NODES)).T
+        limited = xp.sum(limited_faces)
+    elif deposits is not None:
         slope, limiter = receiver_slope(xp, *deposits, fraction @ rule)
         density = density + deposits[1][:, None] + slope @ xp.asarray(CUBIC_NODES.T)
         limited = xp.sum(limiter < 1)
@@ -60,6 +65,7 @@ def cubic_density(xp, weights, gravity, node_gravity, beta, intrinsic, deposits)
 class CubicPrimaryBackend(QuadraticSourceBackend):
     """Independent CPU gravity and Lagrange evaluation, device Roche roots and Bernstein moments."""
 
+    curved_heating = False
     reference_basis = staticmethod(lagrange)
     device_basis = staticmethod(bernstein)
 
@@ -76,7 +82,7 @@ class CubicPrimaryBackend(QuadraticSourceBackend):
         xp = self.jnp
         rule, qw = shape_rule()
 
-        def thermal(parameters, tri, beta, intrinsic, deposits):
+        def thermal(parameters, tri, beta, intrinsic, deposits, stencil=None):
             directions = xp.einsum("ij,fjk->fik", xp.asarray(np.vstack((rule, CUBIC_NODES))), tri)
             rays = directions.reshape(-1, 3)
             state = self.geometry.sample_kernel(parameters[None], rays[None], xp.ones((1, len(rays)), dtype=bool))
@@ -84,7 +90,9 @@ class CubicPrimaryBackend(QuadraticSourceBackend):
             jac = state["area_per_solid_angle"][0].reshape(-1, 26)[:, :16]
             det = xp.abs(xp.sum(tri[:, 0] * xp.cross(tri[:, 1], tri[:, 2]), axis=1))
             weights = jac * det[:, None] * xp.asarray(qw) / xp.linalg.norm(directions[:, :16], axis=-1) ** 3
-            t4, mean, limited = cubic_density(xp, weights, gravity[:, :16], gravity[:, 16:], beta, intrinsic, deposits)
+            t4, mean, limited = cubic_density(
+                xp, weights, gravity[:, :16], gravity[:, 16:], beta, intrinsic, deposits, stencil
+            )
             return t4, mean, limited, gravity[:, 16:], weights.sum(axis=1), state["proposal_valid"][0]
 
         self._cubic_thermal = self.jax.jit(thermal)
@@ -118,6 +126,7 @@ class CubicPrimaryBackend(QuadraticSourceBackend):
                 raise UnsupportedCurvedGeometryError("Invalid cubic receiver samples")
         if not np.allclose(intrinsic + (0 if deposits is None else mean), target, rtol=3e-13, atol=0):
             raise UnsupportedCurvedGeometryError("Cubic source does not match the reflected face temperatures")
+        stencil = curvature_stencil(star.faces, tri, base) if self.curved_heating and deposits is not None else None
         if self.mode == "reference":
             geom = ConditionedRocheGeometry(model, self.component)
             q, w = duffy_nodes(faces, 4)
@@ -140,6 +149,7 @@ class CubicPrimaryBackend(QuadraticSourceBackend):
                 star.gravity_darkening,
                 intrinsic,
                 deposits,
+                stencil,
             )
             area, valid = weights.sum(axis=1), True
         else:
@@ -150,6 +160,7 @@ class CubicPrimaryBackend(QuadraticSourceBackend):
                     for x in (parameters, faces, star.gravity_darkening, intrinsic)
                 ),
                 None if deposits is None else self.jax.device_put(deposits, self.device),
+                None if stencil is None else self.jax.device_put(stencil, self.device),
             )
         host_density = np.asarray(density)
         closure = float(np.max(np.abs(np.asarray(fitted) / target - 1)))
@@ -180,4 +191,18 @@ class PrimaryCubicLightCurve(ReceiverHeatingLightCurve):
     @staticmethod
     def field_backend(component, law, **kwargs):
         backend = CubicPrimaryBackend if component == "primary" else QuadraticSourceBackend
+        return backend(component, law, **kwargs)
+
+
+class CurvedHeatingBackend(CubicPrimaryBackend):
+    curved_heating = True
+
+
+class CurvedHeatingLightCurve(PrimaryCubicLightCurve):
+    rule_prefix = "sampled_receiver_heat_primary_cubic_curved_heating"
+    field_contract = "Conservative quadratic primary irradiation with cubic thermal and passband fields"
+
+    @staticmethod
+    def field_backend(component, law, **kwargs):
+        backend = CurvedHeatingBackend if component == "primary" else QuadraticSourceBackend
         return backend(component, law, **kwargs)

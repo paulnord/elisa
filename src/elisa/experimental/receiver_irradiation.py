@@ -9,23 +9,32 @@ import numpy as np
 from elisa.experimental.curved_geometry import UnsupportedCurvedGeometryError
 
 
+def adjacent_faces(faces: np.ndarray, base: int) -> np.ndarray:
+    """Pair physical edges before folding either side of a symmetry plane."""
+    edges = np.sort(np.stack((faces, np.roll(faces, -1, axis=1)), axis=-1), axis=-1).reshape(-1, 2)
+    order = np.lexsort((edges[:, 1], edges[:, 0]))
+    if not len(order) or len(order) % 2:
+        raise UnsupportedCurvedGeometryError("Receiver surface has an unpaired edge")
+    pairs = order.reshape(-1, 2)
+    if (
+        np.any(pairs[:, 0] // 3 == pairs[:, 1] // 3)
+        or not np.array_equal(edges[pairs[:, 0]], edges[pairs[:, 1]])
+        or np.any(np.all(edges[pairs[1:, 0]] == edges[pairs[:-1, 0]], axis=1))
+    ):
+        msg = "Receiver gradient requires two distinct incident faces per edge"
+        raise UnsupportedCurvedGeometryError(msg)
+    adjacent = np.empty(len(edges), dtype=int)
+    adjacent[pairs] = pairs[:, ::-1] // 3
+    return adjacent.reshape(-1, 3)[:base]
+
+
 def receiver_stencil(faces: np.ndarray, triangles: np.ndarray, base: int) -> tuple[np.ndarray, np.ndarray]:
     """Map three neighbouring deposit differences to tangent-plane corner slopes.
 
     Pair edges on the full closed surface before folding the indices, so a
     receiver on a symmetry seam sees its physical neighbour across that seam.
     """
-    edges = np.sort(np.stack((faces, np.roll(faces, -1, axis=1)), axis=-1), axis=-1).reshape(-1, 2)
-    order = np.lexsort((edges[:, 1], edges[:, 0]))
-    pairs = order.reshape(-1, 2)
-    if not np.array_equal(edges[pairs[:, 0]], edges[pairs[:, 1]]) or np.any(
-        np.all(edges[pairs[1:, 0]] == edges[pairs[:-1, 0]], axis=1)
-    ):
-        msg = "Receiver gradient requires two distinct incident faces per edge"
-        raise UnsupportedCurvedGeometryError(msg)
-    adjacent = np.empty(len(edges), dtype=int)
-    adjacent[pairs] = pairs[:, ::-1] // 3
-    neighbours = adjacent.reshape(-1, 3)[:base]
+    neighbours = adjacent_faces(faces, base)
     centres = triangles.mean(axis=1)
     centres /= np.linalg.norm(centres, axis=1)[:, None]
     normal = centres[:base]

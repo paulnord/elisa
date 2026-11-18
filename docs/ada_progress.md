@@ -1,6 +1,35 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T20:44:32.840670+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T21:40:54.025723+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m035 — Deposited heat across primary eclipse faces
+
+At proposal 0, the sixteen reflected models gave a nominal log-likelihood error bound of **0.018055**, compared with 0.019064 for the linear heating field. The largest measured change among the sixteen models was 0.009499. The fitter withheld the density under the original limits of 0.01 in log likelihood and 0.1 joint nominal-noise units. The 28 B, V and bolometric observations used the original phase mapping, third light, normalization and noise model. [Validation data](ada_validation/background-m035.json)
+
+### Heating at the eclipse boundary
+
+The experimental primary field fits the curvature of deposited heat using the final three irradiation samples from the face and nine from its three physical neighbors. It pairs edges across the full stellar surface before folding the quarter-symmetry indices. A constant correction restores each face’s deposited power. A common factor on the variation keeps all six quadratic Bernstein coefficients nonnegative. The original reflection iterations supply the means, and the emergent primary spectra use the ten-node cubic field.
+
+The direct CPU comparison summed the individual emitting nodes on 192 visible primary rays per phase. Half were the closest to the shadow among the candidate rays. Both thermal meshes used the same observer rays. The table gives RMS differences from the direct heating at the corresponding mesh resolution, in units of primary effective temperature to the fourth power.
+
+| Phase | Linear, level 2 | Quadratic, level 2 | Linear, level 3 | Quadratic, level 3 |
+| ---: | ---: | ---: | ---: | ---: |
+| 0.024 | 1.286e-07 | 4.096e-08 | 2.837e-08 | 4.333e-09 |
+| 0.027 | 8.835e-08 | 5.620e-08 | 2.874e-08 | 6.920e-09 |
+
+At phase 0.027 the direct three-node and sixteen-node area means differed by 3.112e-10 RMS across the 24 sampled fine parent assignments. The stored face means differed from the three-node direct sums by 4.330e-15 RMS. The individual-node donor sum provides an independent finite-emitter check. [Validation data](ada_validation/background-m035.json)
+
+### Complete curves and fitting
+
+The six-point and Duffy interior rules gave within-rule nominal log-likelihood bounds of 0.018011 and 0.018011. The combined joint distance was 7.077e-05 nominal-noise units. At the finest field, donor and eclipse resolutions, changing only the heating reconstruction gave a nominal likelihood bound of 5.563e-05 on identical serial CPU observer packets. Historical GPU packet hashes differed in 3 of the four depth/rule comparisons. The GPU parity tests compare each new curve against its serial reference. The largest backend differences in the checked curves and sampler draw were 6.66e-16 in normalized flux and 6.40e-10 in fitted log posterior. [Validation data](ada_validation/background-m035.json)
+
+The pinned m031 serial CPU and GPU chains both accepted the fifth proposal after its eight-resolution check passed with a bound of 0.000817. Its log-posterior change was +0.218803 and its random log threshold was -0.883169. The available chain length leaves posterior mixing and effective samples per second open.
+
+Four fresh depth-three curves and two diagnostic fitted densities took 297.49 s on serial CPU, 564.13 s on JAX CPU and 169.04 s on GPU. A second GPU process took 169.83 s. These clocks include compilation encountered, host/device transfers, synchronization and output. All 10 bounded GPU units verified the held Fifth42 checkpoint at entry and cleanup. [Timings](hardware_characterization.md) · [Reproduction](experimental_gpu_backend.md)
+
+In a separate study of the original ELISa fitter, changing the primary mesh spacing from 2° to 1.5° gave a median joint flux change of 1.224 nominal-noise units across 48 positions. All 48 exceeded 0.1, even though the 16 replayed sampler decisions agreed. On that 1.5° mesh, batching the native CPU blackbody calculation cut the time for twelve complete likelihoods from 26.37 to 16.03 s with identical predictions. The report also gives conditional inclination and radius fits. [Native mesh refinement](ada_native_mesh_refinement.md)
+
+The next native comparison times direct FP64 cuBLAS spectra on the same 1.5° proposals and replays short fits with matching CPU workers. On the curved model, the next accuracy test will separate the contribution of each primary face’s mean heating from the variation within that face over the projected stellar disk.
 
 ## m034 — Primary temperature and passband intensity through eclipse
 

@@ -1,5 +1,18 @@
 # Ada workload and hardware characterization
 
+## m035 — Primary irradiation curvature and complete depth-three likelihoods
+
+On proposal 0, each process built four fresh reflected fields, integrated the same six-point-interior light curves at 18 supplied phases and returned two diagnostic fitted densities. Each uses FP64, CPU affinity 16–19, nice 19 and single-thread numerical libraries. Process times include encountered compilation, transfers, synchronization, host geometry and output. Stage clocks can nest. The sixteen-model accuracy assessment additionally requires depth four and the Duffy interior rule.
+
+| Backend | Process (s) | Shared field setup (s) | Fresh fields and common partition (s) | Observer geometry and clipping (s) | Optical integration (s) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Serial CPU | 297.49 | 0.00 | 88.53 | 182.75 | 24.64 |
+| RTX 3080 Ti | 169.04 | 4.27 | 38.16 | 117.84 | 5.37 |
+| JAX CPU | 564.13 | 3.18 | 49.53 | 488.44 | 19.63 |
+| RTX 3080 Ti repeat | 169.83 | 4.34 | 38.60 | 118.31 | 5.13 |
+
+During the first GPU process, active samples showed PCIe Gen 4 ×8 and peak observed memory of 864 MiB. Geometry for the neighboring-face fit, including its small matrix inverses, runs on the host. The device applies the fit to the fresh deposits, normalizes the curved-area mean and limits the heating before spectral integration. These timings measure one changing-physics workload. The original eight- and sixteen-worker sampler uses its own facet model. [Full timings](ada_validation/background-m035.json) · [Native CPU fit and mesh costs](ada_native_mesh_refinement.md)
+
 ## m034 — Matched cubic-primary eclipse curves and fitted densities
 
 Each fresh process evaluated the same physical proposal 0 at depth three. Each built the four combinations of thermal-field and donor resolution, integrated 18 supplied phases (14 distinct orbital phases) and returned the original fitted density for the finer field at both donor resolutions. All ran with affinity 16–19, nice 19, FP64 and single-thread numerical libraries. The GPU process clock includes every host bridge, transfer and synchronization. The table gives seconds for one run per backend. The full sixteen-model check also needs the alternate interior rule and the deeper eclipse calculation.

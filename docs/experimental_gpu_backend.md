@@ -1,5 +1,11 @@
 # Experimental GPU likelihood pilot
 
+## m035 — Quadratic deposited heat on the primary
+
+Select `CurvedHeatingLightCurve` for the circular detached blackbody and linear limb-darkening configuration. It uses the existing irradiation interaction cap, positive optical controls and curved-area energy check. The new field requires a nonsingular angular chart and three paired neighbors on every full-surface triangle. Ill-conditioned stencils raise the experimental unsupported-geometry error. Each of the primary’s ten spectral nodes receives its own reconstructed deposited heat. The secondary retains the sampled six-node calculation.
+
+Use the m034 complete-curve commands below with `--curved-heating` in place of `--primary-cubic` in the depth-three runs, the depth-four blocks and joins, and the sixteen-model comparison. Run `python scripts/check_receiver_curvature.py docs/ada_validation/background-m033-proposal-0.json --output contact.json` for the direct CPU contact rays and receiving-face mean checks. The pinned m031 sampler uses its own checkpoint and source fingerprint through draw five. [Results](ada_validation/background-m035.json) · [Tested source fingerprints](ada_validation/background-m035-source-hashes.json)
+
 ## m034 — Cubic primary temperature and optical moments
 
 `PrimaryCubicLightCurve` uses ten nodes on each primary face and the established six-node secondary. It supports the same detached reflected blackbody and linear limb-darkening scope as the sampled-heating comparison. It enforces the primary symmetry, root, cutoff, positivity, curved-area and per-face T⁴ conservation checks. Checks on the cubic Bernstein coefficients bound temperature and intensity between interpolation nodes. Optical batches use at most three nodes per face per star. The original CPU observer and the default experimental quadratic field retain their existing entry points.

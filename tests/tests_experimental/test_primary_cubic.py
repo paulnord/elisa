@@ -12,6 +12,7 @@ from elisa.experimental.gpu_reconstructed_field import shape_rule
 from elisa.experimental.primary_cubic import (
     CUBIC_NODES,
     CubicPrimaryBackend,
+    CurvedHeatingLightCurve,
     PrimaryCubicLightCurve,
     bernstein,
     cubic_density,
@@ -67,13 +68,14 @@ def test_primary_scope_and_intensity_positivity():
         b.optical_field(tri, values, ["bolometric"], {})
 
 
-def test_reflected_cubic_physical_primary_eclipse():
+@pytest.mark.parametrize("curve_class", [PrimaryCubicLightCurve, CurvedHeatingLightCurve])
+def test_reflected_cubic_physical_primary_eclipse(curve_class):
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
         model = fixture(dict(discretization=14, inclination=86, temperatures=[6500, 5000]))
         bands = ["Generic.Bessell.V", "bolometric"]
         phases = [0.024, 0.027, 0.25, 0.527, 1.024]
         curves = [
-            PrimaryCubicLightCurve(
+            curve_class(
                 bands, SymmetricInteriorRule(3, 1), device=b, levels=(0, 1), integration_level=1, selective_shadow=True
             )(model, phases, source_revision="test")
             for b in ("reference", os.getenv("ELISA_GEOMETRY_TEST_DEVICE", "cpu"))

@@ -19,8 +19,7 @@ from elisa.analytics.params import parameters
 from elisa.experimental.gpu_binary import HybridBinaryLightCurve
 from elisa.experimental.gpu_curved import CurvedCurveResult
 from elisa.experimental.gpu_curved_edges import CurvedEdgeRule, SymmetricInteriorRule
-from elisa.experimental.primary_cubic import PrimaryCubicLightCurve
-from elisa.experimental.receiver_heating import ReceiverHeatingLightCurve
+from scripts.validate_receiver_heating import source_class
 from scripts.compare_reflected_posteriors import mapped_density
 from scripts.reflected_trial import fixture
 from scripts.validate_gpu_atmosphere import table_settings
@@ -47,13 +46,13 @@ def context(base):
     return fit, props, prior, phases, model
 
 
-def evaluate_block(base, identity, backend, depth, part, *, symmetric_interior=None, primary_cubic=False):
+def evaluate_block(base, identity, backend, depth, part, *, symmetric_interior=None, primary_cubic=False, curved_heating=False):
     fit, props, _, phases, model = context(base)
     indices = np.array_split(np.arange(len(phases)), 2)[part]
     rule_type = SymmetricInteriorRule if symmetric_interior else CurvedEdgeRule
     options = {"interior_degree": symmetric_interior} if symmetric_interior else {}
     rule = rule_type(3, depth, slice_order=12, junction_depth=4, **options)
-    solver_type = PrimaryCubicLightCurve if primary_cubic else ReceiverHeatingLightCurve
+    solver_type = source_class(primary_cubic, curved_heating)
     solver = solver_type(list(fit.y_data), rule, device=backend, selective_shadow=True)
     batch = solver.batch([model], [phases[indices]], observer=fit.observer, source_revision=base["source_revision"])
     result = batch.results[0]
@@ -114,7 +113,7 @@ def compare_field_controls(a, b):
     return maximum_heat_difference
 
 
-def join(base, identity, parts, *, symmetric_interior=None, primary_cubic=False):
+def join(base, identity, parts, *, symmetric_interior=None, primary_cubic=False, curved_heating=False):
     fit, props, prior, phases, model = context(base)
     ordered = sorted(parts, key=lambda p: p["part"])
     if [p["part"] for p in ordered] != [0, 1]:
@@ -150,9 +149,8 @@ def join(base, identity, parts, *, symmetric_interior=None, primary_cubic=False)
     repeated = [np.flatnonzero(groups == i) for i, n in enumerate(np.bincount(groups)) if n > 1]
     profiles = []
     returned = resolved + model.phase_shift
-    engine = ("symmetric-" if symmetric_interior else "") + "shadow-sampled-receiver-heat"
-    if primary_cubic:
-        engine += "-primary-cubic"
+    engine = ("symmetric-" if symmetric_interior else "") + "shadow-"
+    engine += source_class(primary_cubic, curved_heating).rule_prefix.replace("_", "-")
     rule_prefix = engine.replace("-", "_")
     for cap in (2, 1):
         curves, metadata = {}, {}
@@ -249,6 +247,7 @@ if __name__ == "__main__":
         "--symmetric-interior", nargs="?", const=4, type=int, choices=(4, 5), metavar="DEGREE",
         help="Use six (degree 4) or seven (degree 5) positive interior nodes per triangle. Default is Duffy quadrature.",
     )
+    ap.add_argument("--curved-heating", action="store_true")
     ap.add_argument("--primary-cubic", action="store_true")
     ap.add_argument("--verified-bounded-gpu-window", action="store_true")
     ap.add_argument("--output", type=Path, required=True)
@@ -265,8 +264,8 @@ if __name__ == "__main__":
                 or (args.backend == "gpu" and not args.verified_bounded_gpu_window)
             ):
                 ap.error("Select depth and phase block. GPU synthesis requires a verified bounded unit.")
-            out = evaluate_block(base, identity, args.backend, args.depth, args.part, symmetric_interior=args.symmetric_interior, primary_cubic=args.primary_cubic)
+            out = evaluate_block(base, identity, args.backend, args.depth, args.part, symmetric_interior=args.symmetric_interior, primary_cubic=args.primary_cubic, curved_heating=args.curved_heating)
         else:
-            out = join(base, identity, [json.loads(p.read_bytes()) for p in args.parts], symmetric_interior=args.symmetric_interior, primary_cubic=args.primary_cubic)
+            out = join(base, identity, [json.loads(p.read_bytes()) for p in args.parts], symmetric_interior=args.symmetric_interior, primary_cubic=args.primary_cubic, curved_heating=args.curved_heating)
         out["inner_seconds"] = perf_counter() - start
     args.output.write_text(json.dumps(out, allow_nan=False, default=lambda a: a.tolist()) + "\n")
