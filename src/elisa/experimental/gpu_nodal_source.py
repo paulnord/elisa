@@ -13,6 +13,7 @@ import numpy as np
 from elisa import const
 from elisa.binary_system.curves.utils import prep_surface_params
 from elisa.binary_system.surface.gravity import calculate_potential_gradient
+from elisa.experimental.angular_reflection import AngularReflection
 from elisa.experimental.area_reflection import AreaReflection
 from elisa.experimental.boundary_geometry import ConditionedRocheGeometry
 from elisa.experimental.curved_geometry import UnsupportedCurvedGeometryError, duffy_nodes
@@ -277,10 +278,13 @@ class AreaReflectedLightCurve(ReceiverSourceLightCurve):
 
     field_contract = "Area-averaged iterated irradiation, conservative local thermal and passband fields"
 
+    solver_type = AreaReflection
+    rule_prefix = "area_reflection"
+
     def __init__(self, *args: Any, receiver_points: int = 3, donor_level: int = 2, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
-        solver = AreaReflection(self.law, device=self.device, receiver_points=receiver_points, donor_level=donor_level)
-        self.field_rule = f"area_reflection_receiver{receiver_points}_donor_cap{donor_level}"
+        solver = self.solver_type(self.law, device=self.device, receiver_points=receiver_points, donor_level=donor_level)
+        self.field_rule = f"{self.rule_prefix}_receiver{receiver_points}_donor_cap{donor_level}"
         for variant in self.variants:
             self.engines[variant.key].area_reflection = partial(solver.evaluate, level=variant.level)
 
@@ -291,3 +295,11 @@ class AreaReflectedLightCurve(ReceiverSourceLightCurve):
             if "reflection_quadrature" in stats:
                 field.control.update(stats["reflection_quadrature"])
         return fields
+
+
+class AngularReflectedLightCurve(AreaReflectedLightCurve):
+    """Resolve donor horizons and integrate the native angular distribution in each group."""
+
+    solver_type = AngularReflection
+    rule_prefix = "angular_reflection"
+    field_contract = "Area-integrated irradiation with horizon splitting and directional donor moments"

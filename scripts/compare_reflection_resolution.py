@@ -116,7 +116,7 @@ def compare(profiles: list[dict]) -> list[dict]:
         "uncertainties",
     )
     if (
-        ref["engine"] != "area-reflection"
+        ref["engine"] not in ("area-reflection", "angular-reflection")
         or not ref["irradiation"]
         or len(ref["levels"]) != 2
         or any(any(p[k] != ref[k] for k in keys) for p in profiles)
@@ -140,7 +140,8 @@ def compare(profiles: list[dict]) -> list[dict]:
                 for key in row["curves"]:
                     c = curve(row, key)
                     rule = dict(c.rule)
-                    marker = f"area_reflection_receiver{p['receiver_points']}_donor_cap{p['donor_level']}"
+                    prefix = p["engine"].replace("-", "_")
+                    marker = f"{prefix}_receiver{p['receiver_points']}_donor_cap{p['donor_level']}"
                     if (
                         rule.pop(marker, None) != 1
                         or rule.pop("depth") != p["depth"]

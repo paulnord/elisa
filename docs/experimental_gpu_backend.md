@@ -1,5 +1,11 @@
 # Experimental GPU likelihood pilot
 
+## m026 — Directional donor emission
+
+Select `AngularReflectedLightCurve` or the validation engine `angular-reflection`. The receiver count and donor cap have the same meaning as in `AreaReflectedLightCurve`. Signs that can change across the receiver box trigger native positions and normals for all children of that group. For linear and cosine limb darkening, sign-stable groups use the luminosity-weighted first and second moments of child normals on a shared centroid ray. Logarithmic and square-root laws evaluate their native faces under the same pair limit. The calculation retains the documented symmetric detached scope and strict resource, phase and likelihood checks.
+
+The serial CPU and GPU use separate scalar and tiled moment evaluation. Both return fresh component and normalized curves. Host geometry selection, limb-darkening preparation and the remaining CPU observer stages are included in measured costs. The original observer and existing fallback entry points retain their established behavior. [Scientific controls and reproducible commands](ada_progress.md)
+
 ## m025 — Area-integrated reflection
 
 Select `AreaReflectedLightCurve` in `gpu_nodal_source`, or `--engine area-reflection` in the complete validation driver. Its defaults are three curved-area samples per receiving face and donor level cap 2. Set `receiver_points=1` to evaluate incident flux at the original face centres. The donor cap accepts levels 0 through 3. A cap at or above the field level retains the original visible emitting faces. Each complete curve records both settings.

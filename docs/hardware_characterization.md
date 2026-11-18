@@ -1,5 +1,21 @@
 # Ada workload and hardware characterization
 
+## m026 — Directional donor moments and resolved horizons
+
+The Ada Ryzen 9 5950X and RTX 3080 Ti synthesized two fresh, complete reflected curves per changing candidate at field levels 0 and 1 with donor cap 0. This cap exercises grouping at level 1. Timings include host selection and field setup, JIT compilation when encountered, CUDA transfers, synchronization and the returned predictions, log density and nominal accuracy checks.
+
+| Changing proposals | Warm calls per process | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole process serial CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 3 | 10.28 / 10.17 | 44.48 / 16.14 | 35.35 / 4.45 | 2.29× | 0.82× |
+| 4 | 1 | 40.97 / 40.83 | 90.74 / 61.71 | 54.13 / 18.71 | 2.18× | 1.09× |
+| 8 | 1 | 81.84 / 81.58 | 154.62 / 118.90 | 67.20 / 30.48 | 2.68× | 1.64× |
+
+B1 warm entries are medians of three changed batches. B4 and B8 have one changed warm sample per backend. The matched serial CPU/GPU pairs ran on cores 0–15 at nice 10 with single-thread BLAS and OpenMP. B4 JAX CPU used the same settings. Supplementary JAX CPU B1 and B8 ran on the same cores at nice 19 with CUDA hidden. Some fine CPU accuracy controls used cores 16–19, the SMT siblings of cores 0–3, during part of the measurement series. The B8 serial CPU/GPU measurements followed those controls. The timing ledger retains per-process samples and affinity. The matched B4 GPU comparison took 16.89 s warm using one projected normal per group and 18.71 s using the individual directional moments and horizon splitting. Serial CPU times were 40.88 s and 40.83 s, respectively.
+
+The profiled B1 warm range spanned 5.55 s. CUDA kernels occupied 0.972 s in union and device copies occupied 0.051 s. The trace captured 1,733 copies (199.2 MiB) from host to device and 3,249 copies (374.1 MiB) in the reverse direction. The CPU boundary-reference segment serialized with respect to device activity occupied 32.1% of the range. Doubling just that segment’s speed would yield 1.19× under the measured overlap. The optimistic ceiling for eliminating all recorded copy duration is 1.009×. Copy duration combines bandwidth and latency. A GPU memory-bandwidth projection still needs device traffic and stall counters.
+
+During the B8 GPU run, 182 samples had nonzero device utilization. The observed active PCIe generation was 4, width ×8, and sampled device-wide memory peaked at 596 MiB. The Nsight trace ran separately from the throughput pairs. Colab’s earlier A100 measurement used m022. [Full timing and accuracy evidence](ada_validation/background-m026.json)
+
 ## m025 — Area-integrated reflection on changing physical proposals
 
 Ada’s Ryzen 9 5950X and RTX 3080 Ti evaluated the same changing binaries, two complete multi-band curves per binary, the original observation mapping and the finite-error checks. The throughput cases use three samples per receiving face and field levels 0 and 1, where cap 2 retains every visible emitter. The fine level-3 timing in the progress report includes grouped emitters. All timings include host state assembly, LD-table work, eclipse integration, device transfers, synchronization and returned predictions. The GPU evaluates receiver and emitter geometry and the tiled irradiation sum. Host visibility selection, group construction and parts of the curved observer remain in the timed path.

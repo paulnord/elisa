@@ -1,6 +1,76 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T00:44:08.270051+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-18T01:35:00.887173+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m026 — Directional emission from grouped donor faces
+
+Resolving the directions of the emitting faces reduced the combined absolute log-likelihood error bound from **0.93999 to 0.37079** on the m025 reflected eclipse fixture. The emitter-resolution contribution fell from **0.89230 to 0.21247**. The field-resolution contribution rose from **0.02884 to 0.14482**. At flux uncertainty 10⁻⁴ the fitting limit is **0.01**. CPU and GPU reproduced the same finite curves. The accuracy check still stops physical fitting and MCMC on this case.
+
+### What changed in the reflection integral
+
+The opt-in calculation covers circular, detached, symmetric stars without spots or pulsations. The donor list and bolometric coefficient ordering come from the original ELISa reflection calculation. For each group in that list, the solver bounds the sign of every child face’s projected normal over a box containing every selected receiving point on the companion. It checks the ray from each native source position and the ray from the group’s area-weighted centroid. If the signs differ across children, or any sign could change, the code uses the original position and normal of every child in that group. A strict floating-point margin places near-tangent cases in this individually resolved set.
+
+For sign-stable groups with linear limb darkening, the angular factor is proportional to `(1−a)μ + aμ²`, where `a` is each face’s own bolometric coefficient and `μ` is its projected normal. The first and second moments of the native normals therefore give the exact sum of their directional emission along a shared ray. The solver recomputes these moments from the current luminosities at each cooler-first reflection update. The common source position still approximates the individual ray directions, inverse-square distances and cosine at the receiver. Logarithmic and square-root laws use the individual native sources and the same interaction cap.
+
+At field level 3 and emitter cap 2, the code opened 485 groups on the primary and 948 on the secondary. The sweep used **166,509,931** receiver/emitter interactions against the **268,435,456** limit. Evaluating every native pair would require **445,407,456**. Both nonlinear laws raised the resource error at field level 3 on their tested fixture. At level 1 they reproduced original collocated reflection temperatures and the ungrouped three-point calculation through three iterations.
+
+### Complete eclipse likelihood
+
+The m025 comparison at mass ratio 0.696 and inclination 85.52° used the same 28 unevenly sampled B, V and bolometric observations, normalized uncertainties, third light and noise model. Within each eclipse depth, all field and emitter choices used the same observer rays. The eight models cross field levels 2/3, donor caps 1/2 and eclipse depths 3/4 at integration level 3 and slice order 8.
+
+| Quantity at the original proposal | m025 projected groups | m026 directional groups |
+| --- | ---: | ---: |
+| Field-only absolute log-likelihood bound | 0.02884 | 0.14482 |
+| Emitter-only bound | 0.89230 | 0.21247 |
+| Eclipse-depth bound | 0.01156 | 0.01156 |
+| All eight corners and measured interaction terms | 0.93999 | **0.37079** |
+| Combined distance in units of σ | 0.00562 | 0.00222 |
+| Signed all-low versus all-high Δlog L | +0.03308 | +0.00880 |
+
+The signed diagonal change now falls below 0.01. Changing only the emitter cap gives **+0.03187**, which exceeds the limit. The eight-corner check retains these individual changes and the measured mixed differences. At field level 2 and donor cap 2, both algorithms use native emitters. At this level the old and new curves matched bit for bit on each backend. Repeated depth-3 serial references also gave identical curves and densities at both donor caps. A separate replay of the m025 observer matched its archived serial CPU results exactly. The GPU replay matched its archived predictions and posterior, with coarse-field differences at the scale of roundoff seen between archived GPU runs. [Finite curves, per-band bounds and validation records](ada_validation/background-m026.json)
+
+A second full eight-corner comparison used proposal 38, chosen in advance for its proximity to the synthetic generating temperatures and inclination. It has a 6,494 K primary, inclination 86.432°, mass ratio 0.7112 and third light 0.2064. The RMS residuals were 26.9σ in B, 24.0σ in V and 25.1σ in bolometric flux. At this proposal the combined bound was **0.16087**, with field, emitter and depth bounds of 0.06398, 0.09450 and 0.00143. The all-low to all-high signed change was -0.01758. Both parameter comparisons use the same original synthetic observations at their nominal uncertainties. This proposal also exceeds the fitting limit.
+
+### Independent checks on the emission model
+
+An independent CPU calculation expanded each group into its individual ELISa emission terms at 128 receiving samples per star. It used intrinsic luminosities and a separate spatially varying deposited heat pattern. The largest absolute difference from the moment sum was 1.41e-16 in deposited T⁴/Teff⁴. Against individually positioned native emitters, the RMS error decreased **3.4–6.7×** across the two stars, two donor caps and two heat patterns. The maximum matched difference was 6.66e-16 in normalized flux or mapped prediction and 1.31e-09 in log posterior. The adaptive records and finite-model metadata matched. Six complete-curve cases include unequal rotations, two mass ratios, a small occultor, CK04 tables and three limb-darkening laws. A separate 57-phase test checked both eclipses through ingress and egress.
+
+On the secondary at cap 2, the RMS deposited-heat error fell from 7.36×10⁻⁷ to 2.00×10⁻⁷ with intrinsic luminosities. A local spatial diagnostic then resolved groups whose children crossed the **receiving** tangent plane and included the first derivative with respect to child position in the other groups. Its RMS error was 2.73×10⁻⁸ on the same rays. Across the four star/cap comparisons, the local first-order calculation reduced the remaining RMS error by **7.3–16.4×**. It expanded individual children to measure the derivative. The complete curves and timings in this report use the shared-position rule. Incorporating the positional correction under the pair cap and retesting both the surface field and eclipse depth is the next physics step.
+
+### Transfer-inclusive performance
+
+| Changing proposals | Warm calls per process | Serial CPU first / warm (s) | JAX CPU first / warm (s) | GPU first / warm (s) | Warm serial CPU/GPU | Whole process serial CPU/GPU |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 3 | 10.28 / 10.17 | 44.48 / 16.14 | 35.35 / 4.45 | 2.29× | 0.82× |
+| 4 | 1 | 40.97 / 40.83 | 90.74 / 61.71 | 54.13 / 18.71 | 2.18× | 1.09× |
+| 8 | 1 | 81.84 / 81.58 | 154.62 / 118.90 | 67.20 / 30.48 | 2.68× | 1.64× |
+
+Each call rebuilds the physical systems, runs both reflection iterations, returns two complete finite curves per candidate and applies the original observation mapping, likelihood and accuracy checks. These throughput cases use field levels 0/1, donor cap 0 and eclipse depth 1, so the finer field exercises grouped angular emission. B4 and B8 have one changed warm batch each. B1 has three. At field levels 2/3, donor cap 2 and eclipse depth 3, the first complete call took 159.67 s on the matched serial CPU reference and 73.66 s on GPU. The matched B4 GPU comparison took 16.89 s warm using one projected normal per group and 18.71 s using the individual directional moments and horizon splitting. Serial CPU times were 40.88 s and 40.83 s, respectively. Supplementary JAX CPU B1 and B8 used lower scheduling priority. The published ledger records timings by process, affinity, transfers, native kernels and host work. Rates apply to finite validation workloads. Posterior agreement, mixing and effective samples per second require a qualified fit. [Hardware measurements](hardware_characterization.md)
+
+### Reproduce
+
+Use the pinned FP64 environment and table fixtures. On Ada, run each GPU synthesis in a registered hold-aware unit with `--backend gpu --verified-bounded-gpu-window` and GPU FP64 enabled. The following reproduces both CPU parameter comparisons.
+
+```bash
+export JAX_PLATFORMS=cpu JAX_ENABLE_X64=True
+for iteration in 0 38; do
+  for cap in 1 2; do
+    for depth in 3 4; do
+      python scripts/validate_gpu_reconstructed.py --engine angular-reflection --backend reference \
+        --levels 2 3 --integration-level 3 --depth "$depth" --slice-order 8 --donor-level "$cap" \
+        --receiver-points 3 --iteration-start "$iteration" --batch 1 --repeats 0 \
+        --output "p$iteration-cap$cap-depth$depth.json"
+    done
+  done
+  python scripts/compare_reflection_resolution.py "p$iteration-cap1-depth4.json" \
+    "p$iteration-cap1-depth3.json" "p$iteration-cap2-depth4.json" "p$iteration-cap2-depth3.json" \
+    --output "bounds-$iteration.json"
+done
+python scripts/validate_angular_donors.py --profile p0-cap2-depth3.json --output angular.json
+python scripts/validate_donor_positions.py --profile p0-cap2-depth3.json --output positions.json
+```
+
+For the throughput comparison use `--levels 0 1 --integration-level 1 --depth 1 --slice-order 4 --donor-level 0` and run each batch on the reference, CPU and GPU backends. Set batch/repeats to 1/3, 4/1 or 8/1. The m022 Colab and paper reproductions below retain their original models and datasets. All 24 bounded units verified the held Fifth42 checkpoint at entry and cleanup. [Tested source fingerprints](ada_validation/background-m026-source-hashes.json)
 
 ## m025 — Area-integrated stellar irradiation
 

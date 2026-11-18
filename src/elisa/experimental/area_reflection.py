@@ -33,6 +33,7 @@ class _Surface(NamedTuple):
     prefix_ld: Any
     intrinsic: Any
     absorption: Any
+    native_normals: Any = None
 
 
 def _group_sum(xp: Any, index: Any, count: int, values: Any) -> Any:
@@ -130,6 +131,15 @@ class AreaReflection:
             raise UnsupportedReflectionError("Unsupported Roche roots in reflection quadrature")
         return tuple(np.asarray(result[k][0]) for k in ("points", "normals", "area_per_solid_angle"))
 
+    def _initial_width(self, level: int) -> int:
+        return 4 ** max(level - self.donor_level, 0)
+
+    def _prepare_pair(self, surfaces, system, limits, level):
+        return surfaces, [{}, {}]
+
+    def _reference_update(self, receiver, donor, deposited):
+        return _cpu_update(receiver, donor, deposited, self.law)
+
     def _surface(self, binary: Any, system: Any, name: str, level: int, xlim: float) -> _Surface:
         star = getattr(system, name)
         n = int(star.base_symmetry_faces_number)
@@ -159,7 +169,7 @@ class AreaReflection:
         vis = np.flatnonzero(faces.visibility_test(centre, xlim, name))
         if not len(vis) or not np.any(recv):
             raise UnsupportedReflectionError("Empty original reflection visibility selection")
-        width = 4 ** max(level - self.donor_level, 0)
+        width = self._initial_width(level)
         if n % width:
             raise UnsupportedReflectionError("Donor grouping lost nested quarter-face ancestry")
         # NestedMesh keeps descendants contiguous, including after each of its four mirrors.
@@ -212,17 +222,19 @@ class AreaReflection:
             raise UnsupportedReflectionError("Unsupported reflection geometry, law or iteration count")
         limits = faces.faces_visibility_x_limits(system.primary.polar_radius, system.secondary.polar_radius, 1.0)
         surfaces = [self._surface(binary, system, n, level, limits[n]) for n in _NAMES]
+        surfaces, details = self._prepare_pair(surfaces, system, limits, level)
         pairs = sum(len(a.parent) * len(b.emitter) for a, b in (surfaces, surfaces[::-1]))
         if pairs > _MAX_PAIRS:
             raise UnsupportedReflectionError("Integrated receiver/emitter quadrature exceeds the reflection pair cap")
         stats = {
             n: {
+                **detail,
                 "receiver_samples": len(s.parent),
                 "donor_faces": len(s.visible_base),
                 "donor_groups": len(s.emitter),
                 "pairs_per_sweep_both_stars": pairs,
             }
-            for n, s in zip(_NAMES, surfaces, strict=True)
+            for n, s, detail in zip(_NAMES, surfaces, details, strict=True)
         }
         if self.mode != "reference":
             if not self.jax.config.x64_enabled:
@@ -233,7 +245,7 @@ class AreaReflection:
         for _ in range(iterations):
             for i in order:
                 args = surfaces[i], surfaces[1 - i], heat[1 - i]
-                heat[i] = _cpu_update(*args, self.law) if self.mode == "reference" else self._update(*args)
+                heat[i] = self._reference_update(*args) if self.mode == "reference" else self._update(*args)
         out = {}
         for n, s, h in zip(_NAMES, surfaces, heat, strict=True):
             star = getattr(system, n)
