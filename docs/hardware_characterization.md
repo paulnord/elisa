@@ -1,5 +1,19 @@
 # Ada workload and hardware characterization
 
+## m046 — Matched timings for the eclipse phase union
+
+| Generation | Observer schedule | Fields | Restore starts, s | GPU field owner, s | Host pool, s | Complete, s |
+| ---: | --- | --- | ---: | ---: | ---: | ---: |
+| 1 | Split | CPU | 2.8 | 0.0 | 2694.9 | 2697.7 |
+| 1 | Union | GPU | 2.8 | 560.7 | 1708.6 | 2272.1 |
+| 2 | Split | CPU | 2.8 | 0.0 | 2434.8 | 2437.6 |
+| 2 | Union | CPU | 2.8 | 0.0 | 1950.6 | 1953.4 |
+| 2 | Union | GPU | 2.8 | 561.8 | 1714.6 | 2279.1 |
+
+All five rows use the experimental curved-surface model with the same sixteen-resolution gate. Native ELISa supplied the separate 12° and 6° facet decision comparisons. Each row uses sixteen independently changing physical positions and sixteen walker processes on cores 0–15. Generation 1 starts from the published m045 selection. Each timing covers restoring the selected checkpoints through worker shutdown and durable sampler decisions. The GPU field owner includes bounded launches, compilation, transfers, synchronization and the optical archives. Both field paths include archive I/O. The CPU handles the FP64 eclipse geometry and integration in all rows. The timing starts from qualified checkpoints and excludes the subsequent parity audit. The initial split control shared physical cores with independent checks on sibling hardware threads. The sequential timing comparison started after those checks finished. The JAX CPU control for the first seed covered all four Duffy depth-four curves at the new proposal in 2620.9 s. Its largest normalized difference was 4.44e-16. These are single sequential measurements. M045's split schedule took 2443.6 s with CPU fields and 2749.3 s with GPU fields on the preceding generation of physical proposals.
+
+In the sequential timing comparison, summed worker time in geometry, clipping and packet hashing was 17128.0 s under the split schedule and 13470.8 s under the union schedule. These are sums over concurrent workers. The observer stage is charged to the first block of each pair so that the original join counts it once. The revised CPU schedule used 80.1% of the original complete CPU time on these same proposals. [Machine-readable stage and timing data](ada_validation/background-m046.json)
+
 ## m045 — Matched physical proposals at eight and sixteen workers
 
 | Walker processes | Fields | Restore starts, s | GPU owner, s | Host pool through checkpoints, s | Complete, s | Qualified likelihoods/min during sampling |

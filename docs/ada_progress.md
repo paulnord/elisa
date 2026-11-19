@@ -1,6 +1,22 @@
 # Ada GPU development progress
 
-Updated **2026-11-19T14:55:33.158659+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T18:31:57.306931+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m046 — Eclipse integration and movement across sixteen chains
+
+Sixteen independently seeded physical chains resumed from their published m045 checkpoints. Across two further generations, the CPU and hybrid runs reproduced all 32 conditional outcomes (17 rejected, 15 accepted). The test used a synthetic circular, detached binary with reflection and 28 observations in B, V and bolometric light at nominal uncertainty `1e-4`. The largest finite-resolution distance was 3.79e-05 in units of that uncertainty and the largest accumulated log-likelihood error bound was 0.000301, against limits of 0.1 and 0.01. Each in-prior transition required agreement across all 256 pairs of starting and proposed resolutions. [Validation and per-proposal results](ada_validation/background-m046.json)
+
+The two observation blocks originally visited nine folded orbital phases each. Four phases appeared in both blocks, including eclipse phase 0.005. Evaluating the fourteen distinct phases together preserved the per-block hashes of projection cosines, area weights and triangle indices for every completed comparison. For the historical control and the sixteen generation-2 CPU proposals, the maximum change in normalized predictions was 0. Across the matched CPU and GPU fields, the largest differences were 1.71e-15 in relative component flux, 6.66e-16 in normalized flux and 6.39e-11 in log posterior. [Method and reproduction](experimental_gpu_backend.md#m046--synthesizing-shared-observation-phases-once)
+
+With sixteen workers on identical generation-2 proposals, the curved-surface CPU reference with separate phase blocks took **2437.6 s** through durable decisions. The revised schedule took **1953.4 s** with CPU fields and **2279.1 s** with GPU fields and host eclipse integration. Combining the phases reduced elapsed CPU time by 19.9%. Each configuration ran once. [Transfer-inclusive stage timings](hardware_characterization.md#m046--matched-timings-for-the-eclipse-phase-union)
+
+| Coordinate | Streams with movement | Streams moving in both directions | Median within-chain range | RMS selected jump |
+| --- | ---: | ---: | ---: | ---: |
+| Primary radius / separation | 13 | 2 | 2.5645e-06 | 3.4451e-06 |
+| Secondary radius / separation | 13 | 4 | 8.4157e-06 | 7.0163e-06 |
+| Inclination, ° | 13 | 2 | 0.0025588 | 0.0026737 |
+
+The movement statistics include every selected position since the common injection, including repeats after a rejection. There are 3–5 recorded transitions per stream. These lengths support a check of physical movement and reproducibility. Posterior intervals, mixing times and effective sample rates still require longer chains. Native ELISa replayed the same starting positions, proposals and random draws on its own facet mesh. Its decisions agreed with the curved model on 16/32 proposals at 12° mesh spacing and 30/32 at 6°. Those native calculations serve as a mesh-sensitivity check. All three wall-clock measurements above use the curved-surface model. Reweighting the same proposals with the existing correlated-noise model changed one conditional decision. The timed transitions used the independent-noise likelihood. [Portable selected histories](ada_validation/background-m046-selected.json)
 
 ## m045 — Physical chains and worker scaling at the injection
 

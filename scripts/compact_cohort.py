@@ -149,7 +149,7 @@ def fields(path, *, gpu):
         sampler.write_record(path.with_name("fields.json"), record)
 
 
-def walker(path, library):
+def walker(path, library, *, union_phases=False):
     start = perf_counter()
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
         with path.with_name("draw.lock").open("a") as lock:
@@ -157,7 +157,7 @@ def walker(path, library):
             dest = path.with_name("draw")
             if dest.exists():
                 raise FileExistsError("Use a fresh directory for an independent timing")
-            state, _, v, key, prior, base = compact_inputs(path, False)
+            state, fit, v, key, prior, base = compact_inputs(path, False)
             _, u, rng, _ = sampler.trial(state)
             with TemporaryDirectory(dir=path.parent) as tmp:
                 out = Path(tmp) / "draw"
@@ -168,20 +168,25 @@ def walker(path, library):
                 observer_start = perf_counter()
                 assessment = None
                 if base is not None:
-                    for rule, depth, part in product(("six", "duffy"), (3, 4), (0, 1)):
-                        args = options(
-                            "block",
-                            path,
-                            out,
-                            rule=rule,
-                            depth=depth,
-                            part=part,
-                            library=library,
-                            audit=False,
-                            verified_bounded_gpu_window=False,
-                        )
-                        block = run(args)
-                        sampler.write_record(out / f"{rule}-{depth}-{part}.json", block)
+                    if union_phases:
+                        from scripts.compact_phase_union import evaluate
+
+                        evaluate(path, out, state, fit, key, base, library)
+                    else:
+                        for rule, depth, part in product(("six", "duffy"), (3, 4), (0, 1)):
+                            args = options(
+                                "block",
+                                path,
+                                out,
+                                rule=rule,
+                                depth=depth,
+                                part=part,
+                                library=library,
+                                audit=False,
+                                verified_bounded_gpu_window=False,
+                            )
+                            block = run(args)
+                            sampler.write_record(out / f"{rule}-{depth}-{part}.json", block)
                     assessment = run(options("assess", path, out))
                     sampler.write_record(out / "assess.json", assessment)
                 selected, status, margins = decision(state, prior, v, u, rng, assessment)
@@ -239,7 +244,7 @@ def replay(path, out):
     )
 
 
-def pool(root, workers, library, *, resume=False):
+def pool(root, workers, library, *, resume=False, union_phases=False):
     starts = sorted(root.glob("walker-*/start.json"))
     states = [sampler.read_record(p) for p in starts]
     if workers not in (1, 8, 16) or len(states) < workers:
@@ -262,7 +267,9 @@ def pool(root, workers, library, *, resume=False):
         pending = [p for p in starts if p not in rows]
         if pending:
             with ProcessPoolExecutor(workers, mp_context=multiprocessing.get_context("spawn")) as processes:
-                results = processes.map(partial(walker, library=library), pending, chunksize=1)
+                results = processes.map(
+                    partial(walker, library=library, union_phases=union_phases), pending, chunksize=1
+                )
                 rows.update(zip(pending, results, strict=True))
         name = "resumed-pool.json" if resume else "pool.json"
         sampler.write_record(
@@ -290,6 +297,9 @@ if __name__ == "__main__":
     p.add_argument("--workers", type=int, required=True)
     p.add_argument("--library", type=Path, required=True)
     p.add_argument(
+        "--union-phases", action="store_true", help="Evaluate shared orbital phases once per draw and resolution"
+    )
+    p.add_argument(
         "--resume", action="store_true", help="Verify completed proposals and evaluate the remaining streams"
     )
     args = parser.parse_args()
@@ -302,4 +312,4 @@ if __name__ == "__main__":
             for start in args.starts:
                 fields(start, gpu=args.verified_bounded_gpu_window)
         else:
-            pool(args.directory, args.workers, args.library, resume=args.resume)
+            pool(args.directory, args.workers, args.library, resume=args.resume, union_phases=args.union_phases)

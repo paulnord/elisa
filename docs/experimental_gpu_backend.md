@@ -1,5 +1,23 @@
 # Experimental GPU likelihood pilot
 
+## m046 — Synthesizing shared observation phases once
+
+The opt-in sixteen-worker pool uses ELISa's time-series reduction and circular-system symmetry to compute the ordered union of the phases in the two observation blocks. It rebuilds the physical fields for every in-prior draw. For each interior rule and eclipse depth it integrates both stars at every distinct orbital phase, streams the original per-block hashes in phase order, and restores both original index arrays before combining the three passbands. Original normalization, third light, physical prior and observational noise enter at their usual stages. A node-cap exception reruns the two original blocks independently to retain the exact failing block and any completed sibling. The sampling driver preserves the checkpoint and RNG on numerical stops.
+
+Restore the published m045 selection on each backend. For GPU fields, perform the existing pairwise field exports in registered bounded units before starting the host pool. For the split control, omit `--union-phases` in a separately restored CPU directory. Compile the same m043 FP64 stationary solver for all arms and keep one numerical thread on each of sixteen physical worker cores.
+
+```sh
+python -m scripts.compact_cohort restore docs/ada_validation/background-m045-selected.json reference cpu
+python -m scripts.compact_cohort restore docs/ada_validation/background-m045-selected.json gpu hybrid
+python -m scripts.compact_cohort pool cpu --workers 16 --library "$PWD/stationary.so"
+# After the sixteen field exports in hybrid finish:
+python -m scripts.compact_cohort pool hybrid --workers 16 --library "$PWD/stationary.so" --union-phases
+python -m scripts.assess_compact_cohort cpu hybrid generation.json --original-facets --export-selected selected.json
+python -m scripts.compact_chain_motion selected.json movement.json
+```
+
+To reproduce generation 2, restore the exported selection into three fresh directories. Run the CPU pool once with separate blocks and once with `--union-phases`. Run the GPU-field pool with `--union-phases` after its bounded field exports. Compare the two CPU schedules and then the two field backends. The motion analysis regenerates the PCG64 draws from their original seeds, checks the recorded corner densities and selected positions, and computes equivalent stellar radii at each accepted position. Raw repeated observations and both members of an eclipse remain represented in the final likelihood. [Phase integration](../scripts/compact_phase_union.py) · [Movement analysis](../scripts/compact_chain_motion.py)
+
 ## m045 — Continuing the compact eclipse chains
 
 The published starting cohort contains sixteen independently seeded PCG64 states for each backend. The first two resume the qualified injection chains after their second draws. The other fourteen start from the previously qualified injection with the same proposal widths and priors. The loader verifies the record digest and the model's source and settings. Use the m043 stationary library build below and the original FP64 ELISa environment. For the eight-worker host run, use a fresh output directory.
