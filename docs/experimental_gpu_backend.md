@@ -1997,3 +1997,58 @@ python -m scripts.compare_reemission_workers --reference reference8 --gpu gpu8 -
 ```
 
 A `start.json` is immutable within a run. Each worker writes its checked assessment and selected `state.json` atomically. The pool's `--resume` option verifies completed transitions, including the RNG, decision and selected density, and rebuilds pending work. Resumed timings have their own output file. The comparison command reconstructs each density from component fluxes, checks all sixteen curves against the other backend and records resolution stops separately. [Results](ada_validation/background-m041.json)
+
+## m042 — Continuing independent physical chains
+
+The two checksummed starting fixtures contain the first eight streams from the eight-worker m041 runs. Both use the original six normalized proposal widths, observations, bounded priors, Gaussian noise model and random-number streams. Each fixture carries that backend's selected densities and resolution evidence. Generation initialization preserves the complete state, including rejections. The next-generation command reconstructs each preceding transition, checks its eight physical phase-block digests against the likelihood assessment and then installs all new starts as one directory. A resolution stop aborts continuation of the cohort. An outside-prior draw follows the existing Metropolis rejection rule. The original CPU observer and fitting defaults are preserved.
+
+Run CPU commands with the pinned private environment, a single thread per walker and eight CPU workers. The following commands restore the published starts and check the first pair of generation outputs. Each device command uses its own registered hold-aware allocation on Ada.
+
+```bash
+python -m scripts.continue_reemission_walkers restore docs/ada_validation/background-m042-starts-reference.json cpu1
+python -m scripts.continue_reemission_walkers restore docs/ada_validation/background-m042-starts-gpu.json gpu1
+python -m scripts.benchmark_reemission_walkers pool cpu1 --workers 8
+# Run each of the next three commands in a separate bounded GPU unit.
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu1/walker-{00,01,02}/start.json
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu1/walker-{03,04,05}/start.json
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu1/walker-{06,07}/start.json
+python -m scripts.benchmark_reemission_walkers pool gpu1 --workers 8
+python -m scripts.compare_reemission_workers --reference cpu1 --gpu gpu1 --output first.json
+python -m scripts.continue_reemission_walkers next cpu1 cpu2
+python -m scripts.continue_reemission_walkers next gpu1 gpu2
+```
+
+Run the same three field commands for `gpu2`, then the eight-worker pools for `gpu2` and `cpu2`. The chain audit verifies the previous selected state and RNG byte-for-byte at the entrance to each subsequent generation. It independently recomputes each fitted density from component fluxes. The optional original-facet runs use the same starting and proposed coordinates at each transition.
+
+```bash
+python -m scripts.assess_walker_chains --pair cpu1 gpu1 --pair cpu2 gpu2 --original-facets 12 6 --output chains.json
+python -m scripts.profile_walker_eclipse gpu1/walker-00/start.json --interior six --depth 3 --output eclipse-six.json
+python -m scripts.profile_walker_eclipse gpu1/walker-01/start.json --interior duffy --depth 4 --output eclipse-duffy.json
+```
+
+For the independent monolithic JAX CPU control, use the same CPU-only environment with FP64 enabled. This evaluates both field and emitter levels at eclipse depth three. The elapsed time covers the full orbit and density calculation inside the call.
+
+```python
+from pathlib import Path
+from time import perf_counter
+
+import jax
+from elisa import settings
+from elisa.experimental.node_reemission import NodeReemissionLightCurve
+from scripts.benchmark_reemission_walkers import input_state
+from scripts.reemission_walker_fields import rule_for
+from scripts.reflected_trial import evaluate_depth
+from scripts.validate_gpu_atmosphere import table_settings
+
+def independent_observer(bands, rule, *, device):
+    return NodeReemissionLightCurve(bands, rule_for("six", rule.depth), device=device, selective_shadow=True)
+
+assert jax.default_backend() == "cpu" and jax.config.x64_enabled
+with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
+    state, fit, draw = input_state(Path("cpu1/walker-00/start.json"))
+    started = perf_counter()
+    control = evaluate_depth(fit, draw[0], 3, "cpu", observer_type=independent_observer)
+    print(perf_counter() - started, [p["samples"][0]["rows"][0]["posterior"] for p in control["profiles"]])
+```
+
+The profile commands are CPU-only replays of the physical proposal bound to the saved field archive. Each replays one full orbit with all four thermal-field and emitter resolutions. The output contains times, candidate counts and parity against the original components for both stars. [Validation data](ada_validation/background-m042.json)

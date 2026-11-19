@@ -669,3 +669,32 @@ During the host pools, median sampled CPU scaling frequencies were 4.49 and 4.34
 The highest sampled active device memory use was 2370 MiB. Active samples recorded a PCIe 4.0 ×8 link. These runs used a single link configuration. The maximum observed workload across the 13 bounded GPU units was 101.29 s under the 300 s limit. Each verified the original held checkpoint at entry and cleanup.
 
 The independent JAX CPU control took 850.14 s inside a single call on one host core during the correctness checks, for four curves of one proposal. The matched walker times above cover sixteen resolutions for each of sixteen proposals. The original facet fitter exercised the same parameters, uncertainties, nuisance model and original prior with its own finite surface. Detailed numerical and per-density timing results are in the validation file. [Measurements](ada_validation/background-m041.json)
+
+## m042 — Where the host spends time in eclipse
+
+Two new physical draws from the first round were replayed on one CPU core using their own saved GPU-field archives. Each replay first ran an uninstrumented complete orbit, then the same orbit with one deterministic call profile per star and phase. Both passes checked the four field/emitter curves, adaptive phase records and quadrature hashes against the original eight-worker result. These diagnostics ran after the timed samplers. Their clocks start after archive loading and field attachment.
+
+| Seed | Interior / depth | Uninstrumented full orbit, s | Profiled full orbit, s | Profiled packet time, s | Surface sampling | Shadow predicate | Other packet work |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 20261117 | six / 3 | 170.79 | 173.64 | 147.26 | 34.1% | 60.4% | 5.5% |
+| 20261118 | duffy / 4 | 346.59 | 349.53 | 279.10 | 34.8% | 59.6% | 5.6% |
+
+Surface sampling computes the Roche radius, normal and area Jacobian. The shadow predicate tests the projected radius and solves for the stationary potential along candidate lines of sight. The following partition groups the same packet time by the operation that requested those values. Percentages in each row share one denominator.
+
+| Seed | Extra shadow-parent selection | Polygon clipping | Curved-edge slices | Planar quadrature | Remaining packet work | Rays sent to stationary solve / shadow rays |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 20261117 | 3.6% | 16.3% | 47.6% | 0.6% | 31.9% | 39,531,164 / 46,395,147 (85.2%) |
+| 20261118 | 1.9% | 16.1% | 47.5% | 0.7% | 33.8% | 76,816,839 / 88,985,463 (86.3%) |
+
+At fixed downstream cost, eliminating the initial selection of shadow-crossing faces would speed packet construction by at most 1.037× for the first draw and 1.019× for the second. A more substantial target is the repeated stationary-point calculation within adaptive refinement, polygon clipping and curved slices. A fused FP64 implementation can be tested against the existing signed margin, stationary residual, exact adaptive decisions and grazing phases.
+
+Polygon clipping and curved slices also call the FP64 shadow predicate. A change to candidate selection would have to reproduce its signs and adaptive margin tests during both eclipses. The packet profiles retain the foreground component, node counts, surface and stationary-ray counts and elapsed times at each sampled phase. The largest relative component-flux difference over all four replay passes was 0.
+
+| Round | Field backend | Field allocation and handoff before pool, s | Host pool through decision, s | Geometry and clipping, summed worker s | Integration, summed worker s |
+| ---: | --- | ---: | ---: | ---: | ---: |
+| 1 | CPU | 0.00 | 1643.69 | 8886.97 | 2864.88 |
+| 1 | GPU | 275.11 | 1526.64 | 8797.54 | 3140.85 |
+| 2 | CPU | 0.00 | 1653.70 | 8871.40 | 3009.95 |
+| 2 | GPU | 276.13 | 1524.63 | 8800.61 | 3142.99 |
+
+The CPU workers built fresh fields in memory. A single GPU prepared up to three proposals per unit and handed the synchronized optical archives to the host workers. The first round used CPU fields first and the second reversed the order. The independent JAX CPU control took 754.48 s for four complete curves of one changing physical proposal. Its one-core time covers field preparation, eclipse integration and density evaluation inside the call. The full sampler timed all sixteen resolutions for each in-prior draw. Across 6 registered GPU units the maximum measured workload was 101.25 s. The held Fifth42 checkpoint was verified at every boundary. [Per-phase profiles and timing data](ada_validation/background-m042.json)

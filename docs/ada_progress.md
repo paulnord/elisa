@@ -1,6 +1,38 @@
 # Ada GPU development progress
 
-Updated **2026-11-19T06:39:16.742047+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T09:10:44.257216+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m042 — Continuing eight physical chains through eclipse
+
+The first eight m041 streams made **16 resolution-qualified transitions in two further rounds** on both CPU and GPU fields. The samplers matched on 9 acceptances and 7 rejections, with 0 resolution stops and 0 outside-prior proposals. Each in-prior draw rebuilt its own stellar fields and evaluated sixteen complete light curves. The largest CPU/GPU differences were 6.66e-16 in normalized flux and 1.95e-09 in fitted log posterior. [Validation data](ada_validation/background-m042.json)
+
+| Round | Workers | Field backend | Initialize, s | Sampling through checkpoint, s | Complete time, s |
+| ---: | ---: | --- | ---: | ---: | ---: |
+| 1 | 8 | CPU | 1.56 | 1643.69 | 1645.25 |
+| 1 | 8 | GPU | 1.56 | 1801.75 | 1803.31 |
+| 2 | 8 | CPU | 1.70 | 1653.70 | 1655.40 |
+| 2 | 8 | GPU | 1.73 | 1800.76 | 1802.49 |
+
+Across the new draws, the CPU fields delivered 0.291 usable likelihoods per minute and the GPU fields 0.266. The host integrated both eclipses in both arms. In two separate full-orbit profiles, shadow tests accounted for 59.6–60.4% of the time spent constructing eclipse quadrature. Complete times include worker startup, the sixteen-model check and durable transitions. The GPU arm also includes each registered launch, compilation, device synchronization, archive write and host read. There was one run per backend and round. One brief regression run shared two worker cores in the first CPU timing. Later regression checks used a separate core. Checkpoint export and the independent CPU/GPU comparison are outside those times. [Timing details](hardware_characterization.md#m042--where-the-host-spends-time-in-eclipse)
+
+At the nominal observational uncertainty of `1e-4`, the log-likelihood error bounds were 0.004588 to 0.007211 against the limit of 0.01. Every decision agreed across the 256 pairs of starting and proposed resolutions. The closest finite-resolution acceptance margin to zero was 0.089318. Rebuilding the Gaussian log posterior from the two stellar fluxes, the observation indices, third light and noise recovered each stored density within 1.23e-09.
+
+| Seed | Chain step, start → finish | Accepted in these rounds | Final primary radius / separation | Final secondary radius / separation | Final inclination, degrees | Change in selected log posterior |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 20261117 | 2 → 4 | 2 | 0.13695995 | 0.06403320 | 85.527177 | +2881.540 |
+| 20261118 | 2 → 4 | 0 | 0.13698811 | 0.06404500 | 85.520225 | +0.000 |
+| 20261119 | 1 → 3 | 1 | 0.13697419 | 0.06404293 | 85.515627 | +191.734 |
+| 20261120 | 1 → 3 | 2 | 0.13697726 | 0.06407328 | 85.524429 | +490.101 |
+| 20261121 | 1 → 3 | 2 | 0.13697634 | 0.06404643 | 85.525561 | +1726.009 |
+| 20261122 | 1 → 3 | 0 | 0.13697611 | 0.06404097 | 85.523487 | +0.000 |
+| 20261123 | 1 → 3 | 1 | 0.13697460 | 0.06404832 | 85.522862 | +175.101 |
+| 20261124 | 1 → 3 | 1 | 0.13697569 | 0.06403271 | 85.519367 | +282.182 |
+
+Over these transitions, including repeated positions after rejections, the root-mean-square jumps in primary radius, secondary radius and inclination were 2.44e-06 and 4.79e-06 times the separation, and 0.002611 degrees. Two of the eight streams stayed at their starting radii and inclination through these rounds. The original synthetic observations were generated with a 12° facet model at inclination 86.4°. The table records the movement from the qualified m041 checkpoints under the curved model. The longest stream has four transitions. Posterior intervals, mixing times and effective samples per second remain unmeasured.
+
+The inclination proposal standard deviation is 0.0036 degrees. The selected endpoints are 242–246 proposal standard deviations from the injected inclination. With the original 12° facet fitter, the injected point's log posterior is 219.69 and the highest at these endpoints is -48970.64. The curved target needs its own resolution check at the injection before that point can serve as a chain start.
+
+The original 12° facet fitter agreed on 16 of 16 decisions conditional on the curved sampler's starting and proposed positions. Its largest difference in fitted log-posterior change was 8.226. The original 6° facet fitter agreed on 16 of 16 decisions conditional on the curved sampler's starting and proposed positions. Its largest difference in fitted log-posterior change was 14.396. The independent JAX CPU control evaluated four curves of the first new proposal at eclipse depth three. Its maximum differences were 5.55e-16 in normalized flux and 2.84e-10 in fitted log posterior. [Checkpoint and replay commands](experimental_gpu_backend.md#m042--continuing-independent-physical-chains)
 
 ## m041 — Sixteen changing physical proposals at eight and sixteen workers
 

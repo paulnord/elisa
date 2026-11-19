@@ -1,0 +1,4652 @@
+{
+  "contract": {
+    "executed_additional_rounds": 2,
+    "field_construction": "CPU in memory or synchronized GPU archive for each changed position",
+    "observer": "Host FP64 curved eclipse, identical for both field backends",
+    "physical_baseline": "28 synthetic band observations generated with the original 12-degree ELISa facet model at 1e-4 uncertainty",
+    "requested_additional_generations": 2,
+    "scope": "Circular detached binary with two reflection sweeps, blackbody spectra and fixed linear limb-darkening coefficients",
+    "seed_selection": "First eight in m041 directory order, specified before the new draws",
+    "streams": 8,
+    "timing": "One fresh run per backend per generation, from checkpoint validation and initialization through durable sampler results and host-unit exit. Includes all GPU window setup, compilation, synchronization and archive transfer. Excludes one-time snapshot export and the subsequent cross-backend audit.",
+    "timing_context": "One short regression run used two cores of the first CPU configuration. Later regression checks used separate cores.",
+    "unit_schedule": "Separate configurations. CPU before GPU in round 1, reversed in round 2.",
+    "workers": 8
+  },
+  "eclipse_profiles": [
+    {
+      "all_packets": {
+        "crossing_parents": 4618,
+        "limb_edge_roots": 208250,
+        "nodes": 13388145,
+        "packet_seconds": 147.25738654425368,
+        "physical_operation_seconds": {
+          "other_packet_work": 8.11891114825367,
+          "roche_surface": 50.160669877000004,
+          "shadow": 88.977805519
+        },
+        "selected_nodes": 13388129,
+        "shadow_edge_roots": 73814,
+        "shadow_rays": 46395147,
+        "stage_seconds": {
+          "curved_edge_slices": 70.035271104,
+          "other_packet_work": 47.00083753025367,
+          "planar_quadrature": 0.896663184,
+          "polygon_clipping": 24.047884778,
+          "shadow_parent_selection": 5.276729948
+        },
+        "stationary_rays": 39531164,
+        "surface_rays": 134016852
+      },
+      "by_foreground": {
+        "none": {
+          "crossing_parents": 0,
+          "limb_edge_roots": 114820,
+          "nodes": 6544344,
+          "packet_seconds": 22.767458357615396,
+          "physical_operation_seconds": {
+            "other_packet_work": 2.8782452826153957,
+            "roche_surface": 19.889213075,
+            "shadow": 0.0
+          },
+          "selected_nodes": 6544328,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 10.967523821,
+            "other_packet_work": 8.597053164615396,
+            "planar_quadrature": 0.451274913,
+            "polygon_clipping": 2.751606459,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 55845633
+        },
+        "primary": {
+          "crossing_parents": 2085,
+          "limb_edge_roots": 38922,
+          "nodes": 2479212,
+          "packet_seconds": 53.11557886027731,
+          "physical_operation_seconds": {
+            "other_packet_work": 2.1589030442773076,
+            "roche_surface": 12.188775903000002,
+            "shadow": 38.767899913
+          },
+          "selected_nodes": 2479212,
+          "shadow_edge_roots": 33496,
+          "shadow_rays": 20521872,
+          "stage_seconds": {
+            "curved_edge_slices": 25.892114780000004,
+            "other_packet_work": 15.732273538277305,
+            "planar_quadrature": 0.159210563,
+            "polygon_clipping": 9.417273111,
+            "shadow_parent_selection": 1.9147068680000001
+          },
+          "stationary_rays": 17008649,
+          "surface_rays": 31190271
+        },
+        "secondary": {
+          "crossing_parents": 2533,
+          "limb_edge_roots": 54508,
+          "nodes": 4364589,
+          "packet_seconds": 71.37434932636097,
+          "physical_operation_seconds": {
+            "other_packet_work": 3.081762821360966,
+            "roche_surface": 18.082680899,
+            "shadow": 50.20990560600001
+          },
+          "selected_nodes": 4364589,
+          "shadow_edge_roots": 40318,
+          "shadow_rays": 25873275,
+          "stage_seconds": {
+            "curved_edge_slices": 33.175632503,
+            "other_packet_work": 22.67151082736097,
+            "planar_quadrature": 0.28617770800000003,
+            "polygon_clipping": 11.879005208,
+            "shadow_parent_selection": 3.36202308
+          },
+          "stationary_rays": 22522515,
+          "surface_rays": 46980948
+        }
+      },
+      "depth": 3,
+      "interior": "six",
+      "packets": [
+        {
+          "component": "primary",
+          "crossing_parents": 534,
+          "foreground": "secondary",
+          "limb_edge_roots": 7984,
+          "nodes": 761676,
+          "packet_seconds": 13.850512837991118,
+          "phase": 0.0,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.5446832909911166,
+            "roche_surface": 3.138609325,
+            "shadow": 10.167220222000001
+          },
+          "selected_nodes": 761676,
+          "shadow_edge_roots": 8152,
+          "shadow_rays": 4925202,
+          "stage_seconds": {
+            "curved_edge_slices": 6.386905405,
+            "other_packet_work": 4.521350996991119,
+            "planar_quadrature": 0.050163651000000004,
+            "polygon_clipping": 2.354366894,
+            "shadow_parent_selection": 0.537725891
+          },
+          "stationary_rays": 4582222,
+          "surface_rays": 8271192
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7376,
+          "nodes": 416172,
+          "packet_seconds": 1.4446076049935073,
+          "phase": 0.0,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.1796828679935072,
+            "roche_surface": 1.264924737,
+            "shadow": 0.0
+          },
+          "selected_nodes": 416172,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.69572635,
+            "other_packet_work": 0.5466932919935072,
+            "planar_quadrature": 0.028530198000000003,
+            "polygon_clipping": 0.17365776500000002,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3563568
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 484,
+          "foreground": "secondary",
+          "limb_edge_roots": 8220,
+          "nodes": 716403,
+          "packet_seconds": 12.923973513068631,
+          "phase": 0.005,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.5132928670686301,
+            "roche_surface": 2.9696615960000003,
+            "shadow": 9.441019050000001
+          },
+          "selected_nodes": 716403,
+          "shadow_edge_roots": 7718,
+          "shadow_rays": 4663983,
+          "stage_seconds": {
+            "curved_edge_slices": 6.063005584000001,
+            "other_packet_work": 4.10103550306863,
+            "planar_quadrature": 0.046265358,
+            "polygon_clipping": 2.182187519,
+            "shadow_parent_selection": 0.531479549
+          },
+          "stationary_rays": 4265719,
+          "surface_rays": 7921275
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7400,
+          "nodes": 416460,
+          "packet_seconds": 1.4845117940567434,
+          "phase": 0.005,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.1849555410567434,
+            "roche_surface": 1.299556253,
+            "shadow": 0.0
+          },
+          "selected_nodes": 416460,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.7163376060000001,
+            "other_packet_work": 0.5636790380567432,
+            "planar_quadrature": 0.028735461,
+            "polygon_clipping": 0.17575968900000002,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3570550
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 482,
+          "foreground": "secondary",
+          "limb_edge_roots": 7960,
+          "nodes": 686394,
+          "packet_seconds": 12.61793612013571,
+          "phase": 0.007,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.4932046711357092,
+            "roche_surface": 2.9052181580000003,
+            "shadow": 9.219513291
+          },
+          "selected_nodes": 686394,
+          "shadow_edge_roots": 7620,
+          "shadow_rays": 4481755,
+          "stage_seconds": {
+            "curved_edge_slices": 6.042245519000001,
+            "other_packet_work": 3.894146380135709,
+            "planar_quadrature": 0.044144205000000006,
+            "polygon_clipping": 2.1047837510000003,
+            "shadow_parent_selection": 0.532616265
+          },
+          "stationary_rays": 4111352,
+          "surface_rays": 7600939
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7376,
+          "nodes": 416820,
+          "packet_seconds": 1.5037866679485887,
+          "phase": 0.007,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.18415356394858873,
+            "roche_surface": 1.319633104,
+            "shadow": 0.0
+          },
+          "selected_nodes": 416820,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.73240941,
+            "other_packet_work": 0.5674214149485887,
+            "planar_quadrature": 0.028654177000000003,
+            "polygon_clipping": 0.17530166600000002,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3566553
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 471,
+          "foreground": "secondary",
+          "limb_edge_roots": 7804,
+          "nodes": 659628,
+          "packet_seconds": 12.24035242991522,
+          "phase": 0.01,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.47254004691522056,
+            "roche_surface": 2.831050404,
+            "shadow": 8.936761979
+          },
+          "selected_nodes": 659628,
+          "shadow_edge_roots": 7482,
+          "shadow_rays": 4313929,
+          "stage_seconds": {
+            "curved_edge_slices": 5.947872868,
+            "other_packet_work": 3.6958699949152187,
+            "planar_quadrature": 0.042253997,
+            "polygon_clipping": 2.022612242,
+            "shadow_parent_selection": 0.531743328
+          },
+          "stationary_rays": 3968152,
+          "surface_rays": 7317442
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7336,
+          "nodes": 415674,
+          "packet_seconds": 1.4432712919078767,
+          "phase": 0.01,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.1842505459078767,
+            "roche_surface": 1.259020746,
+            "shadow": 0.0
+          },
+          "selected_nodes": 415674,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.6946766600000001,
+            "other_packet_work": 0.5450460579078766,
+            "planar_quadrature": 0.029118168000000003,
+            "polygon_clipping": 0.174430406,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3550467
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 332,
+          "foreground": "secondary",
+          "limb_edge_roots": 7592,
+          "nodes": 580206,
+          "packet_seconds": 9.380023709032685,
+          "phase": 0.02,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.4128498410326831,
+            "roche_surface": 2.4935024020000003,
+            "shadow": 6.473671466000001
+          },
+          "selected_nodes": 580206,
+          "shadow_edge_roots": 5514,
+          "shadow_rays": 3456188,
+          "stage_seconds": {
+            "curved_edge_slices": 4.537979952000001,
+            "other_packet_work": 2.794864152032684,
+            "planar_quadrature": 0.037744309000000004,
+            "polygon_clipping": 1.529639368,
+            "shadow_parent_selection": 0.47979592800000004
+          },
+          "stationary_rays": 2902447,
+          "surface_rays": 6276398
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7240,
+          "nodes": 414054,
+          "packet_seconds": 1.4920821820851415,
+          "phase": 0.02,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.1846355360851415,
+            "roche_surface": 1.307446646,
+            "shadow": 0.0
+          },
+          "selected_nodes": 414054,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.714847008,
+            "other_packet_work": 0.5706982380851415,
+            "planar_quadrature": 0.028543826,
+            "polygon_clipping": 0.17799311,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3520743
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 230,
+          "foreground": "secondary",
+          "limb_edge_roots": 7636,
+          "nodes": 546684,
+          "packet_seconds": 7.550285671139136,
+          "phase": 0.025,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3790025421391352,
+            "roche_surface": 2.209384275,
+            "shadow": 4.961898854
+          },
+          "selected_nodes": 546684,
+          "shadow_edge_roots": 3832,
+          "shadow_rays": 2842523,
+          "stage_seconds": {
+            "curved_edge_slices": 3.379510846,
+            "other_packet_work": 2.4398819101391362,
+            "planar_quadrature": 0.036661278000000005,
+            "polygon_clipping": 1.252466829,
+            "shadow_parent_selection": 0.441764808
+          },
+          "stationary_rays": 2231063,
+          "surface_rays": 5665907
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7248,
+          "nodes": 413550,
+          "packet_seconds": 1.4302715559024364,
+          "phase": 0.025,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.1830441089024364,
+            "roche_surface": 1.247227447,
+            "shadow": 0.0
+          },
+          "selected_nodes": 413550,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.682658416,
+            "other_packet_work": 0.5440829789024364,
+            "planar_quadrature": 0.028458073,
+            "polygon_clipping": 0.17507208800000001,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3519915
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": "secondary",
+          "limb_edge_roots": 7312,
+          "nodes": 413598,
+          "packet_seconds": 2.8112650450784713,
+          "phase": 0.04,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.2661895620784711,
+            "roche_surface": 1.5352547390000002,
+            "shadow": 1.009820744
+          },
+          "selected_nodes": 413598,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 1189695,
+          "stage_seconds": {
+            "curved_edge_slices": 0.8181123290000001,
+            "other_packet_work": 1.2243618900784712,
+            "planar_quadrature": 0.02894491,
+            "polygon_clipping": 0.43294860500000004,
+            "shadow_parent_selection": 0.306897311
+          },
+          "stationary_rays": 461560,
+          "surface_rays": 3927795
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7308,
+          "nodes": 412302,
+          "packet_seconds": 1.4334937979001552,
+          "phase": 0.04,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.17804219090015505,
+            "roche_surface": 1.2554516070000001,
+            "shadow": 0.0
+          },
+          "selected_nodes": 412302,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.694475645,
+            "other_packet_work": 0.5379593069001551,
+            "planar_quadrature": 0.028181152,
+            "polygon_clipping": 0.172877694,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3527923
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 6852,
+          "nodes": 392646,
+          "packet_seconds": 1.3312972439453006,
+          "phase": 0.24,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.16991564494530054,
+            "roche_surface": 1.161381599,
+            "shadow": 0.0
+          },
+          "selected_nodes": 392646,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.644400854,
+            "other_packet_work": 0.49715157294530055,
+            "planar_quadrature": 0.027141015,
+            "polygon_clipping": 0.16260380200000002,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3330382
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 6852,
+          "nodes": 392406,
+          "packet_seconds": 1.3487251258920878,
+          "phase": 0.24,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.16997157789208783,
+            "roche_surface": 1.178753548,
+            "shadow": 0.0
+          },
+          "selected_nodes": 392406,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.650249205,
+            "other_packet_work": 0.5068530408920877,
+            "planar_quadrature": 0.027097673000000003,
+            "polygon_clipping": 0.164525207,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3328975
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 6684,
+          "nodes": 388587,
+          "packet_seconds": 1.336450339993462,
+          "phase": 0.25,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.1750903159934618,
+            "roche_surface": 1.1613600240000002,
+            "shadow": 0.0
+          },
+          "selected_nodes": 388580,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.649733439,
+            "other_packet_work": 0.494429762993462,
+            "planar_quadrature": 0.026826633000000003,
+            "polygon_clipping": 0.165460505,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3333552
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 6684,
+          "nodes": 388875,
+          "packet_seconds": 1.3423357361461967,
+          "phase": 0.25,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.17454991314619672,
+            "roche_surface": 1.167785823,
+            "shadow": 0.0
+          },
+          "selected_nodes": 388866,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.6511054270000001,
+            "other_packet_work": 0.49691357414619663,
+            "planar_quadrature": 0.026856509,
+            "polygon_clipping": 0.16746022600000002,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3334838
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7244,
+          "nodes": 414348,
+          "packet_seconds": 1.43401572201401,
+          "phase": 0.475,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.18256609401400992,
+            "roche_surface": 1.251449628,
+            "shadow": 0.0
+          },
+          "selected_nodes": 414348,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.68221463,
+            "other_packet_work": 0.5506399120140099,
+            "planar_quadrature": 0.028717209,
+            "polygon_clipping": 0.172443971,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3524048
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 382,
+          "foreground": "primary",
+          "limb_edge_roots": 7648,
+          "nodes": 572634,
+          "packet_seconds": 10.6769624769222,
+          "phase": 0.475,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.4259333669221981,
+            "roche_surface": 2.506600387,
+            "shadow": 7.744428723
+          },
+          "selected_nodes": 572634,
+          "shadow_edge_roots": 6138,
+          "shadow_rays": 3765915,
+          "stage_seconds": {
+            "curved_edge_slices": 4.947974422000001,
+            "other_packet_work": 3.368570780922198,
+            "planar_quadrature": 0.037202313,
+            "polygon_clipping": 1.768834011,
+            "shadow_parent_selection": 0.55438095
+          },
+          "stationary_rays": 3457835,
+          "surface_rays": 6415371
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7232,
+          "nodes": 414180,
+          "packet_seconds": 1.439516993938014,
+          "phase": 0.48,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.1841691429380139,
+            "roche_surface": 1.255347851,
+            "shadow": 0.0
+          },
+          "selected_nodes": 414180,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.687318109,
+            "other_packet_work": 0.5498210049380139,
+            "planar_quadrature": 0.028634091,
+            "polygon_clipping": 0.173743789,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3522222
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 486,
+          "foreground": "primary",
+          "limb_edge_roots": 7644,
+          "nodes": 568644,
+          "packet_seconds": 11.70655222912319,
+          "phase": 0.48,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.4470797931231907,
+            "roche_surface": 2.614672697,
+            "shadow": 8.644799739
+          },
+          "selected_nodes": 568644,
+          "shadow_edge_roots": 7660,
+          "shadow_rays": 4356342,
+          "stage_seconds": {
+            "curved_edge_slices": 5.853101406,
+            "other_packet_work": 3.359032940123189,
+            "planar_quadrature": 0.035728518,
+            "polygon_clipping": 1.9922296160000001,
+            "shadow_parent_selection": 0.46645974900000003
+          },
+          "stationary_rays": 3835298,
+          "surface_rays": 6772713
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7260,
+          "nodes": 414816,
+          "packet_seconds": 1.4137838799506426,
+          "phase": 0.484,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.18069534895064243,
+            "roche_surface": 1.2330885310000002,
+            "shadow": 0.0
+          },
+          "selected_nodes": 414816,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.6840705960000001,
+            "other_packet_work": 0.5274379559506425,
+            "planar_quadrature": 0.028546716000000003,
+            "polygon_clipping": 0.173728612,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3527840
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 525,
+          "foreground": "primary",
+          "limb_edge_roots": 7658,
+          "nodes": 544218,
+          "packet_seconds": 12.19495199015364,
+          "phase": 0.484,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.4523132751536387,
+            "roche_surface": 2.6944874160000003,
+            "shadow": 9.048151299
+          },
+          "selected_nodes": 544218,
+          "shadow_edge_roots": 8428,
+          "shadow_rays": 4640124,
+          "stage_seconds": {
+            "curved_edge_slices": 6.402075276000001,
+            "other_packet_work": 3.248115706153639,
+            "planar_quadrature": 0.033416676,
+            "polygon_clipping": 2.116758243,
+            "shadow_parent_selection": 0.39458608900000003
+          },
+          "stationary_rays": 3956393,
+          "surface_rays": 6884838
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7344,
+          "nodes": 416778,
+          "packet_seconds": 1.4429513229988515,
+          "phase": 0.49,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.18168121599885145,
+            "roche_surface": 1.261270107,
+            "shadow": 0.0
+          },
+          "selected_nodes": 416778,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.693186991,
+            "other_packet_work": 0.5482003119988516,
+            "planar_quadrature": 0.028685225,
+            "polygon_clipping": 0.172878795,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3556969
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 442,
+          "foreground": "primary",
+          "limb_edge_roots": 7780,
+          "nodes": 465102,
+          "packet_seconds": 10.620641365181655,
+          "phase": 0.49,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.4318957921816544,
+            "roche_surface": 2.4137663050000002,
+            "shadow": 7.774979268
+          },
+          "selected_nodes": 465102,
+          "shadow_edge_roots": 7102,
+          "shadow_rays": 4289351,
+          "stage_seconds": {
+            "curved_edge_slices": 5.3517673740000005,
+            "other_packet_work": 3.0328410011816542,
+            "planar_quadrature": 0.029509704,
+            "polygon_clipping": 1.9104779680000001,
+            "shadow_parent_selection": 0.296045318
+          },
+          "stationary_rays": 3396333,
+          "surface_rays": 6207935
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 7384,
+          "nodes": 416676,
+          "packet_seconds": 1.446357097942382,
+          "phase": 0.5,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.18084167394238193,
+            "roche_surface": 1.2655154240000002,
+            "shadow": 0.0
+          },
+          "selected_nodes": 416676,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 0.6941134750000001,
+            "other_packet_work": 0.550025701942382,
+            "planar_quadrature": 0.028548787000000003,
+            "polygon_clipping": 0.173669134,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 3567088
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 250,
+          "foreground": "primary",
+          "limb_edge_roots": 8192,
+          "nodes": 328614,
+          "packet_seconds": 7.916470798896626,
+          "phase": 0.5,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.4016808168966257,
+            "roche_surface": 1.9592490980000001,
+            "shadow": 5.555540884
+          },
+          "selected_nodes": 328614,
+          "shadow_edge_roots": 4168,
+          "shadow_rays": 3470140,
+          "stage_seconds": {
+            "curved_edge_slices": 3.337196302,
+            "other_packet_work": 2.723713109896625,
+            "planar_quadrature": 0.023353352,
+            "polygon_clipping": 1.6289732730000002,
+            "shadow_parent_selection": 0.203234762
+          },
+          "stationary_rays": 2362790,
+          "surface_rays": 4909414
+        }
+      ],
+      "runs": [
+        {
+          "full_orbit_seconds": 170.7911932868883,
+          "instrumented": false,
+          "max_component_relative": 0.0,
+          "quadrature_sha256": "7119ed638b24378aa9f1ef7e3cc1fe4b8447078a16e5ad5f6f6fed20b53c859b",
+          "stages": {
+            "all_fresh_fields_and_common_partition": 0.0013055182062089443,
+            "all_variant_integration_transfers_compile": 26.207822852302343,
+            "cpu_common_geometry_clipping_hash": 144.57754979049787,
+            "total": 170.79109505098313
+          }
+        },
+        {
+          "full_orbit_seconds": 173.63750545610674,
+          "instrumented": true,
+          "max_component_relative": 0.0,
+          "quadrature_sha256": "7119ed638b24378aa9f1ef7e3cc1fe4b8447078a16e5ad5f6f6fed20b53c859b",
+          "stages": {
+            "all_fresh_fields_and_common_partition": 0.0011246460489928722,
+            "all_variant_integration_transfers_compile": 26.168175085214898,
+            "cpu_common_geometry_clipping_hash": 147.4624810575042,
+            "total": 173.63739143195562
+          }
+        }
+      ],
+      "seed": 20261117,
+      "step": 3,
+      "trial": "41c8b65755da157788d02fdd984c92dbdd125d28cc81659423aa57411955fb78"
+    },
+    {
+      "all_packets": {
+        "crossing_parents": 4628,
+        "limb_edge_roots": 411270,
+        "nodes": 33302772,
+        "packet_seconds": 279.10326295066625,
+        "physical_operation_seconds": {
+          "other_packet_work": 15.56083174666623,
+          "roche_surface": 97.18028898400001,
+          "shadow": 166.36214222
+        },
+        "selected_nodes": 33302770,
+        "shadow_edge_roots": 146408,
+        "shadow_rays": 88985463,
+        "stage_seconds": {
+          "curved_edge_slices": 132.655312793,
+          "other_packet_work": 94.24836414266623,
+          "planar_quadrature": 1.9848473260000001,
+          "polygon_clipping": 44.904511075,
+          "shadow_parent_selection": 5.310227614
+        },
+        "stationary_rays": 76816839,
+        "surface_rays": 266848106
+      },
+      "by_foreground": {
+        "none": {
+          "crossing_parents": 0,
+          "limb_edge_roots": 229620,
+          "nodes": 15703200,
+          "packet_seconds": 45.494408793980256,
+          "physical_operation_seconds": {
+            "other_packet_work": 5.656976900980252,
+            "roche_surface": 39.837431893,
+            "shadow": 0.0
+          },
+          "selected_nodes": 15703198,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 22.46968954,
+            "other_packet_work": 16.486088154980255,
+            "planar_quadrature": 0.9451108330000001,
+            "polygon_clipping": 5.5935202660000005,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 110908634
+        },
+        "primary": {
+          "crossing_parents": 2095,
+          "limb_edge_roots": 75558,
+          "nodes": 6478686,
+          "packet_seconds": 99.8656020029448,
+          "physical_operation_seconds": {
+            "other_packet_work": 4.0798266479447864,
+            "roche_surface": 23.034526001000003,
+            "shadow": 72.75124935400001
+          },
+          "selected_nodes": 6478686,
+          "shadow_edge_roots": 66586,
+          "shadow_rays": 39547519,
+          "stage_seconds": {
+            "curved_edge_slices": 48.077206079,
+            "other_packet_work": 32.161397387944795,
+            "planar_quadrature": 0.381387849,
+            "polygon_clipping": 17.30483359,
+            "shadow_parent_selection": 1.940777097
+          },
+          "stationary_rays": 33429172,
+          "surface_rays": 62221759
+        },
+        "secondary": {
+          "crossing_parents": 2533,
+          "limb_edge_roots": 106092,
+          "nodes": 11120886,
+          "packet_seconds": 133.7432521537412,
+          "physical_operation_seconds": {
+            "other_packet_work": 5.824028197741191,
+            "roche_surface": 34.30833109,
+            "shadow": 93.610892866
+          },
+          "selected_nodes": 11120886,
+          "shadow_edge_roots": 79822,
+          "shadow_rays": 49437944,
+          "stage_seconds": {
+            "curved_edge_slices": 62.108417174,
+            "other_packet_work": 45.600878599741186,
+            "planar_quadrature": 0.658348644,
+            "polygon_clipping": 22.006157219000002,
+            "shadow_parent_selection": 3.369450517
+          },
+          "stationary_rays": 43387667,
+          "surface_rays": 93717713
+        }
+      },
+      "depth": 4,
+      "interior": "duffy",
+      "packets": [
+        {
+          "component": "primary",
+          "crossing_parents": 534,
+          "foreground": "secondary",
+          "limb_edge_roots": 15384,
+          "nodes": 2018844,
+          "packet_seconds": 26.880758243147284,
+          "phase": 0.0,
+          "physical_operation_seconds": {
+            "other_packet_work": 1.0923238261472825,
+            "roche_surface": 6.2221592150000005,
+            "shadow": 19.566275202
+          },
+          "selected_nodes": 2018844,
+          "shadow_edge_roots": 16160,
+          "shadow_rays": 9750142,
+          "stage_seconds": {
+            "curved_edge_slices": 12.190174001,
+            "other_packet_work": 9.443236869147281,
+            "planar_quadrature": 0.121039004,
+            "polygon_clipping": 4.585062319,
+            "shadow_parent_selection": 0.54124605
+          },
+          "stationary_rays": 9050176,
+          "surface_rays": 16957594
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14768,
+          "nodes": 1000386,
+          "packet_seconds": 2.9087562980130315,
+          "phase": 0.0,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.36094116701303136,
+            "roche_surface": 2.547815131,
+            "shadow": 0.0
+          },
+          "selected_nodes": 1000386,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.441788882,
+            "other_packet_work": 1.0445074190130315,
+            "planar_quadrature": 0.059729055,
+            "polygon_clipping": 0.362730942,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7102954
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 484,
+          "foreground": "secondary",
+          "limb_edge_roots": 15660,
+          "nodes": 1857051,
+          "packet_seconds": 24.447975129820406,
+          "phase": 0.005,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.988273713820405,
+            "roche_surface": 5.758043529,
+            "shadow": 17.701657887
+          },
+          "selected_nodes": 1857051,
+          "shadow_edge_roots": 15306,
+          "shadow_rays": 8986165,
+          "stage_seconds": {
+            "curved_edge_slices": 11.350259710000001,
+            "other_packet_work": 8.391124486820406,
+            "planar_quadrature": 0.110520751,
+            "polygon_clipping": 4.063110423,
+            "shadow_parent_selection": 0.532959759
+          },
+          "stationary_rays": 8257245,
+          "surface_rays": 15808906
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14772,
+          "nodes": 1002429,
+          "packet_seconds": 2.9058864440303296,
+          "phase": 0.005,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.36191510303032937,
+            "roche_surface": 2.543971341,
+            "shadow": 0.0
+          },
+          "selected_nodes": 1002429,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.446919169,
+            "other_packet_work": 1.0435907680303296,
+            "planar_quadrature": 0.060486727000000004,
+            "polygon_clipping": 0.35488978000000004,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7109108
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 482,
+          "foreground": "secondary",
+          "limb_edge_roots": 15376,
+          "nodes": 1765683,
+          "packet_seconds": 23.693979784846306,
+          "phase": 0.007,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.938943841846303,
+            "roche_surface": 5.5372544910000006,
+            "shadow": 17.217781452
+          },
+          "selected_nodes": 1765683,
+          "shadow_edge_roots": 15102,
+          "shadow_rays": 8648693,
+          "stage_seconds": {
+            "curved_edge_slices": 11.285450630000001,
+            "other_packet_work": 7.871350981846303,
+            "planar_quadrature": 0.10359122700000001,
+            "polygon_clipping": 3.90197866,
+            "shadow_parent_selection": 0.531608286
+          },
+          "stationary_rays": 7968823,
+          "surface_rays": 15228005
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14744,
+          "nodes": 1001736,
+          "packet_seconds": 2.9211691450327635,
+          "phase": 0.007,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3602587310327632,
+            "roche_surface": 2.5609104140000003,
+            "shadow": 0.0
+          },
+          "selected_nodes": 1001736,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.456703204,
+            "other_packet_work": 1.0415555250327633,
+            "planar_quadrature": 0.060321353,
+            "polygon_clipping": 0.36258906300000004,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7098828
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 469,
+          "foreground": "secondary",
+          "limb_edge_roots": 15196,
+          "nodes": 1673001,
+          "packet_seconds": 22.723220793996006,
+          "phase": 0.01,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.8855460639960064,
+            "roche_surface": 5.292518328000001,
+            "shadow": 16.545156402
+          },
+          "selected_nodes": 1673001,
+          "shadow_edge_roots": 14802,
+          "shadow_rays": 8277482,
+          "stage_seconds": {
+            "curved_edge_slices": 11.054164137,
+            "other_packet_work": 7.340844227996005,
+            "planar_quadrature": 0.096938782,
+            "polygon_clipping": 3.699048852,
+            "shadow_parent_selection": 0.5322247950000001
+          },
+          "stationary_rays": 7640320,
+          "surface_rays": 14593550
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14676,
+          "nodes": 1000674,
+          "packet_seconds": 2.901844145031646,
+          "phase": 0.01,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3611924730316458,
+            "roche_surface": 2.540651672,
+            "shadow": 0.0
+          },
+          "selected_nodes": 1000674,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.438715243,
+            "other_packet_work": 1.0414475640316458,
+            "planar_quadrature": 0.060145009000000006,
+            "polygon_clipping": 0.36153632900000005,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7076532
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 332,
+          "foreground": "secondary",
+          "limb_edge_roots": 14888,
+          "nodes": 1456551,
+          "packet_seconds": 17.33795379800722,
+          "phase": 0.02,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.7623866400072217,
+            "roche_surface": 4.638044036,
+            "shadow": 11.937523122
+          },
+          "selected_nodes": 1456551,
+          "shadow_edge_roots": 10914,
+          "shadow_rays": 6550419,
+          "stage_seconds": {
+            "curved_edge_slices": 8.467855993,
+            "other_packet_work": 5.50084395500722,
+            "planar_quadrature": 0.085075282,
+            "polygon_clipping": 2.806025141,
+            "shadow_parent_selection": 0.478153427
+          },
+          "stationary_rays": 5531538,
+          "surface_rays": 12449352
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14468,
+          "nodes": 997650,
+          "packet_seconds": 2.848308205837384,
+          "phase": 0.02,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3563443728373836,
+            "roche_surface": 2.4919638330000002,
+            "shadow": 0.0
+          },
+          "selected_nodes": 997650,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.398559168,
+            "other_packet_work": 1.0430017308373838,
+            "planar_quadrature": 0.060041012000000005,
+            "polygon_clipping": 0.346706295,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7011938
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 232,
+          "foreground": "secondary",
+          "limb_edge_roots": 14968,
+          "nodes": 1359036,
+          "packet_seconds": 13.812370616011322,
+          "phase": 0.025,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.6946859890113206,
+            "roche_surface": 4.093851127000001,
+            "shadow": 9.0238335
+          },
+          "selected_nodes": 1359036,
+          "shadow_edge_roots": 7538,
+          "shadow_rays": 5291485,
+          "stage_seconds": {
+            "curved_edge_slices": 6.264210617000001,
+            "other_packet_work": 4.78075315401132,
+            "planar_quadrature": 0.080803702,
+            "polygon_clipping": 2.2415631520000003,
+            "shadow_parent_selection": 0.445039991
+          },
+          "stationary_rays": 4191565,
+          "surface_rays": 11147563
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14492,
+          "nodes": 995067,
+          "packet_seconds": 2.8621022028382868,
+          "phase": 0.025,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3564066058382864,
+            "roche_surface": 2.5056955970000003,
+            "shadow": 0.0
+          },
+          "selected_nodes": 995067,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.411399427,
+            "other_packet_work": 1.0424530758382866,
+            "planar_quadrature": 0.060324872,
+            "polygon_clipping": 0.347924828,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7009777
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": "secondary",
+          "limb_edge_roots": 14620,
+          "nodes": 990720,
+          "packet_seconds": 4.846993787912652,
+          "phase": 0.04,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.46186812291265156,
+            "roche_surface": 2.7664603640000003,
+            "shadow": 1.618665301
+          },
+          "selected_nodes": 990720,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 1933558,
+          "stage_seconds": {
+            "curved_edge_slices": 1.496302086,
+            "other_packet_work": 2.2727249249126515,
+            "planar_quadrature": 0.060379896,
+            "polygon_clipping": 0.7093686720000001,
+            "shadow_parent_selection": 0.308218209
+          },
+          "stationary_rays": 748000,
+          "surface_rays": 7532743
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14616,
+          "nodes": 987291,
+          "packet_seconds": 2.8767159208655357,
+          "phase": 0.04,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3545132518655354,
+            "roche_surface": 2.5222026690000003,
+            "shadow": 0.0
+          },
+          "selected_nodes": 987291,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.4293325250000002,
+            "other_packet_work": 1.0297682528655354,
+            "planar_quadrature": 0.059145063000000005,
+            "polygon_clipping": 0.35847008,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7015264
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 13724,
+          "nodes": 933651,
+          "packet_seconds": 2.6988078569993377,
+          "phase": 0.24,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3355285019993377,
+            "roche_surface": 2.363279355,
+            "shadow": 0.0
+          },
+          "selected_nodes": 933651,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.338028057,
+            "other_packet_work": 0.9815897449993376,
+            "planar_quadrature": 0.056352644,
+            "polygon_clipping": 0.322837411,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 6603529
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 13716,
+          "nodes": 934479,
+          "packet_seconds": 2.699306507129222,
+          "phase": 0.24,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3349121581292218,
+            "roche_surface": 2.3643943490000003,
+            "shadow": 0.0
+          },
+          "selected_nodes": 934479,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.336126777,
+            "other_packet_work": 0.976046683129222,
+            "planar_quadrature": 0.055778826000000004,
+            "polygon_clipping": 0.331354221,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 6604299
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 13372,
+          "nodes": 925497,
+          "packet_seconds": 2.731894341064617,
+          "phase": 0.25,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3389043490646171,
+            "roche_surface": 2.392989992,
+            "shadow": 0.0
+          },
+          "selected_nodes": 925495,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.328679594,
+            "other_packet_work": 1.007361846064617,
+            "planar_quadrature": 0.055591493000000006,
+            "polygon_clipping": 0.34026140800000004,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 6547820
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 13372,
+          "nodes": 925551,
+          "packet_seconds": 2.6412021750584245,
+          "phase": 0.25,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3310346260584245,
+            "roche_surface": 2.310167549,
+            "shadow": 0.0
+          },
+          "selected_nodes": 925551,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.292339146,
+            "other_packet_work": 0.9752344540584246,
+            "planar_quadrature": 0.055702342,
+            "polygon_clipping": 0.317926233,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 6487632
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14484,
+          "nodes": 997758,
+          "packet_seconds": 2.955223554978147,
+          "phase": 0.475,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3618592219781469,
+            "roche_surface": 2.5933643330000002,
+            "shadow": 0.0
+          },
+          "selected_nodes": 997758,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.449238145,
+            "other_packet_work": 1.0757343079781472,
+            "planar_quadrature": 0.060650064000000004,
+            "polygon_clipping": 0.36960103800000005,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7015856
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 382,
+          "foreground": "primary",
+          "limb_edge_roots": 14936,
+          "nodes": 1458567,
+          "packet_seconds": 19.691459824098274,
+          "phase": 0.475,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.7975450610982726,
+            "roche_surface": 4.699706495,
+            "shadow": 14.194208268
+          },
+          "selected_nodes": 1458567,
+          "shadow_edge_roots": 12140,
+          "shadow_rays": 7183737,
+          "stage_seconds": {
+            "curved_edge_slices": 9.161168534,
+            "other_packet_work": 6.6474455030982735,
+            "planar_quadrature": 0.085754915,
+            "polygon_clipping": 3.235134867,
+            "shadow_parent_selection": 0.561956005
+          },
+          "stationary_rays": 6588341,
+          "surface_rays": 12759312
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14468,
+          "nodes": 1000368,
+          "packet_seconds": 2.8726601030211896,
+          "phase": 0.48,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3608242170211895,
+            "roche_surface": 2.511835886,
+            "shadow": 0.0
+          },
+          "selected_nodes": 1000368,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.4062976790000001,
+            "other_packet_work": 1.0529053080211894,
+            "planar_quadrature": 0.060252205,
+            "polygon_clipping": 0.353204911,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7019579
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 486,
+          "foreground": "primary",
+          "limb_edge_roots": 14924,
+          "nodes": 1449621,
+          "packet_seconds": 21.93924649921246,
+          "phase": 0.48,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.8381069042124558,
+            "roche_surface": 5.023499811000001,
+            "shadow": 16.077639784000002
+          },
+          "selected_nodes": 1449621,
+          "shadow_edge_roots": 15204,
+          "shadow_rays": 8363232,
+          "stage_seconds": {
+            "curved_edge_slices": 11.01258829,
+            "other_packet_work": 6.707401879212458,
+            "planar_quadrature": 0.08348885,
+            "polygon_clipping": 3.6627666390000004,
+            "shadow_parent_selection": 0.473000841
+          },
+          "stationary_rays": 7422159,
+          "surface_rays": 13464756
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14508,
+          "nodes": 997335,
+          "packet_seconds": 2.866283014183864,
+          "phase": 0.484,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.35973714318386385,
+            "roche_surface": 2.506545871,
+            "shadow": 0.0
+          },
+          "selected_nodes": 997335,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.4114298200000002,
+            "other_packet_work": 1.0453282251838638,
+            "planar_quadrature": 0.060485921000000005,
+            "polygon_clipping": 0.349039048,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7022982
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 525,
+          "foreground": "primary",
+          "limb_edge_roots": 14926,
+          "nodes": 1407483,
+          "packet_seconds": 22.837254450889304,
+          "phase": 0.484,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.8525771908892992,
+            "roche_surface": 5.079313814000001,
+            "shadow": 16.905363446000003
+          },
+          "selected_nodes": 1407483,
+          "shadow_edge_roots": 16760,
+          "shadow_rays": 8971446,
+          "stage_seconds": {
+            "curved_edge_slices": 11.953171042000001,
+            "other_packet_work": 6.555341076889302,
+            "planar_quadrature": 0.079816856,
+            "polygon_clipping": 3.84858651,
+            "shadow_parent_selection": 0.400338966
+          },
+          "stationary_rays": 7767162,
+          "surface_rays": 13743606
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14680,
+          "nodes": 1001952,
+          "packet_seconds": 2.8924784478731453,
+          "phase": 0.49,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.360329341873145,
+            "roche_surface": 2.5321491060000003,
+            "shadow": 0.0
+          },
+          "selected_nodes": 1001952,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.434456707,
+            "other_packet_work": 1.0421723108731453,
+            "planar_quadrature": 0.059955222,
+            "polygon_clipping": 0.35589420800000005,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7081546
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 448,
+          "foreground": "primary",
+          "limb_edge_roots": 15188,
+          "nodes": 1228023,
+          "packet_seconds": 20.085018880898133,
+          "phase": 0.49,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.8165716448981328,
+            "roche_surface": 4.554577795,
+            "shadow": 14.713869441000002
+          },
+          "selected_nodes": 1228023,
+          "shadow_edge_roots": 14122,
+          "shadow_rays": 8276392,
+          "stage_seconds": {
+            "curved_edge_slices": 9.956952725,
+            "other_packet_work": 6.211903751898133,
+            "planar_quadrature": 0.072082303,
+            "polygon_clipping": 3.543517447,
+            "shadow_parent_selection": 0.30056265400000004
+          },
+          "stationary_rays": 6754686,
+          "surface_rays": 12380989
+        },
+        {
+          "component": "primary",
+          "crossing_parents": 0,
+          "foreground": null,
+          "limb_edge_roots": 14760,
+          "nodes": 1001376,
+          "packet_seconds": 2.9117704320233315,
+          "phase": 0.5,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.3622756370233313,
+            "roche_surface": 2.549494795,
+            "shadow": 0.0
+          },
+          "selected_nodes": 1001376,
+          "shadow_edge_roots": 0,
+          "shadow_rays": 0,
+          "stage_seconds": {
+            "curved_edge_slices": 1.4496759970000002,
+            "other_packet_work": 1.0433909390233314,
+            "planar_quadrature": 0.060149025,
+            "polygon_clipping": 0.35855447100000004,
+            "shadow_parent_selection": 0.0
+          },
+          "stationary_rays": 0,
+          "surface_rays": 7100990
+        },
+        {
+          "component": "secondary",
+          "crossing_parents": 254,
+          "foreground": "primary",
+          "limb_edge_roots": 15584,
+          "nodes": 934992,
+          "packet_seconds": 15.312622347846627,
+          "phase": 0.5,
+          "physical_operation_seconds": {
+            "other_packet_work": 0.775025846846626,
+            "roche_surface": 3.6774280860000004,
+            "shadow": 10.860168415
+          },
+          "selected_nodes": 934992,
+          "shadow_edge_roots": 8360,
+          "shadow_rays": 6752712,
+          "stage_seconds": {
+            "curved_edge_slices": 5.993325488,
+            "other_packet_work": 6.039305176846627,
+            "planar_quadrature": 0.060244925000000005,
+            "polygon_clipping": 3.0148281270000004,
+            "shadow_parent_selection": 0.20491863100000002
+          },
+          "stationary_rays": 4896824,
+          "surface_rays": 9873096
+        }
+      ],
+      "runs": [
+        {
+          "full_orbit_seconds": 346.588353372179,
+          "instrumented": false,
+          "max_component_relative": 0.0,
+          "quadrature_sha256": "34ac3778dfbf86008bda19d6e32a3b2c77fed19fc5a03f9570719fbecbeef63c",
+          "stages": {
+            "all_fresh_fields_and_common_partition": 0.001332947053015232,
+            "all_variant_integration_transfers_compile": 70.61013141809963,
+            "cpu_common_geometry_clipping_hash": 275.97505617374554,
+            "total": 346.5882619889453
+          }
+        },
+        {
+          "full_orbit_seconds": 349.5257295300253,
+          "instrumented": true,
+          "max_component_relative": 0.0,
+          "quadrature_sha256": "34ac3778dfbf86008bda19d6e32a3b2c77fed19fc5a03f9570719fbecbeef63c",
+          "stages": {
+            "all_fresh_fields_and_common_partition": 0.0011689981911331415,
+            "all_variant_integration_transfers_compile": 69.96074714511633,
+            "cpu_common_geometry_clipping_hash": 279.5608209494967,
+            "total": 349.52563310903497
+          }
+        }
+      ],
+      "seed": 20261118,
+      "step": 3,
+      "trial": "7dc533ee40d60bf13483bfcbf855faf13595fc3f722767745e34c49c232f39c5"
+    }
+  ],
+  "independent_jax_cpu": {
+    "eclipse_depth": 3,
+    "input_phases": 18,
+    "interior": "six",
+    "one_core_seconds": 754.4819546518847,
+    "parity": {
+      "component_relative": 9.65913509345686e-16,
+      "density": 2.837623469531536e-10,
+      "normalized": 5.551115123125783e-16,
+      "raw_relative": 1.2840470012629547e-15
+    },
+    "physical_curves": 4,
+    "seed": 20261117,
+    "step": 3
+  },
+  "limits": {
+    "curve_atol": 2e-12,
+    "curve_rtol": 3e-13,
+    "distance_sigma": 0.1,
+    "fitted_log_posterior_atol": 1e-06,
+    "nominal_log_likelihood": 0.01
+  },
+  "milestone": "m042",
+  "model_target_sha256": "d7c83c75dbd5b5ab426c060236a2c0bbb2fd90db6d798c07f5c50c036cf685d8",
+  "parent": "d32d9c35e8fb2b599f39c6b895625c4eaa46cb5b",
+  "production_state": "paused_for_elisa",
+  "science": {
+    "finite_check": "Every in-prior draw evaluated two fields, emitter groupings, eclipse depths and interior rules",
+    "inclination_proposal_sigma_deg": {
+      "20261117": 0.0036,
+      "20261118": 0.0036,
+      "20261119": 0.0036,
+      "20261120": 0.0036,
+      "20261121": 0.0036,
+      "20261122": 0.0036,
+      "20261123": 0.0036,
+      "20261124": 0.0036
+    },
+    "injected_coordinates": {
+      "inclination_deg": 86.4,
+      "primary_radius_over_separation": 0.13690017992574324,
+      "secondary_radius_over_separation": 0.06439494256949432
+    },
+    "original_facet_densities": {
+      "12": {
+        "final_selected": {
+          "20261117": -48970.644048879876,
+          "20261118": -52302.00169704131,
+          "20261119": -52403.0483230237,
+          "20261120": -50518.89124353359,
+          "20261121": -50696.75642447416,
+          "20261122": -51128.48222488479,
+          "20261123": -52412.0749819991,
+          "20261124": -52309.245997358004
+        },
+        "injected": 219.6855575178022
+      },
+      "6": {
+        "final_selected": {
+          "20261117": -46909.46719526909,
+          "20261118": -50256.03269251203,
+          "20261119": -50348.36771633281,
+          "20261120": -48467.56292080738,
+          "20261121": -48646.08724344491,
+          "20261122": -49076.64055907695,
+          "20261123": -50366.287608550265,
+          "20261124": -50258.16720032884
+        },
+        "injected": 152.12531902986296
+      }
+    },
+    "rms_jump": {
+      "inclination_deg": 0.002610841793816672,
+      "primary_radius_over_separation": 2.4440648650464995e-06,
+      "secondary_radius_over_separation": 4.792661176422588e-06
+    },
+    "rounds": [
+      {
+        "rows": [
+          {
+            "draw": {
+              "log_uniform": -0.4488321454344703,
+              "physical": {
+                "nuisance@ln_f": -2.596412421366998,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992357375441142,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6378.980101973509,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4878.980101973509,
+                "system@additional_light": 0.17450096975201929,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.52925431996077,
+                "system@mass_ratio": 0.6959912866343552,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4808934386028577,
+                0.37898010197350857,
+                0.42154238666012767,
+                0.479956433171776,
+                0.2181262121900241,
+                0.400597929772167
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13696818290764792,
+                "secondary": 0.06403781548039861
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -46730.95137422174,
+                  "1": -46730.95300552214,
+                  "2": -46730.951377105936,
+                  "3": -46730.95300847321,
+                  "4": -46730.95183285287,
+                  "5": -46730.95346415271,
+                  "6": -46730.95183573585,
+                  "7": -46730.95346710454
+                },
+                "six": {
+                  "0": -46730.95138382414,
+                  "1": -46730.95301512483,
+                  "2": -46730.951386707784,
+                  "3": -46730.953018075714,
+                  "4": -46730.9518424548,
+                  "5": -46730.953473755224,
+                  "6": -46730.951845338146,
+                  "7": -46730.95347670858
+                }
+              },
+              "density_change": 2781.7995710788455,
+              "distance_sigma": 2.020719038393098e-05,
+              "log_likelihood_bound": 0.004791138477378832,
+              "margin_over_256_corner_pairs": [
+                0.4488321454344703,
+                0.4488321454344703
+              ],
+              "max_measured": 0.002104513111379917,
+              "proposed_density": -46730.95138382414,
+              "selected_position": [
+                0.4808934386028577,
+                0.37898010197350857,
+                0.42154238666012767,
+                0.479956433171776,
+                0.2181262121900241,
+                0.400597929772167
+              ],
+              "starting_density": -49512.750954902986
+            },
+            "independent_density_error": 8.658389560878277e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 2790.025609651122
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 2796.1955308698743
+              }
+            },
+            "parity": {
+              "component_relative": 1.2909785397970348e-15,
+              "density": 1.0622898116707802e-09,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 1.2883227436546785e-15
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -46730.95137422232,
+                  "1": -46730.953005522766,
+                  "2": -46730.95137710507,
+                  "3": -46730.95300847325,
+                  "4": -46730.9518328528,
+                  "5": -46730.95346415322,
+                  "6": -46730.95183573538,
+                  "7": -46730.95346710412
+                },
+                "six": {
+                  "0": -46730.9513838242,
+                  "1": -46730.95301512483,
+                  "2": -46730.95138670706,
+                  "3": -46730.953018076514,
+                  "4": -46730.951842455004,
+                  "5": -46730.953473755755,
+                  "6": -46730.95184533856,
+                  "7": -46730.95347670752
+                }
+              },
+              "density_change": 2781.7995710771283,
+              "distance_sigma": 2.0207194519507833e-05,
+              "log_likelihood_bound": 0.004791139927123001,
+              "margin_over_256_corner_pairs": [
+                0.4488321454344703,
+                0.4488321454344703
+              ],
+              "max_measured": 0.002104511970672935,
+              "proposed_density": -46730.9513838242,
+              "selected_position": [
+                0.4808934386028577,
+                0.37898010197350857,
+                0.42154238666012767,
+                0.479956433171776,
+                0.2181262121900241,
+                0.400597929772167
+              ],
+              "starting_density": -49512.75095490133
+            },
+            "seed": 20261117,
+            "status": "accepted",
+            "step": 3
+          },
+          {
+            "draw": {
+              "log_uniform": -1.204718297917634,
+              "physical": {
+                "nuisance@ln_f": -2.5963967684415357,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.991140580312688,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6380.186281406555,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4880.186281406555,
+                "system@additional_light": 0.176183791683461,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.51427932220304,
+                "system@mass_ratio": 0.6959547301699739,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4778514507817209,
+                0.38018628140655575,
+                0.4190465537005064,
+                0.4797736508498694,
+                0.22022973960432624,
+                0.4006005385930774
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13699043608782205,
+                "secondary": 0.06403455815803508
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -51677.68041491859,
+                  "1": -51677.68213487088,
+                  "2": -51677.68041800746,
+                  "3": -51677.68213803277,
+                  "4": -51677.68057580395,
+                  "5": -51677.68229575569,
+                  "6": -51677.6805788928,
+                  "7": -51677.68229891796
+                },
+                "six": {
+                  "0": -51677.68042510464,
+                  "1": -51677.68214505738,
+                  "2": -51677.6804281942,
+                  "3": -51677.68214821854,
+                  "4": -51677.68058599008,
+                  "5": -51677.68230594253,
+                  "6": -51677.68058907802,
+                  "7": -51677.68230910503
+                }
+              },
+              "density_change": -1718.39714635149,
+              "distance_sigma": 1.9692989220805903e-05,
+              "log_likelihood_bound": 0.004836225507731006,
+              "margin_over_256_corner_pairs": [
+                -1717.194322012806,
+                -1717.1900620145434
+              ],
+              "max_measured": 0.0018944687718473868,
+              "proposed_density": -51677.68042510464,
+              "selected_position": [
+                0.47845501374070687,
+                0.3796988109668431,
+                0.42003744523977915,
+                0.48035960464235217,
+                0.2199001875713566,
+                0.4000561264020992
+              ],
+              "starting_density": -49959.28327875315
+            },
+            "independent_density_error": 6.184563972055912e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -1724.9386488816745
+              },
+              "6": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -1726.70616073595
+              }
+            },
+            "parity": {
+              "component_relative": 9.90740271910974e-16,
+              "density": 1.1132215149700642e-09,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 1.0508361354643267e-15
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -51677.68041491772,
+                  "1": -51677.682134872,
+                  "2": -51677.68041800758,
+                  "3": -51677.682138032396,
+                  "4": -51677.680575804625,
+                  "5": -51677.68229575587,
+                  "6": -51677.68057889316,
+                  "7": -51677.682298918604
+                },
+                "six": {
+                  "0": -51677.680425104154,
+                  "1": -51677.68214505719,
+                  "2": -51677.680428194595,
+                  "3": -51677.68214821898,
+                  "4": -51677.68058599055,
+                  "5": -51677.68230594318,
+                  "6": -51677.68058907878,
+                  "7": -51677.682309105716
+                }
+              },
+              "density_change": -1718.397146350966,
+              "distance_sigma": 1.9693024850135725e-05,
+              "log_likelihood_bound": 0.004836232997016498,
+              "margin_over_256_corner_pairs": [
+                -1717.1943220136864,
+                -1717.1900620124916
+              ],
+              "max_measured": 0.001894469933002929,
+              "proposed_density": -51677.680425104154,
+              "selected_position": [
+                0.47845501374070687,
+                0.3796988109668431,
+                0.42003744523977915,
+                0.48035960464235217,
+                0.2199001875713566,
+                0.4000561264020992
+              ],
+              "starting_density": -49959.28327875319
+            },
+            "seed": 20261118,
+            "status": "rejected",
+            "step": 3
+          },
+          {
+            "draw": {
+              "log_uniform": -0.1298885022913242,
+              "physical": {
+                "nuisance@ln_f": -2.605396609449466,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992096387782008,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6379.982576490277,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4879.982576490277,
+                "system@additional_light": 0.1752985345876612,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.51562708378651,
+                "system@mass_ratio": 0.696048633907598,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4802409694550215,
+                0.3799825764902775,
+                0.4192711806310842,
+                0.48024316953798984,
+                0.21912316823457648,
+                0.39910056509175573
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13697419243182468,
+                "secondary": 0.06404292532272661
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50052.696065434284,
+                  "1": -50052.6977658981,
+                  "2": -50052.69606844972,
+                  "3": -50052.69776898518,
+                  "4": -50052.696372875565,
+                  "5": -50052.698073339925,
+                  "6": -50052.69637589215,
+                  "7": -50052.69807642751
+                },
+                "six": {
+                  "0": -50052.69607547873,
+                  "1": -50052.697775943336,
+                  "2": -50052.69607849525,
+                  "3": -50052.69777903106,
+                  "4": -50052.69638292009,
+                  "5": -50052.69808338573,
+                  "6": -50052.69638593691,
+                  "7": -50052.69808647293
+                }
+              },
+              "density_change": 191.7336430106734,
+              "distance_sigma": 1.970811597984019e-05,
+              "log_likelihood_bound": 0.004886150856070479,
+              "margin_over_256_corner_pairs": [
+                0.1298885022913242,
+                0.1298885022913242
+              ],
+              "max_measured": 0.0020219688854557294,
+              "proposed_density": -50052.69607547873,
+              "selected_position": [
+                0.4802409694550215,
+                0.3799825764902775,
+                0.4192711806310842,
+                0.48024316953798984,
+                0.21912316823457648,
+                0.39910056509175573
+              ],
+              "starting_density": -50244.4297184894
+            },
+            "independent_density_error": 8.440110832452774e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 187.20909553390084
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 193.76853404208669
+              }
+            },
+            "parity": {
+              "component_relative": 1.0389284997907193e-15,
+              "density": 1.127773430198431e-09,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 1.0130034656966122e-15
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50052.69606543334,
+                  "1": -50052.69776589847,
+                  "2": -50052.696068449375,
+                  "3": -50052.697768984595,
+                  "4": -50052.69637287444,
+                  "5": -50052.6980733401,
+                  "6": -50052.69637589205,
+                  "7": -50052.6980764272
+                },
+                "six": {
+                  "0": -50052.69607547859,
+                  "1": -50052.69777594311,
+                  "2": -50052.69607849484,
+                  "3": -50052.697779030794,
+                  "4": -50052.696382920396,
+                  "5": -50052.69808338513,
+                  "6": -50052.69638593659,
+                  "7": -50052.698086472614
+                }
+              },
+              "density_change": 191.73364301171387,
+              "distance_sigma": 1.9708141533716623e-05,
+              "log_likelihood_bound": 0.004886155856624956,
+              "margin_over_256_corner_pairs": [
+                0.1298885022913242,
+                0.1298885022913242
+              ],
+              "max_measured": 0.0020219687281108406,
+              "proposed_density": -50052.69607547859,
+              "selected_position": [
+                0.4802409694550215,
+                0.3799825764902775,
+                0.4192711806310842,
+                0.48024316953798984,
+                0.21912316823457648,
+                0.39910056509175573
+              ],
+              "starting_density": -50244.429718490304
+            },
+            "seed": 20261119,
+            "status": "accepted",
+            "step": 2
+          },
+          {
+            "draw": {
+              "log_uniform": -0.23654696718338383,
+              "physical": {
+                "nuisance@ln_f": -2.5928959012452544,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992268311992884,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6380.072852520862,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4880.072852520862,
+                "system@additional_light": 0.17618127041021991,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.52788511643237,
+                "system@mass_ratio": 0.6962940404773642,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4806707799822112,
+                0.38007285252086204,
+                0.4213141860720629,
+                0.481470202386821,
+                0.2202265880127749,
+                0.40118401645912427
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.1369756076663188,
+                "secondary": 0.06406479160830926
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -48397.47039893544,
+                  "1": -48397.472070816504,
+                  "2": -48397.470401888495,
+                  "3": -48397.47207384004,
+                  "4": -48397.471452493104,
+                  "5": -48397.473124374366,
+                  "6": -48397.47145544537,
+                  "7": -48397.473127397745
+                },
+                "six": {
+                  "0": -48397.47040874639,
+                  "1": -48397.472080627784,
+                  "2": -48397.47041169951,
+                  "3": -48397.47208365146,
+                  "4": -48397.47146230248,
+                  "5": -48397.47313418446,
+                  "6": -48397.47146525633,
+                  "7": -48397.47313720917
+                }
+              },
+              "density_change": 273.4492287326284,
+              "distance_sigma": 2.2163217520289115e-05,
+              "log_likelihood_bound": 0.005542093605973071,
+              "margin_over_256_corner_pairs": [
+                0.23654696718338383,
+                0.23654696718338383
+              ],
+              "max_measured": 0.002743729894163562,
+              "proposed_density": -48397.47040874639,
+              "selected_position": [
+                0.4806707799822112,
+                0.38007285252086204,
+                0.4213141860720629,
+                0.481470202386821,
+                0.2202265880127749,
+                0.40118401645912427
+              ],
+              "starting_density": -48670.91963747902
+            },
+            "independent_density_error": 9.240466170012951e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 277.0361731506273
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 274.49954521330073
+              }
+            },
+            "parity": {
+              "component_relative": 1.1801245094292902e-15,
+              "density": 8.512870408594608e-10,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 5.442888350045968e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -48397.47039893629,
+                  "1": -48397.47207081625,
+                  "2": -48397.470401888255,
+                  "3": -48397.47207383995,
+                  "4": -48397.471452493126,
+                  "5": -48397.47312437392,
+                  "6": -48397.471455445855,
+                  "7": -48397.47312739743
+                },
+                "six": {
+                  "0": -48397.47040874571,
+                  "1": -48397.47208062737,
+                  "2": -48397.470411699236,
+                  "3": -48397.4720836515,
+                  "4": -48397.471462303016,
+                  "5": -48397.473134185006,
+                  "6": -48397.47146525566,
+                  "7": -48397.47313720925
+                }
+              },
+              "density_change": 273.44922873325413,
+              "distance_sigma": 2.2163242955247308e-05,
+              "log_likelihood_bound": 0.0055420984636514155,
+              "margin_over_256_corner_pairs": [
+                0.23654696718338383,
+                0.23654696718338383
+              ],
+              "max_measured": 0.0027437306675342833,
+              "proposed_density": -48397.47040874571,
+              "selected_position": [
+                0.4806707799822112,
+                0.38007285252086204,
+                0.4213141860720629,
+                0.481470202386821,
+                0.2202265880127749,
+                0.40118401645912427
+              ],
+              "starting_density": -48670.91963747896
+            },
+            "seed": 20261120,
+            "status": "accepted",
+            "step": 2
+          },
+          {
+            "draw": {
+              "log_uniform": -0.5802582242421654,
+              "physical": {
+                "nuisance@ln_f": -2.6063459010384453,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.991916916854363,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6380.532477093851,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4880.532477093851,
+                "system@additional_light": 0.17516099591794237,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.52113273144113,
+                "system@mass_ratio": 0.6961042660174197,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.47979229213590746,
+                0.38053247709385096,
+                0.42018878857352104,
+                0.48052133008709846,
+                0.21895124489742795,
+                0.3989423498269258
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13697863264516755,
+                "secondary": 0.06404788231289095
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -48820.49757363842,
+                  "1": -48820.49924858697,
+                  "2": -48820.4975766056,
+                  "3": -48820.499251622954,
+                  "4": -48820.49818181646,
+                  "5": -48820.49985676459,
+                  "6": -48820.49818478208,
+                  "7": -48820.49985979998
+                },
+                "six": {
+                  "0": -48820.49758356451,
+                  "1": -48820.49925851168,
+                  "2": -48820.497586530124,
+                  "3": -48820.499261547564,
+                  "4": -48820.498191740786,
+                  "5": -48820.49986668801,
+                  "6": -48820.49819470679,
+                  "7": -48820.49986972456
+                }
+              },
+              "density_change": 1263.3319327608842,
+              "distance_sigma": 2.2316849792728557e-05,
+              "log_likelihood_bound": 0.005293247434453419,
+              "margin_over_256_corner_pairs": [
+                0.5802582242421654,
+                0.5802582242421654
+              ],
+              "max_measured": 0.002298612772232336,
+              "proposed_density": -48820.49758356451,
+              "selected_position": [
+                0.47979229213590746,
+                0.38053247709385096,
+                0.42018878857352104,
+                0.48052133008709846,
+                0.21895124489742795,
+                0.3989423498269258
+              ],
+              "starting_density": -50083.82951632539
+            },
+            "independent_density_error": 8.076312951743603e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 1263.561002201226
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 1270.3787602929224
+              }
+            },
+            "parity": {
+              "component_relative": 7.332477183243468e-16,
+              "density": 6.548361852765083e-10,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 7.163372226290892e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -48820.49757363843,
+                  "1": -48820.49924858654,
+                  "2": -48820.497576605136,
+                  "3": -48820.49925162273,
+                  "4": -48820.4981818166,
+                  "5": -48820.49985676403,
+                  "6": -48820.49818478233,
+                  "7": -48820.49985979989
+                },
+                "six": {
+                  "0": -48820.497583564094,
+                  "1": -48820.499258511474,
+                  "2": -48820.49758653037,
+                  "3": -48820.49926154822,
+                  "4": -48820.49819174078,
+                  "5": -48820.499866688595,
+                  "6": -48820.49819470655,
+                  "7": -48820.49986972491
+                }
+              },
+              "density_change": 1263.331932760353,
+              "distance_sigma": 2.231682387997023e-05,
+              "log_likelihood_bound": 0.0052932438030541176,
+              "margin_over_256_corner_pairs": [
+                0.5802582242421654,
+                0.5802582242421654
+              ],
+              "max_measured": 0.0022986135183641117,
+              "proposed_density": -48820.497583564094,
+              "selected_position": [
+                0.47979229213590746,
+                0.38053247709385096,
+                0.42018878857352104,
+                0.48052133008709846,
+                0.21895124489742795,
+                0.3989423498269258
+              ],
+              "starting_density": -50083.82951632445
+            },
+            "seed": 20261121,
+            "status": "accepted",
+            "step": 2
+          },
+          {
+            "draw": {
+              "log_uniform": -0.20304350116019185,
+              "physical": {
+                "nuisance@ln_f": -2.6043560972147763,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992170329583177,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6379.7327661266,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4879.7327661266,
+                "system@additional_light": 0.1757978401236029,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.5257385167398,
+                "system@mass_ratio": 0.6957401866610519,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4804258239579449,
+                0.3797327661265995,
+                0.4209564194566349,
+                0.4787009333052591,
+                0.21974730015450358,
+                0.39927398379753726
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13696694491642616,
+                "secondary": 0.06401544128636306
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -49516.765669054235,
+                  "1": -49516.7673481657,
+                  "2": -49516.76567205623,
+                  "3": -49516.76735124162,
+                  "4": -49516.76694091037,
+                  "5": -49516.76862002202,
+                  "6": -49516.7669439132,
+                  "7": -49516.76862309725
+                },
+                "six": {
+                  "0": -49516.76567896765,
+                  "1": -49516.76735807993,
+                  "2": -49516.76568197098,
+                  "3": -49516.76736115612,
+                  "4": -49516.766950825026,
+                  "5": -49516.76862993606,
+                  "6": -49516.76695382699,
+                  "7": -49516.768633011976
+                }
+              },
+              "density_change": -730.2317340373338,
+              "distance_sigma": 2.3285977348996078e-05,
+              "log_likelihood_bound": 0.006008955102202469,
+              "margin_over_256_corner_pairs": [
+                -730.0316545122569,
+                -730.025917826717
+              ],
+              "max_measured": 0.002970199137676909,
+              "proposed_density": -49516.76567896765,
+              "selected_position": [
+                0.47993110760564317,
+                0.3809295951728174,
+                0.4205812096736988,
+                0.48013368204135554,
+                0.21914881479841195,
+                0.39885232831637174
+              ],
+              "starting_density": -48786.533944930314
+            },
+            "independent_density_error": 9.604264050722122e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -730.8871075032075
+              },
+              "6": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -734.9120309773934
+              }
+            },
+            "parity": {
+              "component_relative": 5.863890550579596e-16,
+              "density": 7.566995918750763e-10,
+              "normalized": 4.440892098500626e-16,
+              "raw_relative": 6.377664347845649e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -49516.76566905372,
+                  "1": -49516.767348166286,
+                  "2": -49516.765672056354,
+                  "3": -49516.76735124101,
+                  "4": -49516.76694090961,
+                  "5": -49516.76862002213,
+                  "6": -49516.76694391262,
+                  "7": -49516.76862309754
+                },
+                "six": {
+                  "0": -49516.76567896774,
+                  "1": -49516.76735807978,
+                  "2": -49516.76568197059,
+                  "3": -49516.76736115584,
+                  "4": -49516.76695082496,
+                  "5": -49516.76862993622,
+                  "6": -49516.76695382688,
+                  "7": -49516.76863301186
+                }
+              },
+              "density_change": -730.2317340383597,
+              "distance_sigma": 2.328598082146627e-05,
+              "log_likelihood_bound": 0.006008952942834777,
+              "margin_over_256_corner_pairs": [
+                -730.0316545130645,
+                -730.0259178264914
+              ],
+              "max_measured": 0.002970198924648629,
+              "proposed_density": -49516.76567896774,
+              "selected_position": [
+                0.47993110760564317,
+                0.3809295951728174,
+                0.4205812096736988,
+                0.48013368204135554,
+                0.21914881479841195,
+                0.39885232831637174
+              ],
+              "starting_density": -48786.53394492938
+            },
+            "seed": 20261122,
+            "status": "rejected",
+            "step": 2
+          },
+          {
+            "draw": {
+              "log_uniform": -2.7181551847403234,
+              "physical": {
+                "nuisance@ln_f": -2.5997050601387763,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992440755576804,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6380.698366949851,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4880.698366949851,
+                "system@additional_light": 0.17604982363644503,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.52034756689021,
+                "system@mass_ratio": 0.6958468703576682,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.481101888942012,
+                0.3806983669498517,
+                0.4200579278150355,
+                0.47923435178834095,
+                0.22006227954555627,
+                0.4000491566435373
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13696387044938343,
+                "secondary": 0.0640249473693581
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50605.68145008632,
+                  "1": -50605.68315744486,
+                  "2": -50605.68145312791,
+                  "3": -50605.68316055945,
+                  "4": -50605.681957812776,
+                  "5": -50605.68366517141,
+                  "6": -50605.681960854505,
+                  "7": -50605.6836682865
+                },
+                "six": {
+                  "0": -50605.68146016004,
+                  "1": -50605.683167518175,
+                  "2": -50605.68146320041,
+                  "3": -50605.68317063236,
+                  "4": -50605.68196788638,
+                  "5": -50605.683675244916,
+                  "6": -50605.68197092763,
+                  "7": -50605.68367835992
+                }
+              },
+              "density_change": -361.2517416706396,
+              "distance_sigma": 2.0618468389792224e-05,
+              "log_likelihood_bound": 0.005157357471936776,
+              "margin_over_256_corner_pairs": [
+                -358.53581469288326,
+                -358.53152592541153
+              ],
+              "max_measured": 0.002230443946740695,
+              "proposed_density": -50605.68146016004,
+              "selected_position": [
+                0.47999999999999887,
+                0.38,
+                0.4199999999999993,
+                0.4799999999999997,
+                0.22,
+                0.4000000000000001
+              ],
+              "starting_density": -50244.4297184894
+            },
+            "independent_density_error": 9.968061931431293e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -364.02462239441957
+              },
+              "6": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -362.8096751143239
+              }
+            },
+            "parity": {
+              "component_relative": 1.3775965183565773e-15,
+              "density": 1.0622898116707802e-09,
+              "normalized": 4.440892098500626e-16,
+              "raw_relative": 1.4531771440983527e-15
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50605.681450086224,
+                  "1": -50605.68315744512,
+                  "2": -50605.6814531273,
+                  "3": -50605.683160559216,
+                  "4": -50605.68195781367,
+                  "5": -50605.68366517217,
+                  "6": -50605.681960854185,
+                  "7": -50605.683668286285
+                },
+                "six": {
+                  "0": -50605.681460160384,
+                  "1": -50605.683167518655,
+                  "2": -50605.68146320068,
+                  "3": -50605.683170633085,
+                  "4": -50605.681967886594,
+                  "5": -50605.6836752455,
+                  "6": -50605.681970928694,
+                  "7": -50605.68367836005
+                }
+              },
+              "density_change": -361.25174167007935,
+              "distance_sigma": 2.061848295234987e-05,
+              "log_likelihood_bound": 0.005157361916241711,
+              "margin_over_256_corner_pairs": [
+                -358.53581469262133,
+                -358.53152592549884
+              ],
+              "max_measured": 0.002230443720846984,
+              "proposed_density": -50605.681460160384,
+              "selected_position": [
+                0.47999999999999887,
+                0.38,
+                0.4199999999999993,
+                0.4799999999999997,
+                0.22,
+                0.4000000000000001
+              ],
+              "starting_density": -50244.429718490304
+            },
+            "seed": 20261123,
+            "status": "rejected",
+            "step": 2
+          },
+          {
+            "draw": {
+              "log_uniform": -1.889796454870281,
+              "physical": {
+                "nuisance@ln_f": -2.5992270174183343,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.991901309895886,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6381.029651186042,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4881.029651186042,
+                "system@additional_light": 0.17550578126108793,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.51936715544082,
+                "system@mass_ratio": 0.6959339533720297,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4797532747397169,
+                0.38102965118604276,
+                0.4198945259068023,
+                0.4796697668601483,
+                0.2193822265763599,
+                0.40012883043027764
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13697569470132745,
+                "secondary": 0.06403270686022164
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -49962.24795297588,
+                  "1": -49962.24964501999,
+                  "2": -49962.24795598898,
+                  "3": -49962.24964810518,
+                  "4": -49962.24832766413,
+                  "5": -49962.250019708474,
+                  "6": -49962.24833067743,
+                  "7": -49962.25002279393
+                },
+                "six": {
+                  "0": -49962.24796302359,
+                  "1": -49962.24965506833,
+                  "2": -49962.247966037496,
+                  "3": -49962.249658152956,
+                  "4": -49962.248337711484,
+                  "5": -49962.25002975669,
+                  "6": -49962.24834072455,
+                  "7": -49962.25003284072
+                }
+              },
+              "density_change": 282.1817554658119,
+              "distance_sigma": 2.21858485923533e-05,
+              "log_likelihood_bound": 0.0053096068146563005,
+              "margin_over_256_corner_pairs": [
+                1.889796454870281,
+                1.889796454870281
+              ],
+              "max_measured": 0.0020812530973587586,
+              "proposed_density": -49962.24796302359,
+              "selected_position": [
+                0.4797532747397169,
+                0.38102965118604276,
+                0.4198945259068023,
+                0.4796697668601483,
+                0.2193822265763599,
+                0.40012883043027764
+              ],
+              "starting_density": -50244.4297184894
+            },
+            "independent_density_error": 8.149072527885437e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 281.01142119959695
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 283.9690500460565
+              }
+            },
+            "parity": {
+              "component_relative": 1.038240919634485e-15,
+              "density": 9.968061931431293e-10,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 9.228229471017688e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -49962.24795297488,
+                  "1": -49962.24964502017,
+                  "2": -49962.24795598957,
+                  "3": -49962.249648105826,
+                  "4": -49962.24832766319,
+                  "5": -49962.25001970814,
+                  "6": -49962.24833067743,
+                  "7": -49962.250022793036
+                },
+                "six": {
+                  "0": -49962.24796302382,
+                  "1": -49962.249655068415,
+                  "2": -49962.24796603776,
+                  "3": -49962.24965815287,
+                  "4": -49962.24833771149,
+                  "5": -49962.25002975665,
+                  "6": -49962.24834072473,
+                  "7": -49962.250032841446
+                }
+              },
+              "density_change": 282.18175546648126,
+              "distance_sigma": 2.2185821257393212e-05,
+              "log_likelihood_bound": 0.005309601830637393,
+              "margin_over_256_corner_pairs": [
+                1.889796454870281,
+                1.889796454870281
+              ],
+              "max_measured": 0.002081253583391164,
+              "proposed_density": -49962.24796302382,
+              "selected_position": [
+                0.4797532747397169,
+                0.38102965118604276,
+                0.4198945259068023,
+                0.4796697668601483,
+                0.2193822265763599,
+                0.40012883043027764
+              ],
+              "starting_density": -50244.429718490304
+            },
+            "seed": 20261124,
+            "status": "accepted",
+            "step": 2
+          }
+        ],
+        "workers": 8
+      },
+      {
+        "rows": [
+          {
+            "draw": {
+              "log_uniform": -1.878736945980561,
+              "physical": {
+                "nuisance@ln_f": -2.5929571477191318,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992741624807806,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6379.02235190731,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4879.02235190731,
+                "system@additional_light": 0.1740343065500009,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.52717682857039,
+                "system@mass_ratio": 0.6959394619285794,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.48185406201951664,
+                0.37902235190731004,
+                0.421196138095064,
+                0.4796973096428967,
+                0.21754288318750112,
+                0.401173808713478
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13695995478464063,
+                "secondary": 0.06403319769551326
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -46631.21115663281,
+                  "1": -46631.212789347184,
+                  "2": -46631.21115950761,
+                  "3": -46631.21279229013,
+                  "4": -46631.21372385021,
+                  "5": -46631.21535656565,
+                  "6": -46631.213726725735,
+                  "7": -46631.21535950867
+                },
+                "six": {
+                  "0": -46631.21116625064,
+                  "1": -46631.21279896547,
+                  "2": -46631.211169125745,
+                  "3": -46631.21280190894,
+                  "4": -46631.21373346879,
+                  "5": -46631.21536618438,
+                  "6": -46631.21373634482,
+                  "7": -46631.21536912791
+                }
+              },
+              "density_change": 99.74021757349692,
+              "distance_sigma": 2.9335922806559438e-05,
+              "log_likelihood_bound": 0.007210859605734239,
+              "margin_over_256_corner_pairs": [
+                1.878736945980561,
+                1.878736945980561
+              ],
+              "max_measured": 0.004226391607083703,
+              "proposed_density": -46631.21116625064,
+              "selected_position": [
+                0.48185406201951664,
+                0.37902235190731004,
+                0.421196138095064,
+                0.4796973096428967,
+                0.21754288318750112,
+                0.401173808713478
+              ],
+              "starting_density": -46730.95138382414
+            },
+            "independent_density_error": 9.968061931431293e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 95.86563311224745
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 101.153708085978
+              }
+            },
+            "parity": {
+              "component_relative": 1.0083497312269232e-15,
+              "density": 7.712515071034431e-10,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 9.260331187487877e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -46631.21115663241,
+                  "1": -46631.21278934767,
+                  "2": -46631.211159506944,
+                  "3": -46631.21279229026,
+                  "4": -46631.2137238499,
+                  "5": -46631.21535656597,
+                  "6": -46631.21372672496,
+                  "7": -46631.21535950836
+                },
+                "six": {
+                  "0": -46631.21116625138,
+                  "1": -46631.21279896574,
+                  "2": -46631.21116912631,
+                  "3": -46631.21280190883,
+                  "4": -46631.213733468685,
+                  "5": -46631.2153661844,
+                  "6": -46631.21373634457,
+                  "7": -46631.215369127895
+                }
+              },
+              "density_change": 99.74021757282026,
+              "distance_sigma": 2.933592376252327e-05,
+              "log_likelihood_bound": 0.007210857449211275,
+              "margin_over_256_corner_pairs": [
+                1.878736945980561,
+                1.878736945980561
+              ],
+              "max_measured": 0.004226390869300065,
+              "proposed_density": -46631.21116625138,
+              "selected_position": [
+                0.48185406201951664,
+                0.37902235190731004,
+                0.421196138095064,
+                0.4796973096428967,
+                0.21754288318750112,
+                0.401173808713478
+              ],
+              "starting_density": -46730.9513838242
+            },
+            "seed": 20261117,
+            "status": "accepted",
+            "step": 4
+          },
+          {
+            "draw": {
+              "log_uniform": -1.0028143587678728,
+              "physical": {
+                "nuisance@ln_f": -2.596564884592152,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.990916550044774,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6379.155644709937,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4879.155644709937,
+                "system@additional_light": 0.17619570761988668,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.51397859912385,
+                "system@mass_ratio": 0.6961995493224752,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4772913751119347,
+                0.3791556447099375,
+                0.4189964331873079,
+                0.4809977466123757,
+                0.22024463452485835,
+                0.4005725192346414
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13699930942536528,
+                "secondary": 0.06405637228767815
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -51140.547176275984,
+                  "1": -51140.548892496576,
+                  "2": -51140.547179345136,
+                  "3": -51140.54889563882,
+                  "4": -51140.54841821823,
+                  "5": -51140.55013443862,
+                  "6": -51140.548421287735,
+                  "7": -51140.55013758223
+                },
+                "six": {
+                  "0": -51140.54718636645,
+                  "1": -51140.54890258704,
+                  "2": -51140.547189436445,
+                  "3": -51140.548905729986,
+                  "4": -51140.54842830983,
+                  "5": -51140.55014453111,
+                  "6": -51140.548431379495,
+                  "7": -51140.55014767336
+                }
+              },
+              "density_change": -1181.2639076132982,
+              "distance_sigma": 2.2256686319666824e-05,
+              "log_likelihood_bound": 0.005932241892757263,
+              "margin_over_256_corner_pairs": [
+                -1180.2640645202864,
+                -1180.2587273110857
+              ],
+              "max_measured": 0.0029777557676901167,
+              "proposed_density": -51140.54718636645,
+              "selected_position": [
+                0.47845501374070687,
+                0.3796988109668431,
+                0.42003744523977915,
+                0.48035960464235217,
+                0.2199001875713566,
+                0.4000561264020992
+              ],
+              "starting_density": -49959.28327875315
+            },
+            "independent_density_error": 8.440110832452774e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -1184.8023172599642
+              },
+              "6": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -1186.942739371705
+              }
+            },
+            "parity": {
+              "component_relative": 1.3785896163179719e-15,
+              "density": 1.520675141364336e-09,
+              "normalized": 4.440892098500626e-16,
+              "raw_relative": 7.083894542071753e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -51140.54717627527,
+                  "1": -51140.54889249573,
+                  "2": -51140.54717934522,
+                  "3": -51140.54889563967,
+                  "4": -51140.54841821884,
+                  "5": -51140.55013443945,
+                  "6": -51140.54842128762,
+                  "7": -51140.55013758249
+                },
+                "six": {
+                  "0": -51140.54718636797,
+                  "1": -51140.548902587834,
+                  "2": -51140.54718943689,
+                  "3": -51140.54890573089,
+                  "4": -51140.548428310474,
+                  "5": -51140.5501445304,
+                  "6": -51140.54843137913,
+                  "7": -51140.550147673835
+                }
+              },
+              "density_change": -1181.2639076147825,
+              "distance_sigma": 2.225667182984067e-05,
+              "log_likelihood_bound": 0.005932239906342676,
+              "margin_over_256_corner_pairs": [
+                -1180.2640645209558,
+                -1180.258727309194
+              ],
+              "max_measured": 0.0029777547212570905,
+              "proposed_density": -51140.54718636797,
+              "selected_position": [
+                0.47845501374070687,
+                0.3796988109668431,
+                0.42003744523977915,
+                0.48035960464235217,
+                0.2199001875713566,
+                0.4000561264020992
+              ],
+              "starting_density": -49959.28327875319
+            },
+            "seed": 20261118,
+            "status": "rejected",
+            "step": 4
+          },
+          {
+            "draw": {
+              "log_uniform": -0.2743891317409191,
+              "physical": {
+                "nuisance@ln_f": -2.606163380259412,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992187264090039,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6380.09257408661,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4880.09257408661,
+                "system@additional_light": 0.1754154018100087,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.51364249899291,
+                "system@mass_ratio": 0.6961787665297104,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4804681602250989,
+                0.3800925740866097,
+                0.41894041649881897,
+                0.48089383264855223,
+                0.21926925226251087,
+                0.3989727699567647
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13697494836865606,
+                "secondary": 0.06405452049635922
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50268.84247525994,
+                  "1": -50268.84418404599,
+                  "2": -50268.84247828419,
+                  "3": -50268.844187141,
+                  "4": -50268.843299879016,
+                  "5": -50268.84500866497,
+                  "6": -50268.843302902926,
+                  "7": -50268.845011760495
+                },
+                "six": {
+                  "0": -50268.84248535857,
+                  "1": -50268.84419414383,
+                  "2": -50268.842488382026,
+                  "3": -50268.84419724019,
+                  "4": -50268.84330997696,
+                  "5": -50268.845018762026,
+                  "6": -50268.843313001176,
+                  "7": -50268.84502185864
+                }
+              },
+              "density_change": -216.14640987983876,
+              "distance_sigma": 2.108866128590042e-05,
+              "log_likelihood_bound": 0.00534533745032509,
+              "margin_over_256_corner_pairs": [
+                -215.87456729261203,
+                -215.86999965527093
+              ],
+              "max_measured": 0.002550321410579858,
+              "proposed_density": -50268.84248535857,
+              "selected_position": [
+                0.4802409694550215,
+                0.3799825764902775,
+                0.4192711806310842,
+                0.48024316953798984,
+                0.21912316823457648,
+                0.39910056509175573
+              ],
+              "starting_density": -50052.69607547873
+            },
+            "independent_density_error": 7.34871719032526e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -217.40530955311988
+              },
+              "6": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -216.78112790222804
+              }
+            },
+            "parity": {
+              "component_relative": 1.038835430387906e-15,
+              "density": 9.677023626863956e-10,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 1.0555744512944974e-15
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50268.8424752606,
+                  "1": -50268.844184045716,
+                  "2": -50268.84247828378,
+                  "3": -50268.8441871415,
+                  "4": -50268.84329987836,
+                  "5": -50268.84500866513,
+                  "6": -50268.843302902664,
+                  "7": -50268.84501176109
+                },
+                "six": {
+                  "0": -50268.8424853576,
+                  "1": -50268.84419414445,
+                  "2": -50268.8424883822,
+                  "3": -50268.84419724017,
+                  "4": -50268.84330997696,
+                  "5": -50268.845018762746,
+                  "6": -50268.84331300078,
+                  "7": -50268.84502185828
+                }
+              },
+              "density_change": -216.1464098790093,
+              "distance_sigma": 2.1088659150764405e-05,
+              "log_likelihood_bound": 0.005345335239662252,
+              "margin_over_256_corner_pairs": [
+                -215.87456729320138,
+                -215.8699996562459
+              ],
+              "max_measured": 0.002550322029725812,
+              "proposed_density": -50268.8424853576,
+              "selected_position": [
+                0.4802409694550215,
+                0.3799825764902775,
+                0.4192711806310842,
+                0.48024316953798984,
+                0.21912316823457648,
+                0.39910056509175573
+              ],
+              "starting_density": -50052.69607547859
+            },
+            "seed": 20261119,
+            "status": "rejected",
+            "step": 3
+          },
+          {
+            "draw": {
+              "log_uniform": -1.560282782967244,
+              "physical": {
+                "nuisance@ln_f": -2.5931356362869256,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992276772335433,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6380.440704770039,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4880.440704770039,
+                "system@additional_light": 0.17565177860300166,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.52442884509018,
+                "system@mass_ratio": 0.6963892546027073,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4806919308385846,
+                0.38044070477003866,
+                0.420738140848365,
+                0.48194627301353654,
+                0.21956472325375206,
+                0.4011440606188458
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13697725511520914,
+                "secondary": 0.06407327527465685
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -48180.81889688067,
+                  "1": -48180.82056897959,
+                  "2": -48180.818899819176,
+                  "3": -48180.820571989025,
+                  "4": -48180.82009410728,
+                  "5": -48180.8217662058,
+                  "6": -48180.820097046475,
+                  "7": -48180.82176921558
+                },
+                "six": {
+                  "0": -48180.81890670972,
+                  "1": -48180.820578808256,
+                  "2": -48180.818909649315,
+                  "3": -48180.820581818494,
+                  "4": -48180.820103936734,
+                  "5": -48180.82177603521,
+                  "6": -48180.82010687517,
+                  "7": -48180.821779044345
+                }
+              },
+              "density_change": 216.65150203667145,
+              "distance_sigma": 2.304393359057307e-05,
+              "log_likelihood_bound": 0.005751265203746109,
+              "margin_over_256_corner_pairs": [
+                1.560282782967244,
+                1.560282782967244
+              ],
+              "max_measured": 0.0028883991072289478,
+              "proposed_density": -48180.81890670972,
+              "selected_position": [
+                0.4806919308385846,
+                0.38044070477003866,
+                0.420738140848365,
+                0.48194627301353654,
+                0.21956472325375206,
+                0.4011440606188458
+              ],
+              "starting_density": -48397.47040874639
+            },
+            "independent_density_error": 6.330083124339581e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 213.7748340692924
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 218.75871272326913
+              }
+            },
+            "parity": {
+              "component_relative": 1.3759103302756772e-15,
+              "density": 1.229636836796999e-09,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 1.2923679529151827e-15
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -48180.818896880606,
+                  "1": -48180.82056897836,
+                  "2": -48180.818899820246,
+                  "3": -48180.820571988894,
+                  "4": -48180.82009410755,
+                  "5": -48180.821766204914,
+                  "6": -48180.82009704608,
+                  "7": -48180.82176921537
+                },
+                "six": {
+                  "0": -48180.818906710185,
+                  "1": -48180.82057880855,
+                  "2": -48180.81890965045,
+                  "3": -48180.82058181839,
+                  "4": -48180.82010393626,
+                  "5": -48180.821776035096,
+                  "6": -48180.82010687585,
+                  "7": -48180.82177904477
+                }
+              },
+              "density_change": 216.65150203552184,
+              "distance_sigma": 2.3043934919064745e-05,
+              "log_likelihood_bound": 0.005751262377098667,
+              "margin_over_256_corner_pairs": [
+                1.560282782967244,
+                1.560282782967244
+              ],
+              "max_measured": 0.002888399041528659,
+              "proposed_density": -48180.818906710185,
+              "selected_position": [
+                0.4806919308385846,
+                0.38044070477003866,
+                0.420738140848365,
+                0.48194627301353654,
+                0.21956472325375206,
+                0.4011440606188458
+              ],
+              "starting_density": -48397.47040874571
+            },
+            "seed": 20261120,
+            "status": "accepted",
+            "step": 3
+          },
+          {
+            "draw": {
+              "log_uniform": -0.47918036556396326,
+              "physical": {
+                "nuisance@ln_f": -2.605754500831085,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992022053164412,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6380.139971593655,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4880.139971593655,
+                "system@additional_light": 0.1754204941177866,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.5255608732708,
+                "system@mass_ratio": 0.6960879505736407,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.4800551329110305,
+                0.38013997159365454,
+                0.4209268122118018,
+                0.4804397528682037,
+                0.21927561764723325,
+                0.39904091652815243
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13697634033766018,
+                "secondary": 0.06404642855979735
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -48357.82093511018,
+                  "1": -48357.82259962693,
+                  "2": -48357.82093806087,
+                  "3": -48357.82260264728,
+                  "4": -48357.82129050869,
+                  "5": -48357.82295502514,
+                  "6": -48357.82129345897,
+                  "7": -48357.82295804563
+                },
+                "six": {
+                  "0": -48357.820944941,
+                  "1": -48357.822609457784,
+                  "2": -48357.820947891436,
+                  "3": -48357.82261247781,
+                  "4": -48357.82130033903,
+                  "5": -48357.822964856765,
+                  "6": -48357.82130328909,
+                  "7": -48357.82296787708
+                }
+              },
+              "density_change": 462.67663862351037,
+              "distance_sigma": 2.006407009217959e-05,
+              "log_likelihood_bound": 0.004788723160454706,
+              "margin_over_256_corner_pairs": [
+                0.47918036556396326,
+                0.47918036556396326
+              ],
+              "max_measured": 0.0020339680340029933,
+              "proposed_density": -48357.820944941,
+              "selected_position": [
+                0.4800551329110305,
+                0.38013997159365454,
+                0.4209268122118018,
+                0.4804397528682037,
+                0.21927561764723325,
+                0.39904091652815243
+              ],
+              "starting_density": -48820.49758356451
+            },
+            "independent_density_error": 1.229636836796999e-09,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 467.18869612219714
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 464.36485252020066
+              }
+            },
+            "parity": {
+              "component_relative": 6.953066240786222e-16,
+              "density": 8.658389560878277e-10,
+              "normalized": 5.551115123125783e-16,
+              "raw_relative": 7.425067624889601e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -48357.82093511021,
+                  "1": -48357.822599626066,
+                  "2": -48357.82093806149,
+                  "3": -48357.82260264721,
+                  "4": -48357.82129050834,
+                  "5": -48357.82295502511,
+                  "6": -48357.82129345906,
+                  "7": -48357.82295804602
+                },
+                "six": {
+                  "0": -48357.820944940766,
+                  "1": -48357.822609457784,
+                  "2": -48357.82094789084,
+                  "3": -48357.822612478136,
+                  "4": -48357.82130033866,
+                  "5": -48357.82296485691,
+                  "6": -48357.821303289515,
+                  "7": -48357.82296787708
+                }
+              },
+              "density_change": 462.6766386233285,
+              "distance_sigma": 2.0064060237357138e-05,
+              "log_likelihood_bound": 0.00478872026352988,
+              "margin_over_256_corner_pairs": [
+                0.47918036556396326,
+                0.47918036556396326
+              ],
+              "max_measured": 0.002033968256312215,
+              "proposed_density": -48357.820944940766,
+              "selected_position": [
+                0.4800551329110305,
+                0.38013997159365454,
+                0.4209268122118018,
+                0.4804397528682037,
+                0.21927561764723325,
+                0.39904091652815243
+              ],
+              "starting_density": -48820.497583564094
+            },
+            "seed": 20261121,
+            "status": "accepted",
+            "step": 3
+          },
+          {
+            "draw": {
+              "log_uniform": -0.5776144217708836,
+              "physical": {
+                "nuisance@ln_f": -2.6051611820393674,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.991866206221282,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6381.34387711179,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4881.34387711179,
+                "system@additional_light": 0.175582192064347,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.52254386305228,
+                "system@mass_ratio": 0.6958574272488605,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.47966551555320586,
+                0.38134387711178985,
+                0.42042397717537844,
+                0.4792871362443023,
+                0.21947774008043372,
+                0.39913980299343876
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13697490436451362,
+                "secondary": 0.06402588803938951
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -49680.3348425256,
+                  "1": -49680.33652482771,
+                  "2": -49680.33484553011,
+                  "3": -49680.336527903004,
+                  "4": -49680.33605288908,
+                  "5": -49680.33773519057,
+                  "6": -49680.336055892425,
+                  "7": -49680.33773826516
+                },
+                "six": {
+                  "0": -49680.33485256476,
+                  "1": -49680.336534865884,
+                  "2": -49680.33485556823,
+                  "3": -49680.33653794111,
+                  "4": -49680.33606292698,
+                  "5": -49680.33774522868,
+                  "6": -49680.33606593071,
+                  "7": -49680.33774830379
+                }
+              },
+              "density_change": -893.800907634446,
+              "distance_sigma": 2.441644298522107e-05,
+              "log_likelihood_bound": 0.006055758876298261,
+              "margin_over_256_corner_pairs": [
+                -893.2261988834614,
+                -893.2205203774681
+              ],
+              "max_measured": 0.002911549530562774,
+              "proposed_density": -49680.33485256476,
+              "selected_position": [
+                0.47993110760564317,
+                0.3809295951728174,
+                0.4205812096736988,
+                0.48013368204135554,
+                0.21914881479841195,
+                0.39885232831637174
+              ],
+              "starting_density": -48786.533944930314
+            },
+            "independent_density_error": 5.456968210637569e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -896.2974777628406
+              },
+              "6": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -898.6223481131819
+              }
+            },
+            "parity": {
+              "component_relative": 7.866125409264337e-16,
+              "density": 7.639755494892597e-10,
+              "normalized": 6.661338147750939e-16,
+              "raw_relative": 6.304956594562066e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -49680.33484252595,
+                  "1": -49680.3365248276,
+                  "2": -49680.33484552937,
+                  "3": -49680.33652790309,
+                  "4": -49680.336052889164,
+                  "5": -49680.33773519076,
+                  "6": -49680.33605589185,
+                  "7": -49680.33773826483
+                },
+                "six": {
+                  "0": -49680.334852564956,
+                  "1": -49680.3365348653,
+                  "2": -49680.33485556819,
+                  "3": -49680.33653794035,
+                  "4": -49680.336062926806,
+                  "5": -49680.33774522823,
+                  "6": -49680.33606593093,
+                  "7": -49680.33774830331
+                }
+              },
+              "density_change": -893.8009076355738,
+              "distance_sigma": 2.4416443048215873e-05,
+              "log_likelihood_bound": 0.0060557577056532755,
+              "margin_over_256_corner_pairs": [
+                -893.2261988839052,
+                -893.2205203781084
+              ],
+              "max_measured": 0.0029115488402134773,
+              "proposed_density": -49680.334852564956,
+              "selected_position": [
+                0.47993110760564317,
+                0.3809295951728174,
+                0.4205812096736988,
+                0.48013368204135554,
+                0.21914881479841195,
+                0.39885232831637174
+              ],
+              "starting_density": -48786.53394492938
+            },
+            "seed": 20261122,
+            "status": "rejected",
+            "step": 3
+          },
+          {
+            "draw": {
+              "log_uniform": -0.08931799893252387,
+              "physical": {
+                "nuisance@ln_f": -2.6007896529925527,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.992135593243782,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6381.110573139661,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4881.110573139661,
+                "system@additional_light": 0.17642044589343298,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.52286240599705,
+                "system@mass_ratio": 0.6961091583414477,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.48033898310945605,
+                0.38111057313966124,
+                0.4204770676661746,
+                0.48054579170723866,
+                0.22052555736679122,
+                0.3998683911679079
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.13697460173629947,
+                "secondary": 0.0640483182326565
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50069.32833774335,
+                  "1": -50069.33003766931,
+                  "2": -50069.32834076369,
+                  "3": -50069.33004076176,
+                  "4": -50069.32923831348,
+                  "5": -50069.33093823977,
+                  "6": -50069.32924133412,
+                  "7": -50069.33094133122
+                },
+                "six": {
+                  "0": -50069.328347783056,
+                  "1": -50069.330047708165,
+                  "2": -50069.32835080284,
+                  "3": -50069.33005080059,
+                  "4": -50069.32924835248,
+                  "5": -50069.330948278286,
+                  "6": -50069.32925137327,
+                  "7": -50069.33095137052
+                }
+              },
+              "density_change": 175.10137070634664,
+              "distance_sigma": 2.25000782279797e-05,
+              "log_likelihood_bound": 0.005578626906893328,
+              "margin_over_256_corner_pairs": [
+                0.08931799893252387,
+                0.08931799893252387
+              ],
+              "max_measured": 0.00261792765152432,
+              "proposed_density": -50069.328347783056,
+              "selected_position": [
+                0.48033898310945605,
+                0.38111057313966124,
+                0.4204770676661746,
+                0.48054579170723866,
+                0.22052555736679122,
+                0.3998683911679079
+              ],
+              "starting_density": -50244.4297184894
+            },
+            "independent_density_error": 7.712515071034431e-10,
+            "original_facets": {
+              "12": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 178.182436558498
+              },
+              "6": {
+                "conditional_accept": true,
+                "fitted_log_posterior_change": 175.84864182463207
+              }
+            },
+            "parity": {
+              "component_relative": 1.104828913325561e-15,
+              "density": 1.3751559890806675e-09,
+              "normalized": 6.661338147750939e-16,
+              "raw_relative": 9.218398279576356e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50069.32833774336,
+                  "1": -50069.3300376692,
+                  "2": -50069.32834076416,
+                  "3": -50069.33004076229,
+                  "4": -50069.32923831392,
+                  "5": -50069.3309382398,
+                  "6": -50069.32924133366,
+                  "7": -50069.3309413321
+                },
+                "six": {
+                  "0": -50069.32834778203,
+                  "1": -50069.33004770954,
+                  "2": -50069.32835080284,
+                  "3": -50069.33005080058,
+                  "4": -50069.329248352304,
+                  "5": -50069.3309482786,
+                  "6": -50069.32925137357,
+                  "7": -50069.33095137045
+                }
+              },
+              "density_change": 175.10137070827477,
+              "distance_sigma": 2.2500096592147046e-05,
+              "log_likelihood_bound": 0.0055786330467362056,
+              "margin_over_256_corner_pairs": [
+                0.08931799893252387,
+                0.08931799893252387
+              ],
+              "max_measured": 0.0026179286262039145,
+              "proposed_density": -50069.32834778203,
+              "selected_position": [
+                0.48033898310945605,
+                0.38111057313966124,
+                0.4204770676661746,
+                0.48054579170723866,
+                0.22052555736679122,
+                0.3998683911679079
+              ],
+              "starting_density": -50244.429718490304
+            },
+            "seed": 20261123,
+            "status": "accepted",
+            "step": 3
+          },
+          {
+            "draw": {
+              "log_uniform": -0.6181957897031913,
+              "physical": {
+                "nuisance@ln_f": -2.6019114134700225,
+                "primary@albedo": 0.5,
+                "primary@gravity_darkening": 0.32,
+                "primary@metallicity": 0.0,
+                "primary@surface_potential": 7.991601093363148,
+                "primary@synchronicity": 1.0,
+                "primary@t_eff": 6380.644509879949,
+                "secondary@albedo": 0.5,
+                "secondary@gravity_darkening": 0.32,
+                "secondary@metallicity": 0.0,
+                "secondary@surface_potential": 12.0,
+                "secondary@synchronicity": 1.0,
+                "secondary@t_eff": 4880.644509879949,
+                "system@additional_light": 0.17519235202366812,
+                "system@argument_of_periastron": 90.0,
+                "system@eccentricity": 0.0,
+                "system@inclination": 85.5149824600325,
+                "system@mass_ratio": 0.6958258993254439,
+                "system@period": 3.0,
+                "system@phase_shift": 0.017,
+                "system@semi_major_axis": 10.0
+              },
+              "prior": 0.0,
+              "proposed": [
+                0.47900273340787053,
+                0.3806445098799491,
+                0.41916374333874895,
+                0.4791294966272195,
+                0.21899044002958515,
+                0.3996814310883296
+              ],
+              "volume_equivalent_radii_over_separation": {
+                "primary": 0.1369793054958979,
+                "secondary": 0.06402307874638269
+              }
+            },
+            "gpu": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50600.82162035986,
+                  "1": -50600.82331978898,
+                  "2": -50600.82162339911,
+                  "3": -50600.82332289979,
+                  "4": -50600.82150696345,
+                  "5": -50600.82320639093,
+                  "6": -50600.82151000274,
+                  "7": -50600.823209502734
+                },
+                "six": {
+                  "0": -50600.821630477556,
+                  "1": -50600.82332990537,
+                  "2": -50600.82163351576,
+                  "3": -50600.823333017266,
+                  "4": -50600.82151708035,
+                  "5": -50600.82321650976,
+                  "6": -50600.82152012084,
+                  "7": -50600.823219621605
+                }
+              },
+              "density_change": -638.5736674539658,
+              "distance_sigma": 1.9088825145090196e-05,
+              "log_likelihood_bound": 0.004588339836069472,
+              "margin_over_256_corner_pairs": [
+                -637.9571842516845,
+                -637.9532783330316
+              ],
+              "max_measured": 0.0017118960584640898,
+              "proposed_density": -50600.821630477556,
+              "selected_position": [
+                0.4797532747397169,
+                0.38102965118604276,
+                0.4198945259068023,
+                0.4796697668601483,
+                0.2193822265763599,
+                0.40012883043027764
+              ],
+              "starting_density": -49962.24796302359
+            },
+            "independent_density_error": 1.0477378964424133e-09,
+            "original_facets": {
+              "12": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -643.0882708919016
+              },
+              "6": {
+                "conditional_accept": false,
+                "fitted_log_posterior_change": -641.5470075606281
+              }
+            },
+            "parity": {
+              "component_relative": 1.2725437357685376e-15,
+              "density": 1.949956640601158e-09,
+              "normalized": 6.661338147750939e-16,
+              "raw_relative": 8.683832402282932e-16
+            },
+            "reference": {
+              "corner_densities": {
+                "duffy": {
+                  "0": -50600.82162036012,
+                  "1": -50600.82331978772,
+                  "2": -50600.821623399315,
+                  "3": -50600.823322899494,
+                  "4": -50600.82150696391,
+                  "5": -50600.82320639063,
+                  "6": -50600.821510003116,
+                  "7": -50600.823209501585
+                },
+                "six": {
+                  "0": -50600.82163047732,
+                  "1": -50600.82332990543,
+                  "2": -50600.82163351565,
+                  "3": -50600.82333301679,
+                  "4": -50600.82151707983,
+                  "5": -50600.82321650781,
+                  "6": -50600.82152012029,
+                  "7": -50600.82321962126
+                }
+              },
+              "density_change": -638.5736674535001,
+              "distance_sigma": 1.908883752007993e-05,
+              "log_likelihood_bound": 0.004588337952422733,
+              "margin_over_256_corner_pairs": [
+                -637.9571842522083,
+                -637.9532783327624
+              ],
+              "max_measured": 0.0017118958152546303,
+              "proposed_density": -50600.82163047732,
+              "selected_position": [
+                0.4797532747397169,
+                0.38102965118604276,
+                0.4198945259068023,
+                0.4796697668601483,
+                0.2193822265763599,
+                0.40012883043027764
+              ],
+              "starting_density": -49962.24796302382
+            },
+            "seed": 20261124,
+            "status": "rejected",
+            "step": 3
+          }
+        ],
+        "workers": 8
+      }
+    ],
+    "scope": "Observed displacement per transition across the supplied generations; these short traces do not estimate posterior uncertainty or effective samples.",
+    "selected": {
+      "20261117": [
+        {
+          "coordinates": {
+            "inclination_deg": 85.52285571194992,
+            "primary_radius_over_separation": 0.1369690244468767,
+            "secondary_radius_over_separation": 0.06403436262499496
+          },
+          "log_posterior": -49512.75095490133,
+          "step": 2
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52925431996077,
+            "primary_radius_over_separation": 0.13696818290764792,
+            "secondary_radius_over_separation": 0.06403781548039861
+          },
+          "log_posterior": -46730.9513838242,
+          "status": "accepted",
+          "step": 3
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52717682857039,
+            "primary_radius_over_separation": 0.13695995478464063,
+            "secondary_radius_over_separation": 0.06403319769551326
+          },
+          "log_posterior": -46631.21116625138,
+          "status": "accepted",
+          "step": 4
+        }
+      ],
+      "20261118": [
+        {
+          "coordinates": {
+            "inclination_deg": 85.52022467143867,
+            "primary_radius_over_separation": 0.13698810698366687,
+            "secondary_radius_over_separation": 0.06404500027011246
+          },
+          "log_posterior": -49959.28327875319,
+          "step": 2
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52022467143867,
+            "primary_radius_over_separation": 0.13698810698366687,
+            "secondary_radius_over_separation": 0.06404500027011246
+          },
+          "log_posterior": -49959.28327875319,
+          "status": "rejected",
+          "step": 3
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52022467143867,
+            "primary_radius_over_separation": 0.13698810698366687,
+            "secondary_radius_over_separation": 0.06404500027011246
+          },
+          "log_posterior": -49959.28327875319,
+          "status": "rejected",
+          "step": 4
+        }
+      ],
+      "20261119": [
+        {
+          "coordinates": {
+            "inclination_deg": 85.52,
+            "primary_radius_over_separation": 0.1369750870820736,
+            "secondary_radius_over_separation": 0.06403859187340165
+          },
+          "log_posterior": -50244.429718490304,
+          "step": 1
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.51562708378651,
+            "primary_radius_over_separation": 0.13697419243182468,
+            "secondary_radius_over_separation": 0.06404292532272661
+          },
+          "log_posterior": -50052.69607547859,
+          "status": "accepted",
+          "step": 2
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.51562708378651,
+            "primary_radius_over_separation": 0.13697419243182468,
+            "secondary_radius_over_separation": 0.06404292532272661
+          },
+          "log_posterior": -50052.69607547859,
+          "status": "rejected",
+          "step": 3
+        }
+      ],
+      "20261120": [
+        {
+          "coordinates": {
+            "inclination_deg": 85.52579307897805,
+            "primary_radius_over_separation": 0.13697215672747254,
+            "secondary_radius_over_separation": 0.06405420314044927
+          },
+          "log_posterior": -48670.91963747896,
+          "step": 1
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52788511643237,
+            "primary_radius_over_separation": 0.1369756076663188,
+            "secondary_radius_over_separation": 0.06406479160830926
+          },
+          "log_posterior": -48397.47040874571,
+          "status": "accepted",
+          "step": 2
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52442884509018,
+            "primary_radius_over_separation": 0.13697725511520914,
+            "secondary_radius_over_separation": 0.06407327527465685
+          },
+          "log_posterior": -48180.818906710185,
+          "status": "accepted",
+          "step": 3
+        }
+      ],
+      "20261121": [
+        {
+          "coordinates": {
+            "inclination_deg": 85.52153102040751,
+            "primary_radius_over_separation": 0.13697620733048388,
+            "secondary_radius_over_separation": 0.06404765515912339
+          },
+          "log_posterior": -50083.82951632445,
+          "step": 1
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52113273144113,
+            "primary_radius_over_separation": 0.13697863264516755,
+            "secondary_radius_over_separation": 0.06404788231289095
+          },
+          "log_posterior": -48820.497583564094,
+          "status": "accepted",
+          "step": 2
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.5255608732708,
+            "primary_radius_over_separation": 0.13697634033766018,
+            "secondary_radius_over_separation": 0.06404642855979735
+          },
+          "log_posterior": -48357.820944940766,
+          "status": "accepted",
+          "step": 3
+        }
+      ],
+      "20261122": [
+        {
+          "coordinates": {
+            "inclination_deg": 85.5234872580422,
+            "primary_radius_over_separation": 0.13697611414011576,
+            "secondary_radius_over_separation": 0.0640409741821624
+          },
+          "log_posterior": -48786.53394492938,
+          "step": 1
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.5234872580422,
+            "primary_radius_over_separation": 0.13697611414011576,
+            "secondary_radius_over_separation": 0.0640409741821624
+          },
+          "log_posterior": -48786.53394492938,
+          "status": "rejected",
+          "step": 2
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.5234872580422,
+            "primary_radius_over_separation": 0.13697611414011576,
+            "secondary_radius_over_separation": 0.0640409741821624
+          },
+          "log_posterior": -48786.53394492938,
+          "status": "rejected",
+          "step": 3
+        }
+      ],
+      "20261123": [
+        {
+          "coordinates": {
+            "inclination_deg": 85.52,
+            "primary_radius_over_separation": 0.1369750870820736,
+            "secondary_radius_over_separation": 0.06403859187340165
+          },
+          "log_posterior": -50244.429718490304,
+          "step": 1
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52,
+            "primary_radius_over_separation": 0.1369750870820736,
+            "secondary_radius_over_separation": 0.06403859187340165
+          },
+          "log_posterior": -50244.429718490304,
+          "status": "rejected",
+          "step": 2
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.52286240599705,
+            "primary_radius_over_separation": 0.13697460173629947,
+            "secondary_radius_over_separation": 0.0640483182326565
+          },
+          "log_posterior": -50069.32834778203,
+          "status": "accepted",
+          "step": 3
+        }
+      ],
+      "20261124": [
+        {
+          "coordinates": {
+            "inclination_deg": 85.52,
+            "primary_radius_over_separation": 0.1369750870820736,
+            "secondary_radius_over_separation": 0.06403859187340165
+          },
+          "log_posterior": -50244.429718490304,
+          "step": 1
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.51936715544082,
+            "primary_radius_over_separation": 0.13697569470132745,
+            "secondary_radius_over_separation": 0.06403270686022164
+          },
+          "log_posterior": -49962.24796302382,
+          "status": "accepted",
+          "step": 2
+        },
+        {
+          "coordinates": {
+            "inclination_deg": 85.51936715544082,
+            "primary_radius_over_separation": 0.13697569470132745,
+            "secondary_radius_over_separation": 0.06403270686022164
+          },
+          "log_posterior": -49962.24796302382,
+          "status": "rejected",
+          "step": 3
+        }
+      ]
+    },
+    "stationary_streams": 2,
+    "status_counts": {
+      "accepted": 9,
+      "rejected": 7
+    }
+  },
+  "source_manifest_sha256": "56f17d04d01934cc0d027071e54ef1e4b839b3b69b8db8a70d33da8b8d0fee41",
+  "starts_sha256": {
+    "gpu": "d3f5a9e0c453358df9376e1c4110ce2b79323c0438c4ec17a48ba5ba6cb52376",
+    "reference": "791196797fe2a86975e75e442ef5c7d2cb31c041e254afb364e93f9c57d5ee73"
+  },
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 16
+  },
+  "timings": {
+    "1": {
+      "gpu": {
+        "active_gpu": {
+          "active_link_gen_width": [
+            [
+              4,
+              8
+            ]
+          ],
+          "active_samples": 190,
+          "median_active_watts": 115.35,
+          "peak_C": 54.0,
+          "peak_active_MiB": 2370.0,
+          "samples": 630
+        },
+        "decisions": {
+          "accepted": 5,
+          "rejected": 3
+        },
+        "field_window_seconds": 275.1072158140596,
+        "final_checkpoint_sha256": {
+          "20261117": "b82318915a51e2cd6a62ecc18f66562dca71e0c5c10ec8a46b597e0c96059916",
+          "20261118": "9030f0b9e9af14a70c303f3983ce911e1b3926bf71be2ab663bf6a9039504913",
+          "20261119": "fac6c9f8f4ca9d67503a9f5b7a9d6d4988c6a4b9911b0fc55ca3d43018d4b5ce",
+          "20261120": "4de7509bb9133d647e948aea31477657f96f66e7c0246396dda55a9afd9f1fac",
+          "20261121": "881a741e498edcabc026c09cf391fff25963e88b715695d93189991f860c2239",
+          "20261122": "ad0190b17d1520fc3b1b34c6b4a71da617f3f1d30a6a214dce2c6e47d2e2268c",
+          "20261123": "12cab5d7d44fc2cb207554668d9372ae156b9b3c92f002078daa8f22ef64af8f",
+          "20261124": "0acec627d231c94810d3ad21a12ab8d19bbca2943103cb03e5807ac9945f101c"
+        },
+        "host_unit_peak_memory": "7.8G",
+        "host_unit_seconds": 1526.6440806500614,
+        "init_seconds": 1.562871468020603,
+        "proposals": 8,
+        "sampling_seconds": 1801.751296464121,
+        "sum_worker_cpu_field_seconds": 4.067085683345795e-06,
+        "sum_worker_curve_stages_seconds": {
+          "all_fresh_fields_and_common_partition": 0.05449762404896319,
+          "all_variant_integration_transfers_compile": 3140.851006147219,
+          "cpu_common_geometry_clipping_hash": 8797.537064658478,
+          "total": 11938.564952744404
+        },
+        "sum_worker_seconds": 11958.02670909185,
+        "total_field_archive_bytes": 289880086,
+        "total_seconds": 1803.3141679321416,
+        "windows": [
+          622,
+          623,
+          624
+        ],
+        "workers": 8
+      },
+      "reference": {
+        "decisions": {
+          "accepted": 5,
+          "rejected": 3
+        },
+        "field_window_seconds": 1.5927944332361221e-06,
+        "final_checkpoint_sha256": {
+          "20261117": "ed32c800670614bf693d15769a66e07fb383a4cd11f5b1ee72bed3d0d2298f99",
+          "20261118": "e1e7f78958b6562ada0f4d033f2d9655b244370ae8f3806c43daf19dbf02ac8d",
+          "20261119": "127b1f27e62718bd64e4c44adb64ff5c1cb795b1b07ae1d0a0f8edeabb83f845",
+          "20261120": "090741c9ed4a1bc2073e8154982a01156973328e9b14dfff5b8f5c1a19421426",
+          "20261121": "ae67e925b219f87a7976bd07986a48f0037fbdfdd3d35b95b7ee7402e96f7ee4",
+          "20261122": "d43835a13085ffd6a06f0cd81077920e9193eaac51b83d343030e0e8b2be4ea7",
+          "20261123": "e70d7d9ccee3fdd0f434c9673f92001f850d60cf291af41398c74da901b337e9",
+          "20261124": "b106fb6eea8d56a181b420b5b6bca6f3a0337c3da8de4ad3532d7fa3a98ca0d1"
+        },
+        "host_unit_peak_memory": "13.4G",
+        "host_unit_seconds": 1643.6942510090303,
+        "init_seconds": 1.560656244168058,
+        "proposals": 8,
+        "sampling_seconds": 1643.6942526018247,
+        "sum_worker_cpu_field_seconds": 1246.0796234733425,
+        "sum_worker_curve_stages_seconds": {
+          "all_fresh_fields_and_common_partition": 0.060649774270132184,
+          "all_variant_integration_transfers_compile": 2864.878676646389,
+          "cpu_common_geometry_clipping_hash": 8886.973402223783,
+          "total": 11752.01331595541
+        },
+        "sum_worker_seconds": 13017.279224742204,
+        "total_field_archive_bytes": 0,
+        "total_seconds": 1645.2549088459928,
+        "windows": [],
+        "workers": 8
+      }
+    },
+    "2": {
+      "gpu": {
+        "active_gpu": {
+          "active_link_gen_width": [
+            [
+              4,
+              8
+            ]
+          ],
+          "active_samples": 195,
+          "median_active_watts": 115.83,
+          "peak_C": 54.0,
+          "peak_active_MiB": 2370.0,
+          "samples": 628
+        },
+        "decisions": {
+          "accepted": 4,
+          "rejected": 4
+        },
+        "field_window_seconds": 276.12901171995327,
+        "final_checkpoint_sha256": {
+          "20261117": "810963b4f3db9a3995aa9fcad123c39d529c57d32cfa9053322c8061c5bb7f0c",
+          "20261118": "db78c935f91444a6f610bb852033ef84ae82ea5a1bcad88b8a1fa4ec9ee6dbc1",
+          "20261119": "85ff56accfd6209fb31f344fecf6e65125fcc03359887a0d40959e78a0f3ca3a",
+          "20261120": "9cd8df0ac998d3137a6fae72d5802eff6a2eea897f44f6ffe3b212f690b03595",
+          "20261121": "cddd4336a5593504c21b615f1b32f234cd0fbb4fcc16b71cd0600dcd86db3358",
+          "20261122": "c946cbd84778e08903212605bbe81891fec58a8ae7d3709258a9b5d43d8d49a0",
+          "20261123": "caec4e4f1ae9f31a12b141472826a2b03f0efcd7664aa47a45b54581b58bd466",
+          "20261124": "c6adc47d8df30dc028735471411de6d47f6f9e3c599aa2845840a704f706283f"
+        },
+        "host_unit_peak_memory": "7.5G",
+        "host_unit_seconds": 1524.6314656760078,
+        "init_seconds": 1.7313297761138529,
+        "proposals": 8,
+        "sampling_seconds": 1800.760477395961,
+        "sum_worker_cpu_field_seconds": 4.909001290798187e-06,
+        "sum_worker_curve_stages_seconds": {
+          "all_fresh_fields_and_common_partition": 0.0554253573063761,
+          "all_variant_integration_transfers_compile": 3142.985259279143,
+          "cpu_common_geometry_clipping_hash": 8800.606013885,
+          "total": 11943.77132521174
+        },
+        "sum_worker_seconds": 11963.236810695613,
+        "total_field_archive_bytes": 289880079,
+        "total_seconds": 1802.491807172075,
+        "windows": [
+          625,
+          626,
+          627
+        ],
+        "workers": 8
+      },
+      "reference": {
+        "decisions": {
+          "accepted": 4,
+          "rejected": 4
+        },
+        "field_window_seconds": 7.520429790019989e-07,
+        "final_checkpoint_sha256": {
+          "20261117": "0f96eb135379f4b9423da670c9294f3ea4a615d5a19ce0e2ce67240d305897f7",
+          "20261118": "f1781c6923039cf6b9225509ed0536b1470ed2886e7ea0335b7e9c6755587545",
+          "20261119": "b8c8132be6228ecd2fa5797575dbe89ce7e0c09c4aa7bc1d84679317aeacca7f",
+          "20261120": "df334c579c749a8e44028ef2f3e0fc2c55d2b925dafc238bc68d9905b15af8a0",
+          "20261121": "53b00a5b1b7241f5aa744a897a335fd5f35cd119c73c5ec4c91c73d345dac7dc",
+          "20261122": "7490142aa62d45fcbd5290e5d3fa8808458546a61b175353754849eb85868ea2",
+          "20261123": "61ee1a8860df8dc88e12d2ec52779158c7762f43eaa658f394cc26513cf24c43",
+          "20261124": "a61cf6f38581dfb4230c798c80af14a63634b1bd987fc698349a34543d006b27"
+        },
+        "host_unit_peak_memory": "13.5G",
+        "host_unit_seconds": 1653.703161285026,
+        "init_seconds": 1.700819537974894,
+        "proposals": 8,
+        "sampling_seconds": 1653.703162037069,
+        "sum_worker_cpu_field_seconds": 1230.1836369030643,
+        "sum_worker_curve_stages_seconds": {
+          "all_fresh_fields_and_common_partition": 0.05734601221047342,
+          "all_variant_integration_transfers_compile": 3009.94745463063,
+          "cpu_common_geometry_clipping_hash": 8871.398900708882,
+          "total": 11881.498984967591
+        },
+        "sum_worker_seconds": 13131.094207797898,
+        "total_field_archive_bytes": 0,
+        "total_seconds": 1655.4039815750439,
+        "windows": [],
+        "workers": 8
+      }
+    }
+  },
+  "windows": [
+    {
+      "expected_head": "d32d9c35e8fb2b599f39c6b895625c4eaa46cb5b",
+      "max_seconds": 300,
+      "measured_seconds": 101.20573096023872,
+      "number": 622,
+      "purpose": "physical-walker-fields",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "3d249ed2e93e5820033039c070f48d5f221257d68e5684948db585e81b24cf80",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "d32d9c35e8fb2b599f39c6b895625c4eaa46cb5b",
+      "max_seconds": 300,
+      "measured_seconds": 100.65004700305872,
+      "number": 623,
+      "purpose": "physical-walker-fields",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "3d249ed2e93e5820033039c070f48d5f221257d68e5684948db585e81b24cf80",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "d32d9c35e8fb2b599f39c6b895625c4eaa46cb5b",
+      "max_seconds": 300,
+      "measured_seconds": 71.26010286295786,
+      "number": 624,
+      "purpose": "physical-walker-fields",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "3d249ed2e93e5820033039c070f48d5f221257d68e5684948db585e81b24cf80",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "d32d9c35e8fb2b599f39c6b895625c4eaa46cb5b",
+      "max_seconds": 300,
+      "measured_seconds": 101.25042522093281,
+      "number": 625,
+      "purpose": "physical-walker-fields",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "3d249ed2e93e5820033039c070f48d5f221257d68e5684948db585e81b24cf80",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "d32d9c35e8fb2b599f39c6b895625c4eaa46cb5b",
+      "max_seconds": 300,
+      "measured_seconds": 100.75599300698377,
+      "number": 626,
+      "purpose": "physical-walker-fields",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "3d249ed2e93e5820033039c070f48d5f221257d68e5684948db585e81b24cf80",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "d32d9c35e8fb2b599f39c6b895625c4eaa46cb5b",
+      "max_seconds": 300,
+      "measured_seconds": 70.77020402671769,
+      "number": 627,
+      "purpose": "physical-walker-fields",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "3d249ed2e93e5820033039c070f48d5f221257d68e5684948db585e81b24cf80",
+      "verified_hold_both_boundaries": true
+    }
+  ]
+}
