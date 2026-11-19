@@ -20,9 +20,9 @@ from scripts.validate_receiver_heating import source_class
 from scripts.validate_quadratic_source import assess
 
 
-def grid(parts, degree, primary_cubic=False, curved_heating=False):
+def grid(parts, degree, primary_cubic=False, curved_heating=False, horizon_mean=False):
     engine = ("symmetric-" if degree is not None else "") + "shadow-"
-    engine += source_class(primary_cubic, curved_heating).rule_prefix.replace("_", "-")
+    engine += source_class(primary_cubic, curved_heating, horizon_mean).rule_prefix.replace("_", "-")
     result = assess(parts, engine=engine, interior_degree=degree)
     profiles = [profile for part in parts for profile in part["profiles"]]
     finest = [p for p in profiles if (p["depth"], p["donor_level"]) == (4, 2)]
@@ -105,12 +105,12 @@ def stellar_changes(coarse, fine, reducers, sigma, observed):
     )
 
 
-def compare(target, alternative, alternative_degree, *, primary_cubic=False, curved_heating=False):
+def compare(target, alternative, alternative_degree, *, primary_cubic=False, curved_heating=False, horizon_mean=False):
     """Enclose all 16 computed corners relative to the six-point finest curve."""
     if alternative_degree not in (None, 5):
         raise ValueError("Choose a distinct seven-point or Duffy interior comparison")
-    a, pa, ra = grid(target, 4, primary_cubic, curved_heating)
-    b, pb, rb = grid(alternative, alternative_degree, primary_cubic, curved_heating)
+    a, pa, ra = grid(target, 4, primary_cubic, curved_heating, horizon_mean)
+    b, pb, rb = grid(alternative, alternative_degree, primary_cubic, curved_heating, horizon_mean)
     for key in ("backend", "source_revision", "physical_constants", "observations", "uncertainties", "reducers"):
         if pa[key] != pb[key]:
             raise ValueError(f"Interior comparison changed {key}")
@@ -185,6 +185,7 @@ if __name__ == "__main__":
     p.add_argument("--six", type=Path, nargs=2, required=True)
     p.add_argument("--alternative", type=Path, nargs=2, required=True)
     p.add_argument("--alternative-rule", choices=("duffy", "seven"), required=True)
+    p.add_argument("--horizon-mean", action="store_true", help="Refine the primary receiver mean near the irradiation horizon.")
     p.add_argument("--curved-heating", action="store_true")
     p.add_argument("--primary-cubic", action="store_true")
     p.add_argument("--output", type=Path, required=True)
@@ -192,5 +193,5 @@ if __name__ == "__main__":
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
         target = [json.loads(path.read_bytes()) for path in args.six]
         alternative = [json.loads(path.read_bytes()) for path in args.alternative]
-        result = compare(target, alternative, 5 if args.alternative_rule == "seven" else None, primary_cubic=args.primary_cubic, curved_heating=args.curved_heating)
+        result = compare(target, alternative, 5 if args.alternative_rule == "seven" else None, primary_cubic=args.primary_cubic, curved_heating=args.curved_heating, horizon_mean=args.horizon_mean)
     args.output.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")

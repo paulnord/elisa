@@ -1,5 +1,41 @@
 # Experimental GPU likelihood pilot
 
+## m038 — Primary irradiation near the illumination boundary
+
+`HorizonReceiverLightCurve` uses a positive six-point rule for the primary’s receiving-face mean in both reflection iterations. A face is selected when its vertex x range intersects the interval from ELISa’s visibility threshold to twice the product of the two polar radii above that threshold, in units of orbital separation. This band approximates the width of the finite companion near the primary’s horizon. Every node still uses ELISa’s visibility test and the original donor and receiver horizon calculations. The integration weights include the curved-area Jacobian and use the area of the whole face, including its unilluminated portion.
+
+The three original samples still determine the within-face heating shape. On a refined face they carry zero weight in the mean. The quadratic reconstruction preserves the new mean, including where the positivity limiter acts. The secondary uses the original three-point rule. This option has its own curve identity and uses the existing node and interaction caps. The reference, JAX CPU and GPU use the same opt-in physical model.
+
+To reproduce proposal 0 on serial CPU, run the following from the repository root in the FP64 environment. On Ada each GPU evaluation uses its own registered, hold-verified unit. The full-curve benchmark uses a single process at depth three with the six-point observer rule. The other three configurations use two phase blocks each.
+
+```bash
+fixture=docs/ada_validation/background-m033-proposal-0.json
+out=$(mktemp -d)
+python -m scripts.validate_receiver_heating evaluate "$fixture" --backend reference --depth 3 \
+  --selective-shadow --horizon-mean --symmetric-interior 4 --output "$out/six-3.json"
+for rule in six duffy; do
+  options=()
+  if [[ "$rule" == six ]]; then options+=(--symmetric-interior 4); fi
+  for depth in 3 4; do
+    if [[ "$rule" == six && "$depth" == 3 ]]; then continue; fi
+    for part in 0 1; do
+      python -m scripts.receiver_phase_parts evaluate "$fixture" --backend reference --depth "$depth" \
+        --part "$part" --horizon-mean "${options[@]}" --output "$out/$rule-$depth-$part.json"
+    done
+    python -m scripts.receiver_phase_parts join "$fixture" "$out/$rule-$depth-0.json" "$out/$rule-$depth-1.json" \
+      --horizon-mean "${options[@]}" --output "$out/$rule-$depth.json"
+  done
+done
+python -m scripts.check_interior_resolution --six "$out/six-3.json" "$out/six-4.json" \
+  --alternative "$out/duffy-3.json" "$out/duffy-4.json" --alternative-rule duffy --horizon-mean \
+  --output "$out/combined.json"
+python -m scripts.check_horizon_means "$fixture" --output "$out/direct.json"
+python -m scripts.weight_projected_heat "$fixture" --horizon-mean --output "$out/response.json"
+python -m scripts.map_receiver_response "$out/six-4.json" "$out/response.json" --output "$out/attribution.json"
+```
+
+Use `--backend cpu` for JAX CPU and `--backend gpu --verified-bounded-gpu-window` inside the registered Ada unit. The response calculation and direct donor-node comparison use serial CPU. To reproduce the earlier three-point receiving model’s optical attribution, omit `--horizon-mean` from `weight_projected_heat` and supply the matching m037 six-point, depth-four complete curve to `map_receiver_response`. The optical sensitivity calculations use fixed physical parameters and do not supply an inference density. [Validation data](ada_validation/background-m038.json)
+
 ## m037 — Projected primary heating at proposal 0
 
 The calculation compares three primary spectra on the same eclipse quadrature points. Both reflection sweeps run to completion before the code constructs the intrinsic, face-mean and fully reflected spectra. Each uses the same gravity-darkened primary and the same fully reflected secondary. The supported case is the circular detached blackbody binary with linear limb darkening in the fixture. The physical likelihood uses the fully reflected spectrum and the existing resolution check. The other spectra measure sensitivity to deposited heat.

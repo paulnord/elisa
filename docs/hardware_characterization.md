@@ -1,5 +1,18 @@
 # Ada workload and hardware characterization
 
+## m038 — Complete curves with refined primary receiver means
+
+Each fresh process built four reflected stellar fields at proposal 0, crossed two thermal meshes with two donor groupings, integrated the 18 input phases at eclipse depth three, and returned two diagnostic fitted densities. The serial reference uses the same curved model with NumPy and ELISa’s CPU routines. The process clock includes startup, compilation encountered, CPU geometry and clipping, host/device transfers, synchronization and output. All four runs used logical CPUs 16–19, nice 19, and BLAS and OpenMP thread limits of one. JAX could use its own worker threads. Stage times below are internal measurements.
+
+| Backend | Process s | Shared setup s | Fresh fields and common partition s | Eclipse geometry and clipping s | Optical integration s |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Serial CPU | 303.87 | 0.00 | 95.09 | 182.37 | 24.83 |
+| JAX CPU | 570.80 | 3.18 | 55.93 | 488.27 | 20.04 |
+| RTX 3080 Ti | 171.14 | 4.40 | 40.28 | 118.00 | 4.92 |
+| RTX 3080 Ti repeat | 171.14 | 4.40 | 40.08 | 118.21 | 4.90 |
+
+The first matched GPU run completed this workload 1.78× as fast as serial CPU. Its peak sampled device memory was 1378 MiB and median active power was 113 W. The full sixteen-model accuracy check also requires the deeper eclipse and the second observer rule. The native 8- and 16-worker fits use a different finite model. [Scientific results and hardware samples](ada_validation/background-m038.json)
+
 ## m037 — Complete disk heating comparisons at two thermal and donor resolutions
 
 Each measurement rebuilt four reflected fields and evaluated three primary spectra over the two phase blocks of proposal 0. Each block started a fresh process. Both blocks rebuilt the fields and evaluated repeated orbital phases independently. The last CPU process joined the full curves, calculated the fit predictions and attributed the observed likelihood changes. The table sums these process clocks, including compilation encountered, host/device transfers, synchronization, file I/O and process startup. Stage clocks exclude the final CPU join. The table uses the isolated serial CPU repeat. The first CPU block overlapped the last qualification join for 1.61 s and is recorded separately in the ledger. Each backend used logical CPUs 16–19, nice 19 and one thread for BLAS and OpenMP. JAX could use its own CPU worker threads.

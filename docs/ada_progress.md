@@ -1,6 +1,51 @@
 # Ada GPU development progress
 
-Updated **2026-11-18T23:23:45.295319+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T00:09:12.648644+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m038 — Primary irradiation at eclipse contact
+
+A six-point integration of irradiating flux improved the primary’s receiving-face means near the illumination boundary. Across 32 faces on each mesh, the RMS error relative to a 36-point direct calculation fell by a factor of **9.6** on the coarse mesh and **13.7** on the fine mesh. On proposal 0 the complete sixteen-model log-likelihood error bound changed from **0.018055** to **0.017971**. The allowed bound is **0.01**. [Validation data](ada_validation/background-m038.json)
+
+### Irradiation on the primary
+
+Each cooler-first reflection iteration now integrates the primary mean with six positive curved-area weights in the selected band. The original three points supply the temperature reconstruction on every face. Outside the band the same three points also supply the mean. The secondary uses its original rule. All source and receiver nodes use the existing visibility and limb-darkening calculations. At the finest thermal and donor resolutions, 679 primary faces per symmetry quarter had visible six-point nodes. Each sweep used 233,750,459 interactions across the two stars, within the 268,435,456 cap.
+
+The direct reference traced individual curved donor nodes with the actual donor power entering the last primary update. The 32 faces at each resolution span the band in x. Each face retains the original visibility cut, including for partially illuminated area. Errors below are RMS deposited heat in units of the primary effective temperature to the fourth power. The 16-to-36 comparison measures finite quadrature sensitivity of the reference.
+
+| Thermal level | Direct 3 vs 36 | Direct 6 vs 36 | Direct 16 vs 36 | Grouped solver vs direct 6 |
+| --- | ---: | ---: | ---: | ---: |
+| 2 | 5.635e-09 | 5.887e-10 | 3.827e-10 | 2.303e-15 |
+| 3 | 4.433e-10 | 3.241e-11 | 3.082e-11 | 3.981e-15 |
+
+### Heating weighted by passband and limb darkening
+
+We transferred the coarse deposited heat onto the fine primary’s ten optical nodes per face, holding its intrinsic temperature and gravity fixed. A separate integration computed the curved-area mean heat difference on each of 8,640 common coarse faces. The optical response includes changes in both normal radiance and its product with the linear limb-darkening coefficient. The same clipped observer rays project both terms onto each disk. We also recomputed the full spectrum after exchanging the heat. The code evaluates the response halfway between the two heat fields, using fresh blackbody emission and limb darkening at each perturbed temperature. Both reflection iterations run before the diagnostic exchange.
+
+The table attributes the change in nominal log likelihood from refining the primary thermal mesh across the ten B, thirteen V and five bolometric observations. The third-light correction and observed normalization were reapplied after each exchange. The attribution averages the two choices of fixed secondary mesh. The first row keeps the original three-point receiver. The second uses the six-point mean in the horizon band.
+
+| Receiver | Common-face mean heat | Variation within common faces | Other primary field changes | Primary total |
+| --- | ---: | ---: | ---: | ---: |
+| Three points | -0.011113 | -0.001080 | +1.824e-06 | -0.012190 |
+| Refined horizon | -0.011014 | -0.001082 | +1.825e-06 | -0.012095 |
+
+The common-face means supplied 91.1% of the signed primary change after weighting by the local spectrum and limb darkening. The receiving-face refinement shifted the primary total by +0.000095.
+
+At contact, the mean heat shift contributes differently to each passband. Columns below divide the change in the primary’s flux by its fine-grid flux at the input phase. The limb-darkening column includes the local response of the limb-darkened optical moment.
+
+| Input phase | Band | Face mean, normal radiance | Face mean, limb darkening | Within-face heat, both terms |
+| ---: | --- | ---: | ---: | ---: |
+| 0.024 | B | +3.456e-09 | -3.155e-10 | +2.559e-10 |
+| 0.027 | V | +2.855e-09 | -2.490e-10 | +1.985e-10 |
+
+Across the two receiver models, three bands and 14 observed orbital phases, halving the finite-difference step in T⁴/T_eff⁴ from 1e-5 to 5e-6 changed the projected heat response by at most 4.70e-20 of the peak primary flux. The first-order response differed from the recomputed heat exchange by at most 5.59e-18 on that scale. The remaining primary field changes include intrinsic emission and representing the spectrum on a different optical mesh. [Reproduction commands](experimental_gpu_backend.md)
+
+### Complete curves and fitting
+
+The sixteen physical corners span both thermal resolutions, both donor groupings, two eclipse depths and two independent observer interior rules. The combined joint flux distance was 7.072e-05 nominal-noise units against a limit of 0.1. The largest directly measured nominal log-likelihood change was 0.009404. The combined bound exceeded the likelihood limit, so proposal 0 returned an accuracy stop. The physical chains and the matched 8- and 16-worker fit comparison remain pending. The maximum serial CPU/GPU differences over the physical grid were 5.55e-16 in normalized flux and 1.01e-09 in fitted corner log posterior.
+
+A complete depth-three process, from fresh reflected fields to four full curves and two diagnostic fit densities, took 303.87 s on serial CPU, 570.80 s on JAX CPU and 171.14 s on GPU. The GPU repeat took 171.14 s. These times include transfers, synchronization and encountered compilation. All 9 bounded GPU units verified the held Fifth42 checkpoint at both boundaries. [Hardware timings](hardware_characterization.md)
+
+The next calculation will separate changes in the secondary’s emitting surface, angular bolometric intensity and re-emitted heat on the primary faces that contribute most to the contact likelihood, then repeat the combined resolution check.
 
 ## m037 — Where primary heating changes the eclipse likelihood
 

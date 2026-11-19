@@ -41,6 +41,8 @@ def receiver_samples(star, name, receiver, values, means):
 class SampledReceiverReflection(QuadraticReflection):
     """Carry one heat value per native receiver ray through the existing bounded solver."""
 
+    _receiver_record = staticmethod(receiver_samples)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         reference = self.mode == "reference"
@@ -84,7 +86,7 @@ class SampledReceiverReflection(QuadraticReflection):
         temperatures, stats = QuadraticReflection.evaluate(worker, binary, system, level, iterations)
         order = sorted(("primary", "secondary"), key=lambda k: getattr(system, k).t_eff)
         for name, data in zip(order, last, strict=True):
-            stats[name].update(receiver_samples(getattr(system, name), name, *data))
+            stats[name].update(self._receiver_record(getattr(system, name), name, *data))
         return temperatures, stats
 
 
