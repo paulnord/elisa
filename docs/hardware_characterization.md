@@ -1,5 +1,31 @@
 # Ada workload and hardware characterization
 
+## m045 — Matched physical proposals at eight and sixteen workers
+
+| Walker processes | Fields | Restore starts, s | GPU owner, s | Host pool through checkpoints, s | Complete, s | Qualified likelihoods/min during sampling |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 8 | CPU | 2.8 | 0.0 | 2794.6 | 2797.4 | 0.344 |
+| 8 | GPU | 2.8 | 576.9 | 2538.5 | 3118.2 | 0.308 |
+| 16 | CPU | 2.8 | 0.0 | 2440.8 | 2443.6 | 0.393 |
+| 16 | GPU | 2.8 | 561.8 | 2184.7 | 2749.3 | 0.350 |
+
+Each of the four sequential runs processed sixteen distinct, changing physical proposals from a common set of saved RNG states. The worker count controls independent walkers on physical cores 0–7 or 0–15, with one numerical-library thread per process. The CPU arm constructed each walker's four reflected fields within its worker. The GPU field owner computed fresh fields for two successive proposals per bounded unit. Both arms serialized and read the same optical-field archive contract, used the same FP64 C++ stationary solve on the host, and evaluated eight phase blocks per in-prior draw. The sixteen complete curves include both eclipse depths, both thermal and donor resolutions, and both interior rules. All finite checks and durable decisions are included in the sampler wall clock. The cross-backend audit ran afterwards. [Per-run and per-stage data](ada_validation/background-m045.json)
+
+In the eight-worker CPU run, fresh fields accounted for 10.9% of summed walker time. Eclipse geometry, clipping and quadrature hashing took 64.8% of summed observer time. These stage shares use time inside the workers. The elapsed times in the table include scheduling and overlap.
+
+At sixteen workers, peak host cgroup memory was 26.8 GiB with CPU fields and 12.0 GiB with GPU fields prepared before the pool. The corresponding mean numbers of busy cores over the sampled host intervals were 15.8 and 15.9.
+
+The field archives totalled 579.8 MB in the sixteen-worker GPU-field run. During the bounded field calculations, sampled device memory peaked at 1348 MiB and median active power was 114.5 W. Active field-owner samples reported PCIe generation 4 at width ×8. The owner interval also includes field construction, compilation and file I/O. Each physical fit configuration ran once. The complete rates use the previously qualified injection and selected checkpoints. Computing the injection density from fresh fields and data is a separate cost measured in m044. [Injection cost](#m044--complete-injection-and-physical-draw-costs)
+
+Before this worker comparison the two streams each took one step using the native C++ CPU or CUDA stationary solves. For seed 20261117 those matched steps took 1119.0 s on the fused host and 1029.5 s on the GPU path. For seed 20261118 they took 1119.7 and 947.8 s. These costs sum field export, eight phase calls, numerical assessment and durable advancement. GPU times include the registered launches and verified cleanup. Separate low-priority CPU comparisons shared the host at this stage. The single JAX CPU depth-four control took 1371.1 s for four complete curves at the first seed's second proposal. It covers one quarter of the resolution grid.
+
+| Workers | Original 12° facets, s | Original 6° facets, s |
+| ---: | ---: | ---: |
+| 8 | 2.65 | 3.05 |
+| 16 | 3.12 | 3.49 |
+
+The original ELISa timings include process startup, installation of the matched fitter in each worker, and two physical likelihoods for each of the sixteen start/proposal pairs. These conditional comparisons use a single stellar facet resolution per fit and the original native interpolation settings. They measure the model that generated the synthetic data at 12° and its 6° refinement. The curved fits recompute sixteen resolutions per in-prior proposal. Compiling the stationary library was measured separately in m043. All 36 registered GPU units passed their test and verified the original Fifth42 checkpoint at both boundaries. Registration through verified exit took at most 153.7 s. [Matched starts](ada_validation/background-m045-starts.json)
+
 ## m044 — Complete injection and physical draw costs
 
 All arms use the same revised eclipse quadrature, original data, priors, noise, third light and output contract. Each complete time sums serial calls on one host thread per physical position. The two GPU draws ran sequentially. Independent CPU experiments shared the host. The timing begins with field construction and ends after the numerical assessment or durable sampler decision. Per-draw times start from an established checkpoint. The initial density was shared by both starts within each backend. Each start also verified its own density and wrote its independent random-number state. Those per-start costs are in the validation data.

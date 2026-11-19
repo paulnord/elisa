@@ -1,6 +1,32 @@
 # Ada GPU development progress
 
-Updated **2026-11-19T11:06:02.787420+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T14:55:33.158659+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m045 — Physical chains and worker scaling at the injection
+
+Two independent streams continued from the published 86.4° injection checkpoints. CPU and GPU agreed on both second draws, including every combination of sixteen starting and sixteen proposed resolutions. The original 12° facet fitter rejected both second draws, while the 6° refinement accepted both. These draws separate sensitivity to the stellar surface model from CPU/GPU agreement on the same curved model. Each position rebuilt both stars. The first draw of each stream had been rejected in m044. The table gives the subsequent moves and the selected coordinates. [Checkpointed results](ada_validation/background-m045-selected.json)
+
+| Seed | Second draw | Third draw | Final primary radius / separation | Final secondary radius / separation | Final inclination, ° |
+| ---: | --- | --- | ---: | ---: | ---: |
+| 20261117 | accepted | rejected | 0.13690024 | 0.06439076 | 86.391029 |
+| 20261118 | accepted | accepted | 0.13690496 | 0.06437951 | 86.386358 |
+
+Relative to the injection, the primary fractional radii increased by 6.51e-8 and 4.78e-6 in seed order. The secondary fractional radii decreased by 4.18e-6 and 1.54e-5, and inclinations fell by 0.00897° and 0.01364°.
+
+The worker comparison used the third draw of each continuing stream and the first draw of fourteen more independently seeded streams from the same qualified injection. The **same sixteen proposals** ran at both eight and sixteen walker processes with CPU or GPU fields. All four runs used the compiled FP64 host eclipse solver. The two preceding single-stream GPU draws used the CUDA eclipse solver. Each configuration gave 6 acceptances, 10 rejections, 0 numerical stops and 0 outside-prior draws. The four executions count as one set of sampler proposals. [Starting cohort](ada_validation/background-m045-starts.json)
+
+At nominal observational uncertainty `1e-4`, **all sixteen proposals** passed the combined finite-resolution check. Their log-likelihood error bounds ranged from 0.000168 to 0.000406, against the limit of 0.01. Across the continued streams and both worker counts, the largest CPU/GPU differences were 7.77e-16 in normalized flux, 1.46e-15 in relative component flux and 7.55e-11 in fitted log posterior. Changing the worker count within a backend changed normalized predictions by at most 6.66e-16. Rebuilding the Gaussian density from the recorded component fluxes agreed within 4.96e-11. The independent depth-four JAX CPU control at the second draw of seed 20261117 differed by at most 4.44e-16 in normalized flux. [Validation data](ada_validation/background-m045.json)
+
+| Walker processes | Fields | Restore starts, s | GPU owner, s | Host pool through checkpoints, s | Complete, s | Qualified likelihoods/min during sampling |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 8 | CPU | 2.8 | 0.0 | 2794.6 | 2797.4 | 0.344 |
+| 8 | GPU | 2.8 | 576.9 | 2538.5 | 3118.2 | 0.308 |
+| 16 | CPU | 2.8 | 0.0 | 2440.8 | 2443.6 | 0.393 |
+| 16 | GPU | 2.8 | 561.8 | 2184.7 | 2749.3 | 0.350 |
+
+The shortest complete time in these four runs was **2443.6 s**, with 16 workers and CPU fields. Each timing starts from the same already-qualified cohort and ends after durable decisions. The measurements include pool startup, transfers, synchronization and field archive writes and reads. One run was measured per configuration. [Stage costs and original ELISa comparison](hardware_characterization.md#m045--matched-physical-proposals-at-eight-and-sixteen-workers)
+
+The original 12° facet calculation agreed on 8 of 16 conditional decisions, and the 6° calculation agreed on 16, using exactly the same starting positions, proposals and random draws. Reweighting residuals on the curved path with the existing within-band exponential covariance (fraction 0.25 and unwrapped phase length 0.01) changed 0 of 16 conditional decisions. The timed chains sampled the original independent-noise likelihood. The longest streams have three transitions including the first m044 draw. Posterior intervals, mixing and effective samples per second require longer independent histories. [Reproduction](experimental_gpu_backend.md#m045--continuing-the-compact-eclipse-chains)
 
 ## m044 — The injected binary passes the sixteen-model check
 

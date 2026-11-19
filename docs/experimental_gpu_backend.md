@@ -1,5 +1,57 @@
 # Experimental GPU likelihood pilot
 
+## m045 — Continuing the compact eclipse chains
+
+The published starting cohort contains sixteen independently seeded PCG64 states for each backend. The first two resume the qualified injection chains after their second draws. The other fourteen start from the previously qualified injection with the same proposal widths and priors. The loader verifies the record digest and the model's source and settings. Use the m043 stationary library build below and the original FP64 ELISa environment. For the eight-worker host run, use a fresh output directory.
+
+```sh
+python -m scripts.compact_cohort restore docs/ada_validation/background-m045-starts.json reference cpu8
+python -m scripts.compact_cohort pool cpu8 --workers 8 --library "$PWD/stationary.so"
+```
+
+Restore the `gpu` cohort into a different directory. In registered Ada units, process successive pairs of starting files with `python -m scripts.compact_cohort fields gpu8/walker-00/start.json gpu8/walker-01/start.json --verified-bounded-gpu-window`, changing the walker indices for each pair. The device field owner completes all transfers and writes the bound fields. Run the same CPU pool command against that directory. The pool always uses the fused host stationary solver. Repeat with sixteen physical cores, `--workers 16`, fresh starts and fresh fields. Use a single BLAS/OpenMP thread per worker.
+
+```sh
+python -m scripts.assess_compact_cohort cpu8 gpu8 comparison.json --original-facets --export-selected selected.json
+python -m scripts.compact_cohort restore selected.json reference next-cpu
+python -m scripts.compact_facet_baseline docs/ada_validation/background-m045-starts.json facet12.json --workers 8 --degrees 12
+```
+
+For the independent JAX CPU depth-four control, extract the first seed's m044 selected reference checkpoint and use the same observer class on the host. The output contains all four physical curves.
+
+```sh
+jq '.["20261117"].reference.selected' docs/ada_validation/background-m044-checkpoints.json > step2-start.json
+JAX_PLATFORMS=cpu JAX_ENABLE_X64=True python - <<'PYTHON'
+from dataclasses import asdict, replace
+from pathlib import Path
+import jax
+from elisa import settings
+from elisa.experimental.compact_interior import CompactDuffyRule, compact_shadow_packet
+from elisa.experimental.node_reemission import NodeReemissionLightCurve
+from scripts.compact_interior_fit import compact_inputs
+from scripts.reflected_trial import evaluate_depth
+from scripts.sample_reflected_binary import write_record
+from scripts.validate_gpu_atmosphere import table_settings
+
+def observer(bands, rule, *, device):
+    rule = CompactDuffyRule(**asdict(replace(rule, slice_order=12, junction_depth=4)))
+    model = NodeReemissionLightCurve(bands, rule, device=device, selective_shadow=True)
+    model._packet = compact_shadow_packet
+    return model
+
+assert jax.default_backend() == "cpu" and jax.config.x64_enabled
+with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
+    _, fit, vector, key, _, _ = compact_inputs(Path("step2-start.json"), False)
+    profiles = evaluate_depth(fit, vector, 4, "cpu", observer_type=observer)
+    for row in profiles["profiles"]:
+        rule = row["samples"][0]["rows"][0]["finite_metadata"]["curvature_field3"]["rule"]
+        row.update(slice_order=rule["slice_order"], junction_depth=rule["junction_depth"])
+    write_record(Path("jax-depth4.json"), dict(trial_key=key, full=profiles))
+PYTHON
+```
+
+Each walker checks the original prior before requesting fields. A numerical or capacity stop preserves its selected density, history and RNG. A usual Metropolis rejection advances the RNG and records the repeated physical position. Completed walker outputs become visible as a directory after writing the physical evidence and selected checkpoint. After interruption, the pool's `--resume` option reconstructs each completed decision from its phase blocks and checks the RNG before reusing it. Resumed timings are recorded separately. The paired audit compares both stellar fluxes, the observation-mapped predictions, all sixteen densities, and the range of acceptance margins over all 256 starting/proposed resolutions. [Driver](../scripts/compact_cohort.py) · [Paired audit](../scripts/assess_compact_cohort.py) · [Selected cohort](ada_validation/background-m045-selected.json)
+
 ## m044 — Duffy integration of intact interior panels
 
 The opt-in control runs the original eclipse subdivision, topology checks, limb and shadow clipping, singular handling and curved-edge slices. For possible occultations, it inspects planar Duffy fragments before constructing their quadrature nodes. Four consecutive fragments from distinct leaves must exactly reproduce the corners and central child of one barycentric split. A spatial index proposes an optical face. The code regenerates its dyadic descendants and requires the proposed parent's three vertices to match a proper descendant of that optical face exactly. Failed matches keep all four panels. An accepted quartet uses the original positive 3×3 Duffy rule on its union. The procedure merges at most one generation. This preserves field ownership and the clipped domain. The integral over the merged panel is a different finite numerical approximation.
