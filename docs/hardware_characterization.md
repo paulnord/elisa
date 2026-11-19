@@ -1,5 +1,18 @@
 # Ada workload and hardware characterization
 
+## m039 — Secondary re-emission in complete curves
+
+Each fresh process evaluated the identical changing-physics proposal, two thermal meshes, two donor groupings and 18 input phases, followed by two diagnostic fit densities. All runs used logical CPUs 16–19, nice 19 and one BLAS/OpenMP thread. JAX could use its own worker threads. Process times include startup, compilation encountered, transfers, synchronization and output. The validation grid also evaluated eclipse depth four and the independent Duffy interior rule.
+
+| Backend | Process s | Shared setup s | Fresh fields and common partition s | Eclipse geometry and clipping s | Optical integration s |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Serial CPU | 306.55 | 0.00 | 96.10 | 184.11 | 24.77 |
+| JAX CPU | 569.35 | 3.14 | 56.24 | 487.05 | 19.49 |
+| RTX 3080 Ti | 172.18 | 4.30 | 41.13 | 118.30 | 4.93 |
+| RTX 3080 Ti repeat | 172.87 | 4.19 | 40.94 | 119.20 | 5.00 |
+
+At this boundary the GPU completed the diagnostic workload 1.78× as fast as the serial reference. Peak sampled device memory was 1378 MiB and median active power was 113 W. Posterior throughput requires proposals that pass the combined accuracy check. [Scientific results and timings](ada_validation/background-m039.json)
+
 ## m038 — Complete curves with refined primary receiver means
 
 Each fresh process built four reflected stellar fields at proposal 0, crossed two thermal meshes with two donor groupings, integrated the 18 input phases at eclipse depth three, and returned two diagnostic fitted densities. The serial reference uses the same curved model with NumPy and ELISa’s CPU routines. The process clock includes startup, compilation encountered, CPU geometry and clipping, host/device transfers, synchronization and output. All four runs used logical CPUs 16–19, nice 19, and BLAS and OpenMP thread limits of one. JAX could use its own worker threads. Stage times below are internal measurements.

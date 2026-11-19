@@ -1,0 +1,3425 @@
+{
+  "milestone": "m039",
+  "parent": "238c4e12a58b243f159a182caefc310df4fa6903",
+  "source_manifest_sha256": "a6f14b74c97d8c1e54c3d5c471e87579ceca850a60cae3b4fb3efe7ff45484e2",
+  "fixture_sha256": "348363ce62dc483d78cb00d0795c534bb43a61cfa96238c64b9d99f8afd5e307",
+  "physical": {
+    "primary@surface_potential": 7.991999999999999,
+    "primary@t_eff": 6380.0,
+    "system@inclination": 85.52,
+    "system@mass_ratio": 0.696,
+    "system@additional_light": 0.17600000000000002,
+    "nuisance@ln_f": -2.5999999999999996,
+    "primary@albedo": 0.5,
+    "primary@gravity_darkening": 0.32,
+    "primary@metallicity": 0.0,
+    "primary@synchronicity": 1.0,
+    "secondary@albedo": 0.5,
+    "secondary@gravity_darkening": 0.32,
+    "secondary@metallicity": 0.0,
+    "secondary@surface_potential": 12.0,
+    "secondary@synchronicity": 1.0,
+    "system@eccentricity": 0.0,
+    "system@argument_of_periastron": 90.0,
+    "system@period": 3.0,
+    "system@semi_major_axis": 10.0,
+    "system@phase_shift": 0.017,
+    "secondary@t_eff": 4880.0
+  },
+  "scope": "Circular detached reflected blackbody proposal 0 at two field, donor, observer depth and interior resolutions, with local secondary heat re-emission and primary horizon refinement.",
+  "contact": {
+    "physical": {
+      "primary@surface_potential": 7.991999999999999,
+      "primary@t_eff": 6380.0,
+      "system@inclination": 85.52,
+      "system@mass_ratio": 0.696,
+      "system@additional_light": 0.17600000000000002,
+      "nuisance@ln_f": -2.5999999999999996,
+      "primary@albedo": 0.5,
+      "primary@gravity_darkening": 0.32,
+      "primary@metallicity": 0.0,
+      "primary@synchronicity": 1.0,
+      "secondary@albedo": 0.5,
+      "secondary@gravity_darkening": 0.32,
+      "secondary@metallicity": 0.0,
+      "secondary@surface_potential": 12.0,
+      "secondary@synchronicity": 1.0,
+      "system@eccentricity": 0.0,
+      "system@argument_of_periastron": 90.0,
+      "system@period": 3.0,
+      "system@semi_major_axis": 10.0,
+      "system@phase_shift": 0.017,
+      "secondary@t_eff": 4880.0
+    },
+    "ranking": {
+      "observations": [
+        {
+          "band": "Generic.Bessell.B",
+          "index": 1,
+          "phase": 0.024
+        },
+        {
+          "band": "Generic.Bessell.B",
+          "index": 9,
+          "phase": 0.024
+        },
+        {
+          "band": "Generic.Bessell.V",
+          "index": 3,
+          "phase": 0.027000000000000003
+        }
+      ],
+      "common_faces": 2160,
+      "selected_faces": [
+        134,
+        141,
+        137,
+        140,
+        132,
+        135,
+        118,
+        121,
+        129,
+        138,
+        131,
+        629,
+        143,
+        133,
+        117,
+        125,
+        643,
+        640,
+        656,
+        101,
+        80,
+        624,
+        666,
+        641,
+        122,
+        115,
+        119,
+        608,
+        139,
+        659,
+        38,
+        665
+      ],
+      "selected_heat_difference": [
+        1.22106819943341e-08,
+        1.1257866431281593e-08,
+        9.490363207837312e-09,
+        1.0604914403729192e-08,
+        1.1477007079983326e-08,
+        9.540431528868125e-09,
+        1.167033200798779e-08,
+        7.557673972769303e-09,
+        9.416987305758825e-09,
+        -6.350875807811935e-09,
+        8.814449989708205e-09,
+        7.579808404126012e-09,
+        7.233578866246958e-09,
+        6.6694051537645545e-09,
+        1.0805324957095066e-08,
+        7.55020169588597e-09,
+        9.82961163293891e-09,
+        1.0010153512155642e-08,
+        1.088332104860486e-08,
+        1.097681398450945e-08,
+        1.1551703715110915e-08,
+        9.016636961173025e-09,
+        7.46921814267409e-09,
+        8.269965395434538e-09,
+        -4.2197542239147495e-09,
+        6.080292255747288e-09,
+        7.755045501456824e-09,
+        7.790127051269498e-09,
+        3.5481947423977575e-09,
+        7.139268575687354e-09,
+        7.57281356770381e-09,
+        6.8085438125765815e-09
+      ],
+      "selected_signed_likelihood": [
+        -0.00026768445985831844,
+        -0.0002649729420611494,
+        -0.00029914877378267677
+      ],
+      "all_signed_likelihood": [
+        -0.001091579528037017,
+        -0.0010805223403360037,
+        -0.001129165628419479
+      ],
+      "observation_map_roundoff": [
+        4.0852017577659604e-11,
+        4.043820582867885e-11,
+        -1.0247940662611691e-10
+      ],
+      "max_abs_observation_map_roundoff": 1.2057121499587517e-10,
+      "fraction_absolute_score": 0.2500990026709763
+    },
+    "source": {
+      "orders": {
+        "3": {
+          "receiving_nodes": 1152,
+          "active_receiving_nodes": 1152,
+          "face_means": {
+            "geometry_area_visibility": [
+              7.892999346037671e-09,
+              6.952582319715833e-09,
+              5.134057654758698e-09,
+              6.348220895967274e-09,
+              7.204227960231115e-09,
+              5.302546682257617e-09,
+              7.1548909094069115e-09,
+              3.173003066645555e-09,
+              5.110322800108663e-09,
+              -1.0982272660062272e-08,
+              4.656187081518084e-09,
+              3.4299443893891715e-09,
+              2.7483124266696954e-09,
+              2.0903171881718986e-09,
+              6.250213840456669e-09,
+              3.340947275021877e-09,
+              5.921222813497585e-09,
+              6.6333849937892914e-09,
+              7.205277283152412e-09,
+              7.1050380101887834e-09,
+              7.177882136517013e-09,
+              5.247043662357054e-09,
+              3.430792733716155e-09,
+              4.827564948731927e-09,
+              -8.766773398449315e-09,
+              2.3007722673330366e-09,
+              3.6150780172357756e-09,
+              3.935455102437581e-09,
+              -9.068455832647171e-10,
+              3.410564544996135e-09,
+              4.648681014599724e-09,
+              2.6676203992852225e-09
+            ],
+            "bolometric_LD": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "intrinsic_T4": [
+              -1.3481809720156283e-10,
+              -1.3552377341124307e-10,
+              -1.3677013939941617e-10,
+              -1.324727896279714e-10,
+              -1.3176325423668783e-10,
+              -1.3303479821102763e-10,
+              -1.3413799389135265e-10,
+              -1.3651023529579678e-10,
+              -1.3069668090840933e-10,
+              -1.378178802055489e-10,
+              -1.310915134850278e-10,
+              -1.2860141185210064e-10,
+              -1.344485835380857e-10,
+              -1.3201304759956382e-10,
+              -1.3072141110307374e-10,
+              -1.350402111398916e-10,
+              -1.1507492932518802e-10,
+              -1.1355997644801899e-10,
+              -1.1541488700490841e-10,
+              -1.2816516133408486e-10,
+              -1.2654206968815563e-10,
+              -1.1427437405273772e-10,
+              -1.2991148240280264e-10,
+              -1.1757950220657557e-10,
+              -1.3778626586187787e-10,
+              -1.3071255684892826e-10,
+              -1.320040976795943e-10,
+              -1.1092352569688053e-10,
+              -1.3713574286203347e-10,
+              -1.1883808963662795e-10,
+              -9.913589144396199e-11,
+              -1.2945756565846753e-10
+            ],
+            "reemitted_T4": [
+              4.303225532318779e-09,
+              4.3261727691243535e-09,
+              4.366821152333662e-09,
+              4.229174974645212e-09,
+              4.2063409393749635e-09,
+              4.246399838574572e-09,
+              4.2872887641766655e-09,
+              4.3614548179554346e-09,
+              4.1731526509876034e-09,
+              4.402109311533255e-09,
+              4.186302383617488e-09,
+              4.1060336790941644e-09,
+              4.2920397527810754e-09,
+              4.213900317824231e-09,
+              4.1801482711994845e-09,
+              4.315267820310876e-09,
+              3.6779972478468045e-09,
+              3.6285298693525696e-09,
+              3.6865340437184104e-09,
+              4.099782271236611e-09,
+              4.04904105845855e-09,
+              3.6491355721962133e-09,
+              4.147486848997236e-09,
+              3.757432364547702e-09,
+              4.4014757970150645e-09,
+              4.1759721261789866e-09,
+              4.2201776425185164e-09,
+              3.544710878423727e-09,
+              4.37940144538272e-09,
+              3.795765379563524e-09,
+              3.1813993638642253e-09,
+              4.133300541648218e-09
+            ],
+            "total": [
+              1.2061406781131986e-08,
+              1.1143231315392787e-08,
+              9.364108667626533e-09,
+              1.0444923080944673e-08,
+              1.12788056454157e-08,
+              9.415911722589773e-09,
+              1.1308041679676281e-08,
+              7.397947649242944e-09,
+              9.152778770177631e-09,
+              -6.717981228711926e-09,
+              8.711397951657395e-09,
+              7.4073766566825646e-09,
+              6.905903595941682e-09,
+              6.172204458418045e-09,
+              1.0299640700591461e-08,
+              7.52117488405377e-09,
+              9.484145131981983e-09,
+              1.01483548866625e-08,
+              1.07763964399136e-08,
+              1.1076655119985208e-08,
+              1.1100381125328926e-08,
+              8.781904860514892e-09,
+              7.448368100358992e-09,
+              8.467417811090363e-09,
+              -4.503083867293573e-09,
+              6.346031836667882e-09,
+              7.703251562117995e-09,
+              7.369242455238071e-09,
+              3.3354201192328725e-09,
+              7.087491834922633e-09,
+              7.730944486972316e-09,
+              6.671463375257376e-09
+            ]
+          },
+          "contact_log_likelihood": {
+            "geometry_area_visibility": [
+              -0.00011488110406260478,
+              -0.00011371741245947976,
+              -0.0001354616284824777
+            ],
+            "bolometric_LD": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "intrinsic_T4": [
+              4.738871680381019e-06,
+              4.690869136988495e-06,
+              5.07163403201955e-06
+            ],
+            "reemitted_T4": [
+              -0.00015136676049296456,
+              -0.00014983348633430138,
+              -0.00016200440443677694
+            ],
+            "total": [
+              -0.00026150899287494034,
+              -0.00025886002965654694,
+              -0.0002923943988868729
+            ]
+          },
+          "selected_mean_minus_direct_likelihood": [
+            -6.175466983378102e-06,
+            -6.112912404602458e-06,
+            -6.754374895803891e-06
+          ]
+        },
+        "4": {
+          "receiving_nodes": 2048,
+          "active_receiving_nodes": 2048,
+          "face_means": {
+            "geometry_area_visibility": [
+              7.898775841636928e-09,
+              6.960442686304384e-09,
+              5.1431960562705615e-09,
+              6.352931075604604e-09,
+              7.202525910918905e-09,
+              5.3133352284487955e-09,
+              7.151604272180804e-09,
+              3.174420638583283e-09,
+              5.1093417517433015e-09,
+              -1.0992577868532869e-08,
+              4.650097548661135e-09,
+              3.4317119588817655e-09,
+              2.7542223010706554e-09,
+              2.1017990701390496e-09,
+              6.238608370017683e-09,
+              3.3429085444266766e-09,
+              5.925454703760033e-09,
+              6.631977486929112e-09,
+              7.218859295622946e-09,
+              7.102595409129307e-09,
+              7.1707834913588096e-09,
+              5.254796250929635e-09,
+              3.4222557595219995e-09,
+              4.8254740202141e-09,
+              -8.742946531495514e-09,
+              2.3029954889093073e-09,
+              3.616150547254123e-09,
+              3.931799545676449e-09,
+              -8.751549560477568e-10,
+              3.4099864915852135e-09,
+              4.651913909301167e-09,
+              2.660189269255091e-09
+            ],
+            "bolometric_LD": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "intrinsic_T4": [
+              -1.3481809239560602e-10,
+              -1.3552376869518396e-10,
+              -1.367701433572642e-10,
+              -1.324727878643777e-10,
+              -1.31763266027589e-10,
+              -1.3303479482743525e-10,
+              -1.341380051780176e-10,
+              -1.3651023733714383e-10,
+              -1.3069670190818445e-10,
+              -1.3781786697466262e-10,
+              -1.3109150521529784e-10,
+              -1.2860139644247523e-10,
+              -1.3444858231816273e-10,
+              -1.3201303563807926e-10,
+              -1.307214196983597e-10,
+              -1.3504022334241378e-10,
+              -1.150749298943633e-10,
+              -1.1355997552066684e-10,
+              -1.1541489409324258e-10,
+              -1.2816515533460385e-10,
+              -1.2654204755646028e-10,
+              -1.1427437064507323e-10,
+              -1.299114634695682e-10,
+              -1.1757949179544388e-10,
+              -1.3778624588648498e-10,
+              -1.3071256468243015e-10,
+              -1.3200411742230427e-10,
+              -1.1092352551908858e-10,
+              -1.371357278921273e-10,
+              -1.1883810996353145e-10,
+              -9.913589593120726e-11,
+              -1.2945754924219994e-10
+            ],
+            "reemitted_T4": [
+              4.3032254240883055e-09,
+              4.326172386119698e-09,
+              4.366821479447846e-09,
+              4.2291743906735844e-09,
+              4.206340908002309e-09,
+              4.246399836059164e-09,
+              4.2872891372769176e-09,
+              4.361455045966245e-09,
+              4.173153198036159e-09,
+              4.4021089350362484e-09,
+              4.186301561435893e-09,
+              4.106032916199228e-09,
+              4.29204032934581e-09,
+              4.213900500966819e-09,
+              4.180148253724582e-09,
+              4.3152676832397676e-09,
+              3.6779977312366916e-09,
+              3.6285295010890965e-09,
+              3.6865341568229564e-09,
+              4.0997825776565295e-09,
+              4.049040491158892e-09,
+              3.649134851244878e-09,
+              4.147487100754135e-09,
+              3.757432221726333e-09,
+              4.401475134721007e-09,
+              4.175972411228e-09,
+              4.220178819998028e-09,
+              3.5447110673212925e-09,
+              4.379400616296001e-09,
+              3.795765160528682e-09,
+              3.181399106548108e-09,
+              4.133300188586529e-09
+            ],
+            "total": [
+              1.2067183173305492e-08,
+              1.1151091303736556e-08,
+              9.373247392341272e-09,
+              1.0449632678438314e-08,
+              1.1277103552871784e-08,
+              9.426700269689202e-09,
+              1.1304755404305224e-08,
+              7.399365447194991e-09,
+              9.151798247877704e-09,
+              -6.728286800503293e-09,
+              8.705307604899624e-09,
+              7.409143478645884e-09,
+              6.911814048089197e-09,
+              6.183686535444548e-09,
+              1.0288035204063975e-08,
+              7.52313600433652e-09,
+              9.488377505114224e-09,
+              1.0146947012494844e-08,
+              1.0789978558364406e-08,
+              1.1074212831476852e-08,
+              1.1093281934971925e-08,
+              8.789656731520124e-09,
+              7.439831396826789e-09,
+              8.465326750171525e-09,
+              -4.479257642673768e-09,
+              6.348255335428123e-09,
+              7.704325249819758e-09,
+              7.36558708744739e-09,
+              3.3671099323644584e-09,
+              7.086913542157659e-09,
+              7.734177119927119e-09,
+              6.664031908580025e-09
+            ]
+          },
+          "contact_log_likelihood": {
+            "geometry_area_visibility": [
+              -0.00011503159390595864,
+              -0.00011386637791143356,
+              -0.00013559601550878765
+            ],
+            "bolometric_LD": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "intrinsic_T4": [
+              4.7388715805897106e-06,
+              4.690869038208026e-06,
+              5.071633970754152e-06
+            ],
+            "reemitted_T4": [
+              -0.00015136675618308235,
+              -0.00014983348206807617,
+              -0.00016200440198168626
+            ],
+            "total": [
+              -0.0002616594785083624,
+              -0.0002590089909412135,
+              -0.0002925287835196856
+            ]
+          },
+          "selected_mean_minus_direct_likelihood": [
+            -6.024981349956032e-06,
+            -5.9639511199359e-06,
+            -6.619990262991154e-06
+          ]
+        }
+      },
+      "newly_visible_nodes": 240,
+      "coarse_nodes": 14004,
+      "fine_nodes": 56028,
+      "effective_LD_range": [
+        0.4,
+        0.4,
+        0.4,
+        0.4
+      ]
+    }
+  },
+  "exchange": {
+    "levels": {
+      "2": {
+        "contact_log_likelihood": {
+          "within_face": [
+            -0.00020223255442198445,
+            -0.00020018403367194767,
+            -0.00021644657329525518
+          ],
+          "mean_feedback": [
+            -2.5961406352046115e-09,
+            -2.5698429504602793e-09,
+            -2.778183848051407e-09
+          ]
+        },
+        "within_peak_T4_over_Teff4": 0.0005220315795353748,
+        "mean_feedback_peak_T4_over_Teff4": 1.1815209953812096e-10
+      },
+      "3": {
+        "contact_log_likelihood": {
+          "within_face": [
+            -5.057035595367862e-05,
+            -5.005810201017309e-05,
+            -5.412278934464907e-05
+          ],
+          "mean_feedback": [
+            -6.494579763221524e-10,
+            -6.428792721932575e-10,
+            -6.949984619388357e-10
+          ]
+        },
+        "within_peak_T4_over_Teff4": 0.000261639397866327,
+        "mean_feedback_peak_T4_over_Teff4": 2.958151103171791e-11
+      }
+    },
+    "fine_minus_coarse": {
+      "within_face": [
+        0.00015166219846830584,
+        0.0001501259316617746,
+        0.00016232378395060612
+      ],
+      "mean_feedback": [
+        1.946682658882459e-09,
+        1.926963678267022e-09,
+        2.0831853861125713e-09
+      ]
+    }
+  },
+  "controls": {
+    "curvature_field2_donor2": {
+      "primary": {
+        "area_relative_error": 0.0,
+        "cell_T4_relative_error": 1.3322676295501878e-15,
+        "area_order": 4,
+        "source_faces": 8640,
+        "quarter_spectral_samples": 21600,
+        "receiver_limited_faces": 84,
+        "original_emitting_faces": 3976,
+        "emitting_area_nodes": 11928,
+        "extra_native_pairs": 1471848,
+        "split_horizon_groups": 482,
+        "initial_groups": 3976,
+        "faces_in_split_groups": 1446,
+        "positive_merged_groups": 3401,
+        "negative_merged_groups": 93,
+        "receiver_samples": 4007,
+        "donor_faces": 11928,
+        "donor_groups": 3976,
+        "pairs_per_sweep_both_stars": 35845879,
+        "deposited_T4_area_mean_over_Teff4": 0.00018033688259026212,
+        "receiver_samples_per_face": [
+          1148,
+          19,
+          17,
+          976
+        ],
+        "six_point_receiver_rays": 1026,
+        "faces_with_six_point_rays": 187
+      },
+      "secondary": {
+        "area_relative_error": 0.0,
+        "cell_T4_relative_error": 4.440892098500626e-16,
+        "quarter_corner_samples": 6480,
+        "source_faces": 8640,
+        "area_order": 4,
+        "receiver_limited_faces": 91,
+        "quadratic_T4_relative_error": 8.881784197001252e-16,
+        "quarter_spectral_samples": 12960,
+        "original_emitting_faces": 4668,
+        "emitting_area_nodes": 14004,
+        "extra_native_pairs": 1745403,
+        "split_horizon_groups": 944,
+        "initial_groups": 4668,
+        "faces_in_split_groups": 2832,
+        "positive_merged_groups": 3474,
+        "negative_merged_groups": 250,
+        "mapped_reemission_nodes": 13928,
+        "receiver_samples": 3502,
+        "donor_faces": 14004,
+        "donor_groups": 4668,
+        "pairs_per_sweep_both_stars": 35845879,
+        "deposited_T4_area_mean_over_Teff4": 0.0068894282868742435,
+        "receiver_samples_per_face": [
+          975,
+          16,
+          21,
+          1148
+        ]
+      }
+    },
+    "curvature_field3_donor2": {
+      "primary": {
+        "area_relative_error": 0.0,
+        "cell_T4_relative_error": 1.7763568394002505e-15,
+        "area_order": 4,
+        "source_faces": 34560,
+        "quarter_spectral_samples": 86400,
+        "receiver_limited_faces": 171,
+        "original_emitting_faces": 15900,
+        "emitting_area_nodes": 47700,
+        "extra_native_pairs": 15194346,
+        "split_horizon_groups": 566,
+        "initial_groups": 4048,
+        "faces_in_split_groups": 6333,
+        "positive_merged_groups": 3372,
+        "negative_merged_groups": 110,
+        "receiver_samples": 15794,
+        "donor_faces": 47700,
+        "donor_groups": 5593,
+        "pairs_per_sweep_both_stars": 233750459,
+        "deposited_T4_area_mean_over_Teff4": 0.00018033693576548776,
+        "receiver_samples_per_face": [
+          4641,
+          23,
+          20,
+          3956
+        ],
+        "six_point_receiver_rays": 3863,
+        "faces_with_six_point_rays": 679
+      },
+      "secondary": {
+        "area_relative_error": 0.0,
+        "cell_T4_relative_error": 4.440892098500626e-16,
+        "quarter_corner_samples": 25920,
+        "source_faces": 34560,
+        "area_order": 4,
+        "receiver_limited_faces": 143,
+        "quadratic_T4_relative_error": 9.992007221626409e-16,
+        "quarter_spectral_samples": 51840,
+        "original_emitting_faces": 18676,
+        "emitting_area_nodes": 56028,
+        "extra_native_pairs": 18456378,
+        "split_horizon_groups": 1030,
+        "initial_groups": 4740,
+        "faces_in_split_groups": 12006,
+        "positive_merged_groups": 3440,
+        "negative_merged_groups": 270,
+        "mapped_reemission_nodes": 55932,
+        "receiver_samples": 13999,
+        "donor_faces": 56028,
+        "donor_groups": 7712,
+        "pairs_per_sweep_both_stars": 233750459,
+        "deposited_T4_area_mean_over_Teff4": 0.006889433446186363,
+        "receiver_samples_per_face": [
+          3955,
+          18,
+          20,
+          4647
+        ]
+      }
+    },
+    "curvature_field2_donor1": {
+      "primary": {
+        "area_relative_error": 0.0,
+        "cell_T4_relative_error": 1.5543122344752192e-15,
+        "area_order": 4,
+        "source_faces": 8640,
+        "quarter_spectral_samples": 21600,
+        "receiver_limited_faces": 84,
+        "original_emitting_faces": 3976,
+        "emitting_area_nodes": 11928,
+        "extra_native_pairs": 1877193,
+        "split_horizon_groups": 173,
+        "initial_groups": 1024,
+        "faces_in_split_groups": 1884,
+        "positive_merged_groups": 823,
+        "negative_merged_groups": 28,
+        "receiver_samples": 4007,
+        "donor_faces": 11928,
+        "donor_groups": 1479,
+        "pairs_per_sweep_both_stars": 17434961,
+        "deposited_T4_area_mean_over_Teff4": 0.000180336882565231,
+        "receiver_samples_per_face": [
+          1148,
+          19,
+          17,
+          976
+        ],
+        "six_point_receiver_rays": 1026,
+        "faces_with_six_point_rays": 187
+      },
+      "secondary": {
+        "area_relative_error": 0.0,
+        "cell_T4_relative_error": 2.220446049250313e-16,
+        "quarter_corner_samples": 6480,
+        "source_faces": 8640,
+        "area_order": 4,
+        "receiver_limited_faces": 91,
+        "quadratic_T4_relative_error": 8.881784197001252e-16,
+        "quarter_spectral_samples": 12960,
+        "original_emitting_faces": 4668,
+        "emitting_area_nodes": 14004,
+        "extra_native_pairs": 2296191,
+        "split_horizon_groups": 295,
+        "initial_groups": 1196,
+        "faces_in_split_groups": 3348,
+        "positive_merged_groups": 847,
+        "negative_merged_groups": 54,
+        "mapped_reemission_nodes": 13928,
+        "receiver_samples": 3502,
+        "donor_faces": 14004,
+        "donor_groups": 2017,
+        "pairs_per_sweep_both_stars": 17434961,
+        "deposited_T4_area_mean_over_Teff4": 0.006889428274653008,
+        "receiver_samples_per_face": [
+          975,
+          16,
+          21,
+          1148
+        ]
+      }
+    },
+    "curvature_field3_donor1": {
+      "primary": {
+        "area_relative_error": 0.0,
+        "cell_T4_relative_error": 1.5543122344752192e-15,
+        "area_order": 4,
+        "source_faces": 34560,
+        "quarter_spectral_samples": 86400,
+        "receiver_limited_faces": 171,
+        "original_emitting_faces": 15900,
+        "emitting_area_nodes": 47700,
+        "extra_native_pairs": 21635196,
+        "split_horizon_groups": 205,
+        "initial_groups": 1052,
+        "faces_in_split_groups": 8286,
+        "positive_merged_groups": 809,
+        "negative_merged_groups": 38,
+        "receiver_samples": 15794,
+        "donor_faces": 47700,
+        "donor_groups": 3609,
+        "pairs_per_sweep_both_stars": 188303555,
+        "deposited_T4_area_mean_over_Teff4": 0.00018033693574421694,
+        "receiver_samples_per_face": [
+          4641,
+          23,
+          20,
+          3956
+        ],
+        "six_point_receiver_rays": 3863,
+        "faces_with_six_point_rays": 679
+      },
+      "secondary": {
+        "area_relative_error": 0.0,
+        "cell_T4_relative_error": 4.440892098500626e-16,
+        "quarter_corner_samples": 25920,
+        "source_faces": 34560,
+        "area_order": 4,
+        "receiver_limited_faces": 143,
+        "quadratic_T4_relative_error": 9.992007221626409e-16,
+        "quarter_spectral_samples": 51840,
+        "original_emitting_faces": 18676,
+        "emitting_area_nodes": 56028,
+        "extra_native_pairs": 26957250,
+        "split_horizon_groups": 318,
+        "initial_groups": 1204,
+        "faces_in_split_groups": 14283,
+        "positive_merged_groups": 833,
+        "negative_merged_groups": 53,
+        "mapped_reemission_nodes": 55932,
+        "receiver_samples": 13999,
+        "donor_faces": 56028,
+        "donor_groups": 5647,
+        "pairs_per_sweep_both_stars": 188303555,
+        "deposited_T4_area_mean_over_Teff4": 0.006889433434422838,
+        "receiver_samples_per_face": [
+          3955,
+          18,
+          20,
+          4647
+        ]
+      }
+    }
+  },
+  "combined": {
+    "reference": {
+      "alternative": "Duffy 3x3",
+      "distance_sigma": 2.1201659910240394e-05,
+      "log_likelihood_bound": 0.005002042109169109,
+      "limit_distance": 0.1,
+      "limit_log_likelihood": 0.01,
+      "pass_finite_check": true,
+      "continuum_certified": false,
+      "max_measured_nominal_log_likelihood_change": 0.0020617973085634666,
+      "within_rule_bounds": [
+        0.00495748272973005,
+        0.004957483105941794
+      ],
+      "interior_pair_bound": 4.4558999354384e-05,
+      "interior_pair_distance_sigma": 1.7739304657670192e-07,
+      "observed_field_changes": {
+        "mapped_distance_sigma": {
+          "primary": 5.198096565810895e-06,
+          "secondary": 1.3409605371108787e-05,
+          "total": 1.2582219023545178e-05
+        },
+        "component_flux_changes": {
+          "Generic.Bessell.B": {
+            "primary": {
+              "mean_fractional_change": 1.4395529213118152e-10,
+              "peak_scaled_shape_residual": 2.1703075188872184e-10
+            },
+            "secondary": {
+              "mean_fractional_change": 8.745704160872947e-10,
+              "peak_scaled_shape_residual": 1.1372343082080933e-08
+            }
+          },
+          "Generic.Bessell.V": {
+            "primary": {
+              "mean_fractional_change": 1.1572431901640812e-10,
+              "peak_scaled_shape_residual": 1.746185245454639e-10
+            },
+            "secondary": {
+              "mean_fractional_change": 7.136040647282016e-10,
+              "peak_scaled_shape_residual": 9.113505685323928e-09
+            }
+          },
+          "bolometric": {
+            "primary": {
+              "mean_fractional_change": 1.106084113189354e-10,
+              "peak_scaled_shape_residual": 1.6683244422784816e-10
+            },
+            "secondary": {
+              "mean_fractional_change": 5.337570385677282e-10,
+              "peak_scaled_shape_residual": 6.782601236879224e-09
+            }
+          }
+        },
+        "nominal_log_likelihood_changes": {
+          "primary": {
+            "signed_change": -0.0009847030268188722,
+            "largest_observation": {
+              "band": "Generic.Bessell.V",
+              "band_index": 3,
+              "phase": 0.027000000000000003,
+              "signed_change": -0.0001270906508535486
+            }
+          },
+          "secondary": {
+            "signed_change": 0.0026959945738050713,
+            "largest_observation": {
+              "band": "bolometric",
+              "band_index": 1,
+              "phase": 0.027000000000000003,
+              "signed_change": 0.0003223858477700907
+            }
+          },
+          "total": {
+            "signed_change": 0.0017112915469861987,
+            "largest_observation": {
+              "band": "Generic.Bessell.V",
+              "band_index": 12,
+              "phase": 0.767,
+              "signed_change": 0.0002987317502153682
+            }
+          }
+        }
+      },
+      "usable_log_posterior": -50244.429718490304
+    },
+    "gpu": {
+      "alternative": "Duffy 3x3",
+      "distance_sigma": 2.1201672470864522e-05,
+      "log_likelihood_bound": 0.005002045717710483,
+      "limit_distance": 0.1,
+      "limit_log_likelihood": 0.01,
+      "pass_finite_check": true,
+      "continuum_certified": false,
+      "max_measured_nominal_log_likelihood_change": 0.0020617983954953744,
+      "within_rule_bounds": [
+        0.004957486411737366,
+        0.00495748404047506
+      ],
+      "interior_pair_bound": 4.456167336229166e-05,
+      "interior_pair_distance_sigma": 1.773955547570835e-07,
+      "observed_field_changes": {
+        "mapped_distance_sigma": {
+          "primary": 5.198096020278139e-06,
+          "secondary": 1.3409604839427693e-05,
+          "total": 1.2582221695989216e-05
+        },
+        "component_flux_changes": {
+          "Generic.Bessell.B": {
+            "primary": {
+              "mean_fractional_change": 1.4395440395276182e-10,
+              "peak_scaled_shape_residual": 2.170303005185252e-10
+            },
+            "secondary": {
+              "mean_fractional_change": 8.745706381318996e-10,
+              "peak_scaled_shape_residual": 1.1372343551702224e-08
+            }
+          },
+          "Generic.Bessell.V": {
+            "primary": {
+              "mean_fractional_change": 1.1572365288259334e-10,
+              "peak_scaled_shape_residual": 1.7461852454546395e-10
+            },
+            "secondary": {
+              "mean_fractional_change": 7.136042867728065e-10,
+              "peak_scaled_shape_residual": 9.113506075852243e-09
+            }
+          },
+          "bolometric": {
+            "primary": {
+              "mean_fractional_change": 1.1060818927433047e-10,
+              "peak_scaled_shape_residual": 1.6683264466690727e-10
+            },
+            "secondary": {
+              "mean_fractional_change": 5.337570385677282e-10,
+              "peak_scaled_shape_residual": 6.782601903267684e-09
+            }
+          }
+        },
+        "nominal_log_likelihood_changes": {
+          "primary": {
+            "signed_change": -0.0009847025493094658,
+            "largest_observation": {
+              "band": "Generic.Bessell.V",
+              "band_index": 3,
+              "phase": 0.027000000000000003,
+              "signed_change": -0.0001270903887728743
+            }
+          },
+          "secondary": {
+            "signed_change": 0.002695994140672387,
+            "largest_observation": {
+              "band": "bolometric",
+              "band_index": 1,
+              "phase": 0.027000000000000003,
+              "signed_change": 0.0003223858477700907
+            }
+          },
+          "total": {
+            "signed_change": 0.0017112915913629206,
+            "largest_observation": {
+              "band": "Generic.Bessell.V",
+              "band_index": 12,
+              "phase": 0.767,
+              "signed_change": 0.00029873189020225614
+            }
+          }
+        }
+      },
+      "usable_log_posterior": -50244.4297184894
+    }
+  },
+  "previous_combined": {
+    "reference": {
+      "alternative": "Duffy 3x3",
+      "distance_sigma": 7.071797288282475e-05,
+      "log_likelihood_bound": 0.017970506445739765,
+      "limit_distance": 0.1,
+      "limit_log_likelihood": 0.01,
+      "pass_finite_check": false,
+      "continuum_certified": false,
+      "max_measured_nominal_log_likelihood_change": 0.00940373748999668,
+      "within_rule_bounds": [
+        0.01792594037752138,
+        0.017925947762077808
+      ],
+      "interior_pair_bound": 4.4558666525217854e-05,
+      "interior_pair_distance_sigma": 1.7739433594681166e-07,
+      "observed_field_changes": {
+        "mapped_distance_sigma": {
+          "primary": 5.514985373368555e-05,
+          "secondary": 1.3421376661180042e-05,
+          "total": 4.92077141989258e-05
+        },
+        "component_flux_changes": {
+          "Generic.Bessell.B": {
+            "primary": {
+              "mean_fractional_change": 1.7217918202305782e-09,
+              "peak_scaled_shape_residual": 1.7877742115923674e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 8.928415784481558e-10,
+              "peak_scaled_shape_residual": 1.1379295825488256e-08
+            }
+          },
+          "Generic.Bessell.V": {
+            "primary": {
+              "mean_fractional_change": 1.385651149377054e-09,
+              "peak_scaled_shape_residual": 1.4392005505681036e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 7.28172189212728e-10,
+              "peak_scaled_shape_residual": 9.119083796600848e-09
+            }
+          },
+          "bolometric": {
+            "primary": {
+              "mean_fractional_change": 1.3233321105587947e-09,
+              "peak_scaled_shape_residual": 1.3745166605811696e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 5.445772721657249e-10,
+              "peak_scaled_shape_residual": 6.7867583347436526e-09
+            }
+          }
+        },
+        "nominal_log_likelihood_changes": {
+          "primary": {
+            "signed_change": -0.01209507971007617,
+            "largest_observation": {
+              "band": "Generic.Bessell.V",
+              "band_index": 3,
+              "phase": 0.027000000000000003,
+              "signed_change": -0.0012348703993913142
+            }
+          },
+          "secondary": {
+            "signed_change": 0.0027014065091957775,
+            "largest_observation": {
+              "band": "bolometric",
+              "band_index": 1,
+              "phase": 0.027000000000000003,
+              "signed_change": 0.00032278802114374654
+            }
+          },
+          "total": {
+            "signed_change": -0.009393673200880396,
+            "largest_observation": {
+              "band": "Generic.Bessell.B",
+              "band_index": 1,
+              "phase": 0.024,
+              "signed_change": -0.0010415086719690746
+            }
+          }
+        }
+      },
+      "usable_log_posterior": null
+    },
+    "gpu": {
+      "alternative": "Duffy 3x3",
+      "distance_sigma": 7.07179450049674e-05,
+      "log_likelihood_bound": 0.017970499299377888,
+      "limit_distance": 0.1,
+      "limit_log_likelihood": 0.01,
+      "pass_finite_check": false,
+      "continuum_certified": false,
+      "max_measured_nominal_log_likelihood_change": 0.009403737445124951,
+      "within_rule_bounds": [
+        0.01792594247318483,
+        0.017925939943556502
+      ],
+      "interior_pair_bound": 4.455933868427137e-05,
+      "interior_pair_distance_sigma": 1.7739647670146627e-07,
+      "observed_field_changes": {
+        "mapped_distance_sigma": {
+          "primary": 5.5149858841297664e-05,
+          "secondary": 1.3421376734676415e-05,
+          "total": 4.920771968191501e-05
+        },
+        "component_flux_changes": {
+          "Generic.Bessell.B": {
+            "primary": {
+              "mean_fractional_change": 1.7217913761413683e-09,
+              "peak_scaled_shape_residual": 1.787774098749819e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 8.928420225373657e-10,
+              "peak_scaled_shape_residual": 1.1379296295109545e-08
+            }
+          },
+          "Generic.Bessell.V": {
+            "primary": {
+              "mean_fractional_change": 1.3856507052878442e-09,
+              "peak_scaled_shape_residual": 1.43920074277278e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 7.281726333019378e-10,
+              "peak_scaled_shape_residual": 9.119083796600848e-09
+            }
+          },
+          "bolometric": {
+            "primary": {
+              "mean_fractional_change": 1.3233316664695849e-09,
+              "peak_scaled_shape_residual": 1.374516460142111e-09
+            },
+            "secondary": {
+              "mean_fractional_change": 5.445774942103299e-10,
+              "peak_scaled_shape_residual": 6.786758667937882e-09
+            }
+          }
+        },
+        "nominal_log_likelihood_changes": {
+          "primary": {
+            "signed_change": -0.012095081103868291,
+            "largest_observation": {
+              "band": "Generic.Bessell.V",
+              "band_index": 3,
+              "phase": 0.027000000000000003,
+              "signed_change": -0.0012348707925123035
+            }
+          },
+          "secondary": {
+            "signed_change": 0.0027014063110247662,
+            "largest_observation": {
+              "band": "bolometric",
+              "band_index": 1,
+              "phase": 0.027000000000000003,
+              "signed_change": 0.00032278822658880833
+            }
+          },
+          "total": {
+            "signed_change": -0.009393674792843521,
+            "largest_observation": {
+              "band": "Generic.Bessell.B",
+              "band_index": 1,
+              "phase": 0.024,
+              "signed_change": -0.0010415086719690746
+            }
+          }
+        }
+      },
+      "usable_log_posterior": null
+    }
+  },
+  "finite_models": {
+    "reference_n6": {
+      "physical": {
+        "primary@surface_potential": 7.991999999999999,
+        "primary@t_eff": 6380.0,
+        "system@inclination": 85.52,
+        "system@mass_ratio": 0.696,
+        "system@additional_light": 0.17600000000000002,
+        "nuisance@ln_f": -2.5999999999999996,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@synchronicity": 1.0,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "system@eccentricity": 0.0,
+        "system@argument_of_periastron": 90.0,
+        "system@period": 3.0,
+        "system@semi_major_axis": 10.0,
+        "system@phase_shift": 0.017,
+        "secondary@t_eff": 4880.0
+      },
+      "prediction": {
+        "Generic.Bessell.B": [
+          0.8901185541689398,
+          0.9085420111155237,
+          1.0604430738916912,
+          1.0854509761533933,
+          1.0683779514841472,
+          1.0429338468493319,
+          1.0600220448991176,
+          1.0854509761533933,
+          0.8901185541689398,
+          0.9085420111155237
+        ],
+        "Generic.Bessell.V": [
+          1.0215839559576831,
+          0.8858763214669646,
+          0.8947670138023104,
+          0.9232943397775263,
+          1.0125529601270957,
+          1.073098483218635,
+          1.0766310511365869,
+          1.067661629632924,
+          1.0299682680260105,
+          1.0215839559576831,
+          0.8947670138023104,
+          1.0215839559576831,
+          1.0766310511365869
+        ],
+        "bolometric": [
+          0.8922543419490826,
+          0.9293739465104507,
+          1.0814320290900556,
+          1.0155366430508446,
+          1.0814030393995662
+        ]
+      },
+      "corner_log_posteriors": {
+        "5": -50244.43176587476,
+        "4": -50244.430063971515,
+        "7": -50244.431768975985,
+        "6": -50244.430067001085,
+        "1": -50244.43142039317,
+        "0": -50244.429718490304,
+        "3": -50244.43142349461,
+        "2": -50244.42972151928
+      },
+      "finite_control": {
+        "combined_distance_sigma": 2.1031481242517088e-05,
+        "combined_log_likelihood_bound": 0.00495748272973005,
+        "within_finite_budget": true,
+        "bands": {
+          "Generic.Bessell.B": {
+            "envelope": [
+              4.243249636634938e-10,
+              2.2374661070744725e-10,
+              1.8728318523543343e-10,
+              5.512807789608354e-10,
+              4.905773508636326e-10,
+              2.585155069285074e-10,
+              4.622864609178443e-10,
+              5.512807789608354e-10,
+              4.243249636634938e-10,
+              2.2374661070744725e-10
+            ],
+            "signed_terms": {
+              "1": [
+                5.585654161421871e-11,
+                6.501221783139499e-11,
+                1.0172662712193414e-10,
+                -4.3103809410638405e-10,
+                -1.3290035738577899e-11,
+                1.0685408113886297e-10,
+                4.250473306655067e-10,
+                -4.3103809410638405e-10,
+                5.585654161421871e-11,
+                6.501221783139499e-11
+              ],
+              "2": [
+                2.540190280342358e-13,
+                2.575717417130363e-13,
+                2.970956813896919e-13,
+                -2.8399504969911504e-13,
+                -7.989164885202626e-13,
+                3.6282088444750116e-13,
+                -3.170796958329447e-13,
+                -2.8399504969911504e-13,
+                2.540190280342358e-13,
+                2.575717417130363e-13
+              ],
+              "3": [
+                6.106226635438361e-15,
+                6.5503158452884236e-15,
+                7.105427357601002e-15,
+                -4.6629367034256575e-15,
+                -3.6193270602780103e-14,
+                2.2426505097428162e-14,
+                -1.1546319456101628e-14,
+                -4.6629367034256575e-15,
+                6.106226635438361e-15,
+                6.5503158452884236e-15
+              ],
+              "4": [
+                1.1928846799236226e-10,
+                -1.0807688077818511e-11,
+                -3.623767952376511e-11,
+                -3.710787233046631e-11,
+                -3.641198453863126e-11,
+                -3.537459214442151e-11,
+                -3.472355736278132e-11,
+                -3.710787233046631e-11,
+                1.1928846799236226e-10,
+                -1.0807688077818511e-11
+              ],
+              "5": [
+                1.1102230246251565e-16,
+                3.3306690738754696e-16,
+                0.0,
+                6.661338147750939e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                6.661338147750939e-16,
+                1.1102230246251565e-16,
+                3.3306690738754696e-16
+              ],
+              "6": [
+                1.1102230246251565e-16,
+                4.440892098500626e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                -2.220446049250313e-16,
+                0.0,
+                2.220446049250313e-16,
+                1.1102230246251565e-16,
+                4.440892098500626e-16
+              ],
+              "7": [
+                0.0,
+                -2.220446049250313e-16,
+                4.440892098500626e-16,
+                0.0,
+                0.0,
+                6.661338147750939e-16,
+                2.220446049250313e-16,
+                0.0,
+                0.0,
+                -2.220446049250313e-16
+              ]
+            }
+          },
+          "Generic.Bessell.V": {
+            "envelope": [
+              2.2433115044086658e-10,
+              4.0702724606542395e-10,
+              2.807440330589579e-10,
+              2.721419395790838e-10,
+              2.026974337665815e-10,
+              1.790299646358493e-10,
+              5.730918959069888e-10,
+              4.333816949746734e-10,
+              5.332520205030851e-10,
+              2.2433115044086658e-10,
+              2.807440330589579e-10,
+              2.2433115044086658e-10,
+              5.730918959069888e-10
+            ],
+            "signed_terms": {
+              "1": [
+                6.669464980291195e-11,
+                9.318790183954206e-11,
+                9.078382490201875e-11,
+                8.130540685158394e-11,
+                1.1020451218257676e-10,
+                1.0268497163679058e-10,
+                -4.73842742820807e-10,
+                3.959008676446274e-10,
+                -2.172482194140457e-10,
+                6.669464980291195e-11,
+                9.078382490201875e-11,
+                6.669464980291195e-11,
+                -4.73842742820807e-10
+              ],
+              "2": [
+                2.877698079828406e-13,
+                2.0861090632706691e-13,
+                2.099431739566171e-13,
+                2.1538326677728037e-13,
+                2.347011474057581e-13,
+                2.391420395042587e-13,
+                -3.9612757518625585e-13,
+                -1.4985790386390363e-12,
+                1.1257661469699087e-13,
+                2.877698079828406e-13,
+                2.099431739566171e-13,
+                2.877698079828406e-13,
+                -3.9612757518625585e-13
+              ],
+              "3": [
+                1.7985612998927536e-14,
+                4.551914400963142e-15,
+                4.6629367034256575e-15,
+                5.10702591327572e-15,
+                5.329070518200751e-15,
+                5.10702591327572e-15,
+                -1.0658141036401503e-14,
+                -7.66053886991358e-14,
+                9.547918011776346e-15,
+                1.7985612998927536e-14,
+                4.6629367034256575e-15,
+                1.7985612998927536e-14,
+                -1.0658141036401503e-14
+              ],
+              "4": [
+                -3.319211572261338e-11,
+                1.1722711690254073e-10,
+                8.026557196672002e-11,
+                -2.932998288684985e-11,
+                2.560973655363341e-11,
+                -3.521782865334444e-11,
+                -3.535682857602751e-11,
+                -3.500910672471491e-11,
+                -3.3522962183951677e-11,
+                -3.319211572261338e-11,
+                8.026557196672002e-11,
+                -3.319211572261338e-11,
+                -3.535682857602751e-11
+              ],
+              "5": [
+                0.0,
+                -1.1102230246251565e-16,
+                2.220446049250313e-16,
+                1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                0.0,
+                0.0,
+                -4.440892098500626e-16,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                0.0
+              ],
+              "6": [
+                0.0,
+                -2.220446049250313e-16,
+                0.0,
+                0.0,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                -4.440892098500626e-16,
+                0.0,
+                0.0,
+                0.0,
+                -2.220446049250313e-16
+              ],
+              "7": [
+                4.440892098500626e-16,
+                5.551115123125783e-16,
+                3.3306690738754696e-16,
+                3.3306690738754696e-16,
+                8.881784197001252e-16,
+                2.220446049250313e-16,
+                6.661338147750939e-16,
+                2.220446049250313e-16,
+                8.881784197001252e-16,
+                4.440892098500626e-16,
+                3.3306690738754696e-16,
+                4.440892098500626e-16,
+                6.661338147750939e-16
+              ]
+            }
+          },
+          "bolometric": {
+            "envelope": [
+              3.371105418357577e-10,
+              2.1529441057366923e-10,
+              6.364203932454775e-10,
+              3.348179247307499e-10,
+              6.091464723891694e-10
+            ],
+            "signed_terms": {
+              "1": [
+                1.9291246378116966e-10,
+                1.8746337815400693e-10,
+                -2.898450368604699e-10,
+                1.9232904158172914e-10,
+                -2.828592915449235e-10
+              ],
+              "2": [
+                1.9162449405030202e-13,
+                1.9739765377835283e-13,
+                -3.5216274341109965e-13,
+                2.611244553918368e-13,
+                -2.9820590441431705e-13
+              ],
+              "3": [
+                2.4424906541753444e-15,
+                2.886579864025407e-15,
+                -1.1102230246251565e-14,
+                1.509903313490213e-14,
+                -8.659739592076221e-15
+              ],
+              "4": [
+                1.1899559115846614e-10,
+                -2.6266544495001654e-11,
+                -3.169464690699897e-11,
+                -2.934097409479364e-11,
+                -3.169331463936942e-11
+              ],
+              "5": [
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                0.0,
+                -4.440892098500626e-16
+              ],
+              "6": [
+                -2.220446049250313e-16,
+                0.0,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                -2.220446049250313e-16
+              ],
+              "7": [
+                0.0,
+                0.0,
+                0.0,
+                -4.440892098500626e-16,
+                2.220446049250313e-16
+              ]
+            }
+          }
+        },
+        "pair_bounds": {
+          "1": 0.004401808436022028,
+          "2": 8.372273320653423e-06,
+          "3": 0.004404857735019035,
+          "4": 0.0005467419454044384,
+          "5": 0.004207610957029131,
+          "6": 0.0005471020749956376,
+          "7": 0.004210112887952314
+        },
+        "signed_delta_log_likelihood": {
+          "1": -0.0017112915469861987,
+          "2": -3.0456747802929615e-06,
+          "3": -0.0017144100640106548,
+          "4": -0.00034738708569723116,
+          "5": -0.0020586789919690433,
+          "6": -0.00035043336112509016,
+          "7": -0.002061797308563466
+        },
+        "rectangle_bounds": {
+          "0": 0.004948820446063204,
+          "2": 0.004948952315380199
+        },
+        "axis_bits": {
+          "field": 1,
+          "donor": 2,
+          "depth": 4
+        },
+        "limit_D": 0.1,
+        "limit_log_likelihood": 0.01,
+        "continuum_certified": false
+      },
+      "usable_log_posterior": -50244.429718490304
+    },
+    "reference_n9": {
+      "physical": {
+        "primary@surface_potential": 7.991999999999999,
+        "primary@t_eff": 6380.0,
+        "system@inclination": 85.52,
+        "system@mass_ratio": 0.696,
+        "system@additional_light": 0.17600000000000002,
+        "nuisance@ln_f": -2.5999999999999996,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@synchronicity": 1.0,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "system@eccentricity": 0.0,
+        "system@argument_of_periastron": 90.0,
+        "system@period": 3.0,
+        "system@semi_major_axis": 10.0,
+        "system@phase_shift": 0.017,
+        "secondary@t_eff": 4880.0
+      },
+      "prediction": {
+        "Generic.Bessell.B": [
+          0.8901185541677629,
+          0.9085420111140041,
+          1.060443073889488,
+          1.0854509761497637,
+          1.0683779514890863,
+          1.0429338468542457,
+          1.0600220449041178,
+          1.0854509761497637,
+          0.8901185541677629,
+          0.9085420111140041
+        ],
+        "Generic.Bessell.V": [
+          1.0215839559619406,
+          0.8858763214653859,
+          0.8947670138007052,
+          0.9232943397751018,
+          1.0125529601243382,
+          1.073098483215897,
+          1.0766310511323236,
+          1.067661629637096,
+          1.0299682680302995,
+          1.0215839559619406,
+          0.8947670138007052,
+          1.0215839559619406,
+          1.0766310511323236
+        ],
+        "bolometric": [
+          0.8922543419489997,
+          0.9293739465095893,
+          1.0814320290874628,
+          1.0155366430567154,
+          1.0814030393972331
+        ]
+      },
+      "corner_log_posteriors": {
+        "5": -50244.43175586748,
+        "4": -50244.430053964315,
+        "7": -50244.431758969,
+        "6": -50244.43005699276,
+        "1": -50244.43141038519,
+        "0": -50244.42970848269,
+        "3": -50244.43141348669,
+        "2": -50244.42971151196
+      },
+      "finite_control": {
+        "combined_distance_sigma": 2.1031485801163964e-05,
+        "combined_log_likelihood_bound": 0.004957483105941794,
+        "within_finite_budget": true,
+        "bands": {
+          "Generic.Bessell.B": {
+            "envelope": [
+              4.2432519264699254e-10,
+              2.2374584742911774e-10,
+              1.8728468403651652e-10,
+              5.512803140549437e-10,
+              4.905793284483955e-10,
+              2.585166167178515e-10,
+              4.6228791114667055e-10,
+              5.512803140549437e-10,
+              4.2432519264699254e-10,
+              2.2374584742911774e-10
+            ],
+            "signed_terms": {
+              "1": [
+                5.5856652636521176e-11,
+                6.501210680909253e-11,
+                1.0172640507732922e-10,
+                -4.3103787206177913e-10,
+                -1.3290257783182824e-11,
+                1.0685430318346789e-10,
+                4.2504777475471656e-10,
+                -4.3103787206177913e-10,
+                5.5856652636521176e-11,
+                6.501210680909253e-11
+              ],
+              "2": [
+                2.5424107263916085e-13,
+                2.5768276401549883e-13,
+                2.9753977059954195e-13,
+                -2.83550960489265e-13,
+                -7.982503547054876e-13,
+                3.6282088444750116e-13,
+                -3.168576512280197e-13,
+                -2.83550960489265e-13,
+                2.5424107263916085e-13,
+                2.5768276401549883e-13
+              ],
+              "3": [
+                6.217248937900877e-15,
+                6.661338147750939e-15,
+                7.105427357601002e-15,
+                -4.884981308350689e-15,
+                -3.6637359812630166e-14,
+                2.2648549702353193e-14,
+                -1.1546319456101628e-14,
+                -4.884981308350689e-15,
+                6.217248937900877e-15,
+                6.661338147750939e-15
+              ],
+              "4": [
+                1.1928857901466472e-10,
+                -1.0807243988608661e-11,
+                -3.6237013389950334e-11,
+                -3.710742824125646e-11,
+                -3.641198453863126e-11,
+                -3.537437009981659e-11,
+                -3.472311327357147e-11,
+                -3.710742824125646e-11,
+                1.1928857901466472e-10,
+                -1.0807243988608661e-11
+              ],
+              "5": [
+                -1.1102230246251565e-16,
+                0.0,
+                -4.440892098500626e-16,
+                0.0,
+                2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                0.0,
+                -1.1102230246251565e-16,
+                0.0
+              ],
+              "6": [
+                -1.1102230246251565e-16,
+                -3.3306690738754696e-16,
+                -6.661338147750939e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                -3.3306690738754696e-16
+              ],
+              "7": [
+                3.3306690738754696e-16,
+                3.3306690738754696e-16,
+                1.1102230246251565e-15,
+                2.220446049250313e-16,
+                4.440892098500626e-16,
+                8.881784197001252e-16,
+                6.661338147750939e-16,
+                2.220446049250313e-16,
+                3.3306690738754696e-16,
+                3.3306690738754696e-16
+              ]
+            }
+          },
+          "Generic.Bessell.V": {
+            "envelope": [
+              2.2433176095511024e-10,
+              4.0702708647086406e-10,
+              2.8074413020347247e-10,
+              2.721421893792641e-10,
+              2.0269788479468503e-10,
+              1.7903111649223716e-10,
+              5.730910771175078e-10,
+              4.3338235416959463e-10,
+              5.332516752931137e-10,
+              2.2433176095511024e-10,
+              2.8074413020347247e-10,
+              2.2433176095511024e-10,
+              5.730910771175078e-10
+            ],
+            "signed_terms": {
+              "1": [
+                6.669487184751688e-11,
+                9.318823490644945e-11,
+                9.078393592432121e-11,
+                8.130573991849133e-11,
+                1.1020451218257676e-10,
+                1.0268452754758073e-10,
+                -4.73842742820807e-10,
+                3.9590131173383725e-10,
+                -2.1724844145865063e-10,
+                6.669487184751688e-11,
+                9.078393592432121e-11,
+                6.669487184751688e-11,
+                -4.73842742820807e-10
+              ],
+              "2": [
+                2.877698079828406e-13,
+                2.0861090632706691e-13,
+                2.099431739566171e-13,
+                2.156053113822054e-13,
+                2.347011474057581e-13,
+                2.3869795029440866e-13,
+                -3.965716643961059e-13,
+                -1.4985790386390363e-12,
+                1.1235457009206584e-13,
+                2.877698079828406e-13,
+                2.099431739566171e-13,
+                2.877698079828406e-13,
+                -3.965716643961059e-13
+              ],
+              "3": [
+                1.8207657603852567e-14,
+                4.6629367034256575e-15,
+                4.773959005888173e-15,
+                4.773959005888173e-15,
+                5.773159728050814e-15,
+                5.773159728050814e-15,
+                -9.992007221626409e-15,
+                -7.638334409421077e-14,
+                1.021405182655144e-14,
+                1.8207657603852567e-14,
+                4.773959005888173e-15,
+                1.8207657603852567e-14,
+                -9.992007221626409e-15
+              ],
+              "4": [
+                -3.3191449588798605e-11,
+                1.1722756099175058e-10,
+                8.026612707823233e-11,
+                -2.932931675303507e-11,
+                2.561018064284326e-11,
+                -3.521738456413459e-11,
+                -3.5356606531422585e-11,
+                -3.5008440590900136e-11,
+                -3.3522518094741827e-11,
+                -3.3191449588798605e-11,
+                8.026612707823233e-11,
+                -3.3191449588798605e-11,
+                -3.5356606531422585e-11
+              ],
+              "5": [
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -1.1102230246251565e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16
+              ],
+              "6": [
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -3.3306690738754696e-16,
+                -1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -3.3306690738754696e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16
+              ],
+              "7": [
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16
+              ]
+            }
+          },
+          "bolometric": {
+            "envelope": [
+              3.371105695913333e-10,
+              2.1529460486269852e-10,
+              6.364204487566287e-10,
+              3.348177580888763e-10,
+              6.091455703329617e-10
+            ],
+            "signed_terms": {
+              "1": [
+                1.9291213071426228e-10,
+                1.87463156109402e-10,
+                -2.8984525890507484e-10,
+                1.9232904158172914e-10,
+                -2.828592915449235e-10
+              ],
+              "2": [
+                1.91402449445377e-13,
+                1.9728663147589032e-13,
+                -3.5216274341109965e-13,
+                2.611244553918368e-13,
+                -2.9820590441431705e-13
+              ],
+              "3": [
+                2.6645352591003757e-15,
+                3.219646771412954e-15,
+                -1.1102230246251565e-14,
+                1.4876988529977098e-14,
+                -8.881784197001252e-15
+              ],
+              "4": [
+                1.1899548013616368e-10,
+                -2.6266544495001654e-11,
+                -3.169420281778912e-11,
+                -2.934119613939856e-11,
+                -3.169331463936942e-11
+              ],
+              "5": [
+                1.1102230246251565e-16,
+                1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                -2.220446049250313e-16
+              ],
+              "6": [
+                0.0,
+                1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                4.440892098500626e-16,
+                0.0
+              ],
+              "7": [
+                0.0,
+                -3.3306690738754696e-16,
+                0.0,
+                -6.661338147750939e-16,
+                0.0
+              ]
+            }
+          }
+        },
+        "pair_bounds": {
+          "1": 0.004401808836683495,
+          "2": 8.369956457930281e-06,
+          "3": 0.004404859816157314,
+          "4": 0.0005467427969727094,
+          "5": 0.004207613324941083,
+          "6": 0.000547102735346625,
+          "7": 0.004210111885403639
+        },
+        "signed_delta_log_likelihood": {
+          "1": -0.0017112911556554022,
+          "2": -3.0459758130481695e-06,
+          "3": -0.0017144097463445442,
+          "4": -0.0003473874868578396,
+          "5": -0.002058679314784763,
+          "6": -0.00035043264966274116,
+          "7": -0.002061797950687096
+        },
+        "rectangle_bounds": {
+          "0": 0.004948821335500401,
+          "2": 0.004948954477213457
+        },
+        "axis_bits": {
+          "field": 1,
+          "donor": 2,
+          "depth": 4
+        },
+        "limit_D": 0.1,
+        "limit_log_likelihood": 0.01,
+        "continuum_certified": false
+      },
+      "usable_log_posterior": -50244.42970848269
+    },
+    "gpu_n6": {
+      "physical": {
+        "primary@surface_potential": 7.991999999999999,
+        "primary@t_eff": 6380.0,
+        "system@inclination": 85.52,
+        "system@mass_ratio": 0.696,
+        "system@additional_light": 0.17600000000000002,
+        "nuisance@ln_f": -2.5999999999999996,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@synchronicity": 1.0,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "system@eccentricity": 0.0,
+        "system@argument_of_periastron": 90.0,
+        "system@period": 3.0,
+        "system@semi_major_axis": 10.0,
+        "system@phase_shift": 0.017,
+        "secondary@t_eff": 4880.0
+      },
+      "prediction": {
+        "Generic.Bessell.B": [
+          0.8901185541689398,
+          0.9085420111155238,
+          1.0604430738916912,
+          1.0854509761533933,
+          1.0683779514841474,
+          1.042933846849332,
+          1.0600220448991176,
+          1.0854509761533933,
+          0.8901185541689397,
+          0.9085420111155238
+        ],
+        "Generic.Bessell.V": [
+          1.0215839559576831,
+          0.8858763214669646,
+          0.8947670138023104,
+          0.9232943397775262,
+          1.0125529601270957,
+          1.0730984832186352,
+          1.076631051136587,
+          1.0676616296329238,
+          1.0299682680260105,
+          1.0215839559576831,
+          0.8947670138023102,
+          1.0215839559576831,
+          1.076631051136587
+        ],
+        "bolometric": [
+          0.8922543419490827,
+          0.9293739465104507,
+          1.081432029090056,
+          1.0155366430508446,
+          1.0814030393995664
+        ]
+      },
+      "corner_log_posteriors": {
+        "5": -50244.43176587476,
+        "4": -50244.43006397136,
+        "7": -50244.43176897617,
+        "6": -50244.430067000925,
+        "1": -50244.43142039232,
+        "0": -50244.4297184894,
+        "3": -50244.43142349504,
+        "2": -50244.42972151999
+      },
+      "finite_control": {
+        "combined_distance_sigma": 2.1031496680016687e-05,
+        "combined_log_likelihood_bound": 0.004957486411737366,
+        "within_finite_budget": true,
+        "bands": {
+          "Generic.Bessell.B": {
+            "envelope": [
+              4.243255118361122e-10,
+              2.2374605559593494e-10,
+              1.8728263706281503e-10,
+              5.512800434380816e-10,
+              4.905775659693436e-10,
+              2.5851667201216193e-10,
+              4.6228653030678336e-10,
+              5.512796548600229e-10,
+              4.243249636634938e-10,
+              2.2374605559593494e-10
+            ],
+            "signed_terms": {
+              "1": [
+                5.585643059191625e-11,
+                6.501199578679007e-11,
+                1.0172640507732922e-10,
+                -4.3103787206177913e-10,
+                -1.3290479827787749e-11,
+                1.0685385909425804e-10,
+                4.2504777475471656e-10,
+                -4.3103787206177913e-10,
+                5.585654161421871e-11,
+                6.501199578679007e-11
+              ],
+              "2": [
+                2.540190280342358e-13,
+                2.5768276401549883e-13,
+                2.970956813896919e-13,
+                -2.8399504969911504e-13,
+                -7.989164885202626e-13,
+                3.623767952376511e-13,
+                -3.170796958329447e-13,
+                -2.8399504969911504e-13,
+                2.5413005033669833e-13,
+                2.5768276401549883e-13
+              ],
+              "3": [
+                6.439293542825908e-15,
+                6.772360450213455e-15,
+                7.327471962526033e-15,
+                -4.6629367034256575e-15,
+                -3.597122599785507e-14,
+                2.3314683517128287e-14,
+                -1.1546319456101628e-14,
+                -4.6629367034256575e-15,
+                6.106226635438361e-15,
+                6.772360450213455e-15
+              ],
+              "4": [
+                1.192883569700598e-10,
+                -1.0807577055516049e-11,
+                -3.6237457479160184e-11,
+                -3.710765028586138e-11,
+                -3.6412206583236184e-11,
+                -3.537481418902644e-11,
+                -3.472355736278132e-11,
+                -3.710765028586138e-11,
+                1.1928846799236226e-10,
+                -1.0807577055516049e-11
+              ],
+              "5": [
+                3.3306690738754696e-16,
+                3.3306690738754696e-16,
+                0.0,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                4.440892098500626e-16,
+                -2.220446049250313e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                3.3306690738754696e-16
+              ],
+              "6": [
+                1.1102230246251565e-16,
+                0.0,
+                0.0,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                0.0
+              ],
+              "7": [
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                4.440892098500626e-16,
+                0.0,
+                0.0,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                1.1102230246251565e-16,
+                -1.1102230246251565e-16
+              ]
+            }
+          },
+          "Generic.Bessell.V": {
+            "envelope": [
+              2.2433181603258027e-10,
+              4.0702744035445326e-10,
+              2.8074481021507516e-10,
+              2.721421824403704e-10,
+              2.0269843990619758e-10,
+              1.7903075566975434e-10,
+              5.730927702076206e-10,
+              4.3338301336451514e-10,
+              5.332522269351788e-10,
+              2.2433181603258027e-10,
+              2.8074476164281783e-10,
+              2.2433181700836223e-10,
+              5.730927216353633e-10
+            ],
+            "signed_terms": {
+              "1": [
+                6.669464980291195e-11,
+                9.318790183954206e-11,
+                9.078382490201875e-11,
+                8.13055178738864e-11,
+                1.1020429013797184e-10,
+                1.0268474959218565e-10,
+                -4.738429648654119e-10,
+                3.959010896892323e-10,
+                -2.1724844145865063e-10,
+                6.669464980291195e-11,
+                9.078404694662368e-11,
+                6.669464980291195e-11,
+                -4.738429648654119e-10
+              ],
+              "2": [
+                2.8754776337791554e-13,
+                2.0861090632706691e-13,
+                2.0983215165415459e-13,
+                2.1571633368466792e-13,
+                2.347011474057581e-13,
+                2.3869795029440866e-13,
+                -3.963496197911809e-13,
+                -1.4983569940341113e-12,
+                1.1235457009206584e-13,
+                2.8754776337791554e-13,
+                2.1005419625907962e-13,
+                2.8754776337791554e-13,
+                -3.963496197911809e-13
+              ],
+              "3": [
+                1.7985612998927536e-14,
+                4.440892098500626e-15,
+                4.6629367034256575e-15,
+                4.6629367034256575e-15,
+                5.551115123125783e-15,
+                5.10702591327572e-15,
+                -1.0436096431476471e-14,
+                -7.682743330406083e-14,
+                9.769962616701378e-15,
+                1.7985612998927536e-14,
+                4.551914400963142e-15,
+                1.7985612998927536e-14,
+                -1.0436096431476471e-14
+              ],
+              "4": [
+                -3.3191893678008455e-11,
+                1.1722711690254073e-10,
+                8.026579401132494e-11,
+                -2.932976084224492e-11,
+                2.560973655363341e-11,
+                -3.521782865334444e-11,
+                -3.535682857602751e-11,
+                -3.500866263550506e-11,
+                -3.3522962183951677e-11,
+                -3.3191893678008455e-11,
+                8.026601605592987e-11,
+                -3.3191893678008455e-11,
+                -3.535682857602751e-11
+              ],
+              "5": [
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                -1.1102230246251565e-16,
+                -2.220446049250313e-16,
+                -6.661338147750939e-16,
+                0.0,
+                -4.440892098500626e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -3.3306690738754696e-16,
+                -2.220446049250313e-16,
+                0.0
+              ],
+              "6": [
+                0.0,
+                -3.3306690738754696e-16,
+                0.0,
+                -5.551115123125783e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16
+              ],
+              "7": [
+                6.661338147750939e-16,
+                6.661338147750939e-16,
+                5.551115123125783e-16,
+                9.992007221626409e-16,
+                6.661338147750939e-16,
+                1.1102230246251565e-15,
+                6.661338147750939e-16,
+                6.661338147750939e-16,
+                6.661338147750939e-16,
+                6.661338147750939e-16,
+                6.661338147750939e-16,
+                6.661338147750939e-16,
+                6.661338147750939e-16
+              ]
+            }
+          },
+          "bolometric": {
+            "envelope": [
+              3.3711152715869206e-10,
+              2.1529467425163758e-10,
+              6.36422016946651e-10,
+              3.3481714800831355e-10,
+              6.091460976888986e-10
+            ],
+            "signed_terms": {
+              "1": [
+                1.9291224173656474e-10,
+                1.8746337815400693e-10,
+                -2.8984548094967977e-10,
+                1.9232904158172914e-10,
+                -2.828592915449235e-10
+              ],
+              "2": [
+                1.915134717478395e-13,
+                1.9750867608081535e-13,
+                -3.519406988061746e-13,
+                2.611244553918368e-13,
+                -2.984279490192421e-13
+              ],
+              "3": [
+                2.6645352591003757e-15,
+                2.9976021664879227e-15,
+                -1.1324274851176597e-14,
+                1.509903313490213e-14,
+                -8.659739592076221e-15
+              ],
+              "4": [
+                1.1899581320307107e-10,
+                -2.626643347269919e-11,
+                -3.1694424862394044e-11,
+                -2.934097409479364e-11,
+                -3.169375872857927e-11
+              ],
+              "5": [
+                -3.3306690738754696e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                0.0,
+                -2.220446049250313e-16
+              ],
+              "6": [
+                -2.220446049250313e-16,
+                -1.1102230246251565e-16,
+                -6.661338147750939e-16,
+                0.0,
+                4.440892098500626e-16
+              ],
+              "7": [
+                2.220446049250313e-16,
+                1.1102230246251565e-16,
+                8.881784197001252e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16
+              ]
+            }
+          }
+        },
+        "pair_bounds": {
+          "1": 0.0044018091977609045,
+          "2": 8.371260683914469e-06,
+          "3": 0.004404859206530698,
+          "4": 0.0005467428449373152,
+          "5": 0.004207611960044022,
+          "6": 0.0005471044187074733,
+          "7": 0.004210111281966003
+        },
+        "signed_delta_log_likelihood": {
+          "1": -0.0017112915913629206,
+          "2": -3.0472987897471476e-06,
+          "3": -0.001714411409275054,
+          "4": -0.0003473878212341757,
+          "5": -0.0020586799008858606,
+          "6": -0.00035043412473793965,
+          "7": -0.002061798395495374
+        },
+        "rectangle_bounds": {
+          "0": 0.004948822457434657,
+          "2": 0.004948949963546445
+        },
+        "axis_bits": {
+          "field": 1,
+          "donor": 2,
+          "depth": 4
+        },
+        "limit_D": 0.1,
+        "limit_log_likelihood": 0.01,
+        "continuum_certified": false
+      },
+      "usable_log_posterior": -50244.4297184894
+    },
+    "gpu_n9": {
+      "physical": {
+        "primary@surface_potential": 7.991999999999999,
+        "primary@t_eff": 6380.0,
+        "system@inclination": 85.52,
+        "system@mass_ratio": 0.696,
+        "system@additional_light": 0.17600000000000002,
+        "nuisance@ln_f": -2.5999999999999996,
+        "primary@albedo": 0.5,
+        "primary@gravity_darkening": 0.32,
+        "primary@metallicity": 0.0,
+        "primary@synchronicity": 1.0,
+        "secondary@albedo": 0.5,
+        "secondary@gravity_darkening": 0.32,
+        "secondary@metallicity": 0.0,
+        "secondary@surface_potential": 12.0,
+        "secondary@synchronicity": 1.0,
+        "system@eccentricity": 0.0,
+        "system@argument_of_periastron": 90.0,
+        "system@period": 3.0,
+        "system@semi_major_axis": 10.0,
+        "system@phase_shift": 0.017,
+        "secondary@t_eff": 4880.0
+      },
+      "prediction": {
+        "Generic.Bessell.B": [
+          0.8901185541677629,
+          0.9085420111140041,
+          1.0604430738894883,
+          1.0854509761497637,
+          1.0683779514890863,
+          1.042933846854246,
+          1.060022044904118,
+          1.0854509761497637,
+          0.8901185541677629,
+          0.9085420111140041
+        ],
+        "Generic.Bessell.V": [
+          1.0215839559619406,
+          0.8858763214653858,
+          0.8947670138007051,
+          0.9232943397751018,
+          1.0125529601243382,
+          1.073098483215897,
+          1.0766310511323236,
+          1.067661629637096,
+          1.0299682680302997,
+          1.0215839559619406,
+          0.8947670138007051,
+          1.0215839559619406,
+          1.0766310511323236
+        ],
+        "bolometric": [
+          0.8922543419489994,
+          0.9293739465095892,
+          1.081432029087463,
+          1.0155366430567152,
+          1.081403039397233
+        ]
+      },
+      "corner_log_posteriors": {
+        "5": -50244.43175586722,
+        "4": -50244.430053964505,
+        "7": -50244.43175896956,
+        "6": -50244.43005699326,
+        "1": -50244.43141038531,
+        "0": -50244.4297084823,
+        "3": -50244.43141348662,
+        "2": -50244.42971151244
+      },
+      "finite_control": {
+        "combined_distance_sigma": 2.1031485367972053e-05,
+        "combined_log_likelihood_bound": 0.00495748404047506,
+        "within_finite_budget": true,
+        "bands": {
+          "Generic.Bessell.B": {
+            "envelope": [
+              4.243254702027487e-10,
+              2.2374568089566405e-10,
+              1.8728328931884184e-10,
+              5.512791691374496e-10,
+              4.905775000498518e-10,
+              2.5851528499232303e-10,
+              4.62286002950847e-10,
+              5.512791691374496e-10,
+              4.243254702027487e-10,
+              2.2374568089566405e-10
+            ],
+            "signed_terms": {
+              "1": [
+                5.585654161421871e-11,
+                6.501210680909253e-11,
+                1.0172618303272429e-10,
+                -4.3103787206177913e-10,
+                -1.3290257783182824e-11,
+                1.0685408113886297e-10,
+                4.2504755271011163e-10,
+                -4.3103787206177913e-10,
+                5.585654161421871e-11,
+                6.501210680909253e-11
+              ],
+              "2": [
+                2.5413005033669833e-13,
+                2.5779378631796135e-13,
+                2.970956813896919e-13,
+                -2.8377300509419e-13,
+                -7.984723993104126e-13,
+                3.623767952376511e-13,
+                -3.170796958329447e-13,
+                -2.8377300509419e-13,
+                2.5413005033669833e-13,
+                2.5779378631796135e-13
+              ],
+              "3": [
+                6.5503158452884236e-15,
+                6.661338147750939e-15,
+                7.993605777301127e-15,
+                -4.440892098500626e-15,
+                -3.597122599785507e-14,
+                2.3314683517128287e-14,
+                -1.1324274851176597e-14,
+                -4.440892098500626e-15,
+                6.5503158452884236e-15,
+                6.661338147750939e-15
+              ],
+              "4": [
+                1.1928869003696718e-10,
+                -1.0807355010911124e-11,
+                -3.6237457479160184e-11,
+                -3.710742824125646e-11,
+                -3.641198453863126e-11,
+                -3.537459214442151e-11,
+                -3.472355736278132e-11,
+                -3.710742824125646e-11,
+                1.1928869003696718e-10,
+                -1.0807355010911124e-11
+              ],
+              "5": [
+                1.1102230246251565e-16,
+                1.1102230246251565e-16,
+                0.0,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                2.220446049250313e-16,
+                0.0,
+                1.1102230246251565e-16,
+                1.1102230246251565e-16
+              ],
+              "6": [
+                0.0,
+                -1.1102230246251565e-16,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                -1.1102230246251565e-16
+              ],
+              "7": [
+                -4.440892098500626e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                0.0,
+                0.0,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                0.0
+              ]
+            }
+          },
+          "Generic.Bessell.V": {
+            "envelope": [
+              2.2433192944012785e-10,
+              4.070278705658752e-10,
+              2.8074537920437517e-10,
+              2.7214317470219847e-10,
+              2.026979958169875e-10,
+              1.7903159527591653e-10,
+              5.730916252901262e-10,
+              4.33383700315012e-10,
+              5.332525808187682e-10,
+              2.2433192944012785e-10,
+              2.8074537920437517e-10,
+              2.2433192944012785e-10,
+              5.730916252901262e-10
+            ],
+            "signed_terms": {
+              "1": [
+                6.669487184751688e-11,
+                9.318845695105438e-11,
+                9.078415796892614e-11,
+                8.130585094079379e-11,
+                1.1020473422718169e-10,
+                1.0268474959218565e-10,
+                -4.73842520776202e-10,
+                3.9590131173383725e-10,
+                -2.1724844145865063e-10,
+                6.669487184751688e-11,
+                9.078415796892614e-11,
+                6.669487184751688e-11,
+                -4.73842520776202e-10
+              ],
+              "2": [
+                2.877698079828406e-13,
+                2.0872192862952943e-13,
+                2.1016521856154213e-13,
+                2.1549428907974288e-13,
+                2.349231920106831e-13,
+                2.389199948993337e-13,
+                -3.963496197911809e-13,
+                -1.4983569940341113e-12,
+                1.1257661469699087e-13,
+                2.877698079828406e-13,
+                2.1016521856154213e-13,
+                2.877698079828406e-13,
+                -3.963496197911809e-13
+              ],
+              "3": [
+                1.8207657603852567e-14,
+                4.551914400963142e-15,
+                4.6629367034256575e-15,
+                4.9960036108132044e-15,
+                5.10702591327572e-15,
+                5.329070518200751e-15,
+                -1.0436096431476471e-14,
+                -7.682743330406083e-14,
+                9.992007221626409e-15,
+                1.8207657603852567e-14,
+                4.6629367034256575e-15,
+                1.8207657603852567e-14,
+                -1.0436096431476471e-14
+              ],
+              "4": [
+                -3.319167163340353e-11,
+                1.1722756099175058e-10,
+                8.026634912283725e-11,
+                -2.9329427775337535e-11,
+                2.5609958598238336e-11,
+                -3.521738456413459e-11,
+                -3.5356606531422585e-11,
+                -3.5008440590900136e-11,
+                -3.352274013934675e-11,
+                -3.319167163340353e-11,
+                8.026634912283725e-11,
+                -3.319167163340353e-11,
+                -3.5356606531422585e-11
+              ],
+              "5": [
+                -4.440892098500626e-16,
+                -5.551115123125783e-16,
+                -6.661338147750939e-16,
+                -5.551115123125783e-16,
+                -6.661338147750939e-16,
+                -6.661338147750939e-16,
+                -4.440892098500626e-16,
+                -6.661338147750939e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16,
+                -6.661338147750939e-16,
+                -4.440892098500626e-16,
+                -4.440892098500626e-16
+              ],
+              "6": [
+                0.0,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                -3.3306690738754696e-16,
+                -2.220446049250313e-16,
+                -2.220446049250313e-16,
+                0.0,
+                -2.220446049250313e-16,
+                -4.440892098500626e-16,
+                0.0,
+                -4.440892098500626e-16,
+                0.0,
+                0.0
+              ],
+              "7": [
+                0.0,
+                2.220446049250313e-16,
+                4.440892098500626e-16,
+                5.551115123125783e-16,
+                6.661338147750939e-16,
+                2.220446049250313e-16,
+                0.0,
+                4.440892098500626e-16,
+                4.440892098500626e-16,
+                0.0,
+                4.440892098500626e-16,
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "bolometric": {
+            "envelope": [
+              3.371112218473603e-10,
+              2.1529449384039605e-10,
+              6.364205181455678e-10,
+              3.3481664829953256e-10,
+              6.091460976888984e-10
+            ],
+            "signed_terms": {
+              "1": [
+                1.929123527588672e-10,
+                1.8746337815400693e-10,
+                -2.8984548094967977e-10,
+                1.9232926362633407e-10,
+                -2.828590695003186e-10
+              ],
+              "2": [
+                1.9173551635276453e-13,
+                1.9750867608081535e-13,
+                -3.523847880160247e-13,
+                2.6134649999676185e-13,
+                -2.97983859809392e-13
+              ],
+              "3": [
+                2.220446049250313e-15,
+                2.55351295663786e-15,
+                -1.0880185641326534e-14,
+                1.4432899320127035e-14,
+                -9.103828801926284e-15
+              ],
+              "4": [
+                1.1899559115846614e-10,
+                -2.6266655517304116e-11,
+                -3.1694868951603894e-11,
+                -2.934119613939856e-11,
+                -3.1693536683974344e-11
+              ],
+              "5": [
+                0.0,
+                0.0,
+                2.220446049250313e-16,
+                2.220446049250313e-16,
+                -2.220446049250313e-16
+              ],
+              "6": [
+                -2.220446049250313e-16,
+                1.1102230246251565e-16,
+                4.440892098500626e-16,
+                2.220446049250313e-16,
+                0.0
+              ],
+              "7": [
+                3.3306690738754696e-16,
+                4.440892098500626e-16,
+                -4.440892098500626e-16,
+                0.0,
+                2.220446049250313e-16
+              ]
+            }
+          }
+        },
+        "pair_bounds": {
+          "1": 0.004401809159873638,
+          "2": 8.370052667663594e-06,
+          "3": 0.004404858185989497,
+          "4": 0.0005467448357100757,
+          "5": 0.004207612421983307,
+          "6": 0.0005471036417727118,
+          "7": 0.004210111670716226
+        },
+        "signed_delta_log_likelihood": {
+          "1": -0.001711291678054634,
+          "2": -3.0468731489161915e-06,
+          "3": -0.0017144100776349666,
+          "4": -0.0003473880975171349,
+          "5": -0.0020586794637604735,
+          "6": -0.00035043354983429857,
+          "7": -0.002061798904062142
+        },
+        "rectangle_bounds": {
+          "0": 0.004948825311884032,
+          "2": 0.004948946499654142
+        },
+        "axis_bits": {
+          "field": 1,
+          "donor": 2,
+          "depth": 4
+        },
+        "limit_D": 0.1,
+        "limit_log_likelihood": 0.01,
+        "continuum_certified": false
+      },
+      "usable_log_posterior": -50244.4297084823
+    }
+  },
+  "relative_to_face_mean_reemission": {
+    "n6_d3_donor2": {
+      "fine_diagnostic_posterior_delta": -0.0036821609683101997,
+      "prediction_delta": {
+        "Generic.Bessell.B": [
+          3.2237201796903037e-10,
+          3.4832359219194586e-10,
+          4.6104942086344636e-10,
+          -2.375266650034291e-10,
+          -4.4779202568179244e-10,
+          -4.3571568575373476e-10,
+          -4.4388004383222324e-10,
+          -2.375266650034291e-10,
+          3.2237201796903037e-10,
+          3.4832359219194586e-10
+        ],
+        "Generic.Bessell.V": [
+          -3.1288238666604684e-10,
+          2.7361801713254863e-10,
+          2.84791967786191e-10,
+          3.127832437499478e-10,
+          3.7355984972009537e-10,
+          3.756404076682429e-10,
+          -1.6079804154855992e-10,
+          -3.290392402988118e-10,
+          -3.1590485782828637e-10,
+          -3.1288238666604684e-10,
+          2.84791967786191e-10,
+          -3.1288238666604684e-10,
+          -1.6079804154855992e-10
+        ],
+        "bolometric": [
+          2.622144723574138e-10,
+          2.996368708707564e-10,
+          -1.4762679967361692e-10,
+          -2.882303284934551e-10,
+          -1.2599410403879574e-10
+        ]
+      }
+    },
+    "n6_d3_donor1": {
+      "fine_diagnostic_posterior_delta": -0.003682162525365129,
+      "prediction_delta": {
+        "Generic.Bessell.B": [
+          3.223719069467279e-10,
+          3.4832392525885325e-10,
+          4.610498649526562e-10,
+          -2.3752688704803404e-10,
+          -4.477924697710023e-10,
+          -4.357161298429446e-10,
+          -4.43880709966038e-10,
+          -2.3752688704803404e-10,
+          3.223719069467279e-10,
+          3.4832392525885325e-10
+        ],
+        "Generic.Bessell.V": [
+          -3.128821646214419e-10,
+          2.7361801713254863e-10,
+          2.847921898307959e-10,
+          3.1278368783915766e-10,
+          3.7355962767549045e-10,
+          3.7564062971284784e-10,
+          -1.60797819503955e-10,
+          -3.290390182542069e-10,
+          -3.159050798728913e-10,
+          -3.128821646214419e-10,
+          2.847921898307959e-10,
+          -3.128821646214419e-10,
+          -1.60797819503955e-10
+        ],
+        "bolometric": [
+          2.6221425031280887e-10,
+          2.996368708707564e-10,
+          -1.4762679967361692e-10,
+          -2.882303284934551e-10,
+          -1.2599432608340067e-10
+        ]
+      }
+    },
+    "n6_d4_donor2": {
+      "fine_diagnostic_posterior_delta": -0.003682161885080859,
+      "prediction_delta": {
+        "Generic.Bessell.B": [
+          3.2237212899133283e-10,
+          3.4832392525885325e-10,
+          4.610496429080513e-10,
+          -2.3752622091421927e-10,
+          -4.4779224772639736e-10,
+          -4.357159077983397e-10,
+          -4.4388026587682816e-10,
+          -2.3752622091421927e-10,
+          3.2237212899133283e-10,
+          3.4832392525885325e-10
+        ],
+        "Generic.Bessell.V": [
+          -3.128821646214419e-10,
+          2.736181281548511e-10,
+          2.8479230085309837e-10,
+          3.1278379886146013e-10,
+          3.7355984972009537e-10,
+          3.7564062971284784e-10,
+          -1.60797819503955e-10,
+          -3.290390182542069e-10,
+          -3.1590463578368144e-10,
+          -3.128821646214419e-10,
+          2.8479230085309837e-10,
+          -3.128821646214419e-10,
+          -1.60797819503955e-10
+        ],
+        "bolometric": [
+          2.6221436133511133e-10,
+          2.9963675984845395e-10,
+          -1.4762702171822184e-10,
+          -2.882303284934551e-10,
+          -1.259945481280056e-10
+        ]
+      }
+    },
+    "n6_d4_donor1": {
+      "fine_diagnostic_posterior_delta": -0.0036821609319304116,
+      "prediction_delta": {
+        "Generic.Bessell.B": [
+          3.2237201796903037e-10,
+          3.483238142365508e-10,
+          4.610498649526562e-10,
+          -2.375264429588242e-10,
+          -4.477924697710023e-10,
+          -4.3571546370912984e-10,
+          -4.438804879214331e-10,
+          -2.375264429588242e-10,
+          3.2237201796903037e-10,
+          3.483238142365508e-10
+        ],
+        "Generic.Bessell.V": [
+          -3.128821646214419e-10,
+          2.736184612217585e-10,
+          2.847925228977033e-10,
+          3.1278379886146013e-10,
+          3.7355984972009537e-10,
+          3.756412958466626e-10,
+          -1.6079737541474515e-10,
+          -3.290392402988118e-10,
+          -3.1590463578368144e-10,
+          -3.128821646214419e-10,
+          2.847925228977033e-10,
+          -3.128821646214419e-10,
+          -1.6079737541474515e-10
+        ],
+        "bolometric": [
+          2.6221458337971626e-10,
+          2.996366488261515e-10,
+          -1.4762679967361692e-10,
+          -2.882303284934551e-10,
+          -1.2599410403879574e-10
+        ]
+      }
+    },
+    "n9_d3_donor2": {
+      "fine_diagnostic_posterior_delta": -0.003682161550386809,
+      "prediction_delta": {
+        "Generic.Bessell.B": [
+          3.22371684902123e-10,
+          3.4832392525885325e-10,
+          4.610496429080513e-10,
+          -2.375264429588242e-10,
+          -4.4779224772639736e-10,
+          -4.357159077983397e-10,
+          -4.4388026587682816e-10,
+          -2.375264429588242e-10,
+          3.22371684902123e-10,
+          3.4832392525885325e-10
+        ],
+        "Generic.Bessell.V": [
+          -3.128821646214419e-10,
+          2.736181281548511e-10,
+          2.8479230085309837e-10,
+          3.1278368783915766e-10,
+          3.735600717647003e-10,
+          3.7564062971284784e-10,
+          -1.60797819503955e-10,
+          -3.290390182542069e-10,
+          -3.159044137390765e-10,
+          -3.128821646214419e-10,
+          2.8479230085309837e-10,
+          -3.128821646214419e-10,
+          -1.60797819503955e-10
+        ],
+        "bolometric": [
+          2.6221425031280887e-10,
+          2.996366488261515e-10,
+          -1.47626577629012e-10,
+          -2.8823077258266494e-10,
+          -1.2599388199419082e-10
+        ]
+      }
+    },
+    "n9_d3_donor1": {
+      "fine_diagnostic_posterior_delta": -0.0036821605754084885,
+      "prediction_delta": {
+        "Generic.Bessell.B": [
+          3.223719069467279e-10,
+          3.483237032142483e-10,
+          4.610496429080513e-10,
+          -2.3752622091421927e-10,
+          -4.4779224772639736e-10,
+          -4.357159077983397e-10,
+          -4.438804879214331e-10,
+          -2.3752622091421927e-10,
+          3.223719069467279e-10,
+          3.483237032142483e-10
+        ],
+        "Generic.Bessell.V": [
+          -3.1288238666604684e-10,
+          2.7361801713254863e-10,
+          2.84791967786191e-10,
+          3.1278379886146013e-10,
+          3.7355984972009537e-10,
+          3.7564085175745277e-10,
+          -1.60797819503955e-10,
+          -3.290392402988118e-10,
+          -3.159050798728913e-10,
+          -3.1288238666604684e-10,
+          2.84791967786191e-10,
+          -3.1288238666604684e-10,
+          -1.60797819503955e-10
+        ],
+        "bolometric": [
+          2.6221436133511133e-10,
+          2.9963675984845395e-10,
+          -1.47626577629012e-10,
+          -2.8823010644885017e-10,
+          -1.2599410403879574e-10
+        ]
+      }
+    },
+    "n9_d4_donor2": {
+      "fine_diagnostic_posterior_delta": -0.003682160757307429,
+      "prediction_delta": {
+        "Generic.Bessell.B": [
+          3.2237212899133283e-10,
+          3.483238142365508e-10,
+          4.6104942086344636e-10,
+          -2.3752622091421927e-10,
+          -4.4779202568179244e-10,
+          -4.3571568575373476e-10,
+          -4.4388026587682816e-10,
+          -2.3752622091421927e-10,
+          3.2237212899133283e-10,
+          3.483238142365508e-10
+        ],
+        "Generic.Bessell.V": [
+          -3.1288238666604684e-10,
+          2.736177950879437e-10,
+          2.8479207880849344e-10,
+          3.127832437499478e-10,
+          3.7355984972009537e-10,
+          3.75640185623638e-10,
+          -1.6079759745935007e-10,
+          -3.290392402988118e-10,
+          -3.1590485782828637e-10,
+          -3.1288238666604684e-10,
+          2.8479207880849344e-10,
+          -3.1288238666604684e-10,
+          -1.6079759745935007e-10
+        ],
+        "bolometric": [
+          2.6221458337971626e-10,
+          2.9963709291536134e-10,
+          -1.47626577629012e-10,
+          -2.882303284934551e-10,
+          -1.2599410403879574e-10
+        ]
+      }
+    },
+    "n9_d4_donor1": {
+      "fine_diagnostic_posterior_delta": -0.003682160924654454,
+      "prediction_delta": {
+        "Generic.Bessell.B": [
+          3.2237179592442544e-10,
+          3.483234811696434e-10,
+          4.610496429080513e-10,
+          -2.375264429588242e-10,
+          -4.4779224772639736e-10,
+          -4.3571568575373476e-10,
+          -4.43880709966038e-10,
+          -2.375264429588242e-10,
+          3.2237179592442544e-10,
+          3.483234811696434e-10
+        ],
+        "Generic.Bessell.V": [
+          -3.1288238666604684e-10,
+          2.7361801713254863e-10,
+          2.847921898307959e-10,
+          3.1278379886146013e-10,
+          3.7355962767549045e-10,
+          3.7564062971284784e-10,
+          -1.60797819503955e-10,
+          -3.290392402988118e-10,
+          -3.159050798728913e-10,
+          -3.1288238666604684e-10,
+          2.847921898307959e-10,
+          -3.1288238666604684e-10,
+          -1.60797819503955e-10
+        ],
+        "bolometric": [
+          2.6221458337971626e-10,
+          2.996368708707564e-10,
+          -1.47626577629012e-10,
+          -2.882303284934551e-10,
+          -1.2599410403879574e-10
+        ]
+      }
+    }
+  },
+  "parity": {
+    "n6_d3": {
+      "normalized": 6.661338147750939e-16,
+      "raw_relative": 8.439392627838944e-16,
+      "component_relative": 9.486513065172733e-16,
+      "density": 1.6007106751203537e-10
+    },
+    "n6_d4": {
+      "normalized": 6.661338147750939e-16,
+      "raw_relative": 8.617008970032695e-16,
+      "component_relative": 8.557130482139323e-16,
+      "density": 9.022187441587448e-10
+    },
+    "n9_d3": {
+      "normalized": 4.440892098500626e-16,
+      "raw_relative": 8.0973723932874e-16,
+      "component_relative": 9.486513065121053e-16,
+      "density": 5.020410753786564e-10
+    },
+    "n9_d4": {
+      "normalized": 4.440892098500626e-16,
+      "raw_relative": 8.439392629281194e-16,
+      "component_relative": 9.48714584508453e-16,
+      "density": 4.802132025361061e-10
+    },
+    "jax_cpu": {
+      "normalized": 7.771561172376096e-16,
+      "raw_relative": 8.680153347230864e-16,
+      "component_relative": 9.610343635301263e-16,
+      "density": 3.5652192309498787e-10
+    },
+    "gpu_repeat": {
+      "normalized": 6.661338147750939e-16,
+      "raw_relative": 8.439392627838944e-16,
+      "component_relative": 9.486513065172733e-16,
+      "density": 1.6007106751203537e-10
+    }
+  },
+  "max_all_corner_log_posterior_difference": 9.022187441587448e-10,
+  "independent_observed_nominal_change": {
+    "reference": 0.0020617975064944117,
+    "gpu": 0.0020617983576304458
+  },
+  "matched_timings": {
+    "reference": {
+      "process_seconds": 306.5515866819769,
+      "curve": {
+        "all_fresh_fields_and_common_partition": 96.09891426307149,
+        "cpu_common_geometry_clipping_hash": 184.10817691707052,
+        "all_variant_integration_transfers_compile": 24.770035128341988,
+        "total": 304.9790472087916
+      },
+      "batch": {
+        "field_preparation": 0.0,
+        "total": 304.9790778970346,
+        "row_timers_exclude_shared_preparation": false
+      },
+      "hardware": null
+    },
+    "gpu": {
+      "process_seconds": 172.17591345403343,
+      "curve": {
+        "all_fresh_fields_and_common_partition": 41.13216889812611,
+        "cpu_common_geometry_clipping_hash": 118.3045737077482,
+        "all_variant_integration_transfers_compile": 4.927390675293282,
+        "total": 164.3663425319828
+      },
+      "batch": {
+        "field_preparation": 4.299102516844869,
+        "total": 168.66659732488915,
+        "row_timers_exclude_shared_preparation": true
+      },
+      "hardware": {
+        "active_samples": 192,
+        "total_samples": 400,
+        "link": [
+          [
+            4.0,
+            8.0
+          ]
+        ],
+        "peak_MiB": 1378.0,
+        "median_active_watts": 112.79
+      }
+    },
+    "cpu": {
+      "process_seconds": 569.347236485919,
+      "curve": {
+        "all_fresh_fields_and_common_partition": 56.24195119785145,
+        "cpu_common_geometry_clipping_hash": 487.04749940056354,
+        "all_variant_integration_transfers_compile": 19.48780348384753,
+        "total": 562.7932988400571
+      },
+      "batch": {
+        "field_preparation": 3.1422527730464935,
+        "total": 565.9366905090865,
+        "row_timers_exclude_shared_preparation": true
+      },
+      "hardware": null
+    },
+    "gpu-repeat": {
+      "process_seconds": 172.86588415014558,
+      "curve": {
+        "all_fresh_fields_and_common_partition": 40.942091330187395,
+        "cpu_common_geometry_clipping_hash": 119.2024035512004,
+        "all_variant_integration_transfers_compile": 5.001114681130275,
+        "total": 165.14781379909255
+      },
+      "batch": {
+        "field_preparation": 4.190384760033339,
+        "total": 169.33918357780203,
+        "row_timers_exclude_shared_preparation": true
+      },
+      "hardware": {
+        "active_samples": 186,
+        "total_samples": 402,
+        "link": [
+          [
+            4.0,
+            8.0
+          ]
+        ],
+        "peak_MiB": 1378.0,
+        "median_active_watts": 112.665
+      }
+    }
+  },
+  "tests": {
+    "window_589": {
+      "tests": 5,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "window_592": {
+      "tests": 2,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "m039-unit-tests": {
+      "tests": 4,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "m039-defaults": {
+      "tests": 9,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "m039-face-power": {
+      "tests": 2,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    }
+  },
+  "windows": [
+    {
+      "number": 583,
+      "purpose": "secondary-node-reemission",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 199.493715464836,
+      "success": true,
+      "tested_manifest_sha256": "4fbe287cf13a65faac190b803547725854d98775e3c5eccc060dfcb3b1092bb3",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 584,
+      "purpose": "secondary-node-reemission",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 202.97147229127586,
+      "success": true,
+      "tested_manifest_sha256": "d67b7225d4a2b3039e2caa5e64e0aa7761fd6d05d6f4ac2dc6b3fcbfbea6bcd7",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 585,
+      "purpose": "secondary-node-reemission",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 156.07109325705096,
+      "success": true,
+      "tested_manifest_sha256": "d67b7225d4a2b3039e2caa5e64e0aa7761fd6d05d6f4ac2dc6b3fcbfbea6bcd7",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 586,
+      "purpose": "secondary-node-reemission",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 153.67686986923218,
+      "success": true,
+      "tested_manifest_sha256": "347f679a545841cd8135e88a26fcbe622f23c4aaf1be7e356cdc087d8bddf1d7",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 587,
+      "purpose": "secondary-node-reemission",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 173.39721902669407,
+      "success": true,
+      "tested_manifest_sha256": "a56d34811527863a1b45183f5b50942f64d27f418538a70d2e42c835ef6312d5",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 588,
+      "purpose": "secondary-node-reemission",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 168.53236406925134,
+      "success": true,
+      "tested_manifest_sha256": "a56d34811527863a1b45183f5b50942f64d27f418538a70d2e42c835ef6312d5",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 589,
+      "purpose": "reflection-and-eclipse-regressions",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 49.25835304497741,
+      "success": true,
+      "tested_manifest_sha256": "a56d34811527863a1b45183f5b50942f64d27f418538a70d2e42c835ef6312d5",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 590,
+      "purpose": "matched-complete-curve",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 173.18673424376175,
+      "success": true,
+      "tested_manifest_sha256": "a56d34811527863a1b45183f5b50942f64d27f418538a70d2e42c835ef6312d5",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 591,
+      "purpose": "matched-complete-curve",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 173.87667098129168,
+      "success": true,
+      "tested_manifest_sha256": "a56d34811527863a1b45183f5b50942f64d27f418538a70d2e42c835ef6312d5",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    },
+    {
+      "number": 592,
+      "purpose": "independent-secondary-power",
+      "registered_before_start": true,
+      "verified_hold_both_boundaries": true,
+      "max_seconds": 300,
+      "measured_seconds": 8.336085519054905,
+      "success": true,
+      "tested_manifest_sha256": "a56d34811527863a1b45183f5b50942f64d27f418538a70d2e42c835ef6312d5",
+      "expected_head": "238c4e12a58b243f159a182caefc310df4fa6903"
+    }
+  ],
+  "production_state": "paused_for_elisa",
+  "matched_chain_initialization": {
+    "reference": {
+      "record_sha256": "06c217ed9cc9727def2d731c703e10714b0fa5c32f84aee0f7e565bc9d655a73",
+      "target": "d7c83c75dbd5b5ab426c060236a2c0bbb2fd90db6d798c07f5c50c036cf685d8",
+      "density": -50244.429718490304,
+      "position": [
+        0.47999999999999887,
+        0.38,
+        0.4199999999999993,
+        0.4799999999999997,
+        0.22,
+        0.4000000000000001
+      ],
+      "seed": 20261117,
+      "proposal_scale": 0.0006,
+      "step": 0,
+      "restart_verified": true,
+      "conflict_preserved": true
+    },
+    "gpu": {
+      "record_sha256": "0de9c8a29b7cf22209df0902555773567ecaaa5ab7a352b669a6ad345a4c6df2",
+      "target": "d7c83c75dbd5b5ab426c060236a2c0bbb2fd90db6d798c07f5c50c036cf685d8",
+      "density": -50244.4297184894,
+      "position": [
+        0.47999999999999887,
+        0.38,
+        0.4199999999999993,
+        0.4799999999999997,
+        0.22,
+        0.4000000000000001
+      ],
+      "seed": 20261117,
+      "proposal_scale": 0.0006,
+      "step": 0,
+      "restart_verified": true,
+      "conflict_preserved": true
+    }
+  }
+}

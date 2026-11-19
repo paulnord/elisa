@@ -63,6 +63,14 @@ class SampledReceiverReflection(QuadraticReflection):
 
         self._sampled_update = sampled_update if reference else self.jax.jit(sampled_update)
 
+    def _sweep_update(self, order, last):
+        def capture(receiver, donor, deposited):
+            values, mean = self._sampled_update(receiver, donor, deposited)
+            last.append((receiver, values, mean))
+            return mean
+
+        return capture
+
     def evaluate(self, binary, system, level, iterations):
         if self.receiver_points != 3:
             raise UnsupportedReflectionError("Within-face heating requires three receiver rays")
@@ -74,17 +82,13 @@ class SampledReceiverReflection(QuadraticReflection):
         worker = copy(self)
         last = deque(maxlen=2)
 
-        def capture(receiver, donor, deposited):
-            values, mean = self._sampled_update(receiver, donor, deposited)
-            last.append((receiver, values, mean))
-            return mean
-
+        order = sorted(("primary", "secondary"), key=lambda k: getattr(system, k).t_eff)
+        capture = worker._sweep_update(order, last)
         if self.mode == "reference":
             worker._reference_update = capture
         else:
             worker._update = capture
         temperatures, stats = QuadraticReflection.evaluate(worker, binary, system, level, iterations)
-        order = sorted(("primary", "secondary"), key=lambda k: getattr(system, k).t_eff)
         for name, data in zip(order, last, strict=True):
             stats[name].update(self._receiver_record(getattr(system, name), name, *data))
         return temperatures, stats

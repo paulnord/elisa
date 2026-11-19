@@ -1,6 +1,39 @@
 # Ada GPU development progress
 
-Updated **2026-11-19T00:09:12.648644+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T00:57:10.921384+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m039 — Where secondary irradiation changes eclipse contact
+
+Emitting the secondary’s absorbed heat at the three locations where it was received changed the sixteen-model log-likelihood error bound from **0.017971** to **0.005002** at proposal 0. The limit is **0.01** at an observational uncertainty of `1e-4`. The combined check returned a usable posterior at this proposal. The largest measured corner-to-corner change relative to the target was 0.002062. [Validation data](ada_validation/background-m039.json)
+
+### Which primary faces matter at contact
+
+The two B measurements at phase 0.024 and the V measurement at phase 0.027 were ranked by the absolute contribution of each common primary face to their nominal log-likelihood changes. Each face retained its local passband response, limb darkening, visible mirrors, third light and share of the change in the observation mean. Among 2160 common quarter-surface faces, the leading 32 accounted for **25.0%** of the summed absolute contributions. The ranking uses the preceding model with a six-point primary mean near the irradiation horizon.
+
+For those faces the calculation traced the final incoming radiation from every visible secondary emitter at the coarse and fine thermal resolutions. Both traces use identical locations, normals, area weights and absorption on the receiving star. The calculation first transports coarse intrinsic power, re-emitted heat and angular coefficients to the fine donor geometry. It then changes the angular coefficients, intrinsic power and re-emitted power in that order. New donor area inherits the fine coefficient where its coarse parent was invisible. The tested coefficient was 0.4 at both resolutions. The geometry term includes changes in area, visibility, distance and propagation direction. The angular-coefficient term measures the remaining change in bolometric limb darkening at fixed fine geometry.
+
+| Contribution to nominal log likelihood on 32 selected faces | B at 0.024, first | B at 0.024, repeat | V at 0.027 |
+| --- | ---: | ---: | ---: |
+| Emitting geometry | -0.000115032 | -0.000113866 | -0.000135596 |
+| Angular coefficient | +0 | +0 | +0 |
+| Intrinsic power | +4.73887e-06 | +4.69087e-06 | +5.07163e-06 |
+| Re-emitted power | -0.000151367 | -0.000149833 | -0.000162004 |
+| Direct sum | -0.000261659 | -0.000259009 | -0.000292529 |
+| Reconstructed change in receiving-face means | -0.000267684 | -0.000264973 | -0.000299149 |
+
+The direct calculation used 14,004 coarse and 56,028 fine emitting nodes. Changing the receiving integral from nine to sixteen points per fine child changed the entries in the direct decomposition by at most 1.5e-07 in nominal log likelihood. The difference between the direct sum and the reconstructed mean includes receiving-face integration, grouping and thermal reconstruction. The largest observed difference between the finite face sum and ELISa’s peak-then-mean normalization from floating-point arithmetic was 1.2e-10 in log likelihood. Both endpoint predictions passed an independent eight-machine-epsilon flux check. The selected-face contributions use the spectral response measured on the shared observer rays. They apply only to these three observations.
+
+Repeating the trace with the new re-emission rule isolates two effects. At fixed coarse geometry the within-face redistribution changed the three contact likelihood contributions by -0.000202, -0.0002, -0.000216. At fixed fine geometry the changes were -5.06e-05, -5.01e-05, -5.41e-05. Across resolutions, feedback into each secondary face’s mean accounted for a further +1.95e-09, +1.93e-09, +2.08e-09. The change in within-face redistribution between the two resolutions offsets 100.2% of the earlier re-emitted-power contribution at the first B contact. These figures use the same 32 primary faces and the same spectral sensitivity as the table.
+
+### Complete light curves and fitting
+
+The opt-in curve uses the secondary’s sampled heat in each subsequent primary irradiation update. Per-face curved-area weights conserve the secondary’s emitted heat under the change. The finest two-star sweep used 233,750,459 interactions against the existing 268,435,456 limit. Independent mirrored-vertex tests checked the outgoing temperatures’ deposited-power term at every visible node in two sweeps. The earlier face-mean model remains available under its original curve identity.
+
+Across all 28 observations, refining the primary thermal mesh changed nominal log likelihood by -0.000985, compared with -0.012095 under face-mean re-emission. The corresponding secondary change was +0.002696. These are signed changes, so cancellation between observations is possible. The combined qualification uses the absolute error envelope.
+
+Across sixteen complete models and 28 observations, the largest CPU/GPU differences were 6.66e-16 in normalized flux and 9.02e-10 in diagnostic fitted log posterior. At depth three, four fresh curves and two diagnostic densities took 306.55 s on serial CPU, 569.35 s on JAX CPU and 172.18 s on GPU, including transfers and synchronization. The GPU repeat took 172.87 s. The result qualifies this one proposal. Physical chain mixing and matched 8- and 16-worker throughput still require a sequence of independently checked proposals. All 10 registered units verified the held Fifth42 checkpoint at both boundaries. [Method and reproduction](experimental_gpu_backend.md) · [Hardware timings](hardware_characterization.md)
+
+The reference and GPU samplers now have separate, restart-verified step-zero checkpoints at this qualified proposal. Their fitted log posteriors are -50244.429718490 and -50244.429718489. They share the physical model, observations, priors, seed 20261117 and normalized proposal width 0.0006. Restoring each checkpoint reproduced the same prospective draw and acceptance uniform. No transition has been recorded on this target. The next comparison will synthesize and qualify the first draw on both backends before updating either chain.
 
 ## m038 — Primary irradiation at eclipse contact
 

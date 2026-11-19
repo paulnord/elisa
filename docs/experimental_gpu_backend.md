@@ -1,5 +1,27 @@
 # Experimental GPU likelihood pilot
 
+## m039 — Re-emission at the secondary’s physical receiving nodes
+
+`NodeReemissionLightCurve` augments the m038 horizon model. Each emitting ray on the secondary is matched to its physical receiver under the quarter-surface reflection symmetries. The solver checks coordinates, parent identity and curved-area weights. An emitter outside the receiving visibility cut carries zero deposited power. A fresh call starts with zero heating and updates the secondary’s node powers in cooler-first order. Each subsequent primary update uses those local powers in the existing direct and grouped irradiation calculations. The intrinsic bolometric power and original symmetric limb-darkening convention follow the existing solver. CPU and GPU use the same physical map, limits and exception behavior.
+
+To reproduce the sixteen-model comparison, use the m038 commands below with `--node-reemission` in place of `--horizon-mean` for synthesis, phase joins and the combined check. Preserve the depth-three timing boundary and all four combinations of interior rule and depth. For the contact attribution, first generate the m038 reference six-point depth-four curve using the original commands. Then run the following in the same environment, with `fixture` and `out` as defined below.
+
+```bash
+python -m scripts.weight_projected_heat "$fixture" --horizon-mean --common-face-response --output "$out/faces.json"
+python -m scripts.trace_contact_heating "$fixture" "$out/six-4.json" "$out/faces.json" --output "$out/contact.json"
+python -m scripts.trace_reemission_exchange "$fixture" "$out/six-4.json" "$out/faces.json" --output "$out/exchange.json"
+```
+
+For a passing position, initialize a fresh checkpoint with the four complete results from the **node-re-emission** model. For GPU, use its matching saved results and set the backend to `gpu`. Initialization and replay use CPU and require no new GPU window.
+
+```bash
+python -m scripts.initialize_reemission_chain --backend reference \
+  --six "$out/six-3.json" "$out/six-4.json" --duffy "$out/duffy-3.json" "$out/duffy-4.json" \
+  --checkpoint "$out/chain/state.json"
+```
+
+The trace assigns the finite change in a normalized flux ratio to individual faces using its initial normalized prediction and final denominator. Multiplying by the Gaussian residual at the midpoint gives additive per-face nominal log-likelihood contributions. The code checks that their sum recovers the prior whole-disk calculation at all 28 observations. Both secondary mesh choices enter the ranking. Direct coarse and fine irradiances are checked on shared rays against ELISa’s independent distance, visibility and limb-darkening routines. [Contact results](ada_validation/background-m039.json)
+
 ## m038 — Primary irradiation near the illumination boundary
 
 `HorizonReceiverLightCurve` uses a positive six-point rule for the primary’s receiving-face mean in both reflection iterations. A face is selected when its vertex x range intersects the interval from ELISa’s visibility threshold to twice the product of the two polar radii above that threshold, in units of orbital separation. This band approximates the width of the finite companion near the primary’s horizon. Every node still uses ELISa’s visibility test and the original donor and receiver horizon calculations. The integration weights include the curved-area Jacobian and use the area of the whole face, including its unilluminated portion.

@@ -12,13 +12,16 @@ if __package__ in (None, ""):
 from elisa import settings
 from elisa.experimental.gpu_curved_edges import SymmetricInteriorRule
 from elisa.experimental.horizon_receiver import HorizonReceiverLightCurve
+from elisa.experimental.node_reemission import NodeReemissionLightCurve
 from elisa.experimental.primary_cubic import CurvedHeatingLightCurve, PrimaryCubicLightCurve
 from elisa.experimental.receiver_heating import ReceiverHeatingLightCurve
 from scripts.validate_gpu_atmosphere import table_settings
 from scripts.validate_quadratic_source import assess, evaluate
 
 
-def source_class(primary_cubic, curved_heating, horizon_mean=False):
+def source_class(primary_cubic, curved_heating, horizon_mean=False, node_reemission=False):
+    if node_reemission:
+        return NodeReemissionLightCurve
     if horizon_mean:
         return HorizonReceiverLightCurve
     if curved_heating:
@@ -36,6 +39,7 @@ def main():
         "--symmetric-interior", nargs="?", const=4, type=int, choices=(4, 5), metavar="DEGREE",
         help="Use six (degree 4) or seven (degree 5) positive interior nodes per triangle. Default is Duffy quadrature.",
     )
+    parser.add_argument("--node-reemission", action="store_true", help="Re-emit secondary heating at each curved donor node.")
     parser.add_argument("--horizon-mean", action="store_true", help="Refine the primary receiver mean near the irradiation horizon.")
     parser.add_argument("--curved-heating", action="store_true", help="Use quadratic primary heating with cubic emission.")
     parser.add_argument("--primary-cubic", action="store_true")
@@ -52,7 +56,7 @@ def main():
             result = evaluate(
                 args,
                 inputs[0],
-                source_type=source_class(args.primary_cubic, args.curved_heating, args.horizon_mean),
+                source_type=source_class(args.primary_cubic, args.curved_heating, args.horizon_mean, args.node_reemission),
                 rule_type=partial(SymmetricInteriorRule, interior_degree=args.symmetric_interior) if args.symmetric_interior else None,
                 source_options=dict(selective_shadow=args.selective_shadow),
             )
@@ -60,7 +64,7 @@ def main():
             prefix = "shadow-" if args.selective_shadow else ""
             if args.symmetric_interior:
                 prefix = "symmetric-" + prefix
-            engine = prefix + source_class(args.primary_cubic, args.curved_heating, args.horizon_mean).rule_prefix.replace("_", "-")
+            engine = prefix + source_class(args.primary_cubic, args.curved_heating, args.horizon_mean, args.node_reemission).rule_prefix.replace("_", "-")
             result = assess(inputs, engine=engine, interior_degree=args.symmetric_interior)
     args.output.write_text(json.dumps(result, allow_nan=False, default=lambda a: a.tolist()) + "\n")
 

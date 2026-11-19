@@ -55,7 +55,7 @@ def local_response(solver, model, observer, system, key, dh):
     return old_heat, slopes
 
 
-def measure(base, horizon_mean):
+def measure(base, horizon_mean, *, common_face_response=False):
     fit, _, _, phases, model = context(base)
     observer = copy(fit.observer)
     observer._system = model
@@ -108,9 +108,19 @@ def measure(base, horizon_mean):
                                    parts["linearization_error"], rtol=2e-11, atol=1e-14*np.max(flux))
         disks.append(dict(phase=float(position.phase), nodes=len(ids), primary_flux=flux,
                           changes_by_band_and_moment=parts))
+        if common_face_response:
+            # The optical coefficients live on the base quarter. Disk weights already
+            # include every visible mirror, even when only some mirrors are eclipsed.
+            ownership = parent[child]
+            unit = np.einsum("nc,nbc->nb", weights, slopes[1])
+            response = np.stack([np.bincount(ownership, weights=v, minlength=len(mean)//4) for v in unit.T])
+            disks[-1]["unit_mean_response"] = response
+            np.testing.assert_allclose(response @ mean[:response.shape[1]], parts["face_mean"].sum(axis=1),
+                                       rtol=3e-12, atol=1e-16*np.max(flux))
+    extra = dict(common_heat_difference=mean[:len(mean)//4]) if common_face_response else {}
     return dict(bands=solver.passbands, input_phases=phases, indices_to_visible_disks=inverse[origin],
                 physical=base["samples"][0]["rows"][0]["physical"], source_revision=base["source_revision"],
-                horizon_mean=horizon_mean, surface=surface, depth=4, donor_level=2, steps=[1e-5,5e-6], disks=disks)
+                horizon_mean=horizon_mean, surface=surface, depth=4, donor_level=2, steps=[1e-5,5e-6], disks=disks, **extra)
 
 
 if __name__ == "__main__":
@@ -118,7 +128,8 @@ if __name__ == "__main__":
     parser.add_argument("baseline", type=Path)
     parser.add_argument("--horizon-mean", action="store_true")
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--common-face-response", action="store_true")
     args = parser.parse_args()
     with table_settings(), settings.override(REFLECTION_EFFECT=True, REFLECTION_EFFECT_ITERATIONS=2):
-        result = measure(json.loads(args.baseline.read_bytes()), args.horizon_mean)
+        result = measure(json.loads(args.baseline.read_bytes()), args.horizon_mean, common_face_response=args.common_face_response)
     args.output.write_text(json.dumps(result, default=lambda a: a.tolist(), allow_nan=False) + "\n")
