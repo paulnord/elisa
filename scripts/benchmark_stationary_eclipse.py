@@ -18,7 +18,10 @@ from scripts.validate_gpu_atmosphere import table_settings
 from scripts.validate_gpu_fit import physical
 
 
-def inputs(checkpoint, injection):
+def inputs(checkpoint, injection, *, compact=False):
+    if compact:
+        from scripts.compact_interior_fit import compact_inputs
+        return compact_inputs(checkpoint, injection)
     if not injection:
         state, fit, (vector, _, _, key, prior, base) = input_state(checkpoint)
         if base is None:
@@ -41,7 +44,7 @@ def inputs(checkpoint, injection):
 
 def run(args):
     start = perf_counter()
-    state, fit, vector, key, prior, base = inputs(args.checkpoint, args.injection)
+    state, fit, vector, key, prior, base = inputs(args.checkpoint, args.injection, compact=args.compact_interior)
     field_file = args.fields or args.output / "fields.npz"
     path = args.output / "checkpoint.json"
     step = state["step"] + 1
@@ -72,7 +75,15 @@ def run(args):
     _, props, _, phases, model = context(base)
     identity = binding(model, fit.observer, state, key)
     meta, arrays = load_fields(field_file, identity)
-    solver = WalkerObserver(list(fit.y_data), rule_for(args.rule, args.depth), device="reference", selective_shadow=True)
+    rule = rule_for(args.rule, args.depth)
+    if args.compact_interior:
+        from dataclasses import asdict
+        from elisa.experimental.compact_interior import CompactDuffyRule, CompanionSixPointRule, compact_shadow_packet
+        rule_class = CompactDuffyRule if args.rule == "duffy" else CompanionSixPointRule
+        rule = rule_class(**asdict(rule))
+    solver = WalkerObserver(list(fit.y_data), rule, device="reference", selective_shadow=True)
+    if args.compact_interior:
+        solver._packet = compact_shadow_packet
     solver.attach(model, meta, arrays, identity)
     fused = None
     if args.library:
@@ -88,7 +99,7 @@ def run(args):
         sampler.write_record(chain.block_path(path, step, args.rule, args.depth, args.part),
                              dict(binding=chain.block_binding(key, args.rule, args.depth, args.part), block=block))
     except UnsupportedCurvedGeometryError as error:
-        if not args.injection or str(error) != "Refined full shadow packet exceeds the original node cap":
+        if not (args.injection or args.compact_interior) or str(error) != "Refined full shadow packet exceeds the original node cap":
             raise
         return dict(status="node_cap", binding=chain.block_binding(key, args.rule, args.depth, args.part),
                     seconds=perf_counter()-start, reason=str(error), node_cap=solver.rule.max_nodes,
@@ -105,6 +116,7 @@ if __name__ == "__main__":
     p.add_argument("task", choices=("fields", "block", "assess"))
     p.add_argument("checkpoint", type=Path)
     p.add_argument("output", type=Path)
+    p.add_argument("--compact-interior", action="store_true", help="Use a separately bound one-level interior Duffy merge")
     p.add_argument("--injection", action="store_true")
     p.add_argument("--fields", type=Path)
     p.add_argument("--rule", choices=("six", "duffy"))

@@ -11,15 +11,15 @@ from scripts.compare_reflected_posteriors import mapped_density
 from scripts.receiver_phase_parts import compare_field_controls, join
 
 
-def read_grid(root, checkpoint, injection, rule, depth):
-    state, fit, vector, key, prior, base = inputs(checkpoint, injection)
+def read_grid(root, checkpoint, injection, rule, depth, *, compact=False):
+    state, fit, vector, key, prior, base = inputs(checkpoint, injection, compact=compact)
     parts, hashes, stops = [], [], []
     for part in (0, 1):
         binding = chain.block_binding(key, rule, depth, part)
         path = chain.block_path(root / "checkpoint.json", state["step"] + 1, rule, depth, part)
         if not path.exists():
             stop = sampler.read_record(root / f"{rule}-{depth}-{part}.json")
-            if not injection or stop.get("status") != "node_cap" or stop.get("binding") != binding:
+            if not (injection or compact) or stop.get("status") != "node_cap" or stop.get("binding") != binding:
                 raise ValueError("Missing or incorrect phase-block stop receipt")
             stops.append(part)
             continue

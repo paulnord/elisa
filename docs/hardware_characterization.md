@@ -1,5 +1,26 @@
 # Ada workload and hardware characterization
 
+## m044 — Complete injection and physical draw costs
+
+All arms use the same revised eclipse quadrature, original data, priors, noise, third light and output contract. Each complete time sums serial calls on one host thread per physical position. The two GPU draws ran sequentially. Independent CPU experiments shared the host. The timing begins with field construction and ends after the numerical assessment or durable sampler decision. Per-draw times start from an established checkpoint. The initial density was shared by both starts within each backend. Each start also verified its own density and wrote its independent random-number state. Those per-start costs are in the validation data.
+
+| Physical position | Implementation | Fields and archive, s | Eight phase blocks, s | Assessment and transition, s | Complete, s |
+| --- | --- | ---: | ---: | ---: | ---: |
+| injection | NumPy | 106.7 | 1388.4 | 2.5 | 1497.6 |
+| injection | Fused host | 107.8 | 1012.4 | 2.6 | 1122.8 |
+| injection | GPU fields and CUDA tangencies | 103.2 | 923.0 | 3.3 | 1029.5 |
+| control | Fused host | 108.6 | 1044.2 | 2.7 | 1155.4 |
+| draw0 | Fused host | 106.5 | 919.8 | 4.9 | 1031.2 |
+| draw0 | GPU fields and CUDA tangencies | 103.2 | 889.1 | 4.8 | 997.1 |
+| draw1 | Fused host | 106.1 | 922.0 | 4.7 | 1032.8 |
+| draw1 | GPU fields and CUDA tangencies | 96.0 | 829.0 | 4.5 | 929.5 |
+
+GPU times include registered unit launch, the FP64 device probe, transfers, synchronization and checkpoint verification. Every proposal rebuilds fields, and every observer call computes fresh eclipse geometry. All implementations retain host clipping and passband flux integration. The compiled stationary library from m043 was reused. The independent cross-backend audit and the reference calculations sit outside the table. Each configuration was timed once. The comparison uses individual physical draws. The earlier eight- and sixteen-worker measurements used a different observer protocol.
+
+Inside the eight injection phase blocks the geometry, eclipse clipping and partition checks took 631.1 s, or 71.0% of the timed observer calls. This includes the CUDA stationary solves and their host-side preparation. Those solves transferred 6.66 GB to the device and 2.22 GB back to the host. The counts cover this solver only.
+
+Peak sampled GPU memory was 1342 MiB, peak temperature was 54 °C, and median active power was 111.6 W. All 28 registered units verified the held Fifth42 checkpoint at both boundaries. The longest interval from unit registration through verification of its exit was 152.8 s. The hardware regression run passed all 54 cases. [Block timings, field archive sizes and decisions](ada_validation/background-m044.json)
+
 ## m043 — Stationary-point solves on the injection and a qualified draw
 
 Each row measures one serial evaluation of changing two-star physics on Ada, using one host hardware thread at a time. The injection row ends at a resource stop. The qualified row starts from the same saved physical proposal and ends at a durable sampler decision. All three implementations write and read a fresh field archive, use the same two observation blocks per orbit, and apply the same sixteen-model check. The GPU totals include every registered launch, device probe, synchronization, transfer and verified unit exit. Whole times sum the serial calls and exclude time spent on independent tests between them. Separate configurations ran concurrently on different CPU threads. These are single trials on a shared machine.

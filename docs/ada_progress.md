@@ -1,6 +1,21 @@
 # Ada GPU development progress
 
-Updated **2026-11-19T10:00:11.447905+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T11:06:02.787420+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m044 — The injected binary passes the sixteen-model check
+
+All **sixteen complete light curves at the 86.4° synthetic injection** fit within the existing node cap on CPU and GPU. At folded phase 0.005, combining intact interior Duffy panels reduced the primary's node count from 2,185,245 to **1,405,080**. The limit is 2,097,152 nodes per stellar component at one phase. The observation-weighted distance across the sixteen resolutions was 2.2e-05 in units of nominal uncertainty. The log-likelihood error bound was **0.000247** against 0.01, at observational uncertainty `1e-4`. The qualified starting log posterior was 148.730605. The 28 synthetic observations in B, V and bolometric light were generated with the original 12° facet model. On these observations the original ELISa facet fitter gave 219.68556 at 12° and 152.12532 at 6°. [Validation data](ada_validation/background-m044.json)
+
+Against 28 previously completed curves at the injection and the m043 comparison draw, the largest change in normalized prediction was 3.77e-15. The largest nominal bound on the change in log likelihood was 6.62e-07. The checks preserved all recorded limb and shadow clipping diagnostics. The original depth-four Duffy calculation also completed 13 of the 14 folded phases at the injection. On these phases the largest change in either star’s flux was 5.58e-15 of peak system flux. Phase 0.005 still has only the revised depth-four Duffy value for comparison with the other resolutions. An independent depth-four JAX CPU calculation at the injection agreed within 5.55e-16 in normalized flux. Across the injection and the new trials, the largest CPU/GPU differences were 6.66e-16 in normalized flux and 4.85e-11 in fitted log posterior. [Method and reproduction](experimental_gpu_backend.md#m044--duffy-integration-of-intact-interior-panels)
+
+Two independently seeded comparison chains started from the qualified injection. For each seed, CPU and GPU used the same random draw and proposal scales to vary six physical and nuisance parameters. Both proposals passed the sixteen-model check. Both samplers rejected them for all 256 combinations of starting and proposed resolutions. Both chains retained the injection values (fractional radii 0.13690018 and 0.06439494, inclination 86.400000°). Each chain has one transition. At both 12° and 6°, the original ELISa facet fitter also rejected both proposals when evaluated at the same positions and random draws. The curved model at the generating coordinates had RMS residuals of 1.97, 2.39, 3.27 times the fitted per-observation uncertainty in B, V and bolometric light, respectively. The assumed within-band exponential correlation (fraction 0.25, length 0.01 in unwrapped phase) gave a log posterior of 151.60049 at the injection. It gave the same two conditional rejections. Both samplers used the original independent-noise likelihood. Mixing, posterior recovery and effective samples per second remain unmeasured. [Portable checkpoints](ada_validation/background-m044-checkpoints.json)
+
+| Seed | First draw | Likelihood bound | Proposed primary radius / separation | Proposed secondary radius / separation | Proposed inclination, ° |
+| ---: | --- | ---: | ---: | ---: | ---: |
+| 20261117 | rejected | 0.000226 | 0.13689412 | 0.06439071 | 86.402856 |
+| 20261118 | rejected | 0.000227 | 0.13691319 | 0.06440135 | 86.400225 |
+
+Establishing the injection density took 1497.6 s with NumPy, 1122.8 s with fused host C++, and 1029.5 s with fresh GPU fields and CUDA stationary points. Each time includes the field archive, both transfer directions where applicable, eight phase-block calls and the resolution check. The fused host took 1.09 times the GPU elapsed time for this position. Each configuration ran once on a shared host. [Timing details](hardware_characterization.md#m044--complete-injection-and-physical-draw-costs)
 
 ## m043 — Eclipse tangencies and the injected binary
 
