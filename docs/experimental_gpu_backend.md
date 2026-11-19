@@ -1972,3 +1972,28 @@ fitting/MCMC must retain the other resolution controls; a joint passing value
 alone is not qualification. The current intersection method is the numerical
 path under development; accurate photometry can also use a suitably converged
 fine triangle mesh. No rendering redesign is part of this milestone.
+
+## m041 — Parallel physical walkers
+
+The opt-in benchmark resumes two m040 streams and creates fourteen more at the published m039 position using independent PCG64 seeds. It validates the two resumed checkpoints against the published byte hashes. The public fixture and its source manifest pin the observations, priors, temperatures, passbands, noise convention and original proposal width. Each in-prior walker rebuilds all four thermal/donor fields, then evaluates two eclipse depths and both interior rules over the full orbit. It partitions the returned component fluxes for the existing sixteen-model likelihood checker. A failed resolution check preserves the preceding position, density and RNG. An outside-prior proposal follows the existing rejection rule. Unsupported geometry or field failures propagate.
+
+The GPU owner synchronizes each candidate's optical moments and writes a NumPy archive with a trial, target, physical-system and passband identity. The CPU workers verify that identity and the FP64 angular parent maps, then build the primary cubic and secondary quadratic optical fields from the collocation values. The reference arm passes its fields directly in memory. Both use the same host geometry and clipping. The host radial solver tiles the same 56 FP64 bisections across 256 rays with fast math disabled and retains ELISa's potential coefficients, signed bracket check, gradients and stationary shadow. Tests compare the points, normals and areas bit for bit, including both components and the mass-ratio and spin limits.
+
+Use a fresh directory for each timing. Run initialization, host pools and comparisons with the private CPU-only environment and single-threaded numerical libraries. Each GPU field command on Ada runs inside a registered, hold-aware unit with FP64 enabled and device preallocation disabled. The examples below use eight workers. Repeat in fresh directories at sixteen workers, with the corresponding CPU affinity.
+
+```bash
+python -m scripts.benchmark_reemission_walkers init reference8 --backend reference
+python -m scripts.benchmark_reemission_walkers pool reference8 --workers 8
+python -m scripts.benchmark_reemission_walkers init gpu8 --backend gpu
+# Submit each group as one bounded field-owner command.
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu8/walker-{00,01,02}/start.json
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu8/walker-{03,04,05}/start.json
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu8/walker-{06,07,08}/start.json
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu8/walker-{09,10,11}/start.json
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu8/walker-{12,13,14}/start.json
+python -m scripts.benchmark_reemission_walkers fields --verified-bounded-gpu-window gpu8/walker-15/start.json
+python -m scripts.benchmark_reemission_walkers pool gpu8 --workers 8
+python -m scripts.compare_reemission_workers --reference reference8 --gpu gpu8 --output paired8.json
+```
+
+A `start.json` is immutable within a run. Each worker writes its checked assessment and selected `state.json` atomically. The pool's `--resume` option verifies completed transitions, including the RNG, decision and selected density, and rebuilds pending work. Resumed timings have their own output file. The comparison command reconstructs each density from component fluxes, checks all sixteen curves against the other backend and records resolution stops separately. [Results](ada_validation/background-m041.json)

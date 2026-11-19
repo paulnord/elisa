@@ -646,3 +646,26 @@ raw/component/normalized curves and original posteriors before interpreting
 costs. A standalone GPU primitive timing never qualifies a physical likelihood.
 Current finite1e-4 field/boundary stops still prevent a qualified fit or MCMC;
 no chain mixing, posterior convergence or ESS/sec claim is made.
+
+## m041 — Physical walker scaling
+
+The same sixteen changing proposals ran with eight and sixteen walker processes, one logical CPU per physical core. Each walker used one BLAS/OMP thread. Host and device jobs used nice 19. Each GPU unit could use the same host-CPU mask as the corresponding CPU run. The single owner prepared per-walker fields in a separate stage, with at most three proposals per bounded allocation. The four complete resumed fits ran sequentially, with the backend order reversed at sixteen workers.
+
+| Workers | Field backend | Field allocation and handoff before pool, s | CPU pool and decision unit, s | Eclipse geometry and clipping, summed worker s | Complete resumed fit, s |
+| ---: | --- | ---: | ---: | ---: | ---: |
+| 8 | CPU | 0.00 | 3258.38 | 17669.21 | 3260.38 |
+| 8 | GPU | 553.25 | 3001.28 | 17625.11 | 3556.54 |
+| 16 | CPU | 0.00 | 2776.81 | 25247.40 | 2778.81 |
+| 16 | GPU | 537.05 | 2520.64 | 25020.43 | 3059.70 |
+
+In the isolated host Roche sampler, the original-to-tiled median time ratio ranged from 1.91× to 5.82× for batches of 1, 16, 256, 2,048 and 32,768 rays on each star. Each median uses three warmed calls. Sampled points, normals and area Jacobians matched bit for bit. The complete fits also include the stationary-shadow solve, adaptive clipping, radiation and inference.
+
+Doubling the worker count changed elapsed time by a factor of 1.173 for CPU fields and 1.162 for GPU fields (eight-worker time divided by sixteen-worker time). GPU/CPU elapsed-time ratios were 1.091 and 1.101. These are single end-to-end runs per configuration. In the sixteen-worker GPU-field run, eclipse geometry and clipping accounted for 62.9% of the summed observer time. Summed stage seconds include concurrent work. In the CPU arm the worker pool built the stellar fields. In the GPU arm the clock includes archive writes, host reads, initialization/probes and unit cleanup.
+
+At fixed worker and initialization costs, eliminating the entire separate GPU field stage would improve this schedule by at most 1.18× at eight workers and 1.21× at sixteen. That stage includes field calculation and bounded-unit overhead as well as data transfer. Faster PCIe alone can address only the transfer portion. The GPU owner prepared one changing system at a time and handed its optical fields to the host. Cross-proposal device batching and overlap with CPU eclipse work remain available for comparison.
+
+During the host pools, median sampled CPU scaling frequencies were 4.49 and 4.34 GHz with CPU fields, and 4.49 and 4.34 GHz with GPU fields, in eight- and sixteen-worker order. Peak observed host-pool memory ranged from 7.5 to 28.6 GiB. Sampling began during the first CPU run. Each GPU run transferred 552.9 MiB of field archives between the field owner and the host walkers. This file size includes host geometry and metadata.
+
+The highest sampled active device memory use was 2370 MiB. Active samples recorded a PCIe 4.0 ×8 link. These runs used a single link configuration. The maximum observed workload across the 13 bounded GPU units was 101.29 s under the 300 s limit. Each verified the original held checkpoint at entry and cleanup.
+
+The independent JAX CPU control took 850.14 s inside a single call on one host core during the correctness checks, for four curves of one proposal. The matched walker times above cover sixteen resolutions for each of sixteen proposals. The original facet fitter exercised the same parameters, uncertainties, nuisance model and original prior with its own finite surface. Detailed numerical and per-density timing results are in the validation file. [Measurements](ada_validation/background-m041.json)

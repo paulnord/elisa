@@ -1,6 +1,32 @@
 # Ada GPU development progress
 
-Updated **2026-11-19T02:23:42.479514+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T06:39:16.742047+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m041 — Sixteen changing physical proposals at eight and sixteen workers
+
+On the pinned circular, detached synthetic binary with reflection, blackbody emission and linear limb darkening, **16 of 16 proposals passed** the sixteen-model check at observational uncertainty `1e-4`. CPU and GPU field calculations produced the same 8 acceptances, 8 rejections and 0 resolution stops at both worker counts. Each configuration evaluated the same 256 complete curves through both eclipses. The likelihood used both stellar fluxes and third light for 28 band measurements at 18 distinct phases. The CPU field calculation gave the shortest complete run at both worker counts. With sixteen workers it took 46 min 19 s, compared with 51 min for GPU fields and the same host eclipse integration. The largest cross-backend difference was 6.66e-16 in normalized flux and 2.07e-09 in fitted log posterior. [Validation data](ada_validation/background-m041.json)
+
+| Walker processes | Field backend | Checkpoint initialization, s | Sampling, s | Complete resumed fit, s | Usable likelihoods/min |
+| ---: | --- | ---: | ---: | ---: | ---: |
+| 8 | CPU | 2.00 | 3258.38 | 3260.38 | 0.294 |
+| 8 | GPU | 2.00 | 3554.53 | 3556.54 | 0.270 |
+| 16 | CPU | 2.00 | 2776.81 | 2778.81 | 0.345 |
+| 16 | GPU | 2.00 | 3057.70 | 3059.70 | 0.314 |
+
+Each run started with the two m040 chains at their published first transition and fourteen independently seeded chains at the qualified m039 position. The sampler varied primary surface potential and effective temperature, inclination, mass ratio, third light and the log-noise parameter. Each trial supplied new volume-equivalent radii for both stars. Initialization reconstructed and verified the published checkpoints. Sampling included fresh stellar fields for every draw, process startup, observation mapping, all sixteen resolutions, the Metropolis decision and durable output. GPU time also includes each device allocation check, launch, compilation, transfer to host storage, synchronization and handoff to the walkers. The CPU kept each walker's fields in memory. All four configurations ran separately. These timings start from qualified checkpoints.
+
+The CPU workers perform the curved eclipse and passband integrations in both configurations. One bounded GPU owner computes Roche geometry, gravity, irradiation and spectral fields before the host pool starts. Both field implementations apply both reflection sweeps at each thermal mesh and donor resolution. The observer reuses those fields only for the same physical position. Its four integrations cross eclipse depths three and four with six-point and Duffy interior quadrature. [Implementation and replay](experimental_gpu_backend.md#m041--parallel-physical-walkers)
+
+The nominal log-likelihood error bound on the CPU ranged from 0.004500 to 0.007567 against a limit of 0.01. Each in-prior draw received its own check before its checkpoint could advance. Across worker counts the largest change in an individual fitted density was 1.3e-09. The Gaussian density was also reconstructed directly from the stellar component fluxes. Every decision was unchanged across all 256 starting/proposed pairs of finite resolutions on both backends. The closest recorded acceptance margin to zero was 0.459859.
+
+| Continued seed | Decision on second draw | Proposed primary radius / separation | Proposed secondary radius / separation | Proposed inclination, degrees | Nominal log-likelihood bound |
+| ---: | --- | ---: | ---: | ---: | ---: |
+| 20261117 | rejected | 0.13696909 | 0.06403018 | 85.513885 | 0.004794 |
+| 20261118 | rejected | 0.13699056 | 0.06404000 | 85.512528 | 0.004577 |
+
+The two continued streams now have two transitions each. Fourteen additional streams supplied one independently changing proposal apiece. There were 11 distinct selected endpoints. The primary radius spanned 0.13696902–0.13698811 times the separation, the secondary radius 0.06403436–0.06405584, and inclination 85.518191–85.525793 degrees. The validation file records the selected physical coordinates after each transition. More generations are needed to measure posterior mixing, credible intervals and effective samples per second.
+
+An independent monolithic JAX CPU calculation evaluated the first continued proposal at eclipse depth three with the six-point interior rule. Its four curves agreed with the matched CPU calculation within 5.55e-16 in normalized flux and 1.02e-09 in fitted log posterior. At 12° the original facet fitter agreed on 16 of 16 conditional decisions. The largest difference in fitted log-posterior change was 9.903. At 6° the original facet fitter agreed on 16 of 16 conditional decisions. The largest difference in fitted log-posterior change was 9.362. The original facets and the curved model use different finite surfaces and eclipse integrals. [Hardware and timing boundaries](hardware_characterization.md#m041--physical-walker-scaling)
 
 ## m040 — First physical draws on the qualified re-emission model
 
