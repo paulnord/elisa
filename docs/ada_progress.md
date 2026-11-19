@@ -1,6 +1,16 @@
 # Ada GPU development progress
 
-Updated **2026-11-19T09:10:44.257216+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T10:00:11.447905+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m043 — Eclipse tangencies and the injected binary
+
+The injected system at 86.4° reached the existing eclipse quadrature limit. The shadow of the secondary on the primary at folded phase **0.005** required 2,185,245 nodes, 88,093 above the limit of 2,097,152. The ordinary subdivision used 1,252,512 nodes. The extra subdivision on 507 faces crossing the shadow used another 932,733. The other eleven overlapping phases fitted within the limit. Both phase blocks contained the offending phase after folding. Three of the four combinations of eclipse depth and interior rule returned complete orbits on CPU and GPU, giving twelve of the sixteen required curves. The six-point rule's eight-corner log-likelihood bound was 0.000245. The twelve measured log posteriors ranged from 148.7306053 to 148.7307177. The full bound is unavailable, so the sampler has no starting density at the injection. The original ELISa facet fitter gave 219.68556 at 12° and 152.12532 at 6° on the same observations. [Validation data](ada_validation/background-m043.json)
+
+At the previously qualified physical draw (inclination 85.52925°, seed 20261117, step 3), all sixteen complete curves reproduced the reference eclipse topology. Maximum CPU/GPU differences were 5.55e-16 in normalized flux, 1.29e-15 in relative stellar flux and 1.06e-09 in log posterior. The finite likelihood bound was 0.004791 against 0.01. The original checkpointed transition reproduced the published **acceptance**, including its random-number state. The 12° and 6° original facet comparisons also accepted this previously published move. This replay adds zero independent samples. Posterior mixing and effective samples per second remain unmeasured.
+
+The opt-in CUDA kernel computed twelve FP64 stationary-point updates per selected ray. On both previously profiled eclipse orbits, 179,362 sampled signed margins agreed with original NumPy to 2.22e-16, with identical opacity decisions. The complete qualified replay took **1600.1 s with NumPy, 1195.4 s with fused host C++, and 1007.3 s with GPU fields and CUDA tangencies**, including both transfer directions and the durable decision. Each configuration ran once. [Timing boundaries and hardware](hardware_characterization.md#m043--stationary-point-solves-on-the-injection-and-a-qualified-draw) · [Method and reproduction](experimental_gpu_backend.md#m043--fused-stationary-eclipse-experiment)
+
+The next comparison should reduce unnecessary interior subdivisions near phase 0.005, test the revised integration against the existing complete Duffy cases, and repeat all sixteen injection curves within the same node limit before starting chains there.
 
 ## m042 — Continuing eight physical chains through eclipse
 

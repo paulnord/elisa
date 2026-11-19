@@ -1,5 +1,22 @@
 # Ada workload and hardware characterization
 
+## m043 — Stationary-point solves on the injection and a qualified draw
+
+Each row measures one serial evaluation of changing two-star physics on Ada, using one host hardware thread at a time. The injection row ends at a resource stop. The qualified row starts from the same saved physical proposal and ends at a durable sampler decision. All three implementations write and read a fresh field archive, use the same two observation blocks per orbit, and apply the same sixteen-model check. The GPU totals include every registered launch, device probe, synchronization, transfer and verified unit exit. Whole times sum the serial calls and exclude time spent on independent tests between them. Separate configurations ran concurrently on different CPU threads. These are single trials on a shared machine.
+
+| Case | Implementation | Fields and archive, s | Eight block calls inside driver, s | Complete wall, s |
+| --- | --- | ---: | ---: | ---: |
+| Injection | NumPy stationary solve, CPU fields | 111.7 | 1110.6 | 1242.8 |
+| Injection | Fused C++ stationary solve, CPU fields | 109.7 | 788.1 | 919.0 |
+| Injection | CUDA stationary solve, GPU fields | 197.1 | 705.0 | 940.1 |
+| Qualified | NumPy stationary solve, CPU fields | 121.5 | 1457.5 | 1600.1 |
+| Qualified | Fused C++ stationary solve, CPU fields | 122.5 | 1051.1 | 1195.4 |
+| Qualified | CUDA stationary solve, GPU fields | 95.8 | 876.1 | 1007.3 |
+
+On the qualified draw, the native CUDA path sent 7.194 GB of projected ray arrays and returned 2.398 GB of stationary offsets, in decimal units. These counts cover array payloads in the stationary solver. The timed field archive was 36.24 MB. The 299,745,732 selected rays included 34,928,154 host rechecks near the contour or outside a fused validity check. Synchronous native calls, including array transfers, took 8.13 s in total. Allocation, clipping, surface integration and likelihood remain in the complete wall measurement. Building the shared library offline took 0.87 s in a separate rebuild. The executable device instructions matched the tested build.
+
+Hardware telemetry from the 23 bounded units sampled 1342 MiB peak GPU memory and 53 °C peak temperature. Median power in samples with nonzero GPU utilization was 111.8 W. All 46 regression cases passed in the final bounded unit, including the hardware-only limb-darkened sphere check. Kernel execution on this test uses the RTX 3080 Ti's FP64 units. The timings above apply to a single physical proposal at a time. The earlier eight- and sixteen-worker comparisons used host eclipse geometry. [Per-block timings, transfers and resolution checks](ada_validation/background-m043.json)
+
 ## m040 — Transfer-inclusive cost per checked physical transition
 
 The timed inputs were two single physical draws from the qualified m039 start. Each backend rebuilt four reflected field combinations and evaluated each at two eclipse depths and two interior rules. Both runs used logical CPUs 16–19, nice 19 and single-thread BLAS/OpenMP. The CPU reference scheduled up to four of the eight phase blocks concurrently. The GPU evaluated one block per registered unit and could use its four host cores. The serial units kept one device context active at a time. Seed 20261117 ran CPU first and seed 20261118 ran GPU first. Each measured backend ran separately.

@@ -1,5 +1,27 @@
 # Experimental GPU likelihood pilot
 
+## m043 — Fused stationary eclipse experiment
+
+The opt-in benchmark replaces the twelve Newton updates in the conditioned Roche shadow test. The host selects candidate rays using the original projected-distance bounds. CUDA or the matched C++ host function solves for the offset along each line of sight. The host then applies the original FP64 stationary residual limit, displacement limit, potential and signed-margin test. It sends ambiguous signs within 256 machine epsilons of the potential scale, and questionable stationary candidates, through the original NumPy solve. Errors from that reference calculation propagate. The host still constructs surface rays, resolves clipped boundaries, integrates optical fields and maps both passbands to observations. The circular detached, unspotted, nonpulsating domain and field, interaction and node caps remain in force.
+
+To repeat the comparison, restore a published m042 starting cohort and select walker 00. Compile the native library for the device architecture in use. The commands below use the RTX 3080 Ti architecture and the assignment's configured Python environment.
+
+```sh
+python -m scripts.continue_reemission_walkers restore docs/ada_validation/background-m042-starts-reference.json starts-cpu
+nvcc -O3 -arch=sm_86 --fmad=false -Xcompiler=-fPIC,-ffp-contract=off -shared scripts/stationary_eclipse.cu -o stationary.so
+python -m scripts.benchmark_stationary_eclipse fields starts-cpu/walker-00/start.json cpu-run
+for rule in six duffy; do
+  for depth in 3 4; do
+    for part in 0 1; do
+      python -m scripts.benchmark_stationary_eclipse block starts-cpu/walker-00/start.json cpu-run --rule "$rule" --depth "$depth" --part "$part"
+    done
+  done
+done
+python -m scripts.benchmark_stationary_eclipse assess starts-cpu/walker-00/start.json cpu-run
+```
+
+Use a fresh output directory for each arm. Add `--injection` to each command for the exact injected position. For the fused host arm, supply `--library "$PWD/stationary.so"` on each block. For the GPU arm, restore `background-m042-starts-gpu.json`, use its checkpoint and run each field and fused block command in a verified bounded unit with `--verified-bounded-gpu-window`. On a qualified draw, copy the starting checkpoint into the output directory and run the original `scripts.sample_reemission_chain advance` there with the next generation and matching backend. It repeats the assessment before writing the new state. A node-cap result yields no usable injection density. To reproduce the per-phase cap diagnosis with reference fields, run `scripts.count_eclipse_nodes` on each half of the folded phase list. It counts the original ordinary and shadow-crossing partitions separately and discards each partition before counting the next. [Source and entry point](../scripts/benchmark_stationary_eclipse.py) · [Validation data](ada_validation/background-m043.json)
+
 ## m040 — Restartable sixteen-model Metropolis transitions
 
 The driver reads a checksummed m039 starting state, verifies the pinned model source, fit settings, observations, priors and assets, and reproduces the proposal from its saved random-number state. Each completed phase block is written atomically with its trial, interior rule, depth and part. Blocks of the same draw can run concurrently on CPU. Each GPU block on Ada requires its own registered hold-aware unit with a 300-second maximum runtime. The assessment joins both phase blocks before applying third light or band normalization. It evaluates all sixteen curves on the original observations and records the finite-model error envelope independently of nuisance-noise inflation.
