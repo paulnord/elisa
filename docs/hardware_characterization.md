@@ -1,5 +1,28 @@
 # Ada workload and hardware characterization
 
+## m040 — Transfer-inclusive cost per checked physical transition
+
+The timed inputs were two single physical draws from the qualified m039 start. Each backend rebuilt four reflected field combinations and evaluated each at two eclipse depths and two interior rules. Both runs used logical CPUs 16–19, nice 19 and single-thread BLAS/OpenMP. The CPU reference scheduled up to four of the eight phase blocks concurrently. The GPU evaluated one block per registered unit and could use its four host cores. The serial units kept one device context active at a time. Seed 20261117 ran CPU first and seed 20261118 ran GPU first. Each measured backend ran separately.
+
+| Seed | Backend | Checkpoint through assessment (s) | Recheck and durable decision or accuracy stop (s) | Transition total (s) | Sum of eight synthesis process times (s) |
+| --- | --- | ---: | ---: | ---: | ---: |
+| 20261117 | Four CPU phase-block processes | 796.85 | 2.16 | 799.01 | 2657.44 |
+| 20261117 | One GPU process at a time | 1326.96 | 2.18 | 1329.14 | 1309.77 |
+| 20261118 | Four CPU phase-block processes | 788.48 | 2.19 | 790.67 | 2629.04 |
+| 20261118 | One GPU process at a time | 1324.86 | 2.15 | 1327.01 | 1305.64 |
+
+For seed 20261117 on CPU, the first host assessment encountered an array comparison error. Replaying the saved blocks through the serialized profile interface produced the reported assessment. That CPU time combines the makespan of the eight successful synthesis commands with the successful assessment and decision. The failed assessment and repair interval are excluded.
+
+The transition total includes restoring the initialized state, regenerating the proposal, fresh field and observer setup, compilation encountered, host/device transfers, synchronization, output, phase joins, density evaluation, resolution checks and the final decision. The GPU wall clock also includes all eight registration, checkpoint verification, device probe and cleanup cycles. The process sum isolates the eight synthesis commands and overlaps on the four-process CPU run. Both backends used existing filesystem and compiler caches. The independent parity audit and deliberate restart tests ran outside these clocks. Initializing the starting position was measured separately in m039, which includes matched timing for its depth-three model.
+
+These measurements concern one walker draw at a time. The CPU processes in the table parallelize numerical blocks of that draw. Matched 8- and 16-walker-worker fits and reliable effective sample rates are still pending. All 16 bounded GPU units verified the original held Fifth42 checkpoint at entry and cleanup. [Validation data](ada_validation/background-m040.json)
+
+Across the eight GPU blocks, the summed host eclipse geometry, clipping and hashing times were 881.4 s and 876.1 s. The corresponding fresh field preparation times were 326.6 s and 327.7 s. Each block rebuilt the fields for its current physical draw. The stage breakdown and sampled active PCIe links, clocks, power and memory are in the validation data.
+
+Outside the eight GPU synthesis commands, registration, probes, hold verification, orchestration and the host assessment together accounted for 17.19 s and 19.23 s.
+
+As an independent check of the split phase calculation, JAX CPU synthesized all 18 phases at depth three, with the six-point interior rule and both thermal and donor resolutions, in 574.66 s including construction and two returned densities. The separate process took 578.16 s including initialization and comparison with the saved phase blocks. This measurement covers four of the sixteen models used for a sampler transition.
+
 ## m039 — Secondary re-emission in complete curves
 
 Each fresh process evaluated the identical changing-physics proposal, two thermal meshes, two donor groupings and 18 input phases, followed by two diagnostic fit densities. All runs used logical CPUs 16–19, nice 19 and one BLAS/OpenMP thread. JAX could use its own worker threads. Process times include startup, compilation encountered, transfers, synchronization and output. The validation grid also evaluated eclipse depth four and the independent Duffy interior rule.

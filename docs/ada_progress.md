@@ -1,6 +1,33 @@
 # Ada GPU development progress
 
-Updated **2026-11-19T00:57:10.921384+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+Updated **2026-11-19T02:23:42.479514+00:00** on `codex/gpu-resident-roche-pipeline`. Fifth42 is held for ELISa.
+
+## m040 — First physical draws on the qualified re-emission model
+
+The CPU and GPU samplers agreed on both independently seeded proposals. **2 of 2 draws passed** the sixteen-model likelihood check at observational uncertainty `1e-4`. The chains recorded 2 transitions and accepted 2 moves per backend across the two seeds. Both seeds started at the same qualified m039 position, changed all six fitted coordinates and used the original prior and proposal width. One draw per seed tests the transition and restart procedure. Posterior mixing and effective samples per second require longer chains. [Validation data](ada_validation/background-m040.json)
+
+| Seed | Sixteen-model log-likelihood bound (limit 0.01) | Largest measured log-likelihood change | Fitted log-posterior change | Log acceptance uniform | Decision |
+| --- | ---: | ---: | ---: | ---: | --- |
+| 20261117 | 0.005309 | 0.001985 | +731.678764 | -0.068515 | Accept |
+| 20261118 | 0.005236 | 0.002369 | +285.146440 | -0.143009 | Accept |
+
+Each trial recomputed both stars’ reflected fields and both eclipses. Sixteen curves crossed two thermal meshes, two donor groupings, two eclipse depths and two interior quadrature rules. Observation mapping used all 18 input phases, the 28 band-specific measurements and their repeats. The resolution check used the nominal errors before fitting the nuisance noise parameter.
+
+| State | Primary volume-equivalent radius / separation | Secondary volume-equivalent radius / separation | Inclination (degrees) | Largest B / V / bolometric flux change from start |
+| --- | ---: | ---: | ---: | --- |
+| Start | 0.13697509 | 0.06403859 | 85.520000 | 0 / 0 / 0 |
+| Trial 20261117 | 0.13696902 | 0.06403436 | 85.522856 | 6.82e-05 / 7.42e-05 / 6.32e-05 |
+| Trial 20261118 | 0.13698811 | 0.06404500 | 85.520225 | 2.34e-05 / 2.61e-05 / 2.51e-05 |
+
+Across the 32 finite curves, maximum CPU/GPU differences were **6.66e-16** in normalized flux and **1.66e-09** in fitted log posterior. An independent calculation from the two stellar component fluxes, third light, band means and fitted Gaussian variance recovered all corner densities within 1.28e-09. Testing all 256 combinations of starting and proposed resolutions gave acceptance-margin intervals [+0.068515, +0.068515] and [+0.143009, +0.143009]. A positive margin accepts the move.
+
+A separate JAX CPU evaluation synthesized all 18 phases of the first proposal in one call. At eclipse depth three its four complete curves matched the two-block CPU reference within 6.66e-16 in normalized flux and 8.73e-11 in fitted log posterior.
+
+A checkpoint stores the position, density, random-number state and decision together. Restart tests with missing, corrupted and wrong-trial phase blocks preserved the preceding state on both backends. Restoring the correct input reproduced the resulting checkpoint byte for byte. An outside-prior draw follows the fitter’s original rejection rule. A finite-resolution failure preserves the preceding generation.
+
+For comparison, ELISa’s original facet fitter evaluated the same three physical positions with the same data, prior and noise settings. At 12° and 6° the two conditional decisions were accept / accept and accept / accept, respectively. The original facet log-posterior changes were +733.722 / +288.256 and +735.320 / +286.104, respectively. The original facets and the curved solver use different surface and eclipse integrals. The validation file records their predictions, timing boundaries and density differences.
+
+At the full checked-transition boundary, GPU/CPU elapsed-time ratios were 1.66 and 1.68 for the two seeds. The CPU reference used four concurrent phase-block processes. The GPU used one registered process at a time on the same four host cores. The next comparison will use independently changing walkers at 8 and 16 workers on this pinned physical model. Each in-prior proposal must pass the same sixteen-model check before a chain update. [Transition timings](hardware_characterization.md) · [Checkpoint fixture and commands](experimental_gpu_backend.md)
 
 ## m039 — Where secondary irradiation changes eclipse contact
 

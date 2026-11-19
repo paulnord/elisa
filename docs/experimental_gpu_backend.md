@@ -1,5 +1,49 @@
 # Experimental GPU likelihood pilot
 
+## m040 — Restartable sixteen-model Metropolis transitions
+
+The driver reads a checksummed m039 starting state, verifies the pinned model source, fit settings, observations, priors and assets, and reproduces the proposal from its saved random-number state. Each completed phase block is written atomically with its trial, interior rule, depth and part. Blocks of the same draw can run concurrently on CPU. Each GPU block on Ada requires its own registered hold-aware unit with a 300-second maximum runtime. The assessment joins both phase blocks before applying third light or band normalization. It evaluates all sixteen curves on the original observations and records the finite-model error envelope independently of nuisance-noise inflation.
+
+To replay the first reference and GPU draws, export a starting record for each backend from the published [checkpoint fixture](ada_validation/background-m040-starts.json). The example is for seed 20261117. Select 20261118 for the second independent draw. Use the checkout and FP64 environment matching the recorded source and package versions.
+
+```bash
+out=$(mktemp -d)
+python - "$out" <<'PYTHON'
+import json
+import sys
+from pathlib import Path
+from scripts.sample_reflected_binary import read_record, write_record, digest
+bundle = json.loads(Path("docs/ada_validation/background-m040-starts.json").read_bytes())["20261117"]
+for backend, record in bundle.items():
+    folder = Path(sys.argv[1]) / backend
+    folder.mkdir()
+    assert digest(record["data"]) == record["sha256"]
+    for name in ("start.json", "state.json"):
+        write_record(folder / name, record["data"])
+PYTHON
+for rule in six duffy; do
+  for depth in 3 4; do
+    for part in 0 1; do
+      python -m scripts.sample_reemission_chain evaluate --checkpoint "$out/reference/state.json" --step 1 \
+        --backend reference --rule "$rule" --depth "$depth" --part "$part"
+    done
+  done
+done
+python -m scripts.sample_reemission_chain assess --checkpoint "$out/reference/state.json" --step 1 --backend reference
+```
+
+Run the same eight evaluations for the GPU state using `--backend gpu --verified-bounded-gpu-window` inside the registered units. Assessment, parity checking and durable advancement are CPU operations on the saved results. After assessing the GPU state, compare both transitions, then advance them separately.
+
+```bash
+python -m scripts.compare_reemission_draws --reference-start "$out/reference/start.json" --reference "$out/reference/state.json" \
+  --gpu-start "$out/gpu/start.json" --gpu "$out/gpu/state.json" --step 1 --output "$out/comparison.json"
+for backend in reference gpu; do
+  python -m scripts.sample_reemission_chain advance --checkpoint "$out/$backend/state.json" --step 1 --backend "$backend"
+done
+```
+
+A repeated advance of a committed generation returns its existing state. Reusing an evaluated block requires a matching checksum and trial identity. The fitter rechecks the combined resolution budget before any in-prior transition, including a Metropolis rejection. The original outside-prior rejection requires no synthesis. Numerical failures leave the previous generation available for retry. [Scientific results](ada_validation/background-m040.json)
+
 ## m039 — Re-emission at the secondary’s physical receiving nodes
 
 `NodeReemissionLightCurve` augments the m038 horizon model. Each emitting ray on the secondary is matched to its physical receiver under the quarter-surface reflection symmetries. The solver checks coordinates, parent identity and curved-area weights. An emitter outside the receiving visibility cut carries zero deposited power. A fresh call starts with zero heating and updates the secondary’s node powers in cooler-first order. Each subsequent primary update uses those local powers in the existing direct and grouped irradiation calculations. The intrinsic bolometric power and original symmetric limb-darkening convention follow the existing solver. CPU and GPU use the same physical map, limits and exception behavior.

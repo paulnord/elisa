@@ -1,0 +1,1122 @@
+{
+  "20261117": {
+    "reference": {
+      "data": {
+        "backend": "reference",
+        "density": -50244.429718490304,
+        "events": [],
+        "initial": {
+          "alternative": "Duffy 3x3",
+          "continuum_certified": false,
+          "distance_sigma": 2.1201659910240394e-05,
+          "interior_pair_bound": 4.4558999354384e-05,
+          "interior_pair_distance_sigma": 1.7739304657670192e-07,
+          "limit_distance": 0.1,
+          "limit_log_likelihood": 0.01,
+          "log_likelihood_bound": 0.005002042109169109,
+          "max_measured_nominal_log_likelihood_change": 0.0020617973085634666,
+          "observed_field_changes": {
+            "component_flux_changes": {
+              "Generic.Bessell.B": {
+                "primary": {
+                  "mean_fractional_change": 1.4395529213118152e-10,
+                  "peak_scaled_shape_residual": 2.1703075188872184e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 8.745704160872947e-10,
+                  "peak_scaled_shape_residual": 1.1372343082080933e-08
+                }
+              },
+              "Generic.Bessell.V": {
+                "primary": {
+                  "mean_fractional_change": 1.1572431901640812e-10,
+                  "peak_scaled_shape_residual": 1.746185245454639e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 7.136040647282016e-10,
+                  "peak_scaled_shape_residual": 9.113505685323928e-09
+                }
+              },
+              "bolometric": {
+                "primary": {
+                  "mean_fractional_change": 1.106084113189354e-10,
+                  "peak_scaled_shape_residual": 1.6683244422784816e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 5.337570385677282e-10,
+                  "peak_scaled_shape_residual": 6.782601236879224e-09
+                }
+              }
+            },
+            "mapped_distance_sigma": {
+              "primary": 5.198096565810895e-06,
+              "secondary": 1.3409605371108787e-05,
+              "total": 1.2582219023545178e-05
+            },
+            "nominal_log_likelihood_changes": {
+              "primary": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 3,
+                  "phase": 0.027000000000000003,
+                  "signed_change": -0.0001270906508535486
+                },
+                "signed_change": -0.0009847030268188722
+              },
+              "secondary": {
+                "largest_observation": {
+                  "band": "bolometric",
+                  "band_index": 1,
+                  "phase": 0.027000000000000003,
+                  "signed_change": 0.0003223858477700907
+                },
+                "signed_change": 0.0026959945738050713
+              },
+              "total": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 12,
+                  "phase": 0.767,
+                  "signed_change": 0.0002987317502153682
+                },
+                "signed_change": 0.0017112915469861987
+              }
+            }
+          },
+          "pass_finite_check": true,
+          "usable_log_posterior": -50244.429718490304,
+          "within_rule_bounds": [
+            0.00495748272973005,
+            0.004957483105941794
+          ]
+        },
+        "initial_input_hashes": [
+          "0c9109e208ef8ce831b657d37a72cd65a707d30e9dc92f816b23b6bf434dd2c8",
+          "b0f383d7a8b17bec2bfe7ccb69f423fddc18777d2167bc13e1571b2b1ce9bd81",
+          "65126e43e07a72431a3b05dde82fd6ec3eb9d5fee808247908e52ed90dda52db",
+          "47ddb8d820c980c3f85b6e0d74da471ed462535c97adb4e811c4b0939ae0bb5d"
+        ],
+        "position": [
+          0.47999999999999887,
+          0.38,
+          0.4199999999999993,
+          0.4799999999999997,
+          0.22,
+          0.4000000000000001
+        ],
+        "rng": {
+          "bit_generator": "PCG64",
+          "has_uint32": 0,
+          "state": {
+            "inc": 16260218347702986379339059671553867195,
+            "state": 256755426300295274749974152534733883902
+          },
+          "uinteger": 0
+        },
+        "scales": [
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006
+        ],
+        "seed": 20261117,
+        "step": 0,
+        "target": {
+          "distance_limit": 0.1,
+          "donor_levels": [
+            1,
+            2
+          ],
+          "eclipse_depths": [
+            3,
+            4
+          ],
+          "engine": "secondary-node-reemission",
+          "field_levels": [
+            2,
+            3
+          ],
+          "integration_level": 3,
+          "interiors": [
+            "symmetric-degree-4",
+            "duffy-3x3"
+          ],
+          "junction_depth": 4,
+          "likelihood_limit": 0.01,
+          "original_fit": {
+            "assets": "b15cd89c86b0dc6e9947dc9400f1b1814139f404ea82f321f83222bc4788feee",
+            "fitable": [
+              "primary@surface_potential",
+              "primary@t_eff",
+              "system@inclination",
+              "system@mass_ratio",
+              "system@additional_light",
+              "nuisance@ln_f"
+            ],
+            "normalization": {
+              "nuisance@ln_f": [
+                -5.0,
+                1.0
+              ],
+              "primary@albedo": [
+                null,
+                null
+              ],
+              "primary@gravity_darkening": [
+                null,
+                null
+              ],
+              "primary@metallicity": [
+                null,
+                null
+              ],
+              "primary@surface_potential": [
+                7.8,
+                8.2
+              ],
+              "primary@synchronicity": [
+                null,
+                null
+              ],
+              "primary@t_eff": [
+                6000.0,
+                7000.0
+              ],
+              "secondary@albedo": [
+                null,
+                null
+              ],
+              "secondary@gravity_darkening": [
+                null,
+                null
+              ],
+              "secondary@metallicity": [
+                null,
+                null
+              ],
+              "secondary@surface_potential": [
+                null,
+                null
+              ],
+              "secondary@synchronicity": [
+                null,
+                null
+              ],
+              "secondary@t_eff": [
+                null,
+                null
+              ],
+              "system@additional_light": [
+                0.0,
+                0.8
+              ],
+              "system@argument_of_periastron": [
+                null,
+                null
+              ],
+              "system@eccentricity": [
+                null,
+                null
+              ],
+              "system@inclination": [
+                83.0,
+                89.0
+              ],
+              "system@mass_ratio": [
+                0.6,
+                0.8
+              ],
+              "system@period": [
+                null,
+                null
+              ],
+              "system@phase_shift": [
+                null,
+                null
+              ],
+              "system@semi_major_axis": [
+                null,
+                null
+              ]
+            },
+            "observations": "923b2d8aaef55300e3b084ac129e4ee22443332f9ce0ad7dcc99313c3b572657",
+            "packages": {
+              "astropy": "8.0.2",
+              "elisa": "1.0.0",
+              "jax": "0.12.0.1",
+              "jaxlib": "0.12.0.1",
+              "numba": "0.68.1",
+              "numpy": "2.5.5",
+              "scipy": "1.18.1"
+            },
+            "prior_mean": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "prior_sigma": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "protocol": "paired-emitting-area-v1",
+            "source": "584d9dcfa57243a076a139d11ac548f31775b379834176b1ccfb0a8dd2a2995c"
+          },
+          "receiver_points": 3,
+          "reflections": 2,
+          "selective_shadow": true,
+          "slice_order": 12,
+          "source": "18b099ef2ee48d649da6841a885ae80b77c13ac7e92e40e4935d28c4f44296d2"
+        }
+      },
+      "sha256": "36ee687d9dbb05edd692312c43958d2fc932bd565b33cc5aafc2a25a9aae99c8"
+    },
+    "gpu": {
+      "data": {
+        "backend": "gpu",
+        "density": -50244.4297184894,
+        "events": [],
+        "initial": {
+          "alternative": "Duffy 3x3",
+          "continuum_certified": false,
+          "distance_sigma": 2.1201672470864522e-05,
+          "interior_pair_bound": 4.456167336229166e-05,
+          "interior_pair_distance_sigma": 1.773955547570835e-07,
+          "limit_distance": 0.1,
+          "limit_log_likelihood": 0.01,
+          "log_likelihood_bound": 0.005002045717710483,
+          "max_measured_nominal_log_likelihood_change": 0.0020617983954953744,
+          "observed_field_changes": {
+            "component_flux_changes": {
+              "Generic.Bessell.B": {
+                "primary": {
+                  "mean_fractional_change": 1.4395440395276182e-10,
+                  "peak_scaled_shape_residual": 2.170303005185252e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 8.745706381318996e-10,
+                  "peak_scaled_shape_residual": 1.1372343551702224e-08
+                }
+              },
+              "Generic.Bessell.V": {
+                "primary": {
+                  "mean_fractional_change": 1.1572365288259334e-10,
+                  "peak_scaled_shape_residual": 1.7461852454546395e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 7.136042867728065e-10,
+                  "peak_scaled_shape_residual": 9.113506075852243e-09
+                }
+              },
+              "bolometric": {
+                "primary": {
+                  "mean_fractional_change": 1.1060818927433047e-10,
+                  "peak_scaled_shape_residual": 1.6683264466690727e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 5.337570385677282e-10,
+                  "peak_scaled_shape_residual": 6.782601903267684e-09
+                }
+              }
+            },
+            "mapped_distance_sigma": {
+              "primary": 5.198096020278139e-06,
+              "secondary": 1.3409604839427693e-05,
+              "total": 1.2582221695989216e-05
+            },
+            "nominal_log_likelihood_changes": {
+              "primary": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 3,
+                  "phase": 0.027000000000000003,
+                  "signed_change": -0.0001270903887728743
+                },
+                "signed_change": -0.0009847025493094658
+              },
+              "secondary": {
+                "largest_observation": {
+                  "band": "bolometric",
+                  "band_index": 1,
+                  "phase": 0.027000000000000003,
+                  "signed_change": 0.0003223858477700907
+                },
+                "signed_change": 0.002695994140672387
+              },
+              "total": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 12,
+                  "phase": 0.767,
+                  "signed_change": 0.00029873189020225614
+                },
+                "signed_change": 0.0017112915913629206
+              }
+            }
+          },
+          "pass_finite_check": true,
+          "usable_log_posterior": -50244.4297184894,
+          "within_rule_bounds": [
+            0.004957486411737366,
+            0.00495748404047506
+          ]
+        },
+        "initial_input_hashes": [
+          "d8f56f53a6aa06a192b447ca0cd64d7407bb77e0df6d0d67b1d24dbaad600167",
+          "57bf56041370e02631e59109603cfbd5fa777b53629c80391c32e73def491e3d",
+          "532f03f30224e9b7ee85bdd64e8e8565a652311296be3af3462e2fe2796621db",
+          "05f04a7f8d43b299b42dad8b45076bdd26c99351500402bdb40a6d3a2d19968a"
+        ],
+        "position": [
+          0.47999999999999887,
+          0.38,
+          0.4199999999999993,
+          0.4799999999999997,
+          0.22,
+          0.4000000000000001
+        ],
+        "rng": {
+          "bit_generator": "PCG64",
+          "has_uint32": 0,
+          "state": {
+            "inc": 16260218347702986379339059671553867195,
+            "state": 256755426300295274749974152534733883902
+          },
+          "uinteger": 0
+        },
+        "scales": [
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006
+        ],
+        "seed": 20261117,
+        "step": 0,
+        "target": {
+          "distance_limit": 0.1,
+          "donor_levels": [
+            1,
+            2
+          ],
+          "eclipse_depths": [
+            3,
+            4
+          ],
+          "engine": "secondary-node-reemission",
+          "field_levels": [
+            2,
+            3
+          ],
+          "integration_level": 3,
+          "interiors": [
+            "symmetric-degree-4",
+            "duffy-3x3"
+          ],
+          "junction_depth": 4,
+          "likelihood_limit": 0.01,
+          "original_fit": {
+            "assets": "b15cd89c86b0dc6e9947dc9400f1b1814139f404ea82f321f83222bc4788feee",
+            "fitable": [
+              "primary@surface_potential",
+              "primary@t_eff",
+              "system@inclination",
+              "system@mass_ratio",
+              "system@additional_light",
+              "nuisance@ln_f"
+            ],
+            "normalization": {
+              "nuisance@ln_f": [
+                -5.0,
+                1.0
+              ],
+              "primary@albedo": [
+                null,
+                null
+              ],
+              "primary@gravity_darkening": [
+                null,
+                null
+              ],
+              "primary@metallicity": [
+                null,
+                null
+              ],
+              "primary@surface_potential": [
+                7.8,
+                8.2
+              ],
+              "primary@synchronicity": [
+                null,
+                null
+              ],
+              "primary@t_eff": [
+                6000.0,
+                7000.0
+              ],
+              "secondary@albedo": [
+                null,
+                null
+              ],
+              "secondary@gravity_darkening": [
+                null,
+                null
+              ],
+              "secondary@metallicity": [
+                null,
+                null
+              ],
+              "secondary@surface_potential": [
+                null,
+                null
+              ],
+              "secondary@synchronicity": [
+                null,
+                null
+              ],
+              "secondary@t_eff": [
+                null,
+                null
+              ],
+              "system@additional_light": [
+                0.0,
+                0.8
+              ],
+              "system@argument_of_periastron": [
+                null,
+                null
+              ],
+              "system@eccentricity": [
+                null,
+                null
+              ],
+              "system@inclination": [
+                83.0,
+                89.0
+              ],
+              "system@mass_ratio": [
+                0.6,
+                0.8
+              ],
+              "system@period": [
+                null,
+                null
+              ],
+              "system@phase_shift": [
+                null,
+                null
+              ],
+              "system@semi_major_axis": [
+                null,
+                null
+              ]
+            },
+            "observations": "923b2d8aaef55300e3b084ac129e4ee22443332f9ce0ad7dcc99313c3b572657",
+            "packages": {
+              "astropy": "8.0.2",
+              "elisa": "1.0.0",
+              "jax": "0.12.0.1",
+              "jaxlib": "0.12.0.1",
+              "numba": "0.68.1",
+              "numpy": "2.5.5",
+              "scipy": "1.18.1"
+            },
+            "prior_mean": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "prior_sigma": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "protocol": "paired-emitting-area-v1",
+            "source": "584d9dcfa57243a076a139d11ac548f31775b379834176b1ccfb0a8dd2a2995c"
+          },
+          "receiver_points": 3,
+          "reflections": 2,
+          "selective_shadow": true,
+          "slice_order": 12,
+          "source": "18b099ef2ee48d649da6841a885ae80b77c13ac7e92e40e4935d28c4f44296d2"
+        }
+      },
+      "sha256": "4864f99089c28aa11c04d71ae4ac438759d3fb384c314ddf616894451bc78311"
+    }
+  },
+  "20261118": {
+    "reference": {
+      "data": {
+        "backend": "reference",
+        "density": -50244.429718490304,
+        "events": [],
+        "initial": {
+          "alternative": "Duffy 3x3",
+          "continuum_certified": false,
+          "distance_sigma": 2.1201659910240394e-05,
+          "interior_pair_bound": 4.4558999354384e-05,
+          "interior_pair_distance_sigma": 1.7739304657670192e-07,
+          "limit_distance": 0.1,
+          "limit_log_likelihood": 0.01,
+          "log_likelihood_bound": 0.005002042109169109,
+          "max_measured_nominal_log_likelihood_change": 0.0020617973085634666,
+          "observed_field_changes": {
+            "component_flux_changes": {
+              "Generic.Bessell.B": {
+                "primary": {
+                  "mean_fractional_change": 1.4395529213118152e-10,
+                  "peak_scaled_shape_residual": 2.1703075188872184e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 8.745704160872947e-10,
+                  "peak_scaled_shape_residual": 1.1372343082080933e-08
+                }
+              },
+              "Generic.Bessell.V": {
+                "primary": {
+                  "mean_fractional_change": 1.1572431901640812e-10,
+                  "peak_scaled_shape_residual": 1.746185245454639e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 7.136040647282016e-10,
+                  "peak_scaled_shape_residual": 9.113505685323928e-09
+                }
+              },
+              "bolometric": {
+                "primary": {
+                  "mean_fractional_change": 1.106084113189354e-10,
+                  "peak_scaled_shape_residual": 1.6683244422784816e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 5.337570385677282e-10,
+                  "peak_scaled_shape_residual": 6.782601236879224e-09
+                }
+              }
+            },
+            "mapped_distance_sigma": {
+              "primary": 5.198096565810895e-06,
+              "secondary": 1.3409605371108787e-05,
+              "total": 1.2582219023545178e-05
+            },
+            "nominal_log_likelihood_changes": {
+              "primary": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 3,
+                  "phase": 0.027000000000000003,
+                  "signed_change": -0.0001270906508535486
+                },
+                "signed_change": -0.0009847030268188722
+              },
+              "secondary": {
+                "largest_observation": {
+                  "band": "bolometric",
+                  "band_index": 1,
+                  "phase": 0.027000000000000003,
+                  "signed_change": 0.0003223858477700907
+                },
+                "signed_change": 0.0026959945738050713
+              },
+              "total": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 12,
+                  "phase": 0.767,
+                  "signed_change": 0.0002987317502153682
+                },
+                "signed_change": 0.0017112915469861987
+              }
+            }
+          },
+          "pass_finite_check": true,
+          "usable_log_posterior": -50244.429718490304,
+          "within_rule_bounds": [
+            0.00495748272973005,
+            0.004957483105941794
+          ]
+        },
+        "initial_input_hashes": [
+          "0c9109e208ef8ce831b657d37a72cd65a707d30e9dc92f816b23b6bf434dd2c8",
+          "b0f383d7a8b17bec2bfe7ccb69f423fddc18777d2167bc13e1571b2b1ce9bd81",
+          "65126e43e07a72431a3b05dde82fd6ec3eb9d5fee808247908e52ed90dda52db",
+          "47ddb8d820c980c3f85b6e0d74da471ed462535c97adb4e811c4b0939ae0bb5d"
+        ],
+        "position": [
+          0.47999999999999887,
+          0.38,
+          0.4199999999999993,
+          0.4799999999999997,
+          0.22,
+          0.4000000000000001
+        ],
+        "rng": {
+          "bit_generator": "PCG64",
+          "has_uint32": 0,
+          "state": {
+            "inc": 285510112843147871881244458991747965163,
+            "state": 339315704977120890532018391113838818954
+          },
+          "uinteger": 0
+        },
+        "scales": [
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006
+        ],
+        "seed": 20261118,
+        "step": 0,
+        "target": {
+          "distance_limit": 0.1,
+          "donor_levels": [
+            1,
+            2
+          ],
+          "eclipse_depths": [
+            3,
+            4
+          ],
+          "engine": "secondary-node-reemission",
+          "field_levels": [
+            2,
+            3
+          ],
+          "integration_level": 3,
+          "interiors": [
+            "symmetric-degree-4",
+            "duffy-3x3"
+          ],
+          "junction_depth": 4,
+          "likelihood_limit": 0.01,
+          "original_fit": {
+            "assets": "b15cd89c86b0dc6e9947dc9400f1b1814139f404ea82f321f83222bc4788feee",
+            "fitable": [
+              "primary@surface_potential",
+              "primary@t_eff",
+              "system@inclination",
+              "system@mass_ratio",
+              "system@additional_light",
+              "nuisance@ln_f"
+            ],
+            "normalization": {
+              "nuisance@ln_f": [
+                -5.0,
+                1.0
+              ],
+              "primary@albedo": [
+                null,
+                null
+              ],
+              "primary@gravity_darkening": [
+                null,
+                null
+              ],
+              "primary@metallicity": [
+                null,
+                null
+              ],
+              "primary@surface_potential": [
+                7.8,
+                8.2
+              ],
+              "primary@synchronicity": [
+                null,
+                null
+              ],
+              "primary@t_eff": [
+                6000.0,
+                7000.0
+              ],
+              "secondary@albedo": [
+                null,
+                null
+              ],
+              "secondary@gravity_darkening": [
+                null,
+                null
+              ],
+              "secondary@metallicity": [
+                null,
+                null
+              ],
+              "secondary@surface_potential": [
+                null,
+                null
+              ],
+              "secondary@synchronicity": [
+                null,
+                null
+              ],
+              "secondary@t_eff": [
+                null,
+                null
+              ],
+              "system@additional_light": [
+                0.0,
+                0.8
+              ],
+              "system@argument_of_periastron": [
+                null,
+                null
+              ],
+              "system@eccentricity": [
+                null,
+                null
+              ],
+              "system@inclination": [
+                83.0,
+                89.0
+              ],
+              "system@mass_ratio": [
+                0.6,
+                0.8
+              ],
+              "system@period": [
+                null,
+                null
+              ],
+              "system@phase_shift": [
+                null,
+                null
+              ],
+              "system@semi_major_axis": [
+                null,
+                null
+              ]
+            },
+            "observations": "923b2d8aaef55300e3b084ac129e4ee22443332f9ce0ad7dcc99313c3b572657",
+            "packages": {
+              "astropy": "8.0.2",
+              "elisa": "1.0.0",
+              "jax": "0.12.0.1",
+              "jaxlib": "0.12.0.1",
+              "numba": "0.68.1",
+              "numpy": "2.5.5",
+              "scipy": "1.18.1"
+            },
+            "prior_mean": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "prior_sigma": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "protocol": "paired-emitting-area-v1",
+            "source": "584d9dcfa57243a076a139d11ac548f31775b379834176b1ccfb0a8dd2a2995c"
+          },
+          "receiver_points": 3,
+          "reflections": 2,
+          "selective_shadow": true,
+          "slice_order": 12,
+          "source": "18b099ef2ee48d649da6841a885ae80b77c13ac7e92e40e4935d28c4f44296d2"
+        }
+      },
+      "sha256": "88cf23bcc7ca92d9cbec158ba1e922f6c0532c0b118fb7780b4a61a903b04716"
+    },
+    "gpu": {
+      "data": {
+        "backend": "gpu",
+        "density": -50244.4297184894,
+        "events": [],
+        "initial": {
+          "alternative": "Duffy 3x3",
+          "continuum_certified": false,
+          "distance_sigma": 2.1201672470864522e-05,
+          "interior_pair_bound": 4.456167336229166e-05,
+          "interior_pair_distance_sigma": 1.773955547570835e-07,
+          "limit_distance": 0.1,
+          "limit_log_likelihood": 0.01,
+          "log_likelihood_bound": 0.005002045717710483,
+          "max_measured_nominal_log_likelihood_change": 0.0020617983954953744,
+          "observed_field_changes": {
+            "component_flux_changes": {
+              "Generic.Bessell.B": {
+                "primary": {
+                  "mean_fractional_change": 1.4395440395276182e-10,
+                  "peak_scaled_shape_residual": 2.170303005185252e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 8.745706381318996e-10,
+                  "peak_scaled_shape_residual": 1.1372343551702224e-08
+                }
+              },
+              "Generic.Bessell.V": {
+                "primary": {
+                  "mean_fractional_change": 1.1572365288259334e-10,
+                  "peak_scaled_shape_residual": 1.7461852454546395e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 7.136042867728065e-10,
+                  "peak_scaled_shape_residual": 9.113506075852243e-09
+                }
+              },
+              "bolometric": {
+                "primary": {
+                  "mean_fractional_change": 1.1060818927433047e-10,
+                  "peak_scaled_shape_residual": 1.6683264466690727e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 5.337570385677282e-10,
+                  "peak_scaled_shape_residual": 6.782601903267684e-09
+                }
+              }
+            },
+            "mapped_distance_sigma": {
+              "primary": 5.198096020278139e-06,
+              "secondary": 1.3409604839427693e-05,
+              "total": 1.2582221695989216e-05
+            },
+            "nominal_log_likelihood_changes": {
+              "primary": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 3,
+                  "phase": 0.027000000000000003,
+                  "signed_change": -0.0001270903887728743
+                },
+                "signed_change": -0.0009847025493094658
+              },
+              "secondary": {
+                "largest_observation": {
+                  "band": "bolometric",
+                  "band_index": 1,
+                  "phase": 0.027000000000000003,
+                  "signed_change": 0.0003223858477700907
+                },
+                "signed_change": 0.002695994140672387
+              },
+              "total": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 12,
+                  "phase": 0.767,
+                  "signed_change": 0.00029873189020225614
+                },
+                "signed_change": 0.0017112915913629206
+              }
+            }
+          },
+          "pass_finite_check": true,
+          "usable_log_posterior": -50244.4297184894,
+          "within_rule_bounds": [
+            0.004957486411737366,
+            0.00495748404047506
+          ]
+        },
+        "initial_input_hashes": [
+          "d8f56f53a6aa06a192b447ca0cd64d7407bb77e0df6d0d67b1d24dbaad600167",
+          "57bf56041370e02631e59109603cfbd5fa777b53629c80391c32e73def491e3d",
+          "532f03f30224e9b7ee85bdd64e8e8565a652311296be3af3462e2fe2796621db",
+          "05f04a7f8d43b299b42dad8b45076bdd26c99351500402bdb40a6d3a2d19968a"
+        ],
+        "position": [
+          0.47999999999999887,
+          0.38,
+          0.4199999999999993,
+          0.4799999999999997,
+          0.22,
+          0.4000000000000001
+        ],
+        "rng": {
+          "bit_generator": "PCG64",
+          "has_uint32": 0,
+          "state": {
+            "inc": 285510112843147871881244458991747965163,
+            "state": 339315704977120890532018391113838818954
+          },
+          "uinteger": 0
+        },
+        "scales": [
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006
+        ],
+        "seed": 20261118,
+        "step": 0,
+        "target": {
+          "distance_limit": 0.1,
+          "donor_levels": [
+            1,
+            2
+          ],
+          "eclipse_depths": [
+            3,
+            4
+          ],
+          "engine": "secondary-node-reemission",
+          "field_levels": [
+            2,
+            3
+          ],
+          "integration_level": 3,
+          "interiors": [
+            "symmetric-degree-4",
+            "duffy-3x3"
+          ],
+          "junction_depth": 4,
+          "likelihood_limit": 0.01,
+          "original_fit": {
+            "assets": "b15cd89c86b0dc6e9947dc9400f1b1814139f404ea82f321f83222bc4788feee",
+            "fitable": [
+              "primary@surface_potential",
+              "primary@t_eff",
+              "system@inclination",
+              "system@mass_ratio",
+              "system@additional_light",
+              "nuisance@ln_f"
+            ],
+            "normalization": {
+              "nuisance@ln_f": [
+                -5.0,
+                1.0
+              ],
+              "primary@albedo": [
+                null,
+                null
+              ],
+              "primary@gravity_darkening": [
+                null,
+                null
+              ],
+              "primary@metallicity": [
+                null,
+                null
+              ],
+              "primary@surface_potential": [
+                7.8,
+                8.2
+              ],
+              "primary@synchronicity": [
+                null,
+                null
+              ],
+              "primary@t_eff": [
+                6000.0,
+                7000.0
+              ],
+              "secondary@albedo": [
+                null,
+                null
+              ],
+              "secondary@gravity_darkening": [
+                null,
+                null
+              ],
+              "secondary@metallicity": [
+                null,
+                null
+              ],
+              "secondary@surface_potential": [
+                null,
+                null
+              ],
+              "secondary@synchronicity": [
+                null,
+                null
+              ],
+              "secondary@t_eff": [
+                null,
+                null
+              ],
+              "system@additional_light": [
+                0.0,
+                0.8
+              ],
+              "system@argument_of_periastron": [
+                null,
+                null
+              ],
+              "system@eccentricity": [
+                null,
+                null
+              ],
+              "system@inclination": [
+                83.0,
+                89.0
+              ],
+              "system@mass_ratio": [
+                0.6,
+                0.8
+              ],
+              "system@period": [
+                null,
+                null
+              ],
+              "system@phase_shift": [
+                null,
+                null
+              ],
+              "system@semi_major_axis": [
+                null,
+                null
+              ]
+            },
+            "observations": "923b2d8aaef55300e3b084ac129e4ee22443332f9ce0ad7dcc99313c3b572657",
+            "packages": {
+              "astropy": "8.0.2",
+              "elisa": "1.0.0",
+              "jax": "0.12.0.1",
+              "jaxlib": "0.12.0.1",
+              "numba": "0.68.1",
+              "numpy": "2.5.5",
+              "scipy": "1.18.1"
+            },
+            "prior_mean": [
+              0.5000000000000011,
+              0.3,
+              0.3333333333333333,
+              0.4999999999999997,
+              0.25,
+              0.5
+            ],
+            "prior_sigma": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "protocol": "paired-emitting-area-v1",
+            "source": "584d9dcfa57243a076a139d11ac548f31775b379834176b1ccfb0a8dd2a2995c"
+          },
+          "receiver_points": 3,
+          "reflections": 2,
+          "selective_shadow": true,
+          "slice_order": 12,
+          "source": "18b099ef2ee48d649da6841a885ae80b77c13ac7e92e40e4935d28c4f44296d2"
+        }
+      },
+      "sha256": "85dcd3e23b7eed7facf2c09a771001c163112ec0f72af255c54ff4b5f971592b"
+    }
+  }
+}

@@ -1,0 +1,1872 @@
+{
+  "accuracy_limits": {
+    "curve_atol": 2e-12,
+    "curve_rtol": 3e-13,
+    "distance_sigma": 0.1,
+    "fitted_log_posterior_atol": 1e-06,
+    "nominal_log_likelihood": 0.01
+  },
+  "continued_from": "m039",
+  "draws": [
+    {
+      "draw": {
+        "log_uniform": -0.06851491704363134,
+        "maximum_normalized_flux_change_from_initial": {
+          "Generic.Bessell.B": 6.815638779178457e-05,
+          "Generic.Bessell.V": 7.419253722773522e-05,
+          "bolometric": 6.32368579466247e-05
+        },
+        "physical": {
+          "nuisance@ln_f": -2.597168558251966,
+          "primary@albedo": 0.5,
+          "primary@gravity_darkening": 0.32,
+          "primary@metallicity": 0.0,
+          "primary@surface_potential": 7.992273746324799,
+          "primary@synchronicity": 1.0,
+          "primary@t_eff": 6379.450722215251,
+          "secondary@albedo": 0.5,
+          "secondary@gravity_darkening": 0.32,
+          "secondary@metallicity": 0.0,
+          "secondary@surface_potential": 12.0,
+          "secondary@synchronicity": 1.0,
+          "secondary@t_eff": 4879.450722215251,
+          "system@additional_light": 0.17577921322964518,
+          "system@argument_of_periastron": 90.0,
+          "system@eccentricity": 0.0,
+          "system@inclination": 85.52285571194992,
+          "system@mass_ratio": 0.6959525357343611,
+          "system@period": 3.0,
+          "system@phase_shift": 0.017,
+          "system@semi_major_axis": 10.0
+        },
+        "prior": 0.0,
+        "proposed": [
+          0.48068436581199997,
+          0.379450722215251,
+          0.4204759519916538,
+          0.47976267867180533,
+          0.21972401653705645,
+          0.40047190695800566
+        ],
+        "volume_equivalent_radii_over_separation": {
+          "primary": 0.1369690244468767,
+          "secondary": 0.06403436262499496
+        }
+      },
+      "gpu": {
+        "backend": "gpu",
+        "completed_steps": 1,
+        "corner_log_posteriors": {
+          "duffy": {
+            "0": -49512.75094499503,
+            "1": -49512.752633704134,
+            "2": -49512.750947994624,
+            "3": -49512.75263677725,
+            "4": -49512.75122748979,
+            "5": -49512.752916199184,
+            "6": -49512.75123049004,
+            "7": -49512.752919271596
+          },
+          "six": {
+            "0": -49512.750954902986,
+            "1": -49512.75264361191,
+            "2": -49512.75095790292,
+            "3": -49512.75264668374,
+            "4": -49512.751237397,
+            "5": -49512.75292610683,
+            "6": -49512.75124039815,
+            "7": -49512.75292917938
+          }
+        },
+        "expected_accept": true,
+        "final_density": -49512.750954902986,
+        "final_record_sha256": "677b6b8d3f95c5749d13d9d9f127e3d4bbe3f1b9730abd0b8f5ea6c4b55ee4b9",
+        "initial_density": -50244.4297184894,
+        "input_hashes": [
+          "0b4c48d240a1053011eff60326bec69a593620c98647a8080a06cf345d4e3afc",
+          "1b9296d184f1a44151473dc6faec3e176a36da4e6b64b42e5980f9fffd7fa56c",
+          "1d331e3d93ea90b3311dde2537f2aac410b75cc6c8e605a931134eb211637772",
+          "8cbe3d310dc2b3d10b2bac79c6e9d340ae4807f01b6e22330db92c51759d21c7",
+          "4f38f1ed13fb1ceae9824d76c14498c486bb36db8b173371150c7983e7c2b106",
+          "cdcdf89ec5b050d0ce6ccfad67f190c9959c01c943297675102b247af79293d8",
+          "ff4f8804b7fea5b435ca099b40af5cf9c94de5242b608f36c238f6861b970f3f",
+          "2aa055df67e9f1cc7573e1e1b6258ad0da8018bb1f008b9736d184ba3463f75d"
+        ],
+        "log_posterior_change": 731.6787635864166,
+        "margin_range_over_all_corner_pairs": [
+          0.06851491704363134,
+          0.06851491704363134
+        ],
+        "preceding_record_sha256": "0de9c8a29b7cf22209df0902555773567ecaaa5ab7a352b669a6ad345a4c6df2",
+        "prior_shift": 0.0,
+        "report": {
+          "alternative": "Duffy 3x3",
+          "continuum_certified": false,
+          "distance_sigma": 2.3068706347289622e-05,
+          "interior_pair_bound": 4.42193282002002e-05,
+          "interior_pair_distance_sigma": 1.7743952338991547e-07,
+          "limit_distance": 0.1,
+          "limit_log_likelihood": 0.01,
+          "log_likelihood_bound": 0.0053094485373618525,
+          "max_measured_nominal_log_likelihood_change": 0.001985229464873778,
+          "observed_field_changes": {
+            "component_flux_changes": {
+              "Generic.Bessell.B": {
+                "primary": {
+                  "mean_fractional_change": 1.4395995506788495e-10,
+                  "peak_scaled_shape_residual": 2.1703369355977998e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 8.783767047049196e-10,
+                  "peak_scaled_shape_residual": 1.1376301403608331e-08
+                }
+              },
+              "Generic.Bessell.V": {
+                "primary": {
+                  "mean_fractional_change": 1.1572742764087707e-10,
+                  "peak_scaled_shape_residual": 1.7462026608781675e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 7.166438553696253e-10,
+                  "peak_scaled_shape_residual": 9.11668544643848e-09
+                }
+              },
+              "bolometric": {
+                "primary": {
+                  "mean_fractional_change": 1.1060352633762704e-10,
+                  "peak_scaled_shape_residual": 1.6682149385950288e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 5.359626076284485e-10,
+                  "peak_scaled_shape_residual": 6.7842439965266394e-09
+                }
+              }
+            },
+            "mapped_distance_sigma": {
+              "primary": 5.200017524019389e-06,
+              "secondary": 1.3439529676260033e-05,
+              "total": 1.261363125689826e-05
+            },
+            "nominal_log_likelihood_changes": {
+              "primary": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 3,
+                  "phase": 0.027000000000000003,
+                  "signed_change": -0.00012640059223658826
+                },
+                "signed_change": -0.0009743912411417212
+              },
+              "secondary": {
+                "largest_observation": {
+                  "band": "bolometric",
+                  "band_index": 1,
+                  "phase": 0.027000000000000003,
+                  "signed_change": 0.00032092865657924535
+                },
+                "signed_change": 0.002672468923517518
+              },
+              "total": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 12,
+                  "phase": 0.767,
+                  "signed_change": 0.00029657859034292345
+                },
+                "signed_change": 0.0016980776823757964
+              }
+            }
+          },
+          "pass_finite_check": true,
+          "usable_log_posterior": -49512.750954902986,
+          "within_rule_bounds": [
+            0.005265220428822417,
+            0.005265229204921931
+          ]
+        },
+        "seed": 20261117,
+        "timings": {
+          "advance_or_stop_seconds": 2.1770457320380956,
+          "assessment_seconds": 2.179048781050369,
+          "blocks": [
+            {
+              "command_seconds": 140.78764570108615,
+              "depth": 3,
+              "inner_seconds": 137.96136836498044,
+              "interior": "six",
+              "part": 0
+            },
+            {
+              "command_seconds": 150.17122631985694,
+              "depth": 3,
+              "inner_seconds": 147.28406279790215,
+              "interior": "six",
+              "part": 1
+            },
+            {
+              "command_seconds": 177.35662080696784,
+              "depth": 4,
+              "inner_seconds": 174.51677849399857,
+              "interior": "six",
+              "part": 0
+            },
+            {
+              "command_seconds": 183.04979499592446,
+              "depth": 4,
+              "inner_seconds": 180.15840244898573,
+              "interior": "six",
+              "part": 1
+            },
+            {
+              "command_seconds": 144.2275135430973,
+              "depth": 3,
+              "inner_seconds": 141.39014266012236,
+              "interior": "duffy",
+              "part": 0
+            },
+            {
+              "command_seconds": 152.4394772062078,
+              "depth": 3,
+              "inner_seconds": 149.53422397910617,
+              "interior": "duffy",
+              "part": 1
+            },
+            {
+              "command_seconds": 177.55066946684383,
+              "depth": 4,
+              "inner_seconds": 174.7013285390567,
+              "interior": "duffy",
+              "part": 0
+            },
+            {
+              "command_seconds": 184.19019775488414,
+              "depth": 4,
+              "inner_seconds": 181.344293148024,
+              "interior": "duffy",
+              "part": 1
+            }
+          ],
+          "checkpoint_to_assessment_wall_seconds": 1326.9628666071221,
+          "hardware": {
+            "median_SM_MHz": 1755.0,
+            "median_active_watts": 112.93,
+            "pcie_gen_width": [
+              [
+                4,
+                8
+              ]
+            ],
+            "peak_C": 56.0,
+            "peak_active_MiB": 1380.0,
+            "samples": 1401
+          },
+          "inner_stage_sums": {
+            "all_fresh_fields_and_common_partition": 326.58001632685773,
+            "all_variant_integration_transfers_compile": 38.373786204261705,
+            "cpu_common_geometry_clipping_hash": 881.4357932929415,
+            "total": 1246.4066372259986
+          },
+          "max_interactions_per_sweep": 233749340,
+          "sum_process_seconds": 1309.7731457948685,
+          "transition_wall_seconds_excluding_independent_audit": 1329.1399123391602
+        },
+        "width": [
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006
+        ]
+      },
+      "max_independent_density_difference": 1.280568540096283e-09,
+      "parity": {
+        "component_relative": 1.0263405345771354e-15,
+        "density": 1.6589183360338211e-09,
+        "normalized": 6.661338147750939e-16,
+        "raw_relative": 1.0457997289681997e-15
+      },
+      "reference": {
+        "backend": "reference",
+        "completed_steps": 1,
+        "corner_log_posteriors": {
+          "duffy": {
+            "0": -49512.75094499408,
+            "1": -49512.75263370453,
+            "2": -49512.75094799555,
+            "3": -49512.752636777135,
+            "4": -49512.75122748931,
+            "5": -49512.75291619989,
+            "6": -49512.75123048978,
+            "7": -49512.75291927172
+          },
+          "six": {
+            "0": -49512.75095490133,
+            "1": -49512.752643612344,
+            "2": -49512.750957903096,
+            "3": -49512.752646684974,
+            "4": -49512.75123739732,
+            "5": -49512.75292610799,
+            "6": -49512.75124039769,
+            "7": -49512.75292917961
+          }
+        },
+        "expected_accept": true,
+        "final_density": -49512.75095490133,
+        "final_record_sha256": "e2bd309e19492606d62b0edbe67c1b93a0cb1a45e0310d080e1ac788277a41ed",
+        "finest_prediction": {
+          "Generic.Bessell.B": [
+            0.8900540822388273,
+            0.9084738547277319,
+            1.060472745190378,
+            1.0855031674493494,
+            1.0684225021032951,
+            1.0429786393743068,
+            1.0600639045002036,
+            1.0855031674493494,
+            0.8900540822388273,
+            0.9084738547277319
+          ],
+          "Generic.Bessell.V": [
+            1.0216151358956178,
+            0.8858071293394926,
+            0.8946928212650826,
+            0.9232304145067511,
+            1.0125472176241765,
+            1.0731416464873724,
+            1.0766746845056447,
+            1.0676998181837816,
+            1.0299933546301188,
+            1.0216151358956178,
+            0.8946928212650826,
+            1.0216151358956178,
+            1.0766746845056447
+          ],
+          "bolometric": [
+            0.892191105091136,
+            0.9293158576155285,
+            1.081480269420214,
+            1.0155614948767382,
+            1.0814512729963837
+          ]
+        },
+        "initial_density": -50244.429718490304,
+        "input_hashes": [
+          "3fb2dd13305d3d88bc7f687efaa75436906a18c5b5fc2a54c8116ea927e0bc8d",
+          "503a2b67142f4aa93471e8159f75d6fdb3d5631e15fce706e220b365a4f99d35",
+          "f464ebb90fb158ae2e4a9e0d8f710ccd73b92476885f8d00d3c966be73e3bebf",
+          "f616fe569f655c87d3c580c5ee2ecc5ff7ed679656af99ad8f2b38556e496aae",
+          "2c326904543ca6b0a2fe43ee3aa5fa87200a40eadde35b55de3eea89cda71a28",
+          "0e6f89f3927c2cb7dd0372c6f00ec00ef6bf9834bd36c2d6aceb0a27a5a2b1b3",
+          "bbaa11125d7b159bb2837d7c7e1892ed942cccab0d920dea0157164c7ce26ea1",
+          "70ab2fd4fcd9cb4e7c88881fedea4f8dfe81f23b86c6516778d8eaf651c76ac8"
+        ],
+        "log_posterior_change": 731.6787635889777,
+        "margin_range_over_all_corner_pairs": [
+          0.06851491704363134,
+          0.06851491704363134
+        ],
+        "preceding_record_sha256": "06c217ed9cc9727def2d731c703e10714b0fa5c32f84aee0f7e565bc9d655a73",
+        "prior_shift": 0.0,
+        "report": {
+          "alternative": "Duffy 3x3",
+          "continuum_certified": false,
+          "distance_sigma": 2.306866321158371e-05,
+          "interior_pair_bound": 4.421881747175046e-05,
+          "interior_pair_distance_sigma": 1.774440061596636e-07,
+          "limit_distance": 0.1,
+          "limit_log_likelihood": 0.01,
+          "log_likelihood_bound": 0.005309437333370405,
+          "max_measured_nominal_log_likelihood_change": 0.0019852313686493823,
+          "observed_field_changes": {
+            "component_flux_changes": {
+              "Generic.Bessell.B": {
+                "primary": {
+                  "mean_fractional_change": 1.4395995506788495e-10,
+                  "peak_scaled_shape_residual": 2.1703403226918055e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 8.783764826603147e-10,
+                  "peak_scaled_shape_residual": 1.137630203032541e-08
+                }
+              },
+              "Generic.Bessell.V": {
+                "primary": {
+                  "mean_fractional_change": 1.1572720559627214e-10,
+                  "peak_scaled_shape_residual": 1.746200737967729e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 7.166440774142302e-10,
+                  "peak_scaled_shape_residual": 9.116685251030367e-09
+                }
+              },
+              "bolometric": {
+                "primary": {
+                  "mean_fractional_change": 1.1060330429302212e-10,
+                  "peak_scaled_shape_residual": 1.6682189491127192e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 5.359621635392386e-10,
+                  "peak_scaled_shape_residual": 6.784244496609072e-09
+                }
+              }
+            },
+            "mapped_distance_sigma": {
+              "primary": 5.200016816572189e-06,
+              "secondary": 1.3439532558618168e-05,
+              "total": 1.2613641122758425e-05
+            },
+            "nominal_log_likelihood_changes": {
+              "primary": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 3,
+                  "phase": 0.027000000000000003,
+                  "signed_change": -0.00012640026641013862
+                },
+                "signed_change": -0.0009743901263014849
+              },
+              "secondary": {
+                "largest_observation": {
+                  "band": "bolometric",
+                  "band_index": 1,
+                  "phase": 0.027000000000000003,
+                  "signed_change": 0.0003209288610568691
+                },
+                "signed_change": 0.0026724699259851143
+              },
+              "total": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 12,
+                  "phase": 0.767,
+                  "signed_change": 0.0002965790073968724
+                },
+                "signed_change": 0.00169807979968363
+              }
+            }
+          },
+          "pass_finite_check": true,
+          "usable_log_posterior": -49512.75095490133,
+          "within_rule_bounds": [
+            0.00526522665045321,
+            0.005265218511658898
+          ]
+        },
+        "seed": 20261117,
+        "timings": {
+          "advance_or_stop_seconds": 2.1616522220429033,
+          "assessment_seconds": 2.1758949731010944,
+          "blocks": [
+            {
+              "command_seconds": 266.1767618251033,
+              "depth": 3,
+              "inner_seconds": 264.20960372313857,
+              "interior": "six",
+              "part": 0
+            },
+            {
+              "command_seconds": 266.1847110250965,
+              "depth": 3,
+              "inner_seconds": 264.20404657395557,
+              "interior": "six",
+              "part": 1
+            },
+            {
+              "command_seconds": 400.31156337517314,
+              "depth": 4,
+              "inner_seconds": 397.8577148101758,
+              "interior": "six",
+              "part": 0
+            },
+            {
+              "command_seconds": 402.4835993850138,
+              "depth": 4,
+              "inner_seconds": 400.5767902210355,
+              "interior": "six",
+              "part": 1
+            },
+            {
+              "command_seconds": 272.6810649689287,
+              "depth": 3,
+              "inner_seconds": 270.8450638258364,
+              "interior": "duffy",
+              "part": 0
+            },
+            {
+              "command_seconds": 269.4991113410797,
+              "depth": 3,
+              "inner_seconds": 267.65747493109666,
+              "interior": "duffy",
+              "part": 1
+            },
+            {
+              "command_seconds": 387.91583449183963,
+              "depth": 4,
+              "inner_seconds": 385.73486108193174,
+              "interior": "duffy",
+              "part": 0
+            },
+            {
+              "command_seconds": 392.18961143889464,
+              "depth": 4,
+              "inner_seconds": 390.43548638303764,
+              "interior": "duffy",
+              "part": 1
+            }
+          ],
+          "checkpoint_to_assessment_wall_seconds": 796.8518648121972,
+          "hardware": null,
+          "inner_stage_sums": {
+            "all_fresh_fields_and_common_partition": 880.3931023292243,
+            "all_variant_integration_transfers_compile": 276.2816904305946,
+            "cpu_common_geometry_clipping_hash": 1484.1878980204929,
+            "total": 2640.8825088255107
+          },
+          "max_interactions_per_sweep": 233749340,
+          "sum_process_seconds": 2657.4422578511294,
+          "transition_wall_seconds_excluding_independent_audit": 799.0135170342401
+        },
+        "width": [
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006
+        ]
+      }
+    },
+    {
+      "draw": {
+        "log_uniform": -0.14300907938877,
+        "maximum_normalized_flux_change_from_initial": {
+          "Generic.Bessell.B": 2.337858709122731e-05,
+          "Generic.Bessell.V": 2.6145582111891663e-05,
+          "bolometric": 2.5101841997443586e-05
+        },
+        "physical": {
+          "nuisance@ln_f": -2.599663241587405,
+          "primary@albedo": 0.5,
+          "primary@gravity_darkening": 0.32,
+          "primary@metallicity": 0.0,
+          "primary@surface_potential": 7.991382005496282,
+          "primary@synchronicity": 1.0,
+          "primary@t_eff": 6379.698810966843,
+          "secondary@albedo": 0.5,
+          "secondary@gravity_darkening": 0.32,
+          "secondary@metallicity": 0.0,
+          "secondary@surface_potential": 12.0,
+          "secondary@synchronicity": 1.0,
+          "secondary@t_eff": 4879.698810966843,
+          "system@additional_light": 0.17592015005708528,
+          "system@argument_of_periastron": 90.0,
+          "system@eccentricity": 0.0,
+          "system@inclination": 85.52022467143867,
+          "system@mass_ratio": 0.6960719209284705,
+          "system@period": 3.0,
+          "system@phase_shift": 0.017,
+          "system@semi_major_axis": 10.0
+        },
+        "prior": 0.0,
+        "proposed": [
+          0.47845501374070687,
+          0.3796988109668431,
+          0.42003744523977915,
+          0.48035960464235217,
+          0.2199001875713566,
+          0.4000561264020992
+        ],
+        "volume_equivalent_radii_over_separation": {
+          "primary": 0.13698810698366687,
+          "secondary": 0.06404500027011246
+        }
+      },
+      "gpu": {
+        "backend": "gpu",
+        "completed_steps": 1,
+        "corner_log_posteriors": {
+          "duffy": {
+            "0": -49959.28326879431,
+            "1": -49959.284961907906,
+            "2": -49959.28327181493,
+            "3": -49959.2849650002,
+            "4": -49959.28392844235,
+            "5": -49959.285621555726,
+            "6": -49959.28393146442,
+            "7": -49959.28562464738
+          },
+          "six": {
+            "0": -49959.28327875315,
+            "1": -49959.28497186599,
+            "2": -49959.28328177472,
+            "3": -49959.28497495811,
+            "4": -49959.2839384009,
+            "5": -49959.28563151417,
+            "6": -49959.2839414218,
+            "7": -49959.28563460613
+          }
+        },
+        "expected_accept": true,
+        "final_density": -49959.28327875315,
+        "final_record_sha256": "ec58077e97da14a8772b0e1fb9973c67711205b2cf8100f267eeed133f682c00",
+        "initial_density": -50244.4297184894,
+        "input_hashes": [
+          "e30492bcc9e105dc2976973a6b1a52fb6bced7869d5619b57425ec1833eff5a4",
+          "13d60a90758927e3e33c9b400af508213595e74128170b1d718999eb8564b4b4",
+          "81c553fef7a627b23e1e2cda9eda942e3f40ed3d5f97892ef8fbd2590402de06",
+          "ec0cd67f37cb6b9fa5d9e1361d9833153a666cbd7a5d7d04137b3c4dee87c0df",
+          "e46476d39c783c69257c54f95ebdbc8c3c8419eb66690a79a7b49b17d7ec32bf",
+          "8a602058f881b9be7c75bd1343ad5e9db6ce5cf0ef4fddd5b0204f85518734a6",
+          "5d64e4e022376613416313c81d87a672bc4282ee0b831197108c97cb6a56cb07",
+          "751ea9d05aa9d11034b12191d396c5eae93d13e798f11d21c879c95a7ef4995e"
+        ],
+        "log_posterior_change": 285.1464397362506,
+        "margin_range_over_all_corner_pairs": [
+          0.14300907938877,
+          0.14300907938877
+        ],
+        "preceding_record_sha256": "a84362783efcf86586bfde186c5183e592e1bad1c1bcbdd52083f3a9f685e569",
+        "prior_shift": 0.0,
+        "report": {
+          "alternative": "Duffy 3x3",
+          "continuum_certified": false,
+          "distance_sigma": 2.0980959414883797e-05,
+          "interior_pair_bound": 4.441704666501544e-05,
+          "interior_pair_distance_sigma": 1.7741661462384713e-07,
+          "limit_distance": 0.1,
+          "limit_log_likelihood": 0.01,
+          "log_likelihood_bound": 0.005236311523564779,
+          "max_measured_nominal_log_likelihood_change": 0.0023688579405328576,
+          "observed_field_changes": {
+            "component_flux_changes": {
+              "Generic.Bessell.B": {
+                "primary": {
+                  "mean_fractional_change": 1.4402323778028858e-10,
+                  "peak_scaled_shape_residual": 2.1708124420441756e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 8.641058979463878e-10,
+                  "peak_scaled_shape_residual": 1.1367460760343469e-08
+                }
+              },
+              "Generic.Bessell.V": {
+                "primary": {
+                  "mean_fractional_change": 1.1577849790000982e-10,
+                  "peak_scaled_shape_residual": 1.7465902526292393e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 7.052554096276253e-10,
+                  "peak_scaled_shape_residual": 9.10956665002425e-09
+                }
+              },
+              "bolometric": {
+                "primary": {
+                  "mean_fractional_change": 1.1065615090899428e-10,
+                  "peak_scaled_shape_residual": 1.6686447001995293e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 5.275262449089269e-10,
+                  "peak_scaled_shape_residual": 6.779265398608143e-09
+                }
+              }
+            },
+            "mapped_distance_sigma": {
+              "primary": 5.200030134033185e-06,
+              "secondary": 1.3413491046895293e-05,
+              "total": 1.2593465850479778e-05
+            },
+            "nominal_log_likelihood_changes": {
+              "primary": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 3,
+                  "phase": 0.027000000000000003,
+                  "signed_change": -0.00012682957065168206
+                },
+                "signed_change": -0.000980816676927816
+              },
+              "secondary": {
+                "largest_observation": {
+                  "band": "bolometric",
+                  "band_index": 1,
+                  "phase": 0.027000000000000003,
+                  "signed_change": 0.0003214630829728931
+                },
+                "signed_change": 0.002683275981206295
+              },
+              "total": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 12,
+                  "phase": 0.767,
+                  "signed_change": 0.0002975465576189084
+                },
+                "signed_change": 0.001702459304278479
+              }
+            }
+          },
+          "pass_finite_check": true,
+          "usable_log_posterior": -49959.28327875315,
+          "within_rule_bounds": [
+            0.005191889787610864,
+            0.0051918944730576545
+          ]
+        },
+        "seed": 20261118,
+        "timings": {
+          "advance_or_stop_seconds": 2.150401056976989,
+          "assessment_seconds": 2.1540743310470134,
+          "blocks": [
+            {
+              "command_seconds": 141.24980715708807,
+              "depth": 3,
+              "inner_seconds": 138.4200384588912,
+              "interior": "six",
+              "part": 0
+            },
+            {
+              "command_seconds": 148.73499978799373,
+              "depth": 3,
+              "inner_seconds": 145.90165141806938,
+              "interior": "six",
+              "part": 1
+            },
+            {
+              "command_seconds": 177.73404982499778,
+              "depth": 4,
+              "inner_seconds": 174.87059870595112,
+              "interior": "six",
+              "part": 0
+            },
+            {
+              "command_seconds": 183.58810251997784,
+              "depth": 4,
+              "inner_seconds": 180.69408035720699,
+              "interior": "six",
+              "part": 1
+            },
+            {
+              "command_seconds": 143.22557495487854,
+              "depth": 3,
+              "inner_seconds": 140.43514079996385,
+              "interior": "duffy",
+              "part": 0
+            },
+            {
+              "command_seconds": 150.62257733615115,
+              "depth": 3,
+              "inner_seconds": 147.7393567059189,
+              "interior": "duffy",
+              "part": 1
+            },
+            {
+              "command_seconds": 176.62772078998387,
+              "depth": 4,
+              "inner_seconds": 173.79588031815365,
+              "interior": "duffy",
+              "part": 0
+            },
+            {
+              "command_seconds": 183.8552231870126,
+              "depth": 4,
+              "inner_seconds": 181.01312510902062,
+              "interior": "duffy",
+              "part": 1
+            }
+          ],
+          "checkpoint_to_assessment_wall_seconds": 1324.8639115509577,
+          "hardware": {
+            "median_SM_MHz": 1755.0,
+            "median_active_watts": 112.995,
+            "pcie_gen_width": [
+              [
+                4,
+                8
+              ]
+            ],
+            "peak_C": 56.0,
+            "peak_active_MiB": 1380.0,
+            "samples": 1378
+          },
+          "inner_stage_sums": {
+            "all_fresh_fields_and_common_partition": 327.6682163067162,
+            "all_variant_integration_transfers_compile": 38.53332916740328,
+            "cpu_common_geometry_clipping_hash": 876.0552836374845,
+            "total": 1242.2743670188356
+          },
+          "max_interactions_per_sweep": 233743137,
+          "sum_process_seconds": 1305.6380555580836,
+          "transition_wall_seconds_excluding_independent_audit": 1327.0143126079347
+        },
+        "width": [
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006
+        ]
+      },
+      "max_independent_density_difference": 6.402842700481415e-10,
+      "parity": {
+        "component_relative": 1.5623160447990212e-15,
+        "density": 1.2878444977104664e-09,
+        "normalized": 6.661338147750939e-16,
+        "raw_relative": 8.754077312214046e-16
+      },
+      "reference": {
+        "backend": "reference",
+        "completed_steps": 1,
+        "corner_log_posteriors": {
+          "duffy": {
+            "0": -49959.28326879411,
+            "1": -49959.28496190814,
+            "2": -49959.283271816166,
+            "3": -49959.28496499894,
+            "4": -49959.283928443125,
+            "5": -49959.28562155579,
+            "6": -49959.283931464175,
+            "7": -49959.2856246478
+          },
+          "six": {
+            "0": -49959.28327875319,
+            "1": -49959.284971867026,
+            "2": -49959.28328177381,
+            "3": -49959.28497495876,
+            "4": -49959.283938402186,
+            "5": -49959.28563151524,
+            "6": -49959.28394142214,
+            "7": -49959.28563460731
+          }
+        },
+        "expected_accept": true,
+        "final_density": -49959.28327875319,
+        "final_record_sha256": "4c0e1b6184d3c9b45b74d7f34dec4c7bfd4b504da5b773088651a6bac5119ffa",
+        "finest_prediction": {
+          "Generic.Bessell.B": [
+            0.8900989262560097,
+            0.9085186325284325,
+            1.0604375719852104,
+            1.0854727216178328,
+            1.0683920773744071,
+            1.042953123065478,
+            1.060036666770354,
+            1.0854727216178328,
+            0.8900989262560097,
+            0.9085186325284325
+          ],
+          "Generic.Bessell.V": [
+            1.021598048939306,
+            0.885854593988804,
+            0.8947427240134155,
+            0.9232681941954144,
+            1.0125343224787322,
+            1.0731147718525682,
+            1.0766491485610192,
+            1.067671367573558,
+            1.0299788579441373,
+            1.021598048939306,
+            0.8947427240134155,
+            1.021598048939306,
+            1.0766491485610192
+          ],
+          "bolometric": [
+            0.8922337599866601,
+            0.9293488446684532,
+            1.081450206537041,
+            1.0155459820433685,
+            1.0814212067644773
+          ]
+        },
+        "initial_density": -50244.429718490304,
+        "input_hashes": [
+          "263f3dab629981a3e054893c13149070f9733b26bdcce5c3321454c234e513a0",
+          "0db07a2748c73efc6e16a6544c06eaff17e9739fefcdbd86a577e4de9e092b2b",
+          "414984b098291a1e839eeb90cf59d12f576dcdc0976db8b310d5557dc614d1ef",
+          "0935619199ccefc28a8dd7e9d85d384fb686622acda943d55ce10cc636308fca",
+          "0d50d83179b9ad29cc63457c60a0360b1996cc622f62e61f0d9cfefb9d999256",
+          "346adcf49b8e400cd0647574bf503f02010d5645cc0d185f9b81664380c8b0aa",
+          "b53329e44425e9eff05f8a583d85365f1250ec551526fbe62f600f4daab4c75e",
+          "252cbc7f163dcd48d90ee67980160af71f41f71a7c61829d0df4a1b97ac778d2"
+        ],
+        "log_posterior_change": 285.14643973711645,
+        "margin_range_over_all_corner_pairs": [
+          0.14300907938877,
+          0.14300907938877
+        ],
+        "preceding_record_sha256": "1c8489658a4914530e3d267e34b8368ba5d1eae48b259350adb0db0e2b8d3b4f",
+        "prior_shift": 0.0,
+        "report": {
+          "alternative": "Duffy 3x3",
+          "continuum_certified": false,
+          "distance_sigma": 2.098097014301728e-05,
+          "interior_pair_bound": 4.441675349721371e-05,
+          "interior_pair_distance_sigma": 1.7741827514050177e-07,
+          "limit_distance": 0.1,
+          "limit_log_likelihood": 0.01,
+          "log_likelihood_bound": 0.005236314623607492,
+          "max_measured_nominal_log_likelihood_change": 0.0023688591004027157,
+          "observed_field_changes": {
+            "component_flux_changes": {
+              "Generic.Bessell.B": {
+                "primary": {
+                  "mean_fractional_change": 1.4402301573568366e-10,
+                  "peak_scaled_shape_residual": 2.170809056580353e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 8.641072302140174e-10,
+                  "peak_scaled_shape_residual": 1.136746013404934e-08
+                }
+              },
+              "Generic.Bessell.V": {
+                "primary": {
+                  "mean_fractional_change": 1.157782758554049e-10,
+                  "peak_scaled_shape_residual": 1.74658640850731e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 7.05256297806045e-10,
+                  "peak_scaled_shape_residual": 9.109566650024237e-09
+                }
+              },
+              "bolometric": {
+                "primary": {
+                  "mean_fractional_change": 1.1065592886438935e-10,
+                  "peak_scaled_shape_residual": 1.6686426958118804e-10
+                },
+                "secondary": {
+                  "mean_fractional_change": 5.275271330873466e-10,
+                  "peak_scaled_shape_residual": 6.7792648987940856e-09
+                }
+              }
+            },
+            "mapped_distance_sigma": {
+              "primary": 5.2000292627836205e-06,
+              "secondary": 1.3413490929819343e-05,
+              "total": 1.259346821339979e-05
+            },
+            "nominal_log_likelihood_changes": {
+              "primary": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 3,
+                  "phase": 0.027000000000000003,
+                  "signed_change": -0.00012682957065168537
+                },
+                "signed_change": -0.0009808156929515192
+              },
+              "secondary": {
+                "largest_observation": {
+                  "band": "bolometric",
+                  "band_index": 1,
+                  "phase": 0.027000000000000003,
+                  "signed_change": 0.00032146294628821956
+                },
+                "signed_change": 0.0026832760134711977
+              },
+              "total": {
+                "largest_observation": {
+                  "band": "Generic.Bessell.V",
+                  "band_index": 12,
+                  "phase": 0.767,
+                  "signed_change": 0.00029754669720393845
+                },
+                "signed_change": 0.001702460320519679
+              }
+            }
+          },
+          "pass_finite_check": true,
+          "usable_log_posterior": -49959.28327875319,
+          "within_rule_bounds": [
+            0.005191891287147893,
+            0.005191897866268174
+          ]
+        },
+        "seed": 20261118,
+        "timings": {
+          "advance_or_stop_seconds": 2.185832953080535,
+          "assessment_seconds": 2.1739489079918712,
+          "blocks": [
+            {
+              "command_seconds": 260.6690898819361,
+              "depth": 3,
+              "inner_seconds": 258.8246438589413,
+              "interior": "six",
+              "part": 0
+            },
+            {
+              "command_seconds": 263.7307939969469,
+              "depth": 3,
+              "inner_seconds": 261.7726205801591,
+              "interior": "six",
+              "part": 1
+            },
+            {
+              "command_seconds": 389.334998666076,
+              "depth": 4,
+              "inner_seconds": 387.48969925381243,
+              "interior": "six",
+              "part": 0
+            },
+            {
+              "command_seconds": 397.30577291501686,
+              "depth": 4,
+              "inner_seconds": 395.19064450310543,
+              "interior": "six",
+              "part": 1
+            },
+            {
+              "command_seconds": 271.8407079440076,
+              "depth": 3,
+              "inner_seconds": 269.6623655199073,
+              "interior": "duffy",
+              "part": 0
+            },
+            {
+              "command_seconds": 269.60979940299876,
+              "depth": 3,
+              "inner_seconds": 267.32794964686036,
+              "interior": "duffy",
+              "part": 1
+            },
+            {
+              "command_seconds": 387.55900988099165,
+              "depth": 4,
+              "inner_seconds": 385.33700853586197,
+              "interior": "duffy",
+              "part": 0
+            },
+            {
+              "command_seconds": 388.9930883559864,
+              "depth": 4,
+              "inner_seconds": 387.16144262091257,
+              "interior": "duffy",
+              "part": 1
+            }
+          ],
+          "checkpoint_to_assessment_wall_seconds": 788.4808527540881,
+          "hardware": null,
+          "inner_stage_sums": {
+            "all_fresh_fields_and_common_partition": 862.468322169967,
+            "all_variant_integration_transfers_compile": 264.4467839570716,
+            "cpu_common_geometry_clipping_hash": 1485.1719632872846,
+            "total": 2612.105393774109
+          },
+          "max_interactions_per_sweep": 233743137,
+          "sum_process_seconds": 2629.0432610439602,
+          "transition_wall_seconds_excluding_independent_audit": 790.6666857071687
+        },
+        "width": [
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006,
+          0.0006
+        ]
+      }
+    }
+  ],
+  "host_assessment_recovery": {
+    "committed_chain_unchanged": true,
+    "eight_synthesis_blocks_reused": true,
+    "issue": "Host grid equality expected serialized profiles. Convert the joined host arrays to the existing profile representation.",
+    "modified_functions": [
+      "assess"
+    ],
+    "old_source": "e82ff15a1007eab3ffc2ca33ef0dc4f86ad1dcb643b5c8abe1326a64b27585c3",
+    "tested_source": "27de5a0e36f35c15af3fc44632cc2623b932c637e2d0e2aff453fc9b4c81e06d"
+  },
+  "initial_physical": {
+    "nuisance@ln_f": -2.5999999999999996,
+    "primary@albedo": 0.5,
+    "primary@gravity_darkening": 0.32,
+    "primary@metallicity": 0.0,
+    "primary@surface_potential": 7.991999999999999,
+    "primary@synchronicity": 1.0,
+    "primary@t_eff": 6380.0,
+    "secondary@albedo": 0.5,
+    "secondary@gravity_darkening": 0.32,
+    "secondary@metallicity": 0.0,
+    "secondary@surface_potential": 12.0,
+    "secondary@synchronicity": 1.0,
+    "secondary@t_eff": 4880.0,
+    "system@additional_light": 0.17600000000000002,
+    "system@argument_of_periastron": 90.0,
+    "system@eccentricity": 0.0,
+    "system@inclination": 85.52,
+    "system@mass_ratio": 0.696,
+    "system@period": 3.0,
+    "system@phase_shift": 0.017,
+    "system@semi_major_axis": 10.0
+  },
+  "initial_resolution_check": {
+    "alternative": "Duffy 3x3",
+    "continuum_certified": false,
+    "distance_sigma": 2.1201659910240394e-05,
+    "interior_pair_bound": 4.4558999354384e-05,
+    "interior_pair_distance_sigma": 1.7739304657670192e-07,
+    "limit_distance": 0.1,
+    "limit_log_likelihood": 0.01,
+    "log_likelihood_bound": 0.005002042109169109,
+    "max_measured_nominal_log_likelihood_change": 0.0020617973085634666,
+    "observed_field_changes": {
+      "component_flux_changes": {
+        "Generic.Bessell.B": {
+          "primary": {
+            "mean_fractional_change": 1.4395529213118152e-10,
+            "peak_scaled_shape_residual": 2.1703075188872184e-10
+          },
+          "secondary": {
+            "mean_fractional_change": 8.745704160872947e-10,
+            "peak_scaled_shape_residual": 1.1372343082080933e-08
+          }
+        },
+        "Generic.Bessell.V": {
+          "primary": {
+            "mean_fractional_change": 1.1572431901640812e-10,
+            "peak_scaled_shape_residual": 1.746185245454639e-10
+          },
+          "secondary": {
+            "mean_fractional_change": 7.136040647282016e-10,
+            "peak_scaled_shape_residual": 9.113505685323928e-09
+          }
+        },
+        "bolometric": {
+          "primary": {
+            "mean_fractional_change": 1.106084113189354e-10,
+            "peak_scaled_shape_residual": 1.6683244422784816e-10
+          },
+          "secondary": {
+            "mean_fractional_change": 5.337570385677282e-10,
+            "peak_scaled_shape_residual": 6.782601236879224e-09
+          }
+        }
+      },
+      "mapped_distance_sigma": {
+        "primary": 5.198096565810895e-06,
+        "secondary": 1.3409605371108787e-05,
+        "total": 1.2582219023545178e-05
+      },
+      "nominal_log_likelihood_changes": {
+        "primary": {
+          "largest_observation": {
+            "band": "Generic.Bessell.V",
+            "band_index": 3,
+            "phase": 0.027000000000000003,
+            "signed_change": -0.0001270906508535486
+          },
+          "signed_change": -0.0009847030268188722
+        },
+        "secondary": {
+          "largest_observation": {
+            "band": "bolometric",
+            "band_index": 1,
+            "phase": 0.027000000000000003,
+            "signed_change": 0.0003223858477700907
+          },
+          "signed_change": 0.0026959945738050713
+        },
+        "total": {
+          "largest_observation": {
+            "band": "Generic.Bessell.V",
+            "band_index": 12,
+            "phase": 0.767,
+            "signed_change": 0.0002987317502153682
+          },
+          "signed_change": 0.0017112915469861987
+        }
+      }
+    },
+    "pass_finite_check": true,
+    "usable_log_posterior": -50244.429718490304,
+    "within_rule_bounds": [
+      0.00495748272973005,
+      0.004957483105941794
+    ]
+  },
+  "initial_volume_equivalent_radii_over_separation": {
+    "primary": 0.1369750870820736,
+    "secondary": 0.06403859187340165
+  },
+  "milestone": "m040",
+  "model_target_sha256": "d7c83c75dbd5b5ab426c060236a2c0bbb2fd90db6d798c07f5c50c036cf685d8",
+  "original_facet_control": [
+    {
+      "contract": "Original facet density on identical inputs. The spatial calculation has its own curved finite surface and returns two field resolutions plus their accuracy comparison.",
+      "facet_discretization_deg": 12,
+      "reflected_iterations": 2,
+      "rows": [
+        {
+          "bands": {
+            "Generic.Bessell.B": {
+              "maximum_absolute_difference": 0.0005435560768449754,
+              "original_prediction": [
+                0.8898423124995429,
+                0.9086373664654741,
+                1.0605074548083084,
+                1.0852168107490958,
+                1.0688601310578256,
+                1.0426738337296773,
+                1.0605656009759625,
+                1.0852168107490958,
+                0.8898423124995429,
+                0.9086373664654741
+              ]
+            },
+            "Generic.Bessell.V": {
+              "maximum_absolute_difference": 0.00045265189952647944,
+              "original_prediction": [
+                1.0213800676629505,
+                0.8856537882910006,
+                0.8947607243000816,
+                0.9236857976064531,
+                1.0130056120266222,
+                1.0729010502709027,
+                1.0764679247925393,
+                1.0678674975936655,
+                1.0302887530372618,
+                1.0213800676629505,
+                0.8947607243000816,
+                1.0213800676629505,
+                1.0764679247925393
+              ]
+            },
+            "bolometric": {
+              "maximum_absolute_difference": 0.0005343695720601005,
+              "original_prediction": [
+                0.8921687415660506,
+                0.9299083160825108,
+                1.0814366496408025,
+                1.015483639577488,
+                1.0810026531331478
+              ]
+            }
+          },
+          "original_facet_one_density_seconds": 0.04496804089285433,
+          "original_log_posterior": -52590.2574185576,
+          "physical": {
+            "nuisance@ln_f": -2.5999999999999996,
+            "primary@albedo": 0.5,
+            "primary@gravity_darkening": 0.32,
+            "primary@metallicity": 0.0,
+            "primary@surface_potential": 7.991999999999999,
+            "primary@synchronicity": 1.0,
+            "primary@t_eff": 6380.0,
+            "secondary@albedo": 0.5,
+            "secondary@gravity_darkening": 0.32,
+            "secondary@metallicity": 0.0,
+            "secondary@surface_potential": 12.0,
+            "secondary@synchronicity": 1.0,
+            "secondary@t_eff": 4880.0,
+            "system@additional_light": 0.17600000000000002,
+            "system@argument_of_periastron": 90.0,
+            "system@eccentricity": 0.0,
+            "system@inclination": 85.52,
+            "system@mass_ratio": 0.696,
+            "system@period": 3.0,
+            "system@phase_shift": 0.017,
+            "system@semi_major_axis": 10.0
+          },
+          "spatial_log_posterior": -50244.429718490304
+        },
+        {
+          "bands": {
+            "Generic.Bessell.B": {
+              "maximum_absolute_difference": 0.0005428234998776649,
+              "original_prediction": [
+                0.8897787474665291,
+                0.9085697250964508,
+                1.0605364398447903,
+                1.0852684740714469,
+                1.0689038530969763,
+                1.0427190857892976,
+                1.0606067280000813,
+                1.0852684740714469,
+                0.8897787474665291,
+                0.9085697250964508
+              ]
+            },
+            "Generic.Bessell.V": {
+              "maximum_absolute_difference": 0.00045208748951264255,
+              "original_prediction": [
+                1.0214117360018533,
+                0.8855854628868534,
+                0.8946865982797199,
+                0.9236219043485905,
+                1.0129993051136892,
+                1.0729443566881913,
+                1.0765110107362144,
+                1.0679049091861605,
+                1.0303136357390856,
+                1.0214117360018533,
+                0.8946865982797199,
+                1.0214117360018533,
+                1.0765110107362144
+              ]
+            },
+            "bolometric": {
+              "maximum_absolute_difference": 0.0005343751538848807,
+              "original_prediction": [
+                0.89210634450796,
+                0.9298502327694134,
+                1.0814843326802122,
+                1.0155090127790414,
+                1.081050077263373
+              ]
+            }
+          },
+          "conditional_accept": true,
+          "conditional_log_posterior_change": 733.7221269143556,
+          "original_facet_one_density_seconds": 0.04458278720267117,
+          "original_log_posterior": -51856.535291643246,
+          "physical": {
+            "nuisance@ln_f": -2.597168558251966,
+            "primary@albedo": 0.5,
+            "primary@gravity_darkening": 0.32,
+            "primary@metallicity": 0.0,
+            "primary@surface_potential": 7.992273746324799,
+            "primary@synchronicity": 1.0,
+            "primary@t_eff": 6379.450722215251,
+            "secondary@albedo": 0.5,
+            "secondary@gravity_darkening": 0.32,
+            "secondary@metallicity": 0.0,
+            "secondary@surface_potential": 12.0,
+            "secondary@synchronicity": 1.0,
+            "secondary@t_eff": 4879.450722215251,
+            "system@additional_light": 0.17577921322964518,
+            "system@argument_of_periastron": 90.0,
+            "system@eccentricity": 0.0,
+            "system@inclination": 85.52285571194992,
+            "system@mass_ratio": 0.6959525357343611,
+            "system@period": 3.0,
+            "system@phase_shift": 0.017,
+            "system@semi_major_axis": 10.0
+          },
+          "spatial_log_posterior": -49512.75095490133
+        },
+        {
+          "bands": {
+            "Generic.Bessell.B": {
+              "maximum_absolute_difference": 0.0005434823140175737,
+              "original_prediction": [
+                0.8898228061883924,
+                0.9086140484529501,
+                1.0605020955811664,
+                1.085238394320135,
+                1.068874171530744,
+                1.0426930858807633,
+                1.0605801490843716,
+                1.085238394320135,
+                0.8898228061883924,
+                0.9086140484529501
+              ]
+            },
+            "Generic.Bessell.V": {
+              "maximum_absolute_difference": 0.0004525823161891651,
+              "original_prediction": [
+                1.021394200222927,
+                0.8856322191017799,
+                0.8947364179400296,
+                0.9236597289893984,
+                1.0129869047949214,
+                1.0729173207166605,
+                1.076485916182155,
+                1.0678772165770127,
+                1.0302993409070766,
+                1.021394200222927,
+                0.8947364179400296,
+                1.021394200222927,
+                1.076485916182155
+              ]
+            },
+            "bolometric": {
+              "maximum_absolute_difference": 0.0005344371883921895,
+              "original_prediction": [
+                0.8921483097429325,
+                0.9298832818568454,
+                1.0814547209885954,
+                1.015493025782979,
+                1.0810206616286477
+              ]
+            }
+          },
+          "conditional_accept": true,
+          "conditional_log_posterior_change": 288.25572151628876,
+          "original_facet_one_density_seconds": 0.0446581388823688,
+          "original_log_posterior": -52302.00169704131,
+          "physical": {
+            "nuisance@ln_f": -2.599663241587405,
+            "primary@albedo": 0.5,
+            "primary@gravity_darkening": 0.32,
+            "primary@metallicity": 0.0,
+            "primary@surface_potential": 7.991382005496282,
+            "primary@synchronicity": 1.0,
+            "primary@t_eff": 6379.698810966843,
+            "secondary@albedo": 0.5,
+            "secondary@gravity_darkening": 0.32,
+            "secondary@metallicity": 0.0,
+            "secondary@surface_potential": 12.0,
+            "secondary@synchronicity": 1.0,
+            "secondary@t_eff": 4879.698810966843,
+            "system@additional_light": 0.17592015005708528,
+            "system@argument_of_periastron": 90.0,
+            "system@eccentricity": 0.0,
+            "system@inclination": 85.52022467143867,
+            "system@mass_ratio": 0.6960719209284705,
+            "system@period": 3.0,
+            "system@phase_shift": 0.017,
+            "system@semi_major_axis": 10.0
+          },
+          "spatial_log_posterior": -49959.28327875319
+        }
+      ]
+    },
+    {
+      "contract": "Original facet density on identical inputs. The spatial calculation has its own curved finite surface and returns two field resolutions plus their accuracy comparison.",
+      "facet_discretization_deg": 6,
+      "reflected_iterations": 2,
+      "rows": [
+        {
+          "bands": {
+            "Generic.Bessell.B": {
+              "maximum_absolute_difference": 9.124274413196964e-05,
+              "original_prediction": [
+                0.8901791144829233,
+                0.9085474680144766,
+                1.0603714284829748,
+                1.085421430126696,
+                1.0683186351073106,
+                1.0429006235182727,
+                1.0601132876432495,
+                1.085421430126696,
+                0.8901791144829233,
+                0.9085474680144766
+              ]
+            },
+            "Generic.Bessell.V": {
+              "maximum_absolute_difference": 0.00010752497342592093,
+              "original_prediction": [
+                1.021568215802246,
+                0.8859460690802935,
+                0.8948089927139461,
+                0.9233249199028791,
+                1.0124931530931247,
+                1.072990958245209,
+                1.0766177605860587,
+                1.0676383536908134,
+                1.0300483919809325,
+                1.021568215802246,
+                0.8948089927139461,
+                1.021568215802246,
+                1.0766177605860587
+              ]
+            },
+            "bolometric": {
+              "maximum_absolute_difference": 4.5893671458241414e-05,
+              "original_prediction": [
+                0.8922954783423096,
+                0.9293801940105914,
+                1.0813861354185974,
+                1.0154926540103304,
+                1.081445538218171
+              ]
+            }
+          },
+          "original_facet_one_density_seconds": 0.10988198895938694,
+          "original_log_posterior": -50542.1362503749,
+          "physical": {
+            "nuisance@ln_f": -2.5999999999999996,
+            "primary@albedo": 0.5,
+            "primary@gravity_darkening": 0.32,
+            "primary@metallicity": 0.0,
+            "primary@surface_potential": 7.991999999999999,
+            "primary@synchronicity": 1.0,
+            "primary@t_eff": 6380.0,
+            "secondary@albedo": 0.5,
+            "secondary@gravity_darkening": 0.32,
+            "secondary@metallicity": 0.0,
+            "secondary@surface_potential": 12.0,
+            "secondary@synchronicity": 1.0,
+            "secondary@t_eff": 4880.0,
+            "system@additional_light": 0.17600000000000002,
+            "system@argument_of_periastron": 90.0,
+            "system@eccentricity": 0.0,
+            "system@inclination": 85.52,
+            "system@mass_ratio": 0.696,
+            "system@period": 3.0,
+            "system@phase_shift": 0.017,
+            "system@semi_major_axis": 10.0
+          },
+          "spatial_log_posterior": -50244.429718490304
+        },
+        {
+          "bands": {
+            "Generic.Bessell.B": {
+              "maximum_absolute_difference": 9.115927207514751e-05,
+              "original_prediction": [
+                0.8901149714711921,
+                0.9084791624384783,
+                1.0604012383851356,
+                1.085473442604228,
+                1.0683632167933224,
+                1.042945328021468,
+                1.0601550637722787,
+                1.085473442604228,
+                0.8901149714711921,
+                0.9084791624384783
+              ]
+            },
+            "Generic.Bessell.V": {
+              "maximum_absolute_difference": 0.00010739971853723773,
+              "original_prediction": [
+                1.0215994215555968,
+                0.8858772688154779,
+                0.8947342804444256,
+                0.9232611997643352,
+                1.012487491610398,
+                1.0730342467688352,
+                1.0766612915821752,
+                1.0676766951984993,
+                1.030073689122463,
+                1.0215994215555968,
+                0.8947342804444256,
+                1.0215994215555968,
+                1.0766612915821752
+              ]
+            },
+            "bolometric": {
+              "maximum_absolute_difference": 4.6117399949086035e-05,
+              "original_prediction": [
+                0.8922325423245835,
+                0.9293222116321664,
+                1.0814341520202648,
+                1.0155174539586482,
+                1.0814936400643371
+              ]
+            }
+          },
+          "conditional_accept": true,
+          "conditional_log_posterior_change": 735.3198161499531,
+          "original_facet_one_density_seconds": 0.10635163797996938,
+          "original_log_posterior": -49806.816434224944,
+          "physical": {
+            "nuisance@ln_f": -2.597168558251966,
+            "primary@albedo": 0.5,
+            "primary@gravity_darkening": 0.32,
+            "primary@metallicity": 0.0,
+            "primary@surface_potential": 7.992273746324799,
+            "primary@synchronicity": 1.0,
+            "primary@t_eff": 6379.450722215251,
+            "secondary@albedo": 0.5,
+            "secondary@gravity_darkening": 0.32,
+            "secondary@metallicity": 0.0,
+            "secondary@surface_potential": 12.0,
+            "secondary@synchronicity": 1.0,
+            "secondary@t_eff": 4879.450722215251,
+            "system@additional_light": 0.17577921322964518,
+            "system@argument_of_periastron": 90.0,
+            "system@eccentricity": 0.0,
+            "system@inclination": 85.52285571194992,
+            "system@mass_ratio": 0.6959525357343611,
+            "system@period": 3.0,
+            "system@phase_shift": 0.017,
+            "system@semi_major_axis": 10.0
+          },
+          "spatial_log_posterior": -49512.75095490133
+        },
+        {
+          "bands": {
+            "Generic.Bessell.B": {
+              "maximum_absolute_difference": 9.12164320119313e-05,
+              "original_prediction": [
+                0.8901595895575007,
+                0.908524060895236,
+                1.0603659816494904,
+                1.0854431203338677,
+                1.068332718919023,
+                1.0429198746559099,
+                1.060127883202366,
+                1.0854431203338677,
+                0.8901595895575007,
+                0.908524060895236
+              ]
+            },
+            "Generic.Bessell.V": {
+              "maximum_absolute_difference": 0.00010753147633746352,
+              "original_prediction": [
+                1.0215823231982908,
+                0.885924468046952,
+                0.8947846151129724,
+                0.9232988179747788,
+                1.0124744654153117,
+                1.0730072403762307,
+                1.076635835923852,
+                1.0676481167967935,
+                1.0300590197214112,
+                1.0215823231982908,
+                0.8947846151129724,
+                1.0215823231982908,
+                1.076635835923852
+              ]
+            },
+            "bolometric": {
+              "maximum_absolute_difference": 4.595146349606338e-05,
+              "original_prediction": [
+                0.8922749932024003,
+                0.929355107299222,
+                1.081404255073545,
+                1.0155019818468165,
+                1.0814636625780154
+              ]
+            }
+          },
+          "conditional_accept": true,
+          "conditional_log_posterior_change": 286.1035578628653,
+          "original_facet_one_density_seconds": 0.11165094189345837,
+          "original_log_posterior": -50256.03269251203,
+          "physical": {
+            "nuisance@ln_f": -2.599663241587405,
+            "primary@albedo": 0.5,
+            "primary@gravity_darkening": 0.32,
+            "primary@metallicity": 0.0,
+            "primary@surface_potential": 7.991382005496282,
+            "primary@synchronicity": 1.0,
+            "primary@t_eff": 6379.698810966843,
+            "secondary@albedo": 0.5,
+            "secondary@gravity_darkening": 0.32,
+            "secondary@metallicity": 0.0,
+            "secondary@surface_potential": 12.0,
+            "secondary@synchronicity": 1.0,
+            "secondary@t_eff": 4879.698810966843,
+            "system@additional_light": 0.17592015005708528,
+            "system@argument_of_periastron": 90.0,
+            "system@eccentricity": 0.0,
+            "system@inclination": 85.52022467143867,
+            "system@mass_ratio": 0.6960719209284705,
+            "system@period": 3.0,
+            "system@phase_shift": 0.017,
+            "system@semi_major_axis": 10.0
+          },
+          "spatial_log_posterior": -49959.28327875319
+        }
+      ]
+    }
+  ],
+  "parent": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+  "production_state": "paused_for_elisa",
+  "recovery": {
+    "gpu": {
+      "checksum": true,
+      "foreign_trial": true,
+      "missing": true,
+      "restored_result_identical": true
+    },
+    "reference": {
+      "checksum": true,
+      "foreign_trial": true,
+      "missing": true,
+      "restored_result_identical": true
+    }
+  },
+  "source_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+  "starting_checkpoints_sha256": "7ae5ab3092d36711698ef08a769637b77bd80b910f4a97bed0be5dddd364f9a9",
+  "tests": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 6
+  },
+  "windows": [
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 141.84839576110244,
+      "number": 593,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 151.09992576087825,
+      "number": 594,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 178.28541937610134,
+      "number": 595,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 183.97847175574861,
+      "number": 596,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 145.15605396404862,
+      "number": 597,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 153.41811371431686,
+      "number": 598,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 178.47929912689142,
+      "number": 599,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 185.20104210684076,
+      "number": 600,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 142.3105650471989,
+      "number": 601,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 149.71380923921242,
+      "number": 602,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 178.7127705910243,
+      "number": 603,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 184.5167181729339,
+      "number": 604,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 144.23640163172968,
+      "number": 605,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 151.6013413562905,
+      "number": 606,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 177.55635544192046,
+      "number": 607,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    },
+    {
+      "expected_head": "46f4759cb2e9a552815c8a8a5157c278afa516b7",
+      "max_seconds": 300,
+      "measured_seconds": 184.86608547298238,
+      "number": 608,
+      "purpose": "matched-transition-block",
+      "registered_before_start": true,
+      "success": true,
+      "tested_manifest_sha256": "241925ff1f423160aa2d4b49fbd216e5eb5c53ed5b387709af5ff0ea8c172af9",
+      "verified_hold_both_boundaries": true
+    }
+  ],
+  "monolithic_jax_cpu": {
+    "backend": "cpu",
+    "monolithic": true,
+    "depth": 3,
+    "phase_count": 18,
+    "curve_and_density_seconds": 574.6616650749929,
+    "parity": {
+      "normalized": 6.661338147750939e-16,
+      "raw_relative": 1.2406318960329594e-15,
+      "component_relative": 2.0574125830054034e-15,
+      "density": 8.731149137020111e-11
+    },
+    "command_seconds": 578.1623491821811
+  }
+}
