@@ -1,0 +1,12 @@
+{
+  "commit": "f661f0041adbf2bf4d6c47953c51ebc3a1789a83",
+  "tests": {
+    "tests": 31,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "pytest_seconds": 8.89,
+    "process_seconds": 9.883990917005576,
+    "details": "Full tests/tests_experimental suite; all CPU and GPU cases executed; original tolerances unchanged."
+  }
+}

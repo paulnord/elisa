@@ -1,0 +1,6 @@
+{
+  "comparisons": 38,
+  "max_abs_error": 4.547473508864641e-13,
+  "max_rel_error_nonzero": 8.376918440627904e-16,
+  "all_passed": true
+}

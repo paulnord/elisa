@@ -1,0 +1,111 @@
+{
+  "provenance": "Console output supplied by Paul, 2026-11-17. The raw Colab archive was not available when transcribed. Exact changes to the notebook bootstrap and runtime metadata require the original logs.",
+  "colab_archive_reported": "/content/elisa-a100-u6fci11r/elisa-a100-comparison.zip",
+  "science_baseline": "224aadf5b30ddb7caa585c70e7f3c4aa95841f2e",
+  "workload": {
+    "engine": "area-thermal",
+    "batch": 4,
+    "batches_per_backend": 2,
+    "warm_samples": 1,
+    "levels": [
+      0,
+      1
+    ],
+    "integration_level": 1,
+    "order": 3,
+    "slice_order": 4,
+    "depth": 1,
+    "irradiation": true,
+    "proposals": "Changing detached synthetic binary parameters",
+    "light_curve_comparison": "matched finite models"
+  },
+  "hardware": {
+    "name": "NVIDIA A100-SXM4-40GB",
+    "memory_MiB": 40960,
+    "driver": "580.82.07",
+    "pci_bus_id": "00000000:00:04.0"
+  },
+  "timing_boundaries": "Warm and first each enclose a complete batch. Each backend's process wall includes setup, both batches and returned outputs. Environment installation (80.25 s) is outside each backend's process wall.",
+  "colab_seconds": {
+    "gpu": {
+      "first_batch": 80.14078307299985,
+      "warm_batch": 30.75310323100007,
+      "process": 123.3208035969999,
+      "input_setup": 7.324274265000099,
+      "constructor": 1.2148679809999976
+    },
+    "reference": {
+      "first_batch": 84.064049286,
+      "warm_batch": 83.880504858,
+      "process": 170.56084027700012,
+      "input_setup": 0.3257574389999718,
+      "constructor": 0.0001052220000019588
+    },
+    "cpu": {
+      "first_batch": 137.45601722700007,
+      "warm_batch": 83.21762813400005,
+      "process": 224.877717824,
+      "input_setup": 0.32290492199990695,
+      "constructor": 0.6765764940000736
+    }
+  },
+  "ada_m022_seconds": {
+    "gpu": {
+      "window": 210,
+      "first_batch": 41.33595316996798,
+      "warm_batch": 16.88484157016501,
+      "process": 61.00247769989073
+    },
+    "reference": {
+      "window": 211,
+      "first_batch": 37.076740473974496,
+      "warm_batch": 37.09602781501599,
+      "process": 75.70344280987047
+    },
+    "cpu": {
+      "window": 212,
+      "first_batch": 87.82119039585814,
+      "warm_batch": 61.40017242310569,
+      "process": 151.76178970886394
+    }
+  },
+  "same_protocol_and_inputs_reported": true,
+  "adaptive_trace_hash_matches_reported": {
+    "reference": 8,
+    "gpu": 8,
+    "cpu": 8
+  },
+  "parity_passed_reported": {
+    "gpu": true,
+    "cpu": true
+  },
+  "finite_field_accuracy_stops_reported": {
+    "gpu": 8,
+    "cpu": 8
+  },
+  "scientific_gate": {
+    "nominal_flux_sigma": 0.0001,
+    "maximum_D": 0.1,
+    "maximum_log_likelihood_enclosure": 0.01
+  },
+  "qualified_for_physical_MCMC": false,
+  "ratios": {
+    "reference_over_gpu_warm": 2.7275460374823535,
+    "reference_over_gpu_process": 1.3830662410729657,
+    "jax_cpu_over_reference_warm": 0.9920973684514404,
+    "jax_cpu_over_reference_process": 1.3184604242028024,
+    "RTX3080Ti_over_A100_warm": 0.5490451302860575,
+    "RTX3080Ti_over_A100_process": 0.4946649382795198
+  },
+  "limits": "One warm sample per backend; host CPU, runtime and GPU all vary in the cross-host comparison. No independent memory-bandwidth, PCIe scaling, convergence, MCMC posterior or ESS/s measurement.",
+  "ada_gpu_warm_geometry": {
+    "source": "Ada GPU window 210, complete.json",
+    "warm_batch_seconds": 16.88484157016501,
+    "geometry_clipping_hash_seconds": 16.001466671936214,
+    "geometry_wall_fraction": 0.9476823697422373,
+    "edge_solve_seconds": 11.633055277634412,
+    "edge_solve_calls": 492,
+    "cpu_tail_bisection_decisions": 774124,
+    "interpretation": "The geometry timer encloses host and device activity. Edge solves are nested; do not add the two timers or treat either as CPU-only time. Corresponding Colab stage times are absent from the posted console output."
+  }
+}

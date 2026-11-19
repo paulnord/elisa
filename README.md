@@ -7,6 +7,10 @@
 [![Build](https://img.shields.io/badge/OS-Linux|Windows-magenta.svg)](https://en.wikipedia.org/wiki/Operating_system)
 
 
+## GPU performance research archive
+
+The November 2026 archive preserves the experimental code, tests and measured CPU/GPU comparisons. Start with the [results, replay instructions and hardware criteria](docs/gpu_research_archive.md).
+
 ## Publications
 
 [ELISa: A new tool for fast modelling of eclipsing binaries](https://arxiv.org/abs/2106.10116)

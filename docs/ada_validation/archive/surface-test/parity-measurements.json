@@ -1,0 +1,2781 @@
+{
+  "exit_code": 0,
+  "wall_seconds": 13.808725232956931,
+  "results": [
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_batched_cost_parity_and_bounds",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 1.6850068770581856,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_fp64_required",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.00022409111261367798,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_invalid_data[change0]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.00017542997375130653,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_invalid_data[change1]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 9.277509525418282e-05,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_invalid_data[change2]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.00012397300451993942,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_invalid_data[change3]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.00012010498903691769,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_invalid_data[change4]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.0001292229862883687,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_invalid_data[change5]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.00012074701953679323,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_immutable_snapshot_and_shape",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.054958847002126276,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_emcee_vectorized_matches_cpu_oracle",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.17576118803117424,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 5.373238877044059,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.2612978529650718,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_gpu_or_explicit_unavailable",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.10078213596716523,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_reject_overflowed_normalization",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.00029036507476121187,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_late_precision_change_rejected",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.0006734260823577642,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_snapshot_rebinding_rejected",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.0005196869606152177,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[linear]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.03126778290607035,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[cosine]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.02218295994680375,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[logarithmic]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.0265752540435642,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[square_root]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.024084572913125157,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.07761582802049816,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.07909228303469718,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.07708487997297198,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.13058527698740363,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.09898280503693968,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.09959890192840248,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_empty_invalid_and_gpu",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.04476377693936229,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_linear_limb_cancellation[cpu-linear]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.032947129919193685,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_linear_limb_cancellation[cpu-cosine]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.02055574196856469,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_linear_limb_cancellation[gpu-linear]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.044977418961934745,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_linear_limb_cancellation[gpu-cosine]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.035883347038179636,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[cpu]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.021777909016236663,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[gpu]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.03130122600123286,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---max-input-mib]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.9843098140554503,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[nan---discretization]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.9799054469913244,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---max-input-mib]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.979444170021452,
+      "detail": null
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_benchmark_rejects_nonfinite_limits[inf---discretization]",
+      "stage": "call",
+      "outcome": "passed",
+      "seconds": 0.9887801150325686,
+      "detail": null
+    }
+  ],
+  "comparisons": [
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_batched_cost_parity_and_bounds",
+      "shape": [
+        7
+      ],
+      "elements": 7,
+      "max_abs_error": 3.552713678800501e-14,
+      "max_relative_error_nonzero_reference": 1.587126397517408e-15,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-13,
+      "atol": 2e-11,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_immutable_snapshot_and_shape",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": null,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_emcee_vectorized_matches_cpu_oracle",
+      "shape": [
+        50,
+        12,
+        2
+      ],
+      "elements": 1200,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 0,
+      "atol": 0,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_emcee_vectorized_matches_cpu_oracle",
+      "shape": [
+        50,
+        12
+      ],
+      "elements": 600,
+      "max_abs_error": 1.1013412404281553e-13,
+      "max_relative_error_nonzero_reference": 3.7703204780449487e-14,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-13,
+      "atol": 2e-11,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "shape": [
+        14
+      ],
+      "elements": 14,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 3e-13,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "shape": [],
+      "elements": 1,
+      "max_abs_error": 1.1641532182693481e-10,
+      "max_relative_error_nonzero_reference": 1.268636883639241e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-12,
+      "atol": 1e-08,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "shape": [
+        14
+      ],
+      "elements": 14,
+      "max_abs_error": 2.220446049250313e-16,
+      "max_relative_error_nonzero_reference": 2.4662445650931203e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 3e-13,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "shape": [],
+      "elements": 1,
+      "max_abs_error": 1.1641532182693481e-10,
+      "max_relative_error_nonzero_reference": 2.0605422799908202e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-12,
+      "atol": 1e-08,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "shape": [
+        14
+      ],
+      "elements": 14,
+      "max_abs_error": 4.440892098500626e-16,
+      "max_relative_error_nonzero_reference": 4.242198379212711e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 3e-13,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "shape": [],
+      "elements": 1,
+      "max_abs_error": 3.979039320256561e-13,
+      "max_relative_error_nonzero_reference": 4.18744445404584e-15,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-12,
+      "atol": 1e-08,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "shape": [
+        14
+      ],
+      "elements": 14,
+      "max_abs_error": 3.3306690738754696e-16,
+      "max_relative_error_nonzero_reference": 3.330708939801759e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 3e-13,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.0]",
+      "shape": [],
+      "elements": 1,
+      "max_abs_error": 1.8189894035458565e-12,
+      "max_relative_error_nonzero_reference": 1.3071061646774266e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-12,
+      "atol": 1e-08,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "shape": [
+        14
+      ],
+      "elements": 14,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 3e-13,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "shape": [],
+      "elements": 1,
+      "max_abs_error": 3.410605131648481e-13,
+      "max_relative_error_nonzero_reference": 5.410970841052021e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-12,
+      "atol": 1e-08,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "shape": [
+        14
+      ],
+      "elements": 14,
+      "max_abs_error": 2.220446049250313e-16,
+      "max_relative_error_nonzero_reference": 2.2170206704040777e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 3e-13,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "shape": [],
+      "elements": 1,
+      "max_abs_error": 6.252776074688882e-13,
+      "max_relative_error_nonzero_reference": 1.7122415188561995e-15,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-12,
+      "atol": 1e-08,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "shape": [
+        14
+      ],
+      "elements": 14,
+      "max_abs_error": 2.220446049250313e-16,
+      "max_relative_error_nonzero_reference": 2.228162724530738e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 3e-13,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "shape": [],
+      "elements": 1,
+      "max_abs_error": 2.1316282072803006e-14,
+      "max_relative_error_nonzero_reference": 3.8347009143247904e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-12,
+      "atol": 1e-08,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "shape": [
+        14
+      ],
+      "elements": 14,
+      "max_abs_error": 4.440892098500626e-16,
+      "max_relative_error_nonzero_reference": 4.4408908664515857e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 3e-13,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_real_elisa_direct_prediction_parity[0.1234567]",
+      "shape": [],
+      "elements": 1,
+      "max_abs_error": 1.8189894035458565e-12,
+      "max_relative_error_nonzero_reference": 1.3071061646774266e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-12,
+      "atol": 1e-08,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_likelihood.py::test_gpu_or_explicit_unavailable",
+      "shape": [
+        3
+      ],
+      "elements": 3,
+      "max_abs_error": 2.842170943040401e-14,
+      "max_relative_error_nonzero_reference": 1.190344798138056e-15,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-11,
+      "atol": 1e-09,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[linear]",
+      "shape": [
+        6
+      ],
+      "elements": 6,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-14,
+      "atol": 1e-15,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[linear]",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[cosine]",
+      "shape": [
+        6
+      ],
+      "elements": 6,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-14,
+      "atol": 1e-15,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[cosine]",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[logarithmic]",
+      "shape": [
+        6
+      ],
+      "elements": 6,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-14,
+      "atol": 1e-15,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[logarithmic]",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[square_root]",
+      "shape": [
+        6
+      ],
+      "elements": 6,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-14,
+      "atol": 1e-15,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_face_edges[square_root]",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 2e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+      "shape": [
+        24
+      ],
+      "elements": 24,
+      "max_abs_error": 68719476736.0,
+      "max_relative_error_nonzero_reference": 2.3607026052641734e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 67108864.0,
+      "max_relative_error_nonzero_reference": 3.0026613448629506e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 2.4659925685938523e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 3.398425805365496e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 3.70679514387977e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 2.5823590350129787e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 2.2017973203574353e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 2.2108395088959547e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 2.5038430246141277e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 4.029276605084774e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 3.855390194475894e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 3.0039060692828156e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 2.697148310304334e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 3.812791514310903e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 3.864982167713097e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 4.272210028276546e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 3.8206191980189143e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 2.50281947451392e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 3.040594747585344e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 2.65963051563555e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 2.0836069385996176e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 2.525354636601386e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 67108864.0,
+      "max_relative_error_nonzero_reference": 2.731976884893398e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 3.271774933649652e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 33554432.0,
+      "max_relative_error_nonzero_reference": 3.073589831262827e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+      "shape": [
+        24
+      ],
+      "elements": 24,
+      "max_abs_error": 68719476736.0,
+      "max_relative_error_nonzero_reference": 3.6075275804796925e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 201326592.0,
+      "max_relative_error_nonzero_reference": 4.3335514453554724e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 4.291658963928259e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 3.782104930516876e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 4.259813804248678e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 5.003372302694323e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 4.282326366236393e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 5.726221305776639e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 3.8172254452074763e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 536870912.0,
+      "max_relative_error_nonzero_reference": 2.8231444984366787e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 4.007751668644682e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 536870912.0,
+      "max_relative_error_nonzero_reference": 3.900273321915862e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 4.321113934801843e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 4.221836521447203e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 4.1396872251624115e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 5.45066396629144e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 4.063954038960807e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 201326592.0,
+      "max_relative_error_nonzero_reference": 3.5104949580009956e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 4.80256020010679e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 4.0467410832075946e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 134217728.0,
+      "max_relative_error_nonzero_reference": 3.599162123482182e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 4.0712047375047017e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 67108864.0,
+      "max_relative_error_nonzero_reference": 3.575039298148495e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 268435456.0,
+      "max_relative_error_nonzero_reference": 4.129197658109824e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 67108864.0,
+      "max_relative_error_nonzero_reference": 3.9193411355675584e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+      "shape": [
+        24
+      ],
+      "elements": 24,
+      "max_abs_error": 68719476736.0,
+      "max_relative_error_nonzero_reference": 2.8913223444485636e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+      "shape": [
+        24
+      ],
+      "elements": 24,
+      "max_abs_error": 137438953472.0,
+      "max_relative_error_nonzero_reference": 3.715301474845228e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 16777216.0,
+      "max_relative_error_nonzero_reference": 2.0780917468225752e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 67108864.0,
+      "max_relative_error_nonzero_reference": 1.520954889374097e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+      "shape": [
+        24
+      ],
+      "elements": 24,
+      "max_abs_error": 68719476736.0,
+      "max_relative_error_nonzero_reference": 2.5783055234796544e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        416
+      ],
+      "elements": 416,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        412
+      ],
+      "elements": 412,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        420
+      ],
+      "elements": 420,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        415
+      ],
+      "elements": 415,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        417
+      ],
+      "elements": 417,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        413
+      ],
+      "elements": 413,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        419
+      ],
+      "elements": 419,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        414
+      ],
+      "elements": 414,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        418
+      ],
+      "elements": 418,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": 1e-10,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+      "shape": [
+        24
+      ],
+      "elements": 24,
+      "max_abs_error": 68719476736.0,
+      "max_relative_error_nonzero_reference": 1.8609800133365998e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-13,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_empty_invalid_and_gpu",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": null,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_empty_invalid_and_gpu",
+      "shape": [
+        1,
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-13,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_empty_invalid_and_gpu",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-13,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_linear_limb_cancellation[cpu-linear]",
+      "shape": [
+        4
+      ],
+      "elements": 4,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-14,
+      "atol": 0,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_linear_limb_cancellation[cpu-cosine]",
+      "shape": [
+        4
+      ],
+      "elements": 4,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-14,
+      "atol": 0,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_linear_limb_cancellation[gpu-linear]",
+      "shape": [
+        4
+      ],
+      "elements": 4,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-14,
+      "atol": 0,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_linear_limb_cancellation[gpu-cosine]",
+      "shape": [
+        4
+      ],
+      "elements": 4,
+      "max_abs_error": 0.0,
+      "max_relative_error_nonzero_reference": 0.0,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 3e-14,
+      "atol": 0,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[cpu]",
+      "shape": [
+        1,
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[cpu]",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[cpu]",
+      "shape": [
+        1,
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[cpu]",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[gpu]",
+      "shape": [
+        1,
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[gpu]",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[gpu]",
+      "shape": [
+        1,
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-14,
+      "atol": null,
+      "passed": true
+    },
+    {
+      "test": "tests/tests_experimental/test_gpu_surface.py::test_prepared_device_snapshot[gpu]",
+      "shape": [
+        1
+      ],
+      "elements": 1,
+      "max_abs_error": 2.7755575615628914e-17,
+      "max_relative_error_nonzero_reference": 1.2335811384723962e-16,
+      "max_abs_error_zero_reference": 0.0,
+      "rtol": 1e-14,
+      "atol": null,
+      "passed": true
+    }
+  ]
+}

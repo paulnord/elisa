@@ -1,0 +1,186 @@
+{
+  "purpose": "surface kernel throughput only; repeated fixed physical snapshots, not full-model walkers",
+  "device": "cuda:0",
+  "device_kind": "NVIDIA GeForce RTX 3080 Ti",
+  "jax": "0.12.0.1",
+  "cpu_count": 32,
+  "thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "python": "3.12.4",
+  "dtype": "float64",
+  "law": "linear",
+  "discretization_degrees": 10,
+  "cpu_physical_capture_seconds": 0.22283217206131667,
+  "captured_rows": 24,
+  "repeats": 10,
+  "results": [
+    {
+      "rows": 8,
+      "coverage_face_counts": {
+        "zero": 894,
+        "partial": 145,
+        "full": 2280
+      },
+      "padded_faces_per_row": 420,
+      "selected_faces": 3328,
+      "input_bytes": 107520,
+      "packing_seconds": 5.310995038598776e-05,
+      "validation_transfer_seconds": 0.0027243599761277437,
+      "compile_first_seconds": 0.11312628502491862,
+      "resident_kernel_seconds_lower_bound": {
+        "median": 8.091703057289124e-05,
+        "min": 7.511198054999113e-05,
+        "max": 8.880591485649347e-05
+      },
+      "validation_transfer_kernel_seconds_no_download": {
+        "median": 0.0004992584581486881,
+        "min": 0.0004834589781239629,
+        "max": 0.000559621024876833
+      },
+      "original_cpu_oracle_seconds": {
+        "median": 8.686847286298871e-05,
+        "min": 8.450902532786131e-05,
+        "max": 9.629002306610346e-05
+      },
+      "gather_transfer_kernel_totals_download_seconds": {
+        "median": 0.00066659803269431,
+        "min": 0.0006412150105461478,
+        "max": 0.0006989140529185534
+      },
+      "numpy_padded_batch_seconds": {
+        "median": 1.5504017937928438e-05,
+        "min": 1.4788005501031876e-05,
+        "max": 2.053799107670784e-05
+      },
+      "max_face_error_divided_by_row_max_flux": 0.0,
+      "max_total_relative_error": 1.817640200867593e-16
+    },
+    {
+      "rows": 32,
+      "coverage_face_counts": {
+        "zero": 2861,
+        "partial": 491,
+        "full": 9921
+      },
+      "padded_faces_per_row": 420,
+      "selected_faces": 13312,
+      "input_bytes": 430080,
+      "packing_seconds": 0.00023929995950311422,
+      "validation_transfer_seconds": 0.0005196259589865804,
+      "compile_first_seconds": 0.08930345298722386,
+      "resident_kernel_seconds_lower_bound": {
+        "median": 8.416804485023022e-05,
+        "min": 7.452000863850117e-05,
+        "max": 0.00010011892300099134
+      },
+      "validation_transfer_kernel_seconds_no_download": {
+        "median": 0.0005273404531180859,
+        "min": 0.0005044579738751054,
+        "max": 0.0005776259349659085
+      },
+      "original_cpu_oracle_seconds": {
+        "median": 0.00035134999779984355,
+        "min": 0.0003441369626671076,
+        "max": 0.0003612790023908019
+      },
+      "gather_transfer_kernel_totals_download_seconds": {
+        "median": 0.0008914555073715746,
+        "min": 0.0008548269979655743,
+        "max": 0.0009185770759359002
+      },
+      "numpy_padded_batch_seconds": {
+        "median": 3.901298623532057e-05,
+        "min": 3.760994877666235e-05,
+        "max": 5.0334958359599113e-05
+      },
+      "max_face_error_divided_by_row_max_flux": 0.0,
+      "max_total_relative_error": 2.1572255681652252e-16
+    },
+    {
+      "rows": 128,
+      "coverage_face_counts": {
+        "zero": 10729,
+        "partial": 1875,
+        "full": 40485
+      },
+      "padded_faces_per_row": 420,
+      "selected_faces": 53248,
+      "input_bytes": 1720320,
+      "packing_seconds": 0.0006408949848264456,
+      "validation_transfer_seconds": 0.0012528749648481607,
+      "compile_first_seconds": 0.0970090749906376,
+      "resident_kernel_seconds_lower_bound": {
+        "median": 8.38075065985322e-05,
+        "min": 7.13840126991272e-05,
+        "max": 9.979796595871449e-05
+      },
+      "validation_transfer_kernel_seconds_no_download": {
+        "median": 0.0007013680296950042,
+        "min": 0.0006266069831326604,
+        "max": 0.0007422949420288205
+      },
+      "original_cpu_oracle_seconds": {
+        "median": 0.0013848024536855519,
+        "min": 0.0013689029728993773,
+        "max": 0.001398438005708158
+      },
+      "gather_transfer_kernel_totals_download_seconds": {
+        "median": 0.0017634750111028552,
+        "min": 0.0016645779833197594,
+        "max": 0.002238607034087181
+      },
+      "numpy_padded_batch_seconds": {
+        "median": 0.00013127649435773492,
+        "min": 0.00010887498501688242,
+        "max": 0.00014267908409237862
+      },
+      "max_face_error_divided_by_row_max_flux": 0.0,
+      "max_total_relative_error": 2.1572255681652252e-16
+    },
+    {
+      "rows": 512,
+      "coverage_face_counts": {
+        "zero": 42201,
+        "partial": 7411,
+        "full": 162741
+      },
+      "padded_faces_per_row": 420,
+      "selected_faces": 212992,
+      "input_bytes": 6881280,
+      "packing_seconds": 0.003181739943102002,
+      "validation_transfer_seconds": 0.00780108105391264,
+      "compile_first_seconds": 0.0687179050873965,
+      "resident_kernel_seconds_lower_bound": {
+        "median": 0.00010617496445775032,
+        "min": 9.904603939503431e-05,
+        "max": 0.00011149002239108086
+      },
+      "validation_transfer_kernel_seconds_no_download": {
+        "median": 0.0047092054737731814,
+        "min": 0.004342320957221091,
+        "max": 0.00526329199783504
+      },
+      "original_cpu_oracle_seconds": {
+        "median": 0.005763651977758855,
+        "min": 0.005728465970605612,
+        "max": 0.006113009061664343
+      },
+      "gather_transfer_kernel_totals_download_seconds": {
+        "median": 0.007609059975948185,
+        "min": 0.007054868037812412,
+        "max": 0.010480547090992332
+      },
+      "numpy_padded_batch_seconds": {
+        "median": 0.00039341452065855265,
+        "min": 0.0003827089676633477,
+        "max": 0.0005088959587737918
+      },
+      "max_face_error_divided_by_row_max_flux": 0.0,
+      "max_total_relative_error": 1.8166741642503014e-16
+    }
+  ],
+  "caveat": "No full-model speedup/ESS claim. Resident kernel is a lower bound. Only gather_transfer_kernel_totals_download includes output download. Input budget excludes compiler/output workspace."
+}

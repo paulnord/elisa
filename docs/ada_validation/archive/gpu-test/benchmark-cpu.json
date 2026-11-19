@@ -1,0 +1,15 @@
+{
+  "scope": "Fixed physical binary; only additional_light and ln_f vary. Not full GPU ELISa.",
+  "device": "cpu:0",
+  "platform": "cpu",
+  "dtype": "float64",
+  "preparation_seconds": 1.057294339989312,
+  "compile_and_first_batch_seconds": 0.08098744309972972,
+  "warm_32_candidate_batch_seconds_including_input_transfer": 9.425274096429348e-05,
+  "max_abs_log_likelihood_difference": 2.546585164964199e-11,
+  "sampling_seconds": 0.11771863896865398,
+  "steps": 100,
+  "walkers": 32,
+  "mean_acceptance": 0.669375,
+  "convergence": "Not established by this short smoke benchmark; no ESS or scientific fit claim."
+}

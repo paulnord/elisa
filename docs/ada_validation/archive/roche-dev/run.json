@@ -1,0 +1,20 @@
+{
+  "base_commit": "7d719ca09545d4c62a2e7e30f5e858e6c0d82eec",
+  "completed_utc": "2026-11-16T20:30:48.335243+00:00",
+  "tests": {
+    "cpu_only": {
+      "tests": 84,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 28
+    },
+    "cpu_gpu": {
+      "tests": 84,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "pytest_gpu_seconds": 13.78
+  },
+  "tested_implementation": "The added gpu_gravity.py and test_gpu_gravity.py match their Git blobs in commit 7fba6485."
+}

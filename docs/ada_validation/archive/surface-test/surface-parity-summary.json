@@ -1,0 +1,44 @@
+[
+  {
+    "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-linear]",
+    "faces": 9984,
+    "snapshots": 24,
+    "max_face_relative_error": 0.0,
+    "max_total_relative_error": 2.3607026052641734e-16
+  },
+  {
+    "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-logarithmic]",
+    "faces": 9984,
+    "snapshots": 24,
+    "max_face_relative_error": 4.272210028276546e-16,
+    "max_total_relative_error": 3.6075275804796925e-16
+  },
+  {
+    "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[cpu-square_root]",
+    "faces": 9984,
+    "snapshots": 24,
+    "max_face_relative_error": 5.726221305776639e-16,
+    "max_total_relative_error": 2.8913223444485636e-16
+  },
+  {
+    "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-linear]",
+    "faces": 9984,
+    "snapshots": 24,
+    "max_face_relative_error": 0.0,
+    "max_total_relative_error": 3.715301474845228e-16
+  },
+  {
+    "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-logarithmic]",
+    "faces": 9984,
+    "snapshots": 24,
+    "max_face_relative_error": 2.0780917468225752e-16,
+    "max_total_relative_error": 2.5783055234796544e-16
+  },
+  {
+    "test": "tests/tests_experimental/test_gpu_surface.py::test_actual_roche_surfaces[gpu-square_root]",
+    "faces": 9984,
+    "snapshots": 24,
+    "max_face_relative_error": 0.0,
+    "max_total_relative_error": 1.8609800133365998e-16
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "gravity": {
+    "comparisons": 38,
+    "max_absolute_error": 2.2737367544323206e-13,
+    "max_relative_error_nonzero_reference": 5.380617185799726e-16,
+    "all_passed": true
+  },
+  "ray": {
+    "comparisons": 40,
+    "max_absolute_error": 3.552713678800501e-15,
+    "max_relative_error_nonzero_reference": 1.1069853792928498e-15,
+    "all_passed": true
+  },
+  "mesh": {
+    "comparisons": 56,
+    "max_absolute_error": 6.494804694057166e-15,
+    "max_relative_error_nonzero_reference": 6.267820671113208e-10,
+    "all_passed": true
+  },
+  "ray_radii_vs_independent_brent": {
+    "max_relative_error": 1.1069853792928498e-15,
+    "max_absolute_error_sma": 1.6653345369377348e-16
+  }
+}

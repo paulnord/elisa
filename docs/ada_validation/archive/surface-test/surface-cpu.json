@@ -1,0 +1,186 @@
+{
+  "purpose": "surface kernel throughput only; repeated fixed physical snapshots, not full-model walkers",
+  "device": "cpu:0",
+  "device_kind": "cpu",
+  "jax": "0.12.0.1",
+  "cpu_count": 32,
+  "thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "python": "3.12.4",
+  "dtype": "float64",
+  "law": "linear",
+  "discretization_degrees": 10,
+  "cpu_physical_capture_seconds": 0.22209508693777025,
+  "captured_rows": 24,
+  "repeats": 10,
+  "results": [
+    {
+      "rows": 8,
+      "coverage_face_counts": {
+        "zero": 894,
+        "partial": 145,
+        "full": 2280
+      },
+      "padded_faces_per_row": 420,
+      "selected_faces": 3328,
+      "input_bytes": 107520,
+      "packing_seconds": 5.210796371102333e-05,
+      "validation_transfer_seconds": 0.0009773870697245002,
+      "compile_first_seconds": 0.04907315701711923,
+      "resident_kernel_seconds_lower_bound": {
+        "median": 1.250352943316102e-05,
+        "min": 1.170195173472166e-05,
+        "max": 4.709803033620119e-05
+      },
+      "validation_transfer_kernel_seconds_no_download": {
+        "median": 0.0002620930317789316,
+        "min": 0.0002548989141359925,
+        "max": 0.0002860469976440072
+      },
+      "original_cpu_oracle_seconds": {
+        "median": 8.850148878991604e-05,
+        "min": 8.724397048354149e-05,
+        "max": 9.863602463155985e-05
+      },
+      "gather_transfer_kernel_totals_download_seconds": {
+        "median": 0.0003333865315653384,
+        "min": 0.0003242199309170246,
+        "max": 0.00034423707984387875
+      },
+      "numpy_padded_batch_seconds": {
+        "median": 1.635600347071886e-05,
+        "min": 1.5298021025955677e-05,
+        "max": 2.0709005184471607e-05
+      },
+      "max_face_error_divided_by_row_max_flux": 0.0,
+      "max_total_relative_error": 2.4457111538298733e-16
+    },
+    {
+      "rows": 32,
+      "coverage_face_counts": {
+        "zero": 2861,
+        "partial": 491,
+        "full": 9921
+      },
+      "padded_faces_per_row": 420,
+      "selected_faces": 13312,
+      "input_bytes": 430080,
+      "packing_seconds": 0.00023551296908408403,
+      "validation_transfer_seconds": 0.0004426009254530072,
+      "compile_first_seconds": 0.029028294957242906,
+      "resident_kernel_seconds_lower_bound": {
+        "median": 2.6524474378675222e-05,
+        "min": 2.5828019715845585e-05,
+        "max": 4.589592572301626e-05
+      },
+      "validation_transfer_kernel_seconds_no_download": {
+        "median": 0.0003066210192628205,
+        "min": 0.0002971090143546462,
+        "max": 0.0003493569092825055
+      },
+      "original_cpu_oracle_seconds": {
+        "median": 0.0003487159847281873,
+        "min": 0.00034418702125549316,
+        "max": 0.0003638440975919366
+      },
+      "gather_transfer_kernel_totals_download_seconds": {
+        "median": 0.0005604035104624927,
+        "min": 0.0005467979935929179,
+        "max": 0.0005834370385855436
+      },
+      "numpy_padded_batch_seconds": {
+        "median": 4.014547448605299e-05,
+        "min": 3.8933008909225464e-05,
+        "max": 4.481396172195673e-05
+      },
+      "max_face_error_divided_by_row_max_flux": 0.0,
+      "max_total_relative_error": 1.863525015365436e-16
+    },
+    {
+      "rows": 128,
+      "coverage_face_counts": {
+        "zero": 10729,
+        "partial": 1875,
+        "full": 40485
+      },
+      "padded_faces_per_row": 420,
+      "selected_faces": 53248,
+      "input_bytes": 1720320,
+      "packing_seconds": 0.0011213779216632247,
+      "validation_transfer_seconds": 0.0015969810774549842,
+      "compile_first_seconds": 0.028187023010104895,
+      "resident_kernel_seconds_lower_bound": {
+        "median": 6.965099601075053e-05,
+        "min": 5.53840072825551e-05,
+        "max": 0.00011709996033459902
+      },
+      "validation_transfer_kernel_seconds_no_download": {
+        "median": 0.00045259599573910236,
+        "min": 0.0004315410042181611,
+        "max": 0.0005864419508725405
+      },
+      "original_cpu_oracle_seconds": {
+        "median": 0.0014264105702750385,
+        "min": 0.0014115829253569245,
+        "max": 0.0014389150310307741
+      },
+      "gather_transfer_kernel_totals_download_seconds": {
+        "median": 0.0014091830234974623,
+        "min": 0.001361398957669735,
+        "max": 0.0019893388962373137
+      },
+      "numpy_padded_batch_seconds": {
+        "median": 0.00012025603791698813,
+        "min": 0.00011302297934889793,
+        "max": 0.00014615501277148724
+      },
+      "max_face_error_divided_by_row_max_flux": 0.0,
+      "max_total_relative_error": 1.863525015365436e-16
+    },
+    {
+      "rows": 512,
+      "coverage_face_counts": {
+        "zero": 42201,
+        "partial": 7411,
+        "full": 162741
+      },
+      "padded_faces_per_row": 420,
+      "selected_faces": 212992,
+      "input_bytes": 6881280,
+      "packing_seconds": 0.00423617206979543,
+      "validation_transfer_seconds": 0.0067228550324216485,
+      "compile_first_seconds": 0.02865153702441603,
+      "resident_kernel_seconds_lower_bound": {
+        "median": 0.0002279689651913941,
+        "min": 0.00016355689149349928,
+        "max": 0.00032384891528636217
+      },
+      "validation_transfer_kernel_seconds_no_download": {
+        "median": 0.006043086934369057,
+        "min": 0.0011853179894387722,
+        "max": 0.00700632797088474
+      },
+      "original_cpu_oracle_seconds": {
+        "median": 0.005680410540662706,
+        "min": 0.00552221795078367,
+        "max": 0.006181125994771719
+      },
+      "gather_transfer_kernel_totals_download_seconds": {
+        "median": 0.0057491695042699575,
+        "min": 0.005580266937613487,
+        "max": 0.007546243024989963
+      },
+      "numpy_padded_batch_seconds": {
+        "median": 0.0003814170486293733,
+        "min": 0.00036875298246741295,
+        "max": 0.0005090669728815556
+      },
+      "max_face_error_divided_by_row_max_flux": 0.0,
+      "max_total_relative_error": 1.863525015365436e-16
+    }
+  ],
+  "caveat": "No full-model speedup/ESS claim. Resident kernel is a lower bound. Only gather_transfer_kernel_totals_download includes output download. Input budget excludes compiler/output workspace."
+}
